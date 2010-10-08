@@ -71,24 +71,13 @@
         <h1>Introduction</h1>
 
         <pre>
-          Authentication is the act of establishing or confirming something (or someone) as authentic, that is, that claims made by or about the subject are true <cite>wikipedia_authentication</cite>. This might involve confirming the identity of a person or assuring that a programmatically made service request is a trusted one.
+          When the access to an object is restricted, the object must be controlled by a guard. The guard has two tasks that could be applied individually or in combination: identify the requester and decide whether access to the object should be granted. In order to do its work, the guard needs a trustworthy way to know both the source of the request and the access rule. Obtaining the source of the request is called "authentication" and interpreting the access rule is called "authorization" <cite>lampson_distributed_1992</cite>. In a nutshell authentication answers the question "Who said this?", and authorization answers the question "Who is trusted to access this?" [CITE, CITE, CITE].
+          
+          <!-- This might involve confirming the identity of a person or assuring that a programmatically made service request is a trusted one. -->
 
-          From a usability point of view, the best way for a user to authenticate to a service would be blindly trusting his claim of his identity. Since the obvious security concerns render this kind of an approach impractical, the end user must present sufficient credentials in order to gain access. A conventional web service usually maintains a credential database of its own, which leads users to suffer the burden of learning a new password for each service they want to use. There clearly seems to be the need [CITE] for some kind of a single sign on solution where a user can access multiple sites with a single piece of credentials. This problem of shared credentials is illustrated in figure 1 as a blue rectangle (no. 1).
+          From the end user's usability point of view, the most unobtrusive way for a user to authenticate to a service would be blindly trusting his claim of his identity. Since the obvious security concerns render this kind of an approach impractical, the end user must present sufficient credentials in order to gain access. A conventional web service usually maintains a credential database of its own, which leads users to bear the burden of learning a new password for each service they want to use. A substansial amount of users don't want to manage password: they simply use the same password among multiple services. Since using a different password would only affect the symptom instead of the cause, there clearly seems to be the need for a single sign on solution where a user can access multiple sites with a single piece of credentials. 
 
-          Another piece of the puzzle is acquiring trust between the service, which a user is wanting to access, and the service, which holds the information about user’s credentials. Let’s call the former service authentication consumer (“AC”) and the latter authentication provider (“AP”). After the user has successfully identified himself with “AP”, he will have an authenticated session with “AP”. However, since “AC” still does not know who the user is, how can the result of the identification process be delivered to “AC” in a secure manner? This problem of gaining trust between authentication parties is illustrated in figure [IMG: X] as a red rectangle (no. 2).
-
-          <img alt="Sequence diagram"
-               class="fit-width"
-               title="Identification between the end user and multiple services." 
-               src="images/introduction_sequence_diagram.jpg"></img>
-
-          The Finnish Museum of Natural History has a single sign on system implemented with a homegrown authentication protocol. During the Autumn 2010 a severe security vulnerability was discovered in the way it builds trust between the authentication provider and the consuming services. There exists several solutions to fix the problem having fixing the current implementation and applying an existing authentication standard on the opposite ends of the solution range. It is definitely unclear which choice is appropriate: if the current homegrown protocol was previously insecure, what if another vulnerability exists also? On the other hand, the existing authentication standards seem to be much more complicated by their design.
-
-          A crucial requirement for the Museum’s system is to have all information regarding users’ profile administrated only in place, and allow that particular system be responsible to authenticate users for all the other services. The nature of the environment is distributed with the authentication provider having a role of a trusted third party. There exists several different authentication and authorization standards for this problem domain, each one having down- and upsides of its own. This thesis provides a proposal table for choosing the right set standards for a particular set of requirements.
-
-          At the beginning of 2009 OpenID had not yet been widely adopted and looked immature despite all the promises [CITE]. However, before the end of year 2009 major big companies, such as Google, Microsoft, PayPal, Flickr, VeriSign, WordPress and Yahoo, had announced support for OpenID enabled accounts <cite>openid_year2009</cite>. It was clear, that OpenID was starting to become a widely adopted standard for authentication.
-
-
+          There are also other ways to restrict access to an object. A popular method in web context is to obfuscate the universal resource indentifier (URI) which is a fundamental part of the resource's address. For example image filenames in Yahoo's <em>Flickr</em> photo sharing site and attachment filenames in Google's <em>GMail</em> include a hash that appears as a random string. Thus, although the resource is [#dic KÄRJISTÄEN] public since access to it is not monitored by a guard, it is available to only those who know the exact location. This kind of an approach does not require a guard monitoring the access by taking care of authentication and authorization. However, this technique is outside the scope of this thesis even though it could be used to complement a monitored access control system.
 
         <span style="display:none;">
           TÄLLÄINEN TARVITAAN: OMA TARVE (LV)
@@ -99,6 +88,27 @@
           - Oletus: Hardware, local OS, (ja encryption) oletetaan tässä yhteydessä luotetuiksi
           </span>
         </pre>
+        
+        <section>
+          <h1>A Brief Review of a Generic Central Authentication Service</h1>
+          
+          <pre>
+            This problem of shared credentials is illustrated in figure 1 as a blue rectangle (no. 1).
+
+            Another piece of the puzzle is acquiring trust between the service, which a user is wanting to access, and the service, which holds the information about user’s credentials. Let’s call the former service authentication consumer (“AC”) and the latter authentication provider (“AP”). After the user has successfully identified himself with “AP”, he will have an authenticated session with “AP”. However, since “AC” still does not know who the user is, how can the result of the identification process be delivered to “AC” in a secure manner? This problem of gaining trust between authentication parties is illustrated in figure [IMG: X] as a red rectangle (no. 2).
+
+            <img alt="Sequence diagram"
+                 class="fit-width"
+                 title="Identification between the end user and multiple services." 
+                 src="images/introduction_sequence_diagram.jpg"></img>
+
+            The Finnish Museum of Natural History has a single sign on system implemented with a homegrown authentication protocol. During the Autumn 2010 a severe security vulnerability was discovered in the way it builds trust between the authentication provider and the consuming services. There exists several solutions to fix the problem having fixing the current implementation and applying an existing authentication standard on the opposite ends of the solution range. It is definitely unclear which choice is appropriate: if the current homegrown protocol was previously insecure, what if another vulnerability exists also? On the other hand, the existing authentication standards seem to be much more complicated by their design.
+
+            A crucial requirement for the Museum’s system is to have all information regarding users’ profile administrated only in place, and allow that particular system be responsible to authenticate users for all the other services. The nature of the environment is distributed with the authentication provider having a role of a trusted third party. There exists several different authentication and authorization standards for this problem domain, each one having down- and upsides of its own. This thesis provides a proposal table for choosing the right set standards for a particular set of requirements.
+
+            At the beginning of 2009 OpenID had not yet been widely adopted and looked immature despite all the promises [CITE]. However, before the end of year 2009 major big companies, such as Google, Microsoft, PayPal, Flickr, VeriSign, WordPress and Yahoo, had announced support for OpenID enabled accounts <cite>openid_year2009</cite>. It was clear, that OpenID was starting to become a widely adopted standard for authentication. However, if a similar authentication system were to be implemented now, OpenID would still appear complicated. This thesis tries to answer why should one implement a basic setup of his own instead of applying a more complicated existing solution.
+          </pre>
+        </section>
       </section> <!-- Introduction -->
       
       <section>
@@ -292,6 +302,7 @@
           CAS
 
           Authorization methods
+          <!-- trusted third party ?? -->
 
           Combining Authentication and Authorization
           Motivation
@@ -315,6 +326,7 @@
       </section>
       
     </article>
+
 
     <article class="references">
       <h1>References</h1>

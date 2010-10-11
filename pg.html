@@ -77,7 +77,7 @@
 
           From the end user's usability point of view, the most unobtrusive way for a user to authenticate to a service would be blindly trusting his claim of his identity. Since the obvious security concerns render this kind of an approach impractical, the end user must present sufficient credentials in order to gain access. A conventional web service usually maintains a credential database of its own, which leads users to bear the burden of learning a new password for each service they want to use. A substansial amount of users don't want to manage password: they simply use the same password among multiple services. Since using a different password would only affect the symptom instead of the cause, there clearly seems to be the need for a single sign on solution where a user can access multiple sites with a single piece of credentials. 
 
-          There are also other ways to restrict access to an object. A popular method in web context is to obfuscate the universal resource indentifier (URI) which is a fundamental part of the resource's address. For example image filenames in Yahoo's <em>Flickr</em> photo sharing site and attachment filenames in Google's <em>GMail</em> include a hash that appears as a random string. Thus, although the resource is [#dic KÄRJISTÄEN] public since access to it is not monitored by a guard, it is available to only those who know the exact location. This kind of an approach does not require a guard monitoring the access by taking care of authentication and authorization. However, this technique is outside the scope of this thesis even though it could be used to complement a monitored access control system.
+          There are also other ways to restrict access to an object. A popular method in web context is to obfuscate the universal resource indentifier (URI) which is a fundamental part of the resource's address. For example image filenames in Yahoo's <em>Flickr</em> photo sharing site and attachment filenames in Google's <em>GMail</em> include a hash that appears as a random string. Thus, although the resource is ultimately public since access to it is not monitored by a guard, it is available to only those who know the exact location. This kind of an approach does not require a guard monitoring the access by taking care of authentication and authorization. However, this technique is outside the scope of this thesis even though it could be used to complement a monitored access control system.
 
         <span style="display:none;">
           TÄLLÄINEN TARVITAAN: OMA TARVE (LV)
@@ -90,21 +90,28 @@
         </pre>
         
         <section>
-          <h1>A Brief Review of a Generic Central Authentication Service</h1>
-          
-          <pre>
-            This problem of shared credentials is illustrated in figure 1 as a blue rectangle (no. 1).
+          <h1>Research Questions and the Problem Domain</h1>
 
-            Another piece of the puzzle is acquiring trust between the service, which a user is wanting to access, and the service, which holds the information about user’s credentials. Let’s call the former service authentication consumer (“AC”) and the latter authentication provider (“AP”). After the user has successfully identified himself with “AP”, he will have an authenticated session with “AP”. However, since “AC” still does not know who the user is, how can the result of the identification process be delivered to “AC” in a secure manner? This problem of gaining trust between authentication parties is illustrated in figure [IMG: X] as a red rectangle (no. 2).
+          <pre>
+            Distributed access control has a couple of fundamental issues that need to be taken care of. One of them is secure communication between the authentication provider and the authentication consumer. The communication channel is assumed safe in the scope of this thesis because the transportation layer is secured and authenticated by SSL/TLS. This thesis is focused on the application layer where the first question lies in how the appropriate authentication provider is discovered. 
+            The problem of discovery and end user redirection is illustrated in figure [IMG: X] as a blue rectangle (number 1).
+
+            Another piece of the puzzle is building trust. There are two parties in the high-level scheme: the service which a user is wanting to access, and the service which holds the information about user's credentials. Let's call the former service authentication consumer ("AC") and the latter authentication provider ("AP"). After the user has successfully identified himself with "AP", he will have an authenticated session with "AP". In other words the AP now has appropriate information about the end user's identity. However, the service "AC", which the user really wants to access, still does not know who the user is. The second question arises: how can the appropriate information regarding the user's identity be delivered from "AP" to "AC"? This problem of building trust between authentication parties is illustrated in figure [IMG: X] as a red rectangle (number 2).
 
             <img alt="Sequence diagram"
                  class="fit-width"
                  title="Identification between the end user and multiple services." 
                  src="images/introduction_sequence_diagram.jpg"></img>
+          </pre>
+        </section>
 
+        <section>
+          <h1>A Brief Review of a Case of Central Authentication Service</h1>
+          
+          <pre>
             The Finnish Museum of Natural History has a single sign on system implemented with a homegrown authentication protocol. During the Autumn 2010 a severe security vulnerability was discovered in the way it builds trust between the authentication provider and the consuming services. There exists several solutions to fix the problem having fixing the current implementation and applying an existing authentication standard on the opposite ends of the solution range. It is definitely unclear which choice is appropriate: if the current homegrown protocol was previously insecure, what if another vulnerability exists also? On the other hand, the existing authentication standards seem to be much more complicated by their design.
 
-            A crucial requirement for the Museum’s system is to have all information regarding users’ profile administrated only in place, and allow that particular system be responsible to authenticate users for all the other services. The nature of the environment is distributed with the authentication provider having a role of a trusted third party. There exists several different authentication and authorization standards for this problem domain, each one having down- and upsides of its own. This thesis provides a proposal table for choosing the right set standards for a particular set of requirements.
+            A crucial requirement for the Museum's system is to have all information regarding users' profile administrated only in place, and allow that particular system be responsible to authenticate users for all the other services. The nature of the environment is distributed with the authentication provider having a role of a trusted third party. There exists several different authentication and authorization standards for this problem domain, each one having down- and upsides of its own. This thesis provides a proposal table for choosing the right set standards for a particular set of requirements.
 
             At the beginning of 2009 OpenID had not yet been widely adopted and looked immature despite all the promises [CITE]. However, before the end of year 2009 major big companies, such as Google, Microsoft, PayPal, Flickr, VeriSign, WordPress and Yahoo, had announced support for OpenID enabled accounts <cite>openid_year2009</cite>. It was clear, that OpenID was starting to become a widely adopted standard for authentication. However, if a similar authentication system were to be implemented now, OpenID would still appear complicated. This thesis tries to answer why should one implement a basic setup of his own instead of applying a more complicated existing solution.
           </pre>
@@ -126,7 +133,7 @@
             Access Control List (ACL)
             Open Standard
             Encryption
-            “If you think cryptography will solve your security problems, you don’t understand encryption and you don’t understand security.” - Bruce Schneier [CITE]
+            "If you think cryptography will solve your security problems, you don't understand encryption and you don't understand security." - Bruce Schneier [CITE]
             Decentralized architecture
             Centralized architecture
             
@@ -144,7 +151,7 @@
             <h1>User-centric Identity</h1>
             
             <pre>
-              Giving full control of identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer decide when and how their identity information can be accessed <cite>open_identity_management_saas_2009</cite>. The term “user-centric identity management” is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of their identifier(s) and personally-identifiable information <cite>openid_2.0_platform_2009</cite>. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
+              Giving full control of identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer decide when and how their identity information can be accessed <cite>open_identity_management_saas_2009</cite>. The term "user-centric identity management" is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of their identifier(s) and personally-identifiable information <cite>openid_2.0_platform_2009</cite>. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
 
               An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is dereferencing the identity address to discover and invoke the associated identity service <cite>openid_2.0_platform_2009</cite>.
 
@@ -160,9 +167,9 @@
             <pre>
               Authentication is usually considered a synonym for confirming the identity of a person. In order to gain trust, a user must first be identified. Claiming an identity, however, does not necessarily lead to trust between the idenfitied user and the actual service: it only means that this visitor is able to present credentials for this identity. However, acquiring trust requires presenting identify first [CITE].
 
-              Granting someone permissions to access a requested resource is generally called authorization. The authorization transaction is usually preceded by an authentication process to verify the identity of the requester. When the requester has been identified, the access control process checks that he be authorized to use the targeted resource. There are also cases where access can be granted without actually identifying the requester. Possible cases are requests that could, for instance, be authorized by requester’s geological source address or simply by the time of the day. A request may also be authorized by an access token or ticket which grant access without proving the identity of the requester.
+              Granting someone permissions to access a requested resource is generally called authorization. The authorization transaction is usually preceded by an authentication process to verify the identity of the requester. When the requester has been identified, the access control process checks that he be authorized to use the targeted resource. There are also cases where access can be granted without actually identifying the requester. Possible cases are requests that could, for instance, be authorized by requester's geological source address or simply by the time of the day. A request may also be authorized by an access token or ticket which grant access without proving the identity of the requester.
 
-              Lampson et al. define a theory of authentication in distributed systems <cite>lampson_distributed_1992</cite>. They create an abstraction of many special cases to basic concepts of “principal, statement and channel”. If s is a statement, for instance a request, then authentication answers the question “Who said s?” with a principal. Likewise, if o is an object, then authorization answers the question “Who is trusted to access o?” with a principal. A simple principal could for example be a person (“Peter”), a machine (“dac-123”) or a role (“Manager”). A compound principal is build up of other principals such as “Peter as Manager” or “dac-123 as Department of CS” correspondingly.
+              Lampson et al. define a theory of authentication in distributed systems <cite>lampson_distributed_1992</cite>. They create an abstraction of many special cases to basic concepts of "principal, statement and channel". If s is a statement, for instance a request, then authentication answers the question "Who said s?" with a principal. Likewise, if o is an object, then authorization answers the question "Who is trusted to access o?" with a principal. A simple principal could for example be a person ("Peter"), a machine ("dac-123") or a role ("Manager"). A compound principal is build up of other principals such as "Peter as Manager" or "dac-123 as Department of CS" correspondingly.
 
               According to the theory of Lampson et al. <cite>lampson_distributed_1992</cite> a channel is the only kind of principal that can directly make statements to a computer. For example, there is no direct path from a person to a computer, that is, communication must be over some channel, involving keystrokes, wires, networks <em>et cetera</em>. Naturally some of these channels are not secure.
             </pre>
@@ -176,7 +183,7 @@
         <section>
           <h1>Challenge-Response Authentication</h1>
           <pre>
-            Challenge-Response authentication is a family of protocols, where one party presents a question (the challenge) for which the another party needs to provide a valid answer (“response”) to be authenticated <cite>wikipedia:Challenge-response_authentication</cite>. A simple example of challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination.  However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
+            Challenge-Response authentication is a family of protocols, where one party presents a question (the challenge) for which the another party needs to provide a valid answer ("response") to be authenticated <cite>wikipedia:Challenge-response_authentication</cite>. A simple example of challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination.  However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
 
             Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
 
@@ -228,11 +235,11 @@
           <h1>Phising Illustrated</h1>
 
           <pre>
-            Several studies have shown [CITE, CITE, CITE] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phising_works_06</cite> provide empirical evidence about which phising strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to “design web browsers, websites and other tools to shield users from such attacks,” it is necessary to “understand which attack strategies are successful, and what proportion of users they fool.” <cite>why_phising_works_06</cite>.
+            Several studies have shown [CITE, CITE, CITE] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phising_works_06</cite> provide empirical evidence about which phising strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to "design web browsers, websites and other tools to shield users from such attacks," it is necessary to "understand which attack strategies are successful, and what proportion of users they fool." <cite>why_phising_works_06</cite>.
 
             The biggest nordic bank Nordea has been targeted several times for different phising attacks. A typical method has been to send a message illustrated in image [IMG: Nordea1] to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled, some will. And because even one fooled customer means money for the attackers, phising is a lucrative criminal business.
 
-            Phising message in image [IMG: Nordea1] includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it does not lead where it points. Instead the link leads to a phising site illustrated in image [IMG: Nordea2] where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking <cite>nordea_fsecure_2006, nordea_miller_2006</cite>. The link also includes a unique identification code which allows the attacker to identify the recipient: consequentially it not necessary to ask for the customer’s email address on the phising site.
+            Phising message in image [IMG: Nordea1] includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it does not lead where it points. Instead the link leads to a phising site illustrated in image [IMG: Nordea2] where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking <cite>nordea_fsecure_2006, nordea_miller_2006</cite>. The link also includes a unique identification code which allows the attacker to identify the recipient: consequentially it not necessary to ask for the customer's email address on the phising site.
           
             <img src="images/nordea_phising_email.jpg" 
                  title="Phising email targeted against Nordea customers in 2006"
@@ -240,7 +247,7 @@
                  class="fit-width">
                
             <img src="images/nordea_phising_website.png" 
-                 title="Phising site asking for Nordea customers’ e-bank accounts in the year 2006"
+                 title="Phising site asking for Nordea customers' e-bank accounts in the year 2006"
                  alt="Example of a phising website"
                  class="fit-width">
           
@@ -258,7 +265,7 @@
           <h1>Phising Solutions</h1>
         
           <pre>
-            A good solution against the web site phising should be able to ensure the user’s privacy, even if the user has sent such credentials to a falsified web server <cite>phising_attacks_and_solutions_2007</cite>. In other words, even if the phising site receives user’s login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-step verification [CITE] on the application level and extending the TLS protocol [CITE, CITE] on the network protocol level.  
+            A good solution against the web site phising should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phising_attacks_and_solutions_2007</cite>. In other words, even if the phising site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-step verification [CITE] on the application level and extending the TLS protocol [CITE, CITE] on the network protocol level.  
           </pre>
         </section>    
     
@@ -279,9 +286,9 @@
           - HTTPS
           - Secure Sockets Layer (SSL) and Transport Layer Security (TLS)
 
-          “The popular anti-phising method for OpenID is asking user to provide additional information when they sign up. When relaying party redirects the user to the OpenID provider, the information provided by the user appears firstly, [..] so user can identify whether it is a phising site [..]” <cite>open_identity_management_saas_2009</cite>.
+          "The popular anti-phising method for OpenID is asking user to provide additional information when they sign up. When relaying party redirects the user to the OpenID provider, the information provided by the user appears firstly, [..] so user can identify whether it is a phising site [..]" <cite>open_identity_management_saas_2009</cite>.
           - Mutta entä jos phising site ei kysy mitään?
-          - vs. “Dancing pigs”
+          - vs. "Dancing pigs"
 
 
 
@@ -290,7 +297,7 @@
           Authentication methods
           TODO: pilko tekniikat lukujen authentication &amp; authorization alle
           Digital Identity Management
-          Several ongoing studies are underway for safe and effective digital identity management [open_identity_management_saas_2009]. These include OASIS’s SAML [CITE], Microsoft’s WS-* [CITE], XX’s Shibboleth [CITE] and YY’s OpenID [CITE].
+          Several ongoing studies are underway for safe and effective digital identity management [open_identity_management_saas_2009]. These include OASIS's SAML [CITE], Microsoft's WS-* [CITE], XX's Shibboleth [CITE] and YY's OpenID [CITE].
           OpenID
           OpenID is an open standard which supports decentralized architectures. OpenID 1.0 was originally developed in 2005 to allow lightweight authentication for blog post commenters in LiveJournal.com. [CITE] It is now deployed by a wide range of websites, particularly on sites having much user-generated content. As the user base has evolved, so has the need for new OpenID authentication features. Along the growth, the OpenID community has shared a common vision that OpenID could become and umbrella under which multiple technologies can fit. The intention has been to keep OpenID free and open so that no one company owned or controlled the specification <cite>openid_2.0_platform_2009</cite>.
 
@@ -306,7 +313,7 @@
 
           Combining Authentication and Authorization
           Motivation
-          Google’s OpenID + OAuth proposal
+          Google's OpenID + OAuth proposal
           Shibboleth + OpenID 2.0
           Example Architecture Combining OpenID and OAuth
           Bin (et al.) propose a lightweight and user-centric identity management framework for SaaS ecosystem [open_identity_management_saas_2009].

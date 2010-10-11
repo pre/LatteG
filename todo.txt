@@ -1,4 +1,7 @@
 - Varmistaja, että otsikot Kirjoitetaan Isoilla Alkukirjaimilla
+  - onnistuu text-transform: capitalize;
+  MUTTA: tarttis kielioppitarkistimen, jottei prepositiot ym. tule isoilla
+  (esim. "Example of a Title" vs. "Example Of A Title")
 
 - HTML5:n mukana tuli getElementsByClassName ja querySelectorAll, 
   ei tartte enää for-kikkailua

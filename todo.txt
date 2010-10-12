@@ -6,8 +6,8 @@
 - HTML5:n mukana tuli getElementsByClassName ja querySelectorAll, 
   ei tartte enää for-kikkailua
   
-- Image-viite
-
-- jos <section> elementin sisältä puuttuu <h1> tulee ruma virheilmoitus ja sivu räjähtää
-
 - koodi käydään nyt läpi moneen kertaan, ja replacet tehdään sekä <pre>:n että generoidun <p>:n sisällä olevalle tekstille
+
+- postprocess:
+  pitäisikö tarkistaa, onko esim. kuvaviitteitä, jotka on rikki? (esim. typo id:ssä)
+

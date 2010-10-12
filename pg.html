@@ -265,8 +265,16 @@
           <h1>Phising Solutions</h1>
         
           <pre>
-            A good solution against the web site phising should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phising_attacks_and_solutions_2007</cite>. In other words, even if the phising site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-step verification [CITE] on the application level and extending the TLS protocol [CITE, CITE] on the network protocol level.  
+            A good solution against the web site phising should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phising_attacks_and_solutions_2007</cite>. In other words, even if the phising site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005</cite>[CITE, CITE] on the application level and extending the TLS protocol [CITE, CITE] on the network protocol level.  
           </pre>
+          
+          <h1>Two-factor Authentication</h1>
+          
+          <pre>
+            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> and second one on something that the user <em>has</em>. The user must respond with a valid answer to both of the challenges.
+          </pre>
+          
+          
         </section>    
     
         <section style="display: none;">
@@ -358,6 +366,11 @@
           E. Medvet, E. Kirda, and C. Kruegel, "Visual-similarity-based phishing detection," Proceedings of the 4th international conference on Security and privacy in communication netowrks - SecureComm '08, 2008, p. 1.
         </dd>
 
+        <dt data-lattex="schneier_2factor_2005">Sch05</dt>
+        <dd>
+          B. Schneier, "Two-Factor Authentication: Too Little, Too Late," Communications of the ACM, 2005, pp. 136-136.
+        </dd>
+        
         <dt data-lattex="lampson_distributed_1992">Lam92</dt>
         <dd>
           B. Lampson, M. Abadi, M. Burrows, and E. Wobber, "Authentication in distributed systems: theory and practice," ACM Transactions on Computer Systems, vol. 10, 1992, pp. 265-310.

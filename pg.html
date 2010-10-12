@@ -220,6 +220,8 @@
         <section>
           <h1>Phising</h1>
 
+          <!-- MAN IN THE MIDDLE, salasanan selville saaminen vs. koko sivun feikkaaminen -->
+
           <pre>
             Phising is a form of online identity theft targetting to steal sensitive information from an end user <cite>phising_attacks_and_solutions_2007, why_phising_works_06, suspectibility_to_phising_2006</cite>.
 
@@ -251,16 +253,25 @@
                  alt="Example of a phising website"
                  class="fit-width">
           
-          
-          
-          
-            <!--
-              ENTÄ: Kohdennettu phising jossa netbank + troijalainen?
-            -->
+            Phising could be taken even further. Above examples consisted only of passive examples that tried to steal user's credentials. Active phising is more sophisticated and has a bigger potential for causing trouble. Instead of being disconnected from the authentic site, the phising site could act as a man-in-the-middle [TODO: Selitä esittelyssä] proxy that acts interactively with the site it imitates. This could allow bypassing of all security measures: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. 
             
+            When the user creates a transaction, e.g. pay 10 &euro; to a friend, the phising site intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, but the bank did not receive it. Instead, the verification process is for the fraudulent request created by the phising site. When the user send his response to the verification challenge, he provides it to the man-in-the-middle. The user still thinks he is authorized his own request, even though he actually authorized the malicious request created by the phising site.
+            
+            This kind of active phising is hard to prevent. Transport layer security (TLS) and secure sockets authentication (SSL) are designed to prevent this kind of vulnerabilities with secure certificates. But studies <cite>why_phising_works_06</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example the Firefox browser is designed to walk over user's judgement by default. The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible."
+          
+            There exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
+            <blockquote>
+            "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
+            </blockquote>
           </pre>
         </section>
       
+        <section>
+          <h1>Studies on Phising</h1>
+          <pre>
+            
+          </pre>
+        </section>
         <section>
           <h1>Phising Solutions</h1>
         
@@ -271,8 +282,20 @@
           <h1>Two-factor Authentication</h1>
           
           <pre>
-            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> and second one on something that the user <em>has</em>. The user must respond with a valid answer to both of the challenges.
+            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an sms message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
           </pre>
+          
+          <pre>
+            A renowned senior security expert Bruce Schneier disagrees on the added security about two-step verification <cite>schneier_2factor_2005</cite>. He states that "it solves the security problems we had 10 years ago, not the security problems we have today." 
+          </pre>
+            
+          <pre>
+            Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 <cite>google_2step_2010</cite>. Google was cautious in their announcement which only promised to provide a "more secure" cloud authentication. They agree indirectly with Schneier <cite>schneier_2factor_2005</cite> by stating that the improvement helps only on stolen passwords. The issues regarding a trojan or a phising site still remain.
+          </pre>  
+          
+            <!-- Decades ago attacks were mostly passive eavesdropping and offline password guessing. 
+            Current forms 
+            of threats consist of phising (man-in- -->
           
           
         </section>    
@@ -371,6 +394,11 @@
           B. Schneier, "Two-Factor Authentication: Too Little, Too Late," Communications of the ACM, 2005, pp. 136-136.
         </dd>
         
+        <dt data-lattex="schneier_secrets_and_lies_2000">Sch05</dt>
+        <dd>
+          Bruce Schneier: Secrets and Lies (John Wiley &amp; Sons, 2000; ISBN 0-471-45380-3), p262
+        </dd>
+        
         <dt data-lattex="lampson_distributed_1992">Lam92</dt>
         <dd>
           B. Lampson, M. Abadi, M. Burrows, and E. Wobber, "Authentication in distributed systems: theory and practice," ACM Transactions on Computer Systems, vol. 10, 1992, pp. 265-310.
@@ -431,7 +459,18 @@
         <dd>
           Website: Scam Report on Nordea phising http://www.millersmiles.co.uk/report/2464
         </dd>
-
+        
+        <dt data-lattex="google_2step_2010">WebX10a</dt>
+        <dd>
+          Website: A more secure cloud for millions of Google Apps users http://googleenterprise.blogspot.com/2010/09/more-secure-cloud-for-millions-of.html
+        </dd>
+        
+        <dt data-lattex="mozilla_security_guide_2010">WebX10b</dt>
+        <dd>
+          Website: Mozilla Security Review and Best Practices Guide http://www.mozilla.org/projects/security/components/reviewguide.html
+        </dd>
+        
+        
 
       </dl>
           

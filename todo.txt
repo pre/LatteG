@@ -9,3 +9,5 @@
 - Image-viite
 
 - jos <section> elementin sisältä puuttuu <h1> tulee ruma virheilmoitus ja sivu räjähtää
+
+- koodi käydään nyt läpi moneen kertaan, ja replacet tehdään sekä <pre>:n että generoidun <p>:n sisällä olevalle tekstille

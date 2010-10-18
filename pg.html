@@ -7,7 +7,8 @@
       How Do I Log in to the Cloud ?
     </title>
 
-
+    <meta charset="utf-8" />
+    
     <link rel="stylesheet" href="stylesheets/lattex.css">
 
     <script src="javascripts/lattex.js"></script>
@@ -232,7 +233,7 @@
           <pre>
             Phishing is a form of online identity theft targeting to steal sensitive information from an end user <cite>phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006</cite>. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering <cite>visual_similarity_phishing_2008</cite>. The process usually involves a fraudulent web site imitating a specific authentic site. 
 
-						The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the original service. The user can be lured to a fraudulent phishing site in many ways. The most common way is to send the victim an email or instant message that asks him to visit a malicious site [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+            The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the original service. The user can be lured to a fraudulent phishing site in many ways. The most common way is to send the victim an email or instant message that asks him to visit a malicious site [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
 
             Phishing is a widespread problem on the internet [CITE, CITE, CITE]. Additionally its effects are especially emphasized in a single sign-on system. Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be effective, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore identity providers are a viable target for phishing by their very nature [CITE, CITE, CITE].
 
@@ -270,6 +271,10 @@
             <blockquote>
             "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
             </blockquote>
+
+
+            <!-- Onko trojan ja man-in-the-middle kuvattu riittävän tarkasti? -->
+
           </pre>
         </section>
       
@@ -283,22 +288,37 @@
           <h1>Phishing Solutions</h1>
         
           <pre>
-            A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol [CITE, CITE] on the network protocol level.
+            A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol <cite>phising_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level.
+            
+            
+            
           </pre>
           
           <h1>Two-factor Authentication</h1>
           
           <pre>
-            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an sms message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
+            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an SMS message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
+
+            A renowned senior security expert Bruce Schneier disagrees on the added security about two-step verification <cite>schneier_2factor_2005</cite>. He states that "it solves the security problems we had 10 years ago, not the security problems we have today." Let us think that an internet bank service, such as described in the previous chapter, sends a challenge to the user's phone number via an SMS message and expects a reply via SMS. If all bank customers are expected to have a cellphone, then this adds a two-factor authentication without extra hardware. The verification message is also transferred over another communications channel, which makes eavesdropping significantly more difficult.
+
+            Nevertheless, according to <cite>schneier_2factor_2005</cite> [OISKO muitakin?] this does not increase security as a whole because the weakest link is elsewhere. "An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself." <cite>schneier_2factor_2005</cite> As explained in chapter [REF: edellinen kpl], if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication cannot help. The user can reply to all challenges proposed by the authentic bank, but he has no way of knowing that his request has been modified.
+
+            Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 <cite>google_2step_2010</cite>. Google was cautious in their announcement which only promised to provide a "more secure" cloud authentication. They agree indirectly with Schneier <cite>schneier_2factor_2005</cite> by stating that the improvement helps only on stolen passwords.
+            
           </pre>
           
+          <h1>Extending the TLS Protocol</h1>
+          
           <pre>
-            A renowned senior security expert Bruce Schneier disagrees on the added security about two-step verification <cite>schneier_2factor_2005</cite>. He states that "it solves the security problems we had 10 years ago, not the security problems we have today." 
-          </pre>
             
-          <pre>
-            Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 <cite>google_2step_2010</cite>. Google was cautious in their announcement which only promised to provide a "more secure" cloud authentication. They agree indirectly with Schneier <cite>schneier_2factor_2005</cite> by stating that the improvement helps only on stolen passwords. The issues regarding a trojan or a phishing site still remain.
-          </pre>  
+            
+          </pre>
+          
+          <!--
+          Two-factor authentication is not useless. It works for local log-in, and it works within some corporate networks. But it won’t work for remote
+          authentica- tion over the Internet. I predict that banks and other financial institutions will spend millions of dollars outfitting their users
+          with two-factor authen- tication tokens. Early
+          -->
           
             <!-- Decades ago attacks were mostly passive eavesdropping and offline password guessing. 
             Current forms 
@@ -330,7 +350,6 @@
 
 
 
-          Nordea-huijaus
           Karhusivun käytettävyystutkimus
           Authentication methods
           TODO: pilko tekniikat lukujen authentication &amp; authorization alle
@@ -403,7 +422,17 @@
         
         <dt data-lattex="schneier_secrets_and_lies_2000">Sch05</dt>
         <dd>
-          Bruce Schneier: Secrets and Lies (John Wiley &amp; Sons, 2000; ISBN 0-471-45380-3), p262
+          B. Schneier: Secrets and Lies (John Wiley &amp; Sons, 2000; ISBN 0-471-45380-3), p262
+        </dd>
+        
+        <dt data-lattex="phising_attacks_and_solutions_2007">Moh07</dt>
+        <dd>
+          B. Mohamad, I. Hajjeh, and S. El Sawda, Phishing Attacks and Solutions, Proceedings of the Third International Mobile Multimedia Communications Conference, 2007.
+        </dd>
+        
+        <dt data-lattex="foafssl_henrystory">Sto0?</dt>
+        <dd>
+          H. Story, B. Harbulot, I. Jacobi, and M. Jones, FOAF + SSL : RESTful Authentication for the Social Web, TODO: Lähteen detailit
         </dd>
         
         <dt data-lattex="lampson_distributed_1992">Lam92</dt>

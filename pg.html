@@ -242,98 +242,113 @@
         </section>
 
         <section>
-          <h1>Phishing Illustrated</h1>
-
+          <h1>Different Phishing Styles</h1>
+        
           <pre>
-            Several studies have shown [CITE, CITE, CITE] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phishing_works_06</cite> provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to "design web browsers, websites and other tools to shield users from such attacks," it is necessary to "understand which attack strategies are successful, and what proportion of users they fool." <cite>why_phishing_works_06</cite>.
-
-            The biggest nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in image [IMG: Nordea1] to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled, some will. And because even one fooled customer means money for the attackers, phishing is a lucrative criminal business.
-
-            Phishing message in image [IMG: Nordea1] includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it does not lead where it points. Instead the link leads to a phishing site illustrated in image [IMG: Nordea2] where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking <cite>nordea_fsecure_2006, nordea_miller_2006</cite>. The link also includes a unique identification code which allows the attacker to identify the recipient: consequentially it not necessary to ask for the customer's email address on the phishing site.
+            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. However, some general attack vectors include the following <cite>phishing_attacks_and_solutions_2007</cite>:
           
-            <img src="images/nordea_phishing_email.jpg" 
-                 title="Phishing email targeted against Nordea customers in 2006"
-                 alt="Example of a phishing email"
-                 class="fit-width">
-               
-            <img src="images/nordea_phishing_website.png" 
-                 title="Phishing site asking for Nordea customers' e-bank accounts in the year 2006"
-                 alt="Example of a phishing website"
-                 class="fit-width">
-          
-            Phishing could be taken even further. Above examples consisted only of passive examples that tried to steal user's credentials. Active phishing is more sophisticated and has a bigger potential for causing trouble. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle [TODO: Selitä esittelyssä] proxy that acts interactively with the site it imitates. This could allow bypassing of all security measures: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. 
-            
-            When the user creates a transaction, e.g. pay 10 &euro; to a friend, the phishing site intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, but the bank did not receive it. Instead, the verification process is for the fraudulent request created by the phishing site. When the user send his response to the verification challenge, he provides it to the man-in-the-middle. The user still thinks he is authorized his own request, even though he actually authorized the malicious request created by the phishing site.
-            
-            This kind of active phishing is hard to prevent. Transport layer security (TLS) and secure sockets authentication (SSL) are designed to prevent this kind of vulnerabilities with secure certificates. But studies <cite>why_phishing_works_06</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example the Firefox browser is designed to walk over user's judgement by default. The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible."
-          
-            There exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
-            <blockquote>
-            "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
-            </blockquote>
-
-
+            <ul>
+              <li>deceptive attacks (spear phishing), 
+                in which users are tricked by fraudulent messages into giving out
+                information,</li>
+              <li>domain-based attacks (pharming attacks), 
+                  in which the lookup of hostnames is altered to send users to a
+                  fraudulent server,</li>
+              <li>malicious code-based or trojan-based attacks, 
+                  in which malicious software causes data compromises.</li>
+            </ul>
             <!-- Onko trojan ja man-in-the-middle kuvattu riittävän tarkasti? -->
 
           </pre>
-        </section>
-      
-        <section>
-          <h1>Studies on Phishing</h1>
-          <pre>
+
+          <section>
+            <h1>Deceptive Phishing Attacks</h1>
+
+            <pre>
+              Several studies have shown [CITE, CITE, CITE] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phishing_works_06</cite> provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to "design web browsers, websites and other tools to shield users from such attacks," it is necessary to "understand which attack strategies are successful, and what proportion of users they fool." <cite>why_phishing_works_06</cite>.
+
+              The biggest nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in image [IMG: Nordea1] to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled, some will. And because even one fooled customer means money for the attackers, phishing is a lucrative criminal business.
+
+              Phishing message in image [IMG: Nordea1] includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it does not lead where it points. Instead the link leads to a phishing site illustrated in image [IMG: Nordea2] where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking <cite>nordea_fsecure_2006, nordea_miller_2006</cite>. The link also includes a unique identification code which allows the attacker to identify the recipient: consequentially it not necessary to ask for the customer's email address on the phishing site.
+          
+              <img src="images/nordea_phishing_email.jpg" 
+                   title="Phishing email targeted against Nordea customers in 2006"
+                   alt="Example of a phishing email"
+                   class="fit-width">
+               
+              <img src="images/nordea_phishing_website.png" 
+                   title="Phishing site asking for Nordea customers' e-bank accounts in the year 2006"
+                   alt="Example of a phishing website"
+                   class="fit-width">
+          
+              Deceptive phishing could be taken even further. Above examples consisted only of passive attacks that tried to steal user's credentials. Active phishing is more sophisticated and has a bigger potential for causing trouble. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle [TODO: Selitä esittelyssä] proxy that acts interactively with the site it imitates. This could allow bypassing of all security measures protecting the authentication process <cite>beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06</cite>: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
             
+              When the user creates a transaction, e.g. pay 10 &euro; to a friend, the phishing site intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, but the bank did not receive it. Instead, the verification process is for the fraudulent request created by the phishing site. When the user send his response to the verification challenge, he provides it to the man-in-the-middle. The user still thinks he is authorized his own request, even though he actually authorized the malicious request created by the phishing site.
+            
+              This kind of active phishing is hard to prevent. Transport layer security (TLS) and secure sockets authentication (SSL) are designed to prevent this kind of vulnerabilities with secure certificates. But studies <cite>why_phishing_works_06</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example the Firefox browser is designed to walk over user's judgement by default. The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible."
+          
+              There exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
+              <blockquote>
+              "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
+              </blockquote>
           </pre>
         </section>
-        <section>
-          <h1>Phishing Solutions</h1>
         
-          <pre>
-            A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level.
-            
-            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. However, some general attack vectors include the following <cite>phishing_attacks_and_solutions_2007</cite>:
-            <ul>
-              <li>deceptive attacks, in which users are tricked by faudulent messages into giving out
-                  information,</li>
-              <li>domain-based attacks, in which the lookup of hostnames is altered to send users to a
-                  fraudulent server,</li>
-              <li>malicious code-based or trojan-based attacks, in which malicious software causes data
-                  compromises.</li>
-            </ul>
-            
-          </pre>
-          
-          <h1>Two-factor Authentication</h1>
-          
-          <pre>
-            When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an SMS message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
-
-            A renowned senior security expert Bruce Schneier disagrees on the added security about two-step verification <cite>schneier_2factor_2005</cite>. He states that "it solves the security problems we had 10 years ago, not the security problems we have today." Let us think that an internet bank service, such as described in the previous chapter, sends a challenge to the user's phone number via an SMS message and expects a reply via SMS. If all bank customers are expected to have a cellphone, then this adds a two-factor authentication without extra hardware. The verification message is also transferred over another communications channel, which makes eavesdropping significantly more difficult.
-
-            Nevertheless, according to <cite>schneier_2factor_2005</cite> [OISKO muitakin?] this does not increase security as a whole because the weakest link is elsewhere. "An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself." <cite>schneier_2factor_2005</cite> As explained in chapter [REF: edellinen kpl], if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication cannot help. The user can reply to all challenges proposed by the authentic bank, but he has no way of knowing that his request has been modified.
-
-            Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 <cite>google_2step_2010</cite>. Google was cautious in their announcement which only promised to provide a "more secure" cloud authentication. They agree indirectly with Schneier <cite>schneier_2factor_2005</cite> by stating that the improvement helps only on stolen passwords.
-            
-          </pre>
-          
-          <h1>Extending the TLS Protocol</h1>
-          
+        <section>
+          <h1>Domain-based Attacks: Pharming</h1>
           <pre>
             
             
           </pre>
-          
-          <!--
-          Two-factor authentication is not useless. It works for local log-in, and it works within some corporate networks. But it won’t work for remote
-          authentica- tion over the Internet. I predict that banks and other financial institutions will spend millions of dollars outfitting their users
-          with two-factor authen- tication tokens. Early
-          -->
-          
-            <!-- Decades ago attacks were mostly passive eavesdropping and offline password guessing. 
-            Current forms 
-            of threats consist of phishing (man-in- -->
-          
-          
-        </section>    
+        </section> <!-- Domain-based Attacks: Pharming -->
+        
+      </section> <!-- Phishing Styles -->
+
+      <section>
+        <h1>Phishing Solutions</h1>
+    
+        <pre>
+          A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level.
+
+        
+        
+        </pre>
+      
+        <h1>Two-factor Authentication</h1>
+      
+        <pre>
+          When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an SMS message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
+
+          A renowned senior security expert Bruce Schneier disagrees on the added security about two-step verification <cite>schneier_2factor_2005</cite>. He states that "it solves the security problems we had 10 years ago, not the security problems we have today." Let us think that an internet bank service, such as described in the previous chapter, sends a challenge to the user's phone number via an SMS message and expects a reply via SMS. If all bank customers are expected to have a cellphone, then this adds a two-factor authentication without extra hardware. The verification message is also transferred over another communications channel, which makes eavesdropping significantly more difficult.
+
+          Nevertheless, according to <cite>schneier_2factor_2005</cite> [OISKO muitakin?] this does not increase security as a whole because the weakest link is elsewhere. "An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself." <cite>schneier_2factor_2005</cite> As explained in chapter [REF: edellinen kpl], if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication cannot help. The user can reply to all challenges proposed by the authentic bank, but he has no way of knowing that his request has been modified.
+
+          Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 <cite>google_2step_2010</cite>. Google was cautious in their announcement which only promised to provide a "more secure" cloud authentication. They agree indirectly with Schneier <cite>schneier_2factor_2005</cite> by stating that the improvement helps only on stolen passwords.
+        
+        </pre>
+      
+        <h1>Extending the TLS Protocol</h1>
+      
+        <pre>
+        
+        
+        </pre>
+      
+        <!--
+        Two-factor authentication is not useless. It works for local log-in, and it works within some corporate networks. But it won’t work for remote
+        authentica- tion over the Internet. I predict that banks and other financial institutions will spend millions of dollars outfitting their users
+        with two-factor authen- tication tokens. Early
+        -->
+      
+          <!-- Decades ago attacks were mostly passive eavesdropping and offline password guessing. 
+          Current forms 
+          of threats consist of phishing (man-in- -->
+      
+      
+      </section> <!-- Phishing Solutions -->
+
+
+    </section> <!-- Phishing -->
     
         <section style="display: none;">
       
@@ -389,7 +404,6 @@
       
         </section>
 
-      </section>
       <section>
         <h1>Conclusions</h1>
         <pre>
@@ -426,6 +440,11 @@
         <dt data-lattex="schneier_2factor_2005">Sch05</dt>
         <dd>
           B. Schneier, "Two-Factor Authentication: Too Little, Too Late," Communications of the ACM, 2005, pp. 136-136.
+        </dd>
+
+        <dt data-lattex="beamauth_2factor_2007">Adi07</dt>
+        <dd>
+          Adida B. BeamAuth : Two-Factor Web Authentication with a Bookmark. Applied Sciences. 2007:48-57. Available at: http://portal.acm.org/citation.cfm?doid=1315245.1315253.
         </dd>
         
         <dt data-lattex="schneier_secrets_and_lies_2000">Sch05</dt>
@@ -488,6 +507,13 @@
           http://en.wikipedia.org/wiki/Authorization
         </dd>
 
+        <!-- WEBISSÄ JULKAISTUT DOKUMENTIT -->
+        <dt data-lattex="pharming_guide_2005">Oll05</dt>
+        <dd>
+          Ollmann G. The Pharming Guide. Security.1-37. Available at: http://www.ngssoftware.com/papers/ThePharmingGuide.pdf.
+        </dd>
+        
+        
         <!-- WEBSIVUT -->
         <dt data-lattex="openid_year2009">Web09a</dt>
         <dd>

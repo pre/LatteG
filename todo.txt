@@ -11,3 +11,6 @@
 - postprocess:
   pitäisikö tarkistaa, onko esim. kuvaviitteitä, jotka on rikki? (esim. typo id:ssä)
 
+
+- kaikki alert():t pois! jos tulee syntaksivirhe, niin esim. reference not found -alertin joutuu kuittaamaan kymmeniä kertoja.
+

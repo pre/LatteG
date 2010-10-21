@@ -302,6 +302,31 @@
           </pre>
         </section> <!-- Domain-based Attacks: Pharming -->
         
+        
+        <section>
+          <h1>Trojan-based Attacks</h1>
+          
+          <pre>
+            "Game Over" could be used to describe getting infected by a trojan. 
+            Uninvited code or a program executed without user's "actual" permission is called a trojan. The victim is usually asked, if he wishes to install this particular program. As explained previously in the quote about dancing pigs <cite>schneier_secrets_and_lies_2000</cite> and studied in <cite>why_phishing_works_06</cite>, the victim usually does not bother reading any warnings.
+            
+            Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website <cite>fsecure_webtrojan_2010</cite>. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to "download updates". The "update" contains a browser specific trojan. Although a confirmation action is required for the installation, the victim happily agrees with it and proceeds with the installation as visualized in figure <a href="#firefox_reported_attack_page" data-lattex="image-ref"></a>.
+            
+            <img src="images/firefox_reported_attack_page_trojan.png"
+                  id="firefox_reported_attack_page"
+                  alt="Imitated browser warning"
+                  title="Imitated warning offers to download a trojan as an &quot;update&quot;."
+                  class="fit-width" />
+
+            <img src="images/firefox_reported_attack_page_authentic.png" 
+                  alt="Authentic browser warning"
+                  title="Authentic browser warning does not offer anything to download."
+                  class="fit-width" />
+          </pre>
+          
+          
+        </section>
+        
       </section> <!-- Phishing Styles -->
 
       <section>
@@ -540,6 +565,11 @@
           Website: Mozilla Security Review and Best Practices Guide http://www.mozilla.org/projects/security/components/reviewguide.html
         </dd>
         
+        <dt data-lattex="fsecure_webtrojan_2010">WebX10c</dt>
+        <dd>
+          Website: F-Secure blog post 20. Oct. 2010 about web trojans http://www.f-secure.com/weblog/archives/00002051.html
+        </dd>
+
         
 
       </dl>

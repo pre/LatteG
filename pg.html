@@ -247,17 +247,20 @@
           <h1>Different Phishing Styles</h1>
         
           <pre>
-            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> organize phishing strategies along three dimensions: visual deception, lack of knowledge, and lack of attention. According to <cite>phishing_attacks_and_solutions_2007</cite> general attack vectors include the following:
+            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> organized studied phishing strategies along three dimensions: visual deception, lack of knowledge, and lack of attention. According to <cite>phishing_attacks_and_solutions_2007, suspectibility_to_phishing_2006</cite> general attack vectors include the following:
           
             <ul>
-              <li>deceptive attacks (spear phishing), 
-                in which users are tricked by fraudulent messages into giving out
-                information,</li>
-              <li>domain-based attacks (pharming attacks), 
-                  in which the lookup of hostnames is altered to send users to a
-                  fraudulent server,</li>
-              <li>malicious code-based or trojan-based attacks, 
-                  in which malicious software causes data compromises.</li>
+              <li>Deceptive attacks (spear phishing),
+                which users are tricked by fraudulent messages into giving out
+                information; could involve personalized emails or emails sent to a targeted group.
+              </li>
+              <li>Domain-based attacks (pharming attacks),
+                which the lookup of hostnames is altered to send users to a
+                fraudulent server.
+              </li>
+              <li>Malicious code-based or trojan-based attacks,
+                  in which malicious software causes data compromises.
+              </li>
             </ul>
             
             <!-- VISUALLY DECEPTIVE TEXT, visual deception - sulauta tohon listaan -->
@@ -268,7 +271,7 @@
             <h1>Deceptive Phishing Attacks</h1>
 
             <pre>
-              Several studies have shown [CITE, CITE, CITE] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phishing_works_06</cite> provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to "design web browsers, websites and other tools to shield users from such attacks," it is necessary to "understand which attack strategies are successful, and what proportion of users they fool." <cite>why_phishing_works_06</cite>.
+              Several studies have shown [visual_similarity_phishing_2008, why_phishing_works_06, suspectibility_to_phishing_2006] that humans are especially vulnerable to visual deception. Dhamija et al. <cite>why_phishing_works_06</cite> provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study shows that some visual deception attacks can fool even the most sophisticated users. In order to "design web browsers, websites and other tools to shield users from such attacks," it is necessary to "understand which attack strategies are successful, and what proportion of users they fool." <cite>why_phishing_works_06</cite>.
 
               The biggest nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in image [IMG: Nordea1] to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled, some will. And because even one fooled customer means money for the attackers, phishing is a lucrative criminal business.
 
@@ -290,9 +293,10 @@
             
               This kind of active phishing is hard to prevent. Transport layer security (TLS) and secure sockets authentication (SSL) are designed to prevent this kind of vulnerabilities with secure certificates. But studies <cite>why_phishing_works_06</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example the Firefox browser is designed to walk over user's judgement by default. The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible."
           
-              There exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
+              Study data of Downs <em>et al.</em> <cite>suspectibility_to_phishing_2006</cite> suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since lack of knowledge and attention is a considerable factor in being susceptible to phishing <cite>why_phishing_works_06</cite>, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
+              
               <blockquote>
-              "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
+                  "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
               </blockquote>
               
           </pre>
@@ -309,7 +313,7 @@
             
             Security is often a secondary goal <cite>why_phishing_works_06</cite>, even though security cannot be applied independently or afterwards <cite>schneier_secrets_and_lies_2000, lampson_distributed_1992</cite>. Even if users have the knowledge described above and can detect visual deception described in chapter [#REF] they may still be deceived if they fail to notice security indicators or the absence of them <cite>why_phishing_works_06</cite>. The Firefox browser shows NUM indicators for SSL protected pages as shown in figure [TODO: TEE KUVA]. However, there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist <cite>why_phishing_works_06</cite>.
             
-            Dhamija <em>et al.</em> conclude <cite>why_phishing_works_06</cite> that "even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website." Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants. Their study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija <em>et al.</em> point out that security indicators should alert users of an untrusted state - in addition to have indicators appear under trusted conditions. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
+            Dhamija <em>et al.</em> conclude <cite>why_phishing_works_06</cite> that "even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website." Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants. 23% of their participants ignored all security indicators as well as and cues in the browser's status bar and address bar. Their study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija <em>et al.</em> point out that security indicators should alert users of an untrusted state - in addition to have indicators appear under trusted conditions. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
             
             
             <!-- tupla-v bankofthevvest.com -->
@@ -366,6 +370,10 @@
         
         </pre>
       
+        <!-- 
+        copypaste suspectibility_to_phishing_2006 :
+        Wu et al. conducted a study of three simulated anti-phishing toolbars to determine how effective they were at preventing users from visiting web sites that the tools had determined to be fraudulent [11]. They found that many of their participants ignored the passive toolbar security indicators and instead used the site’s content to decide whether or not it was a scam. In some cases participants did not notice warning signals, and in other cases they noticed them but assumed the warnings were invalid. In a follow-up study the authors tested anti-phishing toolbars that produced pop-up warnings that blocked access to fraudulent websites until overridden by the user. These pop-up warnings reduced the rate at which users fell for fraudulent sites, but did not completely prevent all users from falling for these sites. The authors concluded that Internet users are not very good at interpreting security warnings and are unfamiliar with common phishing attacks and recommended online safety practices.
+        -->
         <h1>Two-factor Authentication</h1>
       
         <pre>

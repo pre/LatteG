@@ -226,7 +226,7 @@
         </span>
       
         <section>
-          <h1>Phishing</h1>
+          <h1>Phishing in the Web</h1>
 
           <!-- MAN IN THE MIDDLE, salasanan selville saaminen vs. koko sivun feikkaaminen -->
 
@@ -345,6 +345,7 @@
                   class="fit-width" />
 
             <img src="images/firefox_reported_attack_page_authentic.png" 
+                  id="firefox_authentic_attack_page"
                   alt="Authentic browser warning"
                   title="Authentic browser warning does not offer anything to download."
                   class="fit-width" />
@@ -361,7 +362,7 @@
         <pre>
           A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level.
 
-        
+        At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists <cite>visual_similarity_phishing_2008</cite>. These blacklists store a set of known [#dic: havaittuja] phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting. However, as described previously in chapter [#REF], this approach is vulnerable to visual deception.
         
         </pre>
       
@@ -423,10 +424,8 @@
           - vs. "Dancing pigs"
 
 
-
-          Karhusivun käytettävyystutkimus
           Authentication methods
-          TODO: pilko tekniikat lukujen authentication &amp; authorization alle
+
           Digital Identity Management
           Several ongoing studies are underway for safe and effective digital identity management [open_identity_management_saas_2009]. These include OASIS's SAML [CITE], Microsoft's WS-* [CITE], XX's Shibboleth [CITE] and YY's OpenID [CITE].
           OpenID

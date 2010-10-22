@@ -233,11 +233,13 @@
           <pre>
             Phishing is a form of online identity theft targeting to steal sensitive information from an end user <cite>phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006</cite>. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering <cite>visual_similarity_phishing_2008</cite>. The process usually involves a fraudulent web site imitating a specific authentic site. 
 
-            The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the original service. The user can be lured to a fraudulent phishing site in many ways. The most common way is to send the victim an email or instant message that asks him to visit a malicious site [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+            The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the original service. The user can be lured to a fraudulent phishing site in many ways. A common way is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
 
-            Phishing is a widespread problem on the internet [CITE, CITE, CITE]. Additionally its effects are especially emphasized in a single sign-on system. Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be effective, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore identity providers are a viable target for phishing by their very nature [CITE, CITE, CITE].
+            Phishing is a widespread problem on the internet [CITE, CITE, CITE]. It poses a risk that affects especially a single sign-on system. Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore identity providers are a viable target for phishing by their very nature [CITE, CITE].
 
             Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services [CITE]. Nevertheless, studies have been made concluding that having a single service for identification might actually improve the general security of the service that are depending on it [CITE]. One big factor is that by nature any web service is, to some level, vulnerable to phishing [CITE tai selitä aiemmin]. As previously explained, using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider [CITE]. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
+            
+            
           </pre>
         </section>
 
@@ -245,7 +247,7 @@
           <h1>Different Phishing Styles</h1>
         
           <pre>
-            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. However, some general attack vectors include the following <cite>phishing_attacks_and_solutions_2007</cite>:
+            It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> organize phishing strategies along three dimensions: visual deception, lack of knowledge, and lack of attention. According to <cite>phishing_attacks_and_solutions_2007</cite> general attack vectors include the following:
           
             <ul>
               <li>deceptive attacks (spear phishing), 
@@ -257,7 +259,6 @@
               <li>malicious code-based or trojan-based attacks, 
                   in which malicious software causes data compromises.</li>
             </ul>
-            <!-- Onko trojan ja man-in-the-middle kuvattu riittävän tarkasti? -->
 
           </pre>
 
@@ -291,9 +292,22 @@
               <blockquote>
               "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
               </blockquote>
+              
           </pre>
         </section>
         
+        <section>
+          <h1>Lack of Knowledge</h1>
+          <pre>
+            Many users do not understand security indicators <cite>why_phishing_works_06</cite>. For example, many users do not know that a closed padlock icon in the browser indicates that the page they are viewing was secured by SSL. Studies of Dhamija <em>et al.</em> show that even if they understand the meaning of that icon, users can be fooled by its placement within the body of a webpage. Generally, users are not aware of the difference between the elements displayed in the browser's interface and the elements displayed in the content area. The browser interface consists of e.g. toolbars, windows, address bar, and status bar that are constructed around the web page. The browser interface cannot be altered by a web page, thus, icons and notifications displayed in it should be trusted. On the contrary, icons and notifications displayed in the content of a web page can be placed there arbitrarily and should not be trusted.
+            
+            A surprising finding by Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> was that some users have erroneous knowledge and misconceptions about what website features indicate security. For example, "participants assumed that if websites contained professional-looking images, animations, and ads, they assumed the sites were legitimate." Similarly, dedicated login pages to bank services were less trusted than login form that was on the bank front page. For user convenience, some legitimate organizations allow users to login from non-SSL pages. Although the data may be transmitted securely (login form submitted to an https url), the browser does not display a visual cue if SSL is used for form submission. As a workaround designers may place a padlock icon in the page content, which is a feasible for phishers since they can add a padlock in the phishing site too.
+            
+            In addition to understanding the security indicators of the browser, users lack of basic knowledge about how the web, email and applications work <cite>why_phishing_works_06</cite>. Phishing sites can exploit several aspects of this lack of knowledge. For example some users do not understand the syntax of domain names and can not distinguish an authentic web address from a fraudulent one. For example a user may think <em>ebay-members-security.com</em> belongs to <em>ebay.com</em> or that a URL <em>http://www.microsoft.com:login.asp@62.236.117.4</em> is originated from <em>www.microsoft.com</em> instead of <em>62.236.117.4</em>. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> also found that "legitimate organizations further confused our participants by hosting secure pages with third parties, where the domain name does not match the brand name."
+            
+            
+          </pre>
+        </section>
         <section>
           <h1>Domain-based Attacks: Pharming</h1>
           <pre>
@@ -310,8 +324,11 @@
             "Game Over" could be used to describe getting infected by a trojan. 
             Uninvited code or a program executed without user's "actual" permission is called a trojan. The victim is usually asked, if he wishes to install this particular program. As explained previously in the quote about dancing pigs <cite>schneier_secrets_and_lies_2000</cite> and studied in <cite>why_phishing_works_06</cite>, the victim usually does not bother reading any warnings.
             
-            Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website <cite>fsecure_webtrojan_2010</cite>. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to "download updates". The "update" contains a browser specific trojan. Although a confirmation action is required for the installation, the victim happily agrees with it and proceeds with the installation as visualized in figure <a href="#firefox_reported_attack_page" data-lattex="image-ref"></a>. beating the dancing pigs <cite>schneier_secrets_and_lies_2000</cite> seems to require either restrictive system administration [CITE], effective anti-virus software [CITE] or software security education [CITE]. Neither of them is in the scope of this thesis, hence, vulnerabilities regarding malicious software installs are deliberately left outside the scope of this thesis.
-
+            Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website <cite>fsecure_webtrojan_2010</cite>. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to "download updates". The "update" contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation as visualized in figure <a href="#firefox_reported_attack_page" data-lattex="image-ref"></a>. 
+            
+            
+            <!-- Beating the dancing pigs <cite>schneier_secrets_and_lies_2000</cite> seems to require either restrictive system administration [CITE], effective anti-virus software [CITE] or software security education [CITE]. Neither of them is in the scope of this thesis, hence, vulnerabilities regarding malicious software installs are deliberately left outside the scope of this thesis. -->
+            
             <img src="images/firefox_reported_attack_page_trojan.png"
                   id="firefox_reported_attack_page"
                   alt="Imitated browser warning"

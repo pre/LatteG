@@ -14,3 +14,6 @@
 
 - kaikki alert():t pois! jos tulee syntaksivirhe, niin esim. reference not found -alertin joutuu kuittaamaan kymmeniä kertoja.
 
+- kertoisi, jos lähdeluettelossa on lähde, johon ei ole viitattu.
+
+- sisällysluettelosta linkit otsikoihin

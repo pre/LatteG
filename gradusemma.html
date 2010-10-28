@@ -73,12 +73,15 @@
         <pre>
           Phishing is a form of online identity theft targeting to steal sensitive information from an end user <cite>phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006</cite>. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering <cite>visual_similarity_phishing_2008</cite>. The process usually involves a fraudulent web site imitating a specific authentic site. 
 
-          The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the original service. The user can be lured to a fraudulent phishing site in many ways. A common way is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+          The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. The user can be lured to a fraudulent phishing site in many ways. A common way is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
 
-          Phishing is a widespread problem on the internet [CITE, CITE, CITE]. It poses a risk that affects especially a single sign-on system. Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore identity providers are a viable target for phishing by their very nature [CITE, CITE].
+          Phishing is a widespread problem on the internet [CITE, CITE, CITE]. It poses a risk that affects especially single sign-on systems. Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore identity providers are a viable target for phishing by their very nature.
 
-          Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services [CITE]. Nevertheless, studies have been made concluding that having a single service for identification might actually improve the general security of the service that are depending on it [CITE]. One big factor is that by nature any web service is, to some level, vulnerable to phishing [CITE tai selitä aiemmin]. As previously explained, using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider [CITE]. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
+          Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. Nevertheless, studies have concluded that having a single service for identification might actually improve the general security of the service that are depending on it [CITE]. One big factor is that by nature any web service is, to some level, vulnerable to phishing <cite>why_phishing_works_06</cite>. As previously explained, using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider [CITE]. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
 
+          <!-- Kitten phishing liittyy tähän! -->
+          
+          
         </pre>
       </section> <!-- Introduction -->
       
@@ -114,6 +117,9 @@
 
           <!-- TODO: yllä oleva teksti jatkuis vielä! -->
 
+          <!-- TÄHÄN SSL TEKSTIÄ ? -->
+          
+          
           </pre>
         </section> <!-- Auth & auth -->
 
@@ -124,7 +130,7 @@
 
             Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
 
-            Challenges may also involve a publicly known response. The motivation could, for instance, be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification [TODO: kuva!] for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a number included in a scrambled bitmap image. The motivation is presenting a question which only a human is able to understand, although the actual answer is publicly known.
+            Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification [TODO: kuva!] for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a number included in a scrambled bitmap image. The motivation is presenting a question which only a human is able to understand, although the actual answer is publicly known.
           </pre>
         
           <!--
@@ -136,7 +142,6 @@
         
       </section> <!-- User-centric id -->
 
-      <!-- MAN IN THE MIDDLE, salasanan selville saaminen vs. koko sivun feikkaaminen -->
       <!--
         Your OpenID identity provider is able to track all websites you log into. If you have only one
         OpenID, usability is high, but traceability is equally high.
@@ -146,7 +151,7 @@
         <h1>Landscape of Phishing</h1>
         
         <pre>
-          It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> organized studied phishing strategies along three dimensions: visual deception, lack of knowledge, and lack of attention. According to <cite>phishing_attacks_and_solutions_2007, suspectibility_to_phishing_2006</cite> general attack vectors include the following:
+          It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks <cite>phishing_attacks_and_solutions_2007</cite>. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> studied phishing strategies that were organized along three dimensions: visual deception, lack of knowledge, and lack of attention. According to <cite>phishing_attacks_and_solutions_2007, suspectibility_to_phishing_2006</cite> general attack vectors include the following:
         
           <ul>
             <li>Deceptive attacks (spear phishing),

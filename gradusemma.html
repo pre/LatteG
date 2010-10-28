@@ -87,6 +87,8 @@
       
 
       <section>
+        <h1>Authentication in the Web</h1>
+        <!--
         <h1>User-centric Identity</h1>
         
         <pre>
@@ -98,7 +100,8 @@
 					
           A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user <cite>openid_2.0_platform_2009</cite>. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed <cite>openid_2.0_platform_2009</cite> both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities.
         </pre>
-
+        -->
+        
         <!-- Technologies that use the WS-Trust protocol employ a card-based identity [CITE: Tälle oli viite!]. -->
 
 
@@ -126,7 +129,7 @@
         <section>
           <h1>Challenge-Response Authentication</h1>
           <pre>
-            Challenge-Response authentication is a family of protocols, where one party presents a question (the challenge) for which another party needs to provide a valid answer ("response") to be authenticated <cite>wikipedia:Challenge-response_authentication</cite>. A simple example of challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination. However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
+            Challenge-Response authentication is a family of protocols, where one party presents a question (challenge) for which another party needs to provide a valid answer (response) to be authenticated <cite>wikipedia:Challenge-response_authentication</cite>. A simple example of challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination. However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
 
             Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
 
@@ -135,7 +138,6 @@
         
           <!--
             One-Way Hash Functions
-            More elaborated use cases involve hash functions for calculating a hash value.
             Public Key Infrastructure (PKI)
           -->
         </section> <!-- challenge-response -->
@@ -228,14 +230,15 @@
           
         </pre>
       </section> <!-- Lack of K & A -->
-        
+      
+      <!--
       <section>
         <h1>Domain-based Attacks: Pharming</h1>
         <pre>
           
           
         </pre>
-      </section> <!-- Domain-based Attacks: Pharming -->
+      </section> --> <!-- Domain-based Attacks: Pharming -->
         
         
       <section>
@@ -300,18 +303,28 @@
         
       </section> <!-- Two-factor auth -->
       
-      <!-- 
       <section>
-        <h1>Extending the TLS Protocol</h1>
-      
+        <h1>Client Certificate as an Authentication Response</h1>
+        
+            <!-- 
+             http://blogs.sun.com/bblfish/entry/what_does_foaf_ssl_give 
+             http://esw.w3.org/WebID
+             
+             -->
         <pre>
         
         
         </pre>
+
+      </section>  <!-- TLS -->
       
+      <section>
+        <h1>Combinig OpenID and Client Certificates</h1>
+        
+        <pre>
           
-      </section> -->  <!-- TLS -->
-      
+        </pre>
+      </section>
     </section> <!-- Phishing Solutions -->
 
 
@@ -321,7 +334,11 @@
       <h1>Conclusions</h1>
       
       <pre>
-        Here!
+        <ul>
+          <li>not everything transferred on the wire: asynchronous authentication keys</li>
+          <li>user-centric identity &amp; single sign-on: pros and cons</li>
+          <li>no technical solution for deceptive attacks: educate users</li>
+        </ul>
       </pre>
       
     </section>
@@ -353,7 +370,8 @@
       
     </article>
 
-
+    <!-- TODO: Semmapaperissa ei viitata näihin kaikkiin lähteisiin -->
+    
     <article class="references">
       <h1>References</h1>
       <dl>

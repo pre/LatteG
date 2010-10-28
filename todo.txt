@@ -17,3 +17,8 @@
 - kertoisi, jos lähdeluettelossa on lähde, johon ei ole viitattu.
 
 - sisällysluettelosta linkit otsikoihin
+
+- sisällysluetteloon alikappaleiden sisennys, kuten
+  3. Otsikko
+     3.1. Otsikko
+     3.2. Otsikko

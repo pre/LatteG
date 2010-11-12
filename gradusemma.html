@@ -309,6 +309,36 @@
         <pre>
           
         </pre>
+        
+        <section style="display: none;">
+
+          - idp-palvelinosoite määritellään openid-tunnuksen sivulla, eli käytännössä rp päättää, minne
+            käyttäjä ohjataan autentikoitumaan.           
+            - paha palvelu pyytää kirjautumaan sisään, ja
+              * pyytää suoraan openid-tunnusta ja salasanaa
+              * pyytää openid-tunnusta, ohjaa idp-proxyserverille joka matkii aitoa sivua ja kaappaa salasanan
+          
+          - tunnuksessa http eikä https 
+            * yhteyden kaappaaminen matkan varrella, koska tarjoajaa ei voida varmistaa
+            
+          - idp:llä on redirect kaikelle http://xx/yy --> https://xx/yy
+            * suojaamaton lähiverkko: 
+              * arp poison ja ssl-strip  
+              * dns poison ja ssl-strip
+              
+          - https sisäänkirjautumiseen, mutta http sessioon --> session kaappaaminen &amp; calastelu
+          
+          - idp ja rp neuvottelevat kertakäyttöisen avaimen, jolla taataan autentikointitiedon integriteetti.
+            vulnerable: man-in-the-middle, jotta ei-vulnerable: https (jolloin diffie-hellman turha)
+          
+          Katso 2010-11-09 Semma TOC.txt:
+          - vaatimukset käyttäjälle
+          - vaatimukset idp:lle
+          - vaatimukset rp:lle
+          
+        </section>
+        
+        
       </section>
       
     </section> <!-- Phishing Styles -->
@@ -370,8 +400,6 @@
     </section> <!-- Phishing Solutions -->
 
 
-    <!--/section> -->  <!-- Phishing -->
-    
     <section>
       <h1>Conclusions</h1>
       

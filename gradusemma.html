@@ -78,6 +78,13 @@
 
         5 Conclusions
         
+        <!-- 
+        Understanding the problems helps us to understand the need for passwords in general.
+        * need to be easily recognized
+        * the security/x has to be effective
+        * target
+        * The benefits must outweigh the costs.
+        -->
       </section>
     </nav>
 
@@ -114,23 +121,6 @@
 
       <section>
         <h1>Authentication in the Web</h1>
-        <!--
-        <h1>User-centric Identity</h1>
-        
-        <pre>
-          Giving full control of identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer to decide when and how their identity information can be accessed <cite>open_identity_management_saas_2009</cite>. The term "user-centric identity management" is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of their identifier(s) and personally-identifiable information <cite>openid_2.0_platform_2009</cite>. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
-
-          An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is dereferencing the identity address to discover and invoke the associated identity service <cite>openid_2.0_platform_2009</cite>.
-
-					[TODO: Esimerkki tähän! Esim. openid-kuva]
-					
-          A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user <cite>openid_2.0_platform_2009</cite>. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed <cite>openid_2.0_platform_2009</cite> both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities.
-        </pre>
-        -->
-        
-        <!-- Technologies that use the WS-Trust protocol employ a card-based identity [CITE: Tälle oli viite!]. -->
-
-
 
         <section>
           <h1>Concepts of Authentication and Authorization</h1>
@@ -169,12 +159,47 @@
             Public Key Infrastructure (PKI)
           -->
         </section> <!-- challenge-response -->
+
+        <h1>User-centric Identity</h1>
         
+        <pre>
+          Giving full control of identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer to decide when and how their identity information can be accessed <cite>open_identity_management_saas_2009</cite>. The term "user-centric identity management" is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of their identifier(s) and personally-identifiable information <cite>openid_2.0_platform_2009</cite>. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
+
+          An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is dereferencing the identity address to discover and invoke the associated identity service <cite>openid_2.0_platform_2009</cite>. XRI addresses have lately been deprecated [CITE: OASIS-vote, etsi!]. Hence, this paper concentrates on URL based identities such as <em>http://user.example.com</em> or <em>http://example.com/user</em>.
+
+          A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user <cite>openid_2.0_platform_2009</cite>. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed <cite>openid_2.0_platform_2009</cite> both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services. [CITE: etsi]. It also suffers from problems that are discussed on chapter [#REF: client certs].
+
+          <!-- Tässä vois mainita, että isot idp:t ei hyväksy kuin oman id:nsä, 
+                eli user-centric id ei toteudu internetissä atm. -->
+        </pre>
+
+
         <section>
           <h1>Authentication with OpenID</h1>
           <pre>
             
           </pre>
+        </section>
+        
+        <section style="display: none;">
+          Identifiers:
+          - yhteensopiva cloud-paradigman kanssa: address-based identify
+          - openid-autentikoinnissa on käyttäjän lisäksi kaksi muuta osapuolta: "relying party" eli palvelu, johon käyttäjä alunperin saapu ja "idp" johon rp ohjasi autentikoitumista varten.
+          
+          - URL-tunnuksen syöttämisen jälkeen rp selvittää siihen assosioidun idp:n (urlin päässä link rel)
+          - rp ohjaa käyttäjän idp:n palveluun autentikoitumista varten. käyttäjän tehtävänä on autentikoinnin avulla osoittaa, että annettu openid-url kuuluu hänen hallintaansa.
+          - url:n käyttäminen tunnisteena mahdollistaa sen, että autentikointi on täydellisesti hajautettu: ei ole keskitettyä auktoriteettia, vaan jokaisella käyttäjällä voi olla oma idp
+          - delegoinnin avulla käyttäjä voi vaihtaa idp:n vaikka url pysyy samana (vrt. iki.fi email)
+          
+          - openid2.0 mahdollistaa monen identiteetin käytön saman id-url:n avulla, "directed identity".
+          - "fifth law of identity", kim cameron 05/2005 www.identityblog.com/?page_id=354
+          - idp:n on mahdollista antaa käyttäjän valita rp-kohtaisesti, mitä tunnistetta käytetään (vaikka id-url olisi sama). Ennalta määritettyjen lisäksi rp:lle on mahdollista generoida satunnainen digital address, jota käytetään vain tämän rp:n yhteydessä.
+          
+          
+          
+          [TODO: openid-kuva, piirrä esim. openid1.1 flow sekvenssikaavioksi]
+          
+          
         </section>
       </section> <!-- Auth in the Web -->
 
@@ -392,7 +417,7 @@
       
       <section>
         <h1>Combinig OpenID and Client Certificates</h1>
-        
+        <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
           
         </pre>

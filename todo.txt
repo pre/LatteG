@@ -22,3 +22,5 @@
   3. Otsikko
      3.1. Otsikko
      3.2. Otsikko
+     
+- section ilman h1:ä rikkoo (hankala paikantaa pitkässä dokumentissa)

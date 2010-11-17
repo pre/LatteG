@@ -178,14 +178,17 @@
         <section>
           <h1>Authentication with OpenID</h1>
           <pre>
+            OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) <cite>openid2.0_platform_2009</cite>. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. Authentication flow is illustrated in figure [REF: openid-flow] and described below.
             
+             In order to begin the authentication process, the relying party asks the user for an OpenID identifier (step XX). After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it (step XX). When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the OpenID identifier. After signing in successfully, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then signed in to the relying party which is the service he originally wanted to access.
+
+             
           </pre>
         </section>
         
         <!-- <section style="display: none;">
           Identifiers:
           - yhteensopiva cloud-paradigman kanssa: address-based identify
-          - openid-autentikoinnissa on käyttäjän lisäksi kaksi muuta osapuolta: "relying party" eli palvelu, johon käyttäjä alunperin saapu ja "idp" johon rp ohjasi autentikoitumista varten.
           
           - URL-tunnuksen syöttämisen jälkeen rp selvittää siihen assosioidun idp:n (urlin päässä link rel)
           - rp ohjaa käyttäjän idp:n palveluun autentikoitumista varten. käyttäjän tehtävänä on autentikoinnin avulla osoittaa, että annettu openid-url kuuluu hänen hallintaansa.
@@ -195,7 +198,9 @@
           - openid2.0 mahdollistaa monen identiteetin käytön saman id-url:n avulla, "directed identity".
           - "fifth law of identity", kim cameron 05/2005 www.identityblog.com/?page_id=354
           - idp:n on mahdollista antaa käyttäjän valita rp-kohtaisesti, mitä tunnistetta käytetään (vaikka id-url olisi sama). Ennalta määritettyjen lisäksi rp:lle on mahdollista generoida satunnainen digital address, jota käytetään vain tämän rp:n yhteydessä.
-          
+          SEURAUS 
+          -> Googlella on kaikille käyttäjilleen vain yksi openid-url (vaikea sellainen)
+          -> Yahoo mahdollistaa että pelkkä "flickr.com" tai "yahoo.com" käy openid-tunnisteeksi
           
           
           [TODO: openid-kuva, piirrä esim. openid1.1 flow sekvenssikaavioksi]

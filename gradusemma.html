@@ -413,31 +413,6 @@
       <section>
         <h1>Client Certificate as an Authentication Response</h1>
         
-        
-        
-          <!-- 
-            Session muodostaminen edellyttää, että käyttäjällä on jotain salaista hallussa.
-            -> voidaan nostaa PAPE-luokitusta 
-               -> millaisia luokkia on?
-               
-            RP:n ei tarvitse huolehtia edes toissijaisesta autentikoinnista
-            -> keskitetyn idp:n edut 
-              -> yksi turvallinen portti
-            -> ei sulje pois tuplavarmistusta esim. financial transactions:lle
-              -> idp voi tarjota fingerprintin tai julkisen puolen sertifikaatista
-              -> käyttäjällä oltava yksityinen osa myös rp:n yhteydessä, 
-                jotta sessio voimassa tai jotta transaktio voidaan allekirjoittaa (/ aloittaa)
-            -> jos sertifikaatin fp tai julkinen osa suoraan palvelussa,
-               ongelma jos cert vaihtuu ja monta palvelua
-               
-            webid:
-            -> käyttäjällä oma sivu jossa kuvaillaan sertifikaatti
-              -> ei yhteensopiva olem. palvelujen kanssa
-                -> openid on tuettu
-             -> openid ei sulje pois: idp voi hakea fp:n käyttäjän foaf-profiilista 
-          
-          -->
-          
             <!-- 
              http://blogs.sun.com/bblfish/entry/what_does_foaf_ssl_give 
              http://esw.w3.org/WebID
@@ -468,10 +443,42 @@
         <h1>Combinig OpenID and Client Certificates</h1>
         <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
+          In order to properly delegate the authentication to the identity provider, the relying party should not need to implement any additional authentication or handle stored credentials of its own. This poses a requirement for the identity provider: the OpenID assertion should qualify for a specific assurance level. OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication [CITE: http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#rfc.section.4]. It requires using a certificate in addition to a password.
+
+          <!-- taulukko page 39 of [NIST_SP800‑63] 
+             (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006.) .
+              -->
+
+          Implementing client certificates an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user giving his credentials to a fraudulent site. The private part of the user's certificate is never sent on the wire, therefore, it is not possible to capture it without compromising the security of user's software.
+
+          </pre>
           
-           is possible also by the identity provider, which allows improving the quality of an OpenID assertion [CITE: openid2.0_specificaation, ETSI PAPE-KOHTA].
           
-        </pre>
+        <!-- 
+             
+          RP:n ei tarvitse huolehtia edes toissijaisesta autentikoinnista
+          -> keskitetyn idp:n edut 
+            -> yksi turvallinen portti
+          -> ei sulje pois tuplavarmistusta esim. financial transactions:lle
+            -> idp voi tarjota fingerprintin tai julkisen puolen sertifikaatista
+            -> käyttäjällä oltava yksityinen osa myös rp:n yhteydessä, 
+              jotta sessio voimassa tai jotta transaktio voidaan allekirjoittaa (/ aloittaa)
+          -> jos sertifikaatin fp tai julkinen osa suoraan palvelussa,
+             ongelma jos cert vaihtuu ja monta palvelua
+             
+          webid:
+          -> käyttäjällä oma sivu jossa kuvaillaan sertifikaatti
+            -> ei yhteensopiva olem. palvelujen kanssa
+              -> openid on tuettu
+           -> openid ei sulje pois: idp voi hakea fp:n käyttäjän foaf-profiilista 
+        
+        -->
+        
+        <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
+            pitää luottaa ensin tarjoajaan, 
+            vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
+            
+        
       </section> <!-- comb openid & cc -->
       
 
@@ -490,6 +497,8 @@
           <li>eri tasoinen auth eri palveluihin tai sessioihin, mutta sama idp (directed identity)</li>
           <li>salasanakompromissi: salasana = heikoin lenkki -> keskitetään</li>
           <li>jos PAPE-taso ei riitä, ohjataan idp:lle lisätunnistamista varten (cert, tekstiviesti, kertakäyttötunnukset whatever)</li>
+          <li>olet palveluntarjoajana armoilla: jos openid-tunnus muuttuu, et pääse sisään.</li>
+          <li>onelogin: ei openid-vaan connectorit pilvipalvelussa</li>
         </ul>
       </pre>
       

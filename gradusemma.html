@@ -178,13 +178,17 @@
         <section>
           <h1>Authentication with OpenID</h1>
           <pre>
-            OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) <cite>openid2.0_platform_2009</cite>. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. Authentication flow is illustrated in figure [REF: openid-flow] and described below.
+            OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) <cite>openid_2.0_platform_2009</cite>. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. Authentication flow is illustrated in figure [REF: openid-flow] and described below.
             
              In order to begin the authentication process, the relying party asks the user for an OpenID identifier (step XX). After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it (step XX). When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the OpenID identifier. After signing in successfully, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then signed in to the relying party which is the service he originally wanted to access.
 
-             
+             The principle of user-centric identity gives the user a possibility of choosing an identity provider of his own. This is different from the principle federated identity where a trusted third-party guarantees the person behind an identifier. A user-centric identity provider verifies only that only an authenticated user may prove the ownership for an identifier, that is, the person behind of an identifier is not necessarily guaranteed. This does not, however, usually pose a problem because a typical web service wants only to distinguish between different identifiers. Hence, it is enough to guarantee that there is only one owner behind a particular identifier.
+
           </pre>
         </section>
+        
+
+
         
         <!-- <section style="display: none;">
           Identifiers:
@@ -409,6 +413,31 @@
       <section>
         <h1>Client Certificate as an Authentication Response</h1>
         
+        
+        
+          <!-- 
+            Session muodostaminen edellyttää, että käyttäjällä on jotain salaista hallussa.
+            -> voidaan nostaa PAPE-luokitusta 
+               -> millaisia luokkia on?
+               
+            RP:n ei tarvitse huolehtia edes toissijaisesta autentikoinnista
+            -> keskitetyn idp:n edut 
+              -> yksi turvallinen portti
+            -> ei sulje pois tuplavarmistusta esim. financial transactions:lle
+              -> idp voi tarjota fingerprintin tai julkisen puolen sertifikaatista
+              -> käyttäjällä oltava yksityinen osa myös rp:n yhteydessä, 
+                jotta sessio voimassa tai jotta transaktio voidaan allekirjoittaa (/ aloittaa)
+            -> jos sertifikaatin fp tai julkinen osa suoraan palvelussa,
+               ongelma jos cert vaihtuu ja monta palvelua
+               
+            webid:
+            -> käyttäjällä oma sivu jossa kuvaillaan sertifikaatti
+              -> ei yhteensopiva olem. palvelujen kanssa
+                -> openid on tuettu
+             -> openid ei sulje pois: idp voi hakea fp:n käyttäjän foaf-profiilista 
+          
+          -->
+          
             <!-- 
              http://blogs.sun.com/bblfish/entry/what_does_foaf_ssl_give 
              http://esw.w3.org/WebID
@@ -420,6 +449,15 @@
         </pre>
 
       </section>  <!-- TLS -->
+
+      <section>
+        <h1>Quality of OpenID Authentication</h1>
+          <pre>
+           While being agnostic about the person behind an identifier is sufficient in many use cases, it is not viable for all services. For example, using an OpenID identifier, which is authenticated only by password, to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party, is not recommended [CITE: yahoo_openid_bestpractices_2010]. In such cases it is usually recommended to use an additional factor of authentication by the relying party before allowing the transaction be completed. 
+         
+           In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) [CITE: openid2.0_specificaation]. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID assertion is appropriate for a particular use case. For example Yahoo! OpenID assertions are markes as NIST Auth Level 0 to indicate that they "should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]" [CITE: yahoo_openid_bestpractices_2010]. Implementing additional factors of authentication is possible also by the identity provider, which allows improving the quality of an OpenID assertion [CITE: openid2.0_specificaation, ETSI PAPE-KOHTA].
+        </pre> 
+      </section> <!-- quality -->      
       
       <section>
         <h1>Combinig OpenID and Client Certificates</h1>
@@ -427,7 +465,10 @@
         <pre>
           
         </pre>
-      </section>
+      </section> <!-- comb openid & cc -->
+      
+
+      
     </section> <!-- Phishing Solutions -->
 
 
@@ -439,6 +480,9 @@
           <li>not everything transferred on the wire: asynchronous authentication keys</li>
           <li>user-centric identity &amp; single sign-on: pros and cons</li>
           <li>no technical solution for deceptive attacks: educate users</li>
+          <li>eri tasoinen auth eri palveluihin tai sessioihin, mutta sama idp (directed identity)</li>
+          <li>salasanakompromissi: salasana = heikoin lenkki -> keskitetään</li>
+          <li>jos PAPE-taso ei riitä, ohjataan idp:lle lisätunnistamista varten (cert, tekstiviesti, kertakäyttötunnukset whatever)</li>
         </ul>
       </pre>
       

@@ -455,14 +455,21 @@
           <pre>
            While being agnostic about the person behind an identifier is sufficient in many use cases, it is not viable for all services. For example, using an OpenID identifier, which is authenticated only by password, to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party, is not recommended [CITE: yahoo_openid_bestpractices_2010]. In such cases it is usually recommended to use an additional factor of authentication by the relying party before allowing the transaction be completed. 
          
-           In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) [CITE: openid2.0_specificaation]. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID assertion is appropriate for a particular use case. For example Yahoo! OpenID assertions are markes as NIST Auth Level 0 to indicate that they "should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]" [CITE: yahoo_openid_bestpractices_2010]. Implementing additional factors of authentication is possible also by the identity provider, which allows improving the quality of an OpenID assertion [CITE: openid2.0_specificaation, ETSI PAPE-KOHTA].
-        </pre> 
+           In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) [CITE: openid2.0_specificaation]. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID assertion is appropriate for a particular use case. The NIST Special Publication 800-63
+           [CITE: NIST_SP800‑63, <!--http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#NIST_SP800-63-->] 
+<!-- Special Publication 800-63 (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006.) -->
+          defines a set of Assurance Levels from 1 to 4 which may be used by identity provider in communication with the relying party. There exists also a level 0 which is used to signify that the identity provider has verified the owner of the OpenID identifier, but authentication did not meet the requirements of Level 1.
+           
+           For example Yahoo! OpenID assertions are marked as NIST Auth Level 0 to indicate that they "should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]" [CITE: yahoo_openid_bestpractices_2010]. In that case it is recommended that the relying party implement additional factors of authentication. However, this contradicts with the goal of delegating authentication procedures from the relying party to the identity provider.
+           </pre> 
       </section> <!-- quality -->      
       
       <section>
         <h1>Combinig OpenID and Client Certificates</h1>
         <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
+          
+           is possible also by the identity provider, which allows improving the quality of an OpenID assertion [CITE: openid2.0_specificaation, ETSI PAPE-KOHTA].
           
         </pre>
       </section> <!-- comb openid & cc -->

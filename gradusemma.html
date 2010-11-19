@@ -155,7 +155,7 @@
           <pre>
             Giving full control of identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer to decide when and how their identity information can be accessed <cite>open_identity_management_saas_2009</cite>. The term "user-centric identity management" is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of their identifier(s) and personally-identifiable information <cite>openid_2.0_platform_2009</cite>. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
 
-            An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is dereferencing the identity address to discover and invoke the associated identity service <cite>openid_2.0_platform_2009</cite>. XRI addresses have lately been deprecated [CITE: OASIS-vote, etsi!]. Hence, this paper concentrates on URL based identities such as <em>http://user.example.com</em> or <em>http://example.com/user</em>.
+            An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is dereferencing the identity address to discover and invoke the associated identity service <cite>openid_2.0_platform_2009</cite>. XRI addresses have lately been deprecated <cite>xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d</cite>. Hence, this paper concentrates on URL based identities such as <em>http://user.example.com</em> or <em>http://example.com/user</em>.
 
             A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user <cite>openid_2.0_platform_2009</cite>. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed <cite>openid_2.0_platform_2009</cite> both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services. [CITE: etsi]. It also suffers from problems that are discussed on chapter [#REF: client certs].
 
@@ -441,11 +441,11 @@
                style="width: 90%"
                title="Examples of common authentication technologies and their mapping to the Authentication Policies defined in <cite>openid_2.0_pape_phishing_07</cite> (Section 4)."></img>
           
-          Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private part of the user's certificate is never sent on the wire, therefore, it is not possible to capture it without compromising the security of user's software. However, as explained in chapter [#REF trojans], integrity of user's software is out of our scope. 
+          Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private component of the user's certificate is stored in user's browser and is never sent on the communications channel. Capturing user's credentials would require the user deliberately send the private key file to an attacker or compromise the user's software security. However, as explained in chapter [#REF trojans], integrity of user's software is out of our scope. 
           
           Whenever the user wants to change his certificate, e.g. the old one expires, he needs to update the public component only in the identity provider. This has a clear advantage over the relying party storing anything: certificate would need to be individually updated to each relying party which has a credential storage of its own.
 
-          Not every relying party needs a PAPE security assertion, that is, a higher security level can be required on demand. This proposes to options: Either the relying party requires a certain security level during authentication or it first accepts a PAPE level 0 and does not require additional credentials until the user wants to create a transaction of value. This enables a flexible scheme: the user may login to less-secure sites from a netcafe using the same OpenID identifier authenticated only by password. However, when there is a need, for example, to use a previously stored credit card, the user is first redirected to the identity provider in order to enhance the PAPE security level.
+          Not every relying party needs a PAPE security assertion, that is, a higher security level can be required on demand. This proposes two options: Either the relying party requires a certain security level during authentication, or it first accepts a PAPE level 0 and does not require additional credentials until the user begins a transaction of value. This enables a flexible scheme: the user may sign in everywhere using the same OpenID identifier authenticated only by password. However, when there is a need, for example, to use a previously stored credit card, the user is first redirected to the identity provider in order to enhance the PAPE security level.
         </pre>
           
         <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
@@ -671,6 +671,34 @@
           Phishing Resistant Authentication Scheme, OpenID Provider Authentication Policy Extension 1.0
           http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#rfc.section.4
         </dd>
+
+
+        <dt data-lattex="xri_depcrecated_08d">XRI08d</dt>
+        <dd>
+          Mary P McRae, Manager of TC Administration, OASIS,
+          http://lists.oasis-open.org/archives/xri/200806/msg00001.html
+        </dd>
+        
+        <dt data-lattex="xri_depcrecated_08c">XRI08c</dt>
+        <dd>
+          Tim Berners-Lee and Stuart Williams, co-chairs, W3C Technical Architecture Group,
+          Mailing List, TAG recommends against XRI,
+          http://lists.w3.org/Archives/Public/www-tag/2008May/0078.html
+        </dd>
+
+        <dt data-lattex="xri_depcrecated_08b">XRI08b</dt>
+        <dd>
+          OASIS Ballot Results (with enough negative votes), Approve XRI Syntax v2.0 as an OASIS Standard,
+          http://www.oasis-open.org/committees/ballot.php?id=1470
+        </dd>
+
+        <dt data-lattex="xri_depcrecated_08a">XRI08a</dt>
+        <dd>
+          OASIS Ballot Results (with enough negative votes), Approve XRI Resolution v2.0 as an OASIS Standard,
+          http://www.oasis-open.org/committees/ballot.php?id=1468
+        </dd>
+
+
 
         
 

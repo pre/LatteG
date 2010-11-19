@@ -228,8 +228,6 @@
             </li>
           </ul>
           
-          <!-- VISUALLY DECEPTIVE TEXT, visual deception - sulauta tohon listaan -->
-          
         </pre>
 
         <section>
@@ -253,19 +251,23 @@
                  title="Phishing site asking for Nordea customers' e-bank accounts in the year 2006"
                  alt="Example of a phishing website"
                  class="fit-width">
-        
-            Deceptive phishing could be taken even further. Above examples consisted only of passive attacks that tried to steal user's credentials. Active phishing is more sophisticated and has a bigger potential for causing trouble. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle [TODO: Selitä esittelyssä] proxy that acts interactively with the site it imitates. This could allow bypassing of all security measures protecting the authentication process <cite>beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06</cite>: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
-          
-            When the user creates a transaction, e.g. pay 10 &euro; to a friend, the phishing site intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site.
-          
-            This kind of active phishing is hard to prevent. Transport layer security (TLS) and secure sockets authentication (SSL) are designed to prevent this kind of vulnerabilities with secure certificates. But studies <cite>why_phishing_works_06</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example the Firefox browser is designed to walk over user's judgement by default. The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible." However, user can usually always override the browser's protective decision.
-        
+          </pre>
+        </section>
+        <section>
+          <h1>Deceptive Man-in-the-Middle Proxy</h1>
+          <pre>
+            Active phishing is more sophisticated and has a bigger potential for causing trouble than above examples of passive attacks. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle proxy that communicate interactively with the site which it imitates. Successful man-in-the-middle could allow bypassing of all security measures protecting the authentication process <cite>beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06</cite>: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
+
+            <!-- When the user creates a transaction, e.g. pay 10 &euro; to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site. -->
+
+            Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies <cite>why_phishing_works_06, suspectibility_to_phishing_2006</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. <!-- For example the Firefox browser is designed to walk over user's judgement by default.--> The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible." User can, however, usually override the browser's protective measures.
+
             Study data of Downs <em>et al.</em> <cite>suspectibility_to_phishing_2006</cite> suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since lack of knowledge and attention is a considerable factor in being susceptible to phishing <cite>why_phishing_works_06</cite>, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
-            
+
             <blockquote>
                 "If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed." <cite>schneier_secrets_and_lies_2000</cite>
             </blockquote>
-            
+
         </pre>
       </section> <!-- Deceptive -->
         
@@ -278,9 +280,8 @@
           
           In addition to understanding the security indicators of the browser, users lack of basic knowledge about how the web, email and applications work <cite>why_phishing_works_06</cite>. Phishing sites can exploit several aspects of this lack of knowledge. For example some users do not understand the syntax of domain names and can not distinguish an authentic web address from a fraudulent one. For example a user may think <em>ebay-members-security.com</em> belongs to <em>ebay.com</em>, address <em>www.nordea.com.sitemod.sess26xvwcwbcnnzoycvszh.blockerey.tw/confirm/portal.aspx/login</em> to <em>www.nordea.com</em> or that a URL <em>http://www.microsoft.com:login.asp@62.236.117.4</em> is originated from <em>www.microsoft.com</em> instead of <em>62.236.117.4</em>. Dhamija <em>et al.</em> <cite>why_phishing_works_06</cite> also found that "legitimate organizations further confused our participants by hosting secure pages with third parties, where the domain name does not match the brand name."
           
-          <!-- tupla-v bankofthevvest.com -->
           
-          Security is often a secondary goal <cite>why_phishing_works_06</cite>, even though security cannot be applied independently or afterwards <cite>schneier_secrets_and_lies_2000, lampson_distributed_1992</cite>. Even if users have the knowledge described above and can detect visual deception described in chapter [#REF] they may still be deceived if they fail to notice security indicators or the absence of them <cite>why_phishing_works_06</cite>. The Firefox browser shows NUM indicators for SSL protected pages as shown in figure [TODO: TEE KUVA]. However, there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist <cite>why_phishing_works_06</cite>.
+          Security is often a secondary goal <cite>why_phishing_works_06</cite>, even though security cannot be applied independently or afterwards <cite>schneier_secrets_and_lies_2000, lampson_distributed_1992</cite>. Even if users have the knowledge described above and can detect visual deception described in chapter [#REF] they may still be deceived if they fail to notice security indicators or the absence of them <cite>why_phishing_works_06</cite>. The Firefox browser shows several indicators for SSL protected pages, but there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist <cite>why_phishing_works_06</cite>.
           
           Dhamija <em>et al.</em> conclude <cite>why_phishing_works_06</cite> that "even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website." Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants in the study <cite>why_phishing_works_06</cite>. 23% of the participants ignored all security indicators and cues in the browser's status bar and address bar. The study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija <em>et al.</em> point out that security indicators should alert users of an untrusted state - in addition to have indicators appear under trusted conditions <cite>why_phishing_works_06</cite>. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
           
@@ -363,7 +364,7 @@
         </section> -->
         
         
-      </section> <!-- Phishing OpenID -->
+      <!-- </section> --> <!-- Phishing OpenID -->
       
     </section> <!-- Phishing Styles -->
 
@@ -386,7 +387,7 @@
         -->
         
       <section>
-        <h1>Two-factor Authentication</h1>
+        <h1>Two-factor Authentication as an Additional Layer</h1>
       
         <pre>
           When challenge-response authentication is applied once, user is generally asked a password. A correct password is enough to complete the identification process. Two-factor authentication, also called as two-step verification, takes the process further. It provides the user with two challenges: first one depends on something that the user <em>knows</em> (a password) and second one on something that the user <em>has</em> (e.g. a phone number). The second factor can be formed by, for example, sending the user a verification code via an SMS message. To complete the authentication, the user must respond with a valid answer to both of the challenges.
@@ -401,20 +402,14 @@
         
       </section> <!-- Two-factor auth -->
       
-      <section>
+      <!-- <section>
         <h1>Client Certificate as an Authentication Response</h1>
-        
-            <!-- 
-             http://blogs.sun.com/bblfish/entry/what_does_foaf_ssl_give 
-             http://esw.w3.org/WebID
-             
-             -->
         <pre>
         
         
         </pre>
 
-      </section>  <!-- TLS -->
+      </section> -->  <!-- TLS -->
 
       <section>
         <h1>Quality of OpenID Authentication</h1>
@@ -429,7 +424,7 @@
       </section> <!-- quality -->      
       
       <section>
-        <h1>Combinig OpenID and Client Certificates</h1>
+        <h1>Extending the Security Level of OpenID Authentication</h1>
         <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
           Delegating the authentication to the identity provider as a whole has challenges. It implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability of handling transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
@@ -472,16 +467,18 @@
       
       <pre>
         <ul>
-          <li>not everything transferred on the wire: asynchronous authentication keys</li>
-          <li>user-centric identity &amp; single sign-on: pros and cons</li>
+          <li>X not everything transferred on the wire: asynchronous authentication keys</li>
+          <!-- <li>user-centric identity &amp; single sign-on: pros and cons</li> -->
           <li>no technical solution for deceptive attacks: educate users</li>
-          <li>eri tasoinen auth eri palveluihin tai sessioihin, mutta sama idp (directed identity)</li>
+          <li>eri tasoinen auth eri palveluihin tai sessioihin, mutta sama idp (SELITÄ LISÄKSI: directed identity)</li>
           <li>salasanakompromissi: salasana = heikoin lenkki -> keskitetään</li>
           <li>jos PAPE-taso ei riitä, ohjataan idp:lle lisätunnistamista varten (cert, tekstiviesti, kertakäyttötunnukset whatever)</li>
-          <li>olet palveluntarjoajana armoilla: jos openid-tunnus muuttuu, et pääse sisään.</li>
-          <li>onelogin: ei openid-vaan connectorit pilvipalvelussa</li>
+          <!-- <li>olet palveluntarjoajana armoilla: jos openid-tunnus muuttuu, et pääse sisään.</li>
+          <li>onelogin: ei openid-vaan connectorit pilvipalvelussa</li> -->
           <li>tehdäänkö tässä uudelleen federoitu identiteetti? ei, koska rp:n ei tarvitse tuntea idp:tä etukäteen. idp takaa ainoastaan sen, että yhtä openid-tunnistetta voi käyttää vain yksi käyttäjä (who cannot be impersonated).</li>
           <li>porblem: sisäänkirjautuminen julkisella koneella</li>
+          <!-- sometimes even experienced users fail to notice a scam, tupla-v bankofthevvest.com -->
+          
         </ul>
       </pre>
       

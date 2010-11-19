@@ -348,28 +348,18 @@
       <h1>Conclusions</h1>
       
       <pre>
-        This paper explained severe phishing risks for online authentication. Understanding the problems of basic challenge-response authentication helps us to understand the requirements for extended security procedures. We presented that using a combination of OpenID and client certificate has benefits for both the users and the developers. 
+        This paper explained severe phishing risks for online authentication. Understanding the problems of basic challenge-response authentication helps us to understand the requirements for extended security procedures. We presented that using a combination of OpenID and client certificate has benefits for both the users and the developers.
         
-        Usage of client certificate could allow users to achieve a phishing resistant authentication. Because the communication channel never carries the private key component of a certificate, user cannot mistakenly submit his credentials to a fraudulent site. 
+        Usage of client certificate could allow users to achieve a phishing resistant authentication. Because the communication channel never carries the private key component of a certificate, user cannot mistakenly submit his credentials to a fraudulent site. There is still no ultimate technical solution for deceptive attacks which can only be solved by educating users. Nevertheless, sometimes even experienced users fail to notice a scam, for example, the difference between domain names <em>www.bankofthewest.com</em> and <em>www.bankofthevvest.com</em> <cite>why_phishing_works_06</cite>.
         
-        Secondly, since OpenID provides a standardized authentication protocol for which several mature libraries exists. The details regarding the handling of certificates and authentication are outsourced to the identity provider. Hence, the service developers of the relying party need to apply only one authentication procedure. It is enough for relying party to trust the PAPE security level given by the identity provider.
-        <ul>
-          <li>X not everything transferred on the wire: asynchronous authentication keys</li>
-          <!-- <li>user-centric identity &amp; single sign-on: pros and cons</li> -->
-          <li>no technical solution for deceptive attacks: educate users</li>
-          <li>eri tasoinen auth eri palveluihin tai sessioihin, mutta sama idp (SELITÄ LISÄKSI: directed identity)</li>
-          <li>salasanakompromissi: salasana = heikoin lenkki -> keskitetään</li>
-          <li>jos PAPE-taso ei riitä, ohjataan idp:lle lisätunnistamista varten (cert, tekstiviesti, kertakäyttötunnukset whatever)</li>
-          <!-- <li>olet palveluntarjoajana armoilla: jos openid-tunnus muuttuu, et pääse sisään.</li>
-          <li>onelogin: ei openid-vaan connectorit pilvipalvelussa</li> -->
-          <li>tehdäänkö tässä uudelleen federoitu identiteetti? ei, koska rp:n ei tarvitse tuntea idp:tä etukäteen. idp takaa ainoastaan sen, että yhtä openid-tunnistetta voi käyttää vain yksi käyttäjä (who cannot be impersonated).</li>
-          <li>porblem: sisäänkirjautuminen julkisella koneella</li>
-          <!-- sometimes even experienced users fail to notice a scam, tupla-v bankofthevvest.com -->
+        Secondly, since OpenID provides a standardized authentication protocol for which several mature libraries exists. The details regarding the handling of certificates and authentication are outsourced to the identity provider. Hence, the service developers of the relying party need to apply only one authentication procedure. It is enough for relying party to trust the PAPE security level given by the identity provider. If the security level is insufficient, the user may be redirected to the identity provider for a more secure authentication.
+        
+        The identity provider guarantees only that one OpenID identifier is accessible only for one user who cannot be impersonated. A relying party does not necessarily need to know an OpenID provider beforehand. In some cases, for example when handling financial transactions, it might be recommended to allow identity providers only from a predefined selection including only providers who are known trustworthy. It seems that many relying parties already provide only a predefined selection of identity providers and don't allow an arbitrary OpenID identifier. Nevertheless, this is a compromise against the user-centric principles.
+        
           <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
               pitää luottaa ensin tarjoajaan, 
               vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
           
-        </ul>
       </pre>
       
     </section>

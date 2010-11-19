@@ -132,15 +132,8 @@
             
             Lampson et al. define a theory of authentication in distributed systems <cite>lampson_distributed_1992</cite>. They create an abstraction of many special cases to basic concepts of "principal, statement and channel". If <em>s</em> is a statement, for instance a request, then authentication answers the question "Who said <em>s</em>?" with a principal. Likewise, if <em>o</em> is an object, then authorization answers the question "Who is trusted to access <em>o</em>?" with a principal. A simple principal could for example be a person ("Peter"), a machine ("dac-123") or a role ("Teacher"). A compound principal is build up of other principals such as "Peter as Teacher" or "dac-123 as University of Helsinki" correspondingly. 
 
-            Lampson et al. <cite>lampson_distributed_1992</cite> define that a channel is the only kind of a principal that can directly make statements to a computer. For example, there is no direct path from a person to a computer, that is, communication must be over some channel, involving keystrokes, wires, networks <em>et cetera</em>. Naturally some of these channels are not secure. 
-            
-            <!-- In the concept of web applications, relevant channels are HTTP-protocol ..... -->
+            Lampson et al. <cite>lampson_distributed_1992</cite> define that a channel is the only kind of a principal that can directly make statements to a computer. For example, there is no direct path from a person to a computer, that is, communication must be over some channel, involving keystrokes, wires, networks <em>et cetera</em>. Naturally some of these channels are not secure. In the scope of this paper we assume the HTTP transport layer be secured with a proper usage of SSL/TLS.
 
-          <!-- TODO: yllä oleva teksti jatkuis vielä! -->
-
-          <!-- TÄHÄN SSL TEKSTIÄ ? -->
-          
-          
           </pre>
         </section> <!-- Auth & auth -->
 
@@ -154,10 +147,6 @@
             Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification [TODO: kuva!] for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a number included in a scrambled bitmap image. The motivation is presenting a question which only a human is able to understand, although the actual answer is publicly known.
           </pre>
         
-          <!--
-            One-Way Hash Functions
-            Public Key Infrastructure (PKI)
-          -->
         </section> <!-- challenge-response -->
 
         <section>
@@ -318,10 +307,7 @@
           Uninvited code or a program executed without user's "actual" permission is called a trojan. The victim is usually asked if he wishes to install a particular program. As explained previously in the quote about dancing pigs [#REF: sivunumero] and studied in <cite>why_phishing_works_06</cite>, the victim usually does not bother reading any warnings.
           
           Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website <cite>fsecure_webtrojan_2010</cite>. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to "download updates". The "update" contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation as visualized in figure <a href="#firefox_reported_attack_page" data-lattex="image-ref"></a>. 
-          
-          
-          <!-- Beating the dancing pigs <cite>schneier_secrets_and_lies_2000</cite> seems to require either restrictive system administration [CITE], effective anti-virus software [CITE] or software security education [CITE]. Neither of them is in the scope of this thesis, hence, vulnerabilities regarding malicious software installs are deliberately left outside the scope of this thesis. -->
-          
+
           <img src="images/firefox_reported_attack_page_trojan.png"
                 id="firefox_reported_attack_page"
                 alt="Imitated browser warning"
@@ -333,17 +319,20 @@
                 alt="Authentic browser warning"
                 title="Authentic browser warning does not offer anything to download."
                 class="fit-width" />
+
+          Beating the dancing pigs <cite>schneier_secrets_and_lies_2000</cite> seems to require either restrictive system administration, effective anti-virus software and software security education. Neither of them is in the scope of this thesis, hence, integrity of user's client software is left outside the scope of this thesis.
+
         </pre>
         
         
       </section> <!-- Trojans -->
       
-      <section>
+      <!-- <section>
         <h1>Phishing as a Risk for OpenID</h1>
         
         <pre>
           
-        </pre>
+        </pre> -->
         
         <!-- <section style="display: none;">
           
@@ -382,7 +371,9 @@
         <h1>Phishing Resistant Authentication Process</h1>
     
         <pre>
-          A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, most interesting ones being implementing a two-factor authentication <cite>schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level.
+          A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication <cite>NIST_SP800-63, schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level.
+          
+          <!-- and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level. -->
 
         At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists <cite>visual_similarity_phishing_2008</cite>. These blacklists store a set of reported phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting it. However, as described previously in chapter [#REF], this approach can also be vulnerable to visual deception.
         

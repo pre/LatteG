@@ -428,14 +428,12 @@
       <section>
         <h1>Quality of OpenID Authentication</h1>
           <pre>
-           While being agnostic about the person behind an identifier is sufficient in many use cases, it is not viable for all services. For example, using an OpenID identifier, which is authenticated only by password, to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party, is not recommended [CITE: yahoo_openid_bestpractices_2010]. In such cases it is usually recommended to use an additional factor of authentication by the relying party before allowing the transaction be completed. 
+           While being agnostic about the person behind an identifier is sufficient in many use cases, it is not viable for all services. For example, using an OpenID identifier, which is authenticated only by password, to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party, is not recommended <cite>yahoo_openid_bestpractices_2010</cite>. In such cases it is usually recommended to use an additional factor of authentication by the relying party before allowing the transaction be completed. 
          
-           In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) [CITE: openid2.0_specificaation]. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID assertion is appropriate for a particular use case. The NIST Special Publication 800-63
-           [CITE: NIST_SP800‑63, <!--http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#NIST_SP800-63-->] 
-<!-- Special Publication 800-63 (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006.) -->
+           In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) <cite>openid_2.0_specification_07, openid_2.0_pape_07</cite>. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID assertion is appropriate for a particular use case. The NIST Special Publication 800-63 <cite>NIST_SP800-63</cite>
           defines a set of Assurance Levels from 1 to 4 which may be used by identity provider in communication with the relying party. There exists also a level 0 which is used to signify that the identity provider has verified the owner of the OpenID identifier, but authentication did not meet the requirements of Level 1.
            
-           For example Yahoo! OpenID assertions are marked as NIST Auth Level 0 to indicate that they "should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]" [CITE: yahoo_openid_bestpractices_2010]. In that case it is recommended that the relying party implement additional factors of authentication. However, this contradicts with the goal of delegating authentication procedures from the relying party to the identity provider.
+           For example Yahoo! OpenID assertions are marked as NIST Auth Level 0 to indicate that they "should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]" <cite>yahoo_openid_bestpractices_2010</cite>. In that case it is recommended that the relying party implement additional factors of authentication. However, this contradicts with the goal of delegating authentication procedures from the relying party to the identity provider.
            </pre> 
       </section> <!-- quality -->      
       
@@ -443,29 +441,27 @@
         <h1>Combinig OpenID and Client Certificates</h1>
         <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
-          In order to properly delegate the authentication to the identity provider, the relying party should not need to implement any additional authentication or handle stored credentials of its own. This poses a requirement for the identity provider: the OpenID assertion should qualify for a specific assurance level. OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication [CITE: http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#rfc.section.4]. It requires using a certificate in addition to a password.
+          Delegating the authentication to the identity provider as a whole has challenges. It implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability of handling transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
+          
+          
 
           <!-- taulukko page 39 of [NIST_SP800‑63] 
              (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006.) .
               -->
-
-          Implementing client certificates an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user giving his credentials to a fraudulent site. The private part of the user's certificate is never sent on the wire, therefore, it is not possible to capture it without compromising the security of user's software.
-
-          </pre>
+          OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication <cite>openid_2.0_pape_phishing_07</cite> which requires usage of a certificate in addition to a password. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
           
+          Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private part of the user's certificate is never sent on the wire, therefore, it is not possible to capture it without compromising the security of user's software. However, as explained in chapter [#REF trojans], integrity of user's software is out of our scope. 
           
-        <!-- 
-             
-          RP:n ei tarvitse huolehtia edes toissijaisesta autentikoinnista
-          -> keskitetyn idp:n edut 
-            -> yksi turvallinen portti
-          -> ei sulje pois tuplavarmistusta esim. financial transactions:lle
-            -> idp voi tarjota fingerprintin tai julkisen puolen sertifikaatista
-            -> käyttäjällä oltava yksityinen osa myös rp:n yhteydessä, 
-              jotta sessio voimassa tai jotta transaktio voidaan allekirjoittaa (/ aloittaa)
-          -> jos sertifikaatin fp tai julkinen osa suoraan palvelussa,
-             ongelma jos cert vaihtuu ja monta palvelua
-             
+          Whenever the user wants to change his certificate, e.g. the old one expires, he needs to update the public component only in the identity provider. This has a clear advantage over the relying party storing anything: certificate would need to be individually updated to each relying party which has a credential storage of its own.
+
+          Not every relying party needs a PAPE security assertion, that is, a higher security level can be required on demand. This proposes to options: Either the relying party requires a certain security level during authentication or it first accepts a PAPE level 0 and does not require additional credentials until the user wants to create a transaction of value. This enables a flexible scheme: the user may login to less-secure sites from a netcafe using the same OpenID identifier authenticated only by password. However, when there is a need, for example, to use a previously stored credit card, the user is first redirected to the identity provider in order to enhance the PAPE security level.
+        </pre>
+          
+        <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
+            pitää luottaa ensin tarjoajaan, 
+            vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
+          
+        <!--              
           webid:
           -> käyttäjällä oma sivu jossa kuvaillaan sertifikaatti
             -> ei yhteensopiva olem. palvelujen kanssa
@@ -473,12 +469,6 @@
            -> openid ei sulje pois: idp voi hakea fp:n käyttäjän foaf-profiilista 
         
         -->
-        
-        <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
-            pitää luottaa ensin tarjoajaan, 
-            vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
-            
-        
       </section> <!-- comb openid & cc -->
       
 
@@ -499,6 +489,8 @@
           <li>jos PAPE-taso ei riitä, ohjataan idp:lle lisätunnistamista varten (cert, tekstiviesti, kertakäyttötunnukset whatever)</li>
           <li>olet palveluntarjoajana armoilla: jos openid-tunnus muuttuu, et pääse sisään.</li>
           <li>onelogin: ei openid-vaan connectorit pilvipalvelussa</li>
+          <li>tehdäänkö tässä uudelleen federoitu identiteetti? ei, koska rp:n ei tarvitse tuntea idp:tä etukäteen. idp takaa ainoastaan sen, että yhtä openid-tunnistetta voi käyttää vain yksi käyttäjä (who cannot be impersonated).</li>
+          <li>porblem: sisäänkirjautuminen julkisella koneella</li>
         </ul>
       </pre>
       
@@ -512,18 +504,11 @@
 
           Conclusively the standard security indicators in the browser context are not effective for a substantial fraction of end users.
 
-          Terms
-          - Certificate (digital certificate, public key certificate)
-          - Certificate authority (CA)
-          - HTTPS
-          - Secure Sockets Layer (SSL) and Transport Layer Security (TLS)
-
           "The popular anti-phishing method for OpenID is asking user to provide additional information when they sign up. When relaying party redirects the user to the OpenID provider, the information provided by the user appears firstly, [..] so user can identify whether it is a phishing site [..]" <cite>open_identity_management_saas_2009</cite>.
           - Mutta entä jos phishing site ei kysy mitään?
           - vs. "Dancing pigs"
 
           OpenID is an open standard which supports decentralized architectures. OpenID 1.0 was originally developed in 2005 to allow lightweight authentication for blog post commenters in LiveJournal.com. [CITE] It is now deployed by a wide range of websites, particularly on sites having much user-generated content. As the user base has evolved, so has the need for new OpenID authentication features. Along the growth, the OpenID community has shared a common vision that OpenID could become and umbrella under which multiple technologies can fit. The intention has been to keep OpenID free and open so that no one company owned or controlled the specification <cite>openid_2.0_platform_2009</cite>.
-
           -->
           
 
@@ -601,6 +586,11 @@
         <dd>
           D. Recordon and D. Reed, "OpenID 2 . 0 : A Platform for User-Centric Identity Management," 2006, pp. 11-15.
         </dd>
+        
+        <dt data-lattex="NIST_SP800-63">NIST06</dt>
+        <dd>
+          Special Publication 800-63 (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006. http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#NIST_SP800-63
+        </dd>
 
         <!--
         <dt data-lattex=""></dt>
@@ -656,12 +646,37 @@
         
         <dt data-lattex="mozilla_security_guide_2010">WebX10b</dt>
         <dd>
-          Website: Mozilla Security Review and Best Practices Guide http://www.mozilla.org/projects/security/components/reviewguide.html
+          Website: Mozilla Security Review and Best Practices Guide, http://www.mozilla.org/projects/security/components/reviewguide.html
         </dd>
         
         <dt data-lattex="fsecure_webtrojan_2010">WebX10c</dt>
         <dd>
-          Website: F-Secure blog post 20. Oct. 2010 about web trojans http://www.f-secure.com/weblog/archives/00002051.html
+          Website: F-Secure blog post 20. Oct. 2010 about web trojans,
+          http://www.f-secure.com/weblog/archives/00002051.html
+        </dd>
+
+        <dt data-lattex="yahoo_openid_bestpractices_2010">WebX10d</dt>
+        <dd>
+          Yahoo! OpenID Best Practices,
+          http://developer.yahoo.com/openid/faq.html
+        </dd>
+
+        <dt data-lattex="openid_2.0_specification_07">Ope07a</dt>
+        <dd>
+          OpenID 2.0 Specifiacation
+          http://openid.net/specs/openid-authentication-2_0.html
+        </dd>
+
+        <dt data-lattex="openid_2.0_pape_07">Ope07b</dt>
+        <dd>
+          OpenID Provider Authentication Policy Extension 1.0
+          http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html
+        </dd>
+
+        <dt data-lattex="openid_2.0_pape_phishing_07">Ope07c</dt>
+        <dd>
+          Phishing Resistant Authentication Scheme, OpenID Provider Authentication Policy Extension 1.0
+          http://openid.net/specs/openid-provider-authentication-policy-extension-1_0.html#rfc.section.4
         </dd>
 
         

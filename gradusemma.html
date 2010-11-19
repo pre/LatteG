@@ -3,7 +3,7 @@
   <head>
   
     <title>
-      Designing a Phishing Resistant OpenID Authentication Provider
+      Designing a Phishing Resistant OpenID Identity Provider
     </title>
 
     <meta charset="utf-8" />
@@ -324,14 +324,14 @@
           Delegating the authentication to the identity provider as a whole has challenges. It implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability of handling transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
 
           OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication <cite>openid_2.0_pape_phishing_07</cite> which requires usage of a certificate in addition to a password. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
-          
+
           <img src="images/openid_authentication_policy_examples.jpg" 
                style="width: 90%"
                title="Examples of common authentication technologies and their mapping to the Authentication Policies defined in <cite>openid_2.0_pape_phishing_07</cite> (Section 4)."></img>
           
           Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private component of the user's certificate is stored in user's browser and is never sent on the communications channel. Capturing user's credentials would require the user deliberately send the private key file to an attacker or compromise the user's software security. However, as explained in chapter [#REF trojans], integrity of user's software is out of our scope. 
           
-          Whenever the user wants to change his certificate, e.g. the old one expires, he needs to update the public component only in the identity provider. This has a clear advantage over the relying party storing anything: certificate would need to be individually updated to each relying party which has a credential storage of its own.
+          Having one identity provider providing the public component for the certificate for multiple services is also a convenience for the user. Whenever the user wants to change his certificate, e.g. the old one expires, he needs to update the public component only for the identity provider. This has an advantage over the relying party storing anything: if a relying party had a credential storage of its own, the public component of the certificate would need to be individually updated to each.
 
           Not every relying party needs a PAPE security assertion, that is, a higher security level can be required on demand. This proposes two options: Either the relying party requires a certain security level during authentication, or it first accepts a PAPE level 0 and does not require additional credentials until the user begins a transaction of value. This enables a flexible scheme: the user may sign in everywhere using the same OpenID identifier authenticated only by password. However, when there is a need, for example, to use a previously stored credit card, the user is first redirected to the identity provider in order to enhance the PAPE security level.
         </pre>
@@ -348,6 +348,11 @@
       <h1>Conclusions</h1>
       
       <pre>
+        This paper explained severe phishing risks for online authentication. Understanding the problems of basic challenge-response authentication helps us to understand the requirements for extended security procedures. We presented that using a combination of OpenID and client certificate has benefits for both the users and the developers. 
+        
+        Usage of client certificate could allow users to achieve a phishing resistant authentication. Because the communication channel never carries the private key component of a certificate, user cannot mistakenly submit his credentials to a fraudulent site. 
+        
+        Secondly, since OpenID provides a standardized authentication protocol for which several mature libraries exists. The details regarding the handling of certificates and authentication are outsourced to the identity provider. Hence, the service developers of the relying party need to apply only one authentication procedure. It is enough for relying party to trust the PAPE security level given by the identity provider.
         <ul>
           <li>X not everything transferred on the wire: asynchronous authentication keys</li>
           <!-- <li>user-centric identity &amp; single sign-on: pros and cons</li> -->

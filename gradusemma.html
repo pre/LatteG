@@ -78,13 +78,6 @@
 
         5 Conclusions
         
-        <- 
-        Understanding the problems helps us to understand the need for passwords in general.
-        * need to be easily recognized
-        * the security/x has to be effective
-        * target
-        * The benefits must outweigh the costs.
-        ->
       </section> -->
     </nav>
 
@@ -108,13 +101,8 @@
 
           Studies of Dhamija et al. <cite>why_phishing_works_06</cite> show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore phishing poses a risk that affects especially single sign-on systems. 
 
-          Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. 
-          <!-- Nevertheless, studies have concluded that having a single service for identification might actually improve the general security of the services that are depending on it [CITE]. -->
-          One big factor is that by nature any web service is, to some level, vulnerable to phishing <cite>why_phishing_works_06</cite>. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
+          Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing <cite>why_phishing_works_06</cite>. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
 
-          <!-- Kitten phishing liittyy tähän! -->
-          
-          
         </pre>
       </section> <!-- Introduction -->
       
@@ -159,15 +147,13 @@
 
             A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user <cite>openid_2.0_platform_2009</cite>. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed <cite>openid_2.0_platform_2009</cite> both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services. [CITE: etsi]. It also suffers from problems that are discussed on chapter [#REF: client certs].
 
-            <!-- Tässä vois mainita, että isot idp:t ei hyväksy kuin oman id:nsä, 
-                  eli user-centric id ei toteudu internetissä atm. -->
           </pre>
         </section>
 
         <section>
           <h1>Authentication with OpenID</h1>
           <pre>
-            OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) <cite>openid_2.0_platform_2009</cite>. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. Authentication flow is illustrated in figure [REF: openid-flow] and described below.
+            OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) <cite>openid_2.0_platform_2009</cite>. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. Authentication flow is illustrated in figure [REF/TODO: openid-flow] and described below.
             
              In order to begin the authentication process, the relying party asks the user for an OpenID identifier (step XX). After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it (step XX). When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the OpenID identifier. After signing in successfully, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then signed in to the relying party which is the service he originally wanted to access.
 
@@ -175,38 +161,9 @@
 
           </pre>
         </section>
-        
 
-
-        
-        <!-- <section style="display: none;">
-          Identifiers:
-          - yhteensopiva cloud-paradigman kanssa: address-based identify
-          
-          - URL-tunnuksen syöttämisen jälkeen rp selvittää siihen assosioidun idp:n (urlin päässä link rel)
-          - rp ohjaa käyttäjän idp:n palveluun autentikoitumista varten. käyttäjän tehtävänä on autentikoinnin avulla osoittaa, että annettu openid-url kuuluu hänen hallintaansa.
-          - url:n käyttäminen tunnisteena mahdollistaa sen, että autentikointi on täydellisesti hajautettu: ei ole keskitettyä auktoriteettia, vaan jokaisella käyttäjällä voi olla oma idp
-          - delegoinnin avulla käyttäjä voi vaihtaa idp:n vaikka url pysyy samana (vrt. iki.fi email)
-          
-          - openid2.0 mahdollistaa monen identiteetin käytön saman id-url:n avulla, "directed identity".
-          - "fifth law of identity", kim cameron 05/2005 www.identityblog.com/?page_id=354
-          - idp:n on mahdollista antaa käyttäjän valita rp-kohtaisesti, mitä tunnistetta käytetään (vaikka id-url olisi sama). Ennalta määritettyjen lisäksi rp:lle on mahdollista generoida satunnainen digital address, jota käytetään vain tämän rp:n yhteydessä.
-          SEURAUS 
-          -> Googlella on kaikille käyttäjilleen vain yksi openid-url (vaikea sellainen)
-          -> Yahoo mahdollistaa että pelkkä "flickr.com" tai "yahoo.com" käy openid-tunnisteeksi
-          
-          
-          [TODO: openid-kuva, piirrä esim. openid1.1 flow sekvenssikaavioksi]
-          
-          
-        </section> -->
       </section> <!-- Auth in the Web -->
 
-      <!--
-        Your OpenID identity provider is able to track all websites you log into. If you have only one
-        OpenID, usability is high, but traceability is equally high.
-      -->
-    
       <section>
         <h1>Landscape of Phishing</h1>
         
@@ -258,9 +215,7 @@
           <pre>
             Active phishing is more sophisticated and has a bigger potential for causing trouble than above examples of passive attacks. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle proxy that communicate interactively with the site which it imitates. Successful man-in-the-middle could allow bypassing of all security measures protecting the authentication process <cite>beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06</cite>: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
 
-            <!-- When the user creates a transaction, e.g. pay 10 &euro; to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site. -->
-
-            Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies <cite>why_phishing_works_06, suspectibility_to_phishing_2006</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. <!-- For example the Firefox browser is designed to walk over user's judgement by default.--> The Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible." User can, however, usually override the browser's protective measures.
+            Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies <cite>why_phishing_works_06, suspectibility_to_phishing_2006</cite>[, CITE, CITE] show that users can't be protected using only a technical approach. For example, the Mozilla Security Reviewers' Guide <cite>mozilla_security_guide_2010</cite> states: "Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible." User can, however, usually override the browser's protective measures.
 
             Study data of Downs <em>et al.</em> <cite>suspectibility_to_phishing_2006</cite> suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since lack of knowledge and attention is a considerable factor in being susceptible to phishing <cite>why_phishing_works_06</cite>, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
 
@@ -292,16 +247,6 @@
         </pre>
       </section> <!-- Lack of K & A -->
       
-      <!--
-      <section>
-        <h1>Domain-based Attacks: Pharming</h1>
-        <pre>
-          
-          
-        </pre>
-      </section> --> <!-- Domain-based Attacks: Pharming -->
-        
-        
       <section>
         <h1>Trojan-based Attacks</h1>
         
@@ -330,43 +275,6 @@
         
       </section> <!-- Trojans -->
       
-      <!-- <section>
-        <h1>Phishing as a Risk for OpenID</h1>
-        
-        <pre>
-          
-        </pre> -->
-        
-        <!-- <section style="display: none;">
-          
-          - idp-palvelinosoite määritellään openid-tunnuksen sivulla, eli käytännössä rp päättää, minne
-            käyttäjä ohjataan autentikoitumaan.           
-            - paha palvelu pyytää kirjautumaan sisään, ja
-              * pyytää suoraan openid-tunnusta ja salasanaa
-              * pyytää openid-tunnusta, ohjaa idp-proxyserverille joka matkii aitoa sivua ja kaappaa salasanan
-          
-          - tunnuksessa http eikä https 
-            * yhteyden kaappaaminen matkan varrella, koska tarjoajaa ei voida varmistaa
-            
-          - idp:llä on redirect kaikelle http://xx/yy -> https://xx/yy
-            * suojaamaton lähiverkko: 
-              * arp poison ja ssl-strip  
-              * dns poison ja ssl-strip
-              
-          - https sisäänkirjautumiseen, mutta http sessioon -> session kaappaaminen &amp; calastelu
-          
-          - idp ja rp neuvottelevat kertakäyttöisen avaimen, jolla taataan autentikointitiedon integriteetti.
-            vulnerable: man-in-the-middle, jotta ei-vulnerable: https (jolloin diffie-hellman turha)
-          
-          Katso 2010-11-09 Semma TOC.txt:
-          - vaatimukset käyttäjälle
-          - vaatimukset idp:lle
-          - vaatimukset rp:lle
-          
-        </section> -->
-        
-        
-      <!-- </section> --> <!-- Phishing OpenID -->
       
     </section> <!-- Phishing Styles -->
 
@@ -375,18 +283,12 @@
     
         <pre>
           A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server <cite>phishing_attacks_and_solutions_2007</cite>. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication <cite>NIST_SP800-63, schneier_2factor_2005, google_2step_2010</cite>[CITE, CITE] on the application level.
-          
-          <!-- and extending the TLS protocol <cite>phishing_attacks_and_solutions_2007, foafssl_henrystory</cite>[CITE: others?] on the network protocol level. -->
 
         At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists <cite>visual_similarity_phishing_2008</cite>. These blacklists store a set of reported phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting it. However, as described previously in chapter [#REF], this approach can also be vulnerable to visual deception.
         
         </pre>
 
       
-        <!-- 
-        copypaste suspectibility_to_phishing_2006 :
-        Wu et al. conducted a study of three simulated anti-phishing toolbars to determine how effective they were at preventing users from visiting web sites that the tools had determined to be fraudulent [11]. They found that many of their participants ignored the passive toolbar security indicators and instead used the site’s content to decide whether or not it was a scam. In some cases participants did not notice warning signals, and in other cases they noticed them but assumed the warnings were invalid. In a follow-up study the authors tested anti-phishing toolbars that produced pop-up warnings that blocked access to fraudulent websites until overridden by the user. These pop-up warnings reduced the rate at which users fell for fraudulent sites, but did not completely prevent all users from falling for these sites. The authors concluded that Internet users are not very good at interpreting security warnings and are unfamiliar with common phishing attacks and recommended online safety practices.
-        -->
         
       <section>
         <h1>Two-factor Authentication as an Additional Layer</h1>
@@ -404,15 +306,6 @@
         
       </section> <!-- Two-factor auth -->
       
-      <!-- <section>
-        <h1>Client Certificate as an Authentication Response</h1>
-        <pre>
-        
-        
-        </pre>
-
-      </section> -->  <!-- TLS -->
-
       <section>
         <h1>Quality of OpenID Authentication</h1>
           <pre>
@@ -427,14 +320,9 @@
       
       <section>
         <h1>Extending the Security Level of OpenID Authentication</h1>
-        <!-- miten sopii yhteen card-based identityn kanssa? -->
         <pre>
           Delegating the authentication to the identity provider as a whole has challenges. It implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability of handling transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
-          
 
-          <!-- taulukko page 39 of [NIST_SP800‑63] 
-             (Burr, W., Dodson, D., and W. Polk, Ed., “Electronic Authentication Guideline,” April 2006.) .
-              -->
           OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication <cite>openid_2.0_pape_phishing_07</cite> which requires usage of a certificate in addition to a password. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
           
           <img src="images/openid_authentication_policy_examples.jpg" 
@@ -448,18 +336,7 @@
           Not every relying party needs a PAPE security assertion, that is, a higher security level can be required on demand. This proposes two options: Either the relying party requires a certain security level during authentication, or it first accepts a PAPE level 0 and does not require additional credentials until the user begins a transaction of value. This enables a flexible scheme: the user may sign in everywhere using the same OpenID identifier authenticated only by password. However, when there is a need, for example, to use a previously stored credit card, the user is first redirected to the identity provider in order to enhance the PAPE security level.
         </pre>
           
-        <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
-            pitää luottaa ensin tarjoajaan, 
-            vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
           
-        <!--              
-          webid:
-          -> käyttäjällä oma sivu jossa kuvaillaan sertifikaatti
-            -> ei yhteensopiva olem. palvelujen kanssa
-              -> openid on tuettu
-           -> openid ei sulje pois: idp voi hakea fp:n käyttäjän foaf-profiilista 
-        
-        -->
       </section> <!-- comb openid & cc -->
       
 
@@ -483,6 +360,9 @@
           <li>tehdäänkö tässä uudelleen federoitu identiteetti? ei, koska rp:n ei tarvitse tuntea idp:tä etukäteen. idp takaa ainoastaan sen, että yhtä openid-tunnistetta voi käyttää vain yksi käyttäjä (who cannot be impersonated).</li>
           <li>porblem: sisäänkirjautuminen julkisella koneella</li>
           <!-- sometimes even experienced users fail to notice a scam, tupla-v bankofthevvest.com -->
+          <!-- Ei voida luottaa kenen tahansa määrittelemään PAPE-luokitukseen, 
+              pitää luottaa ensin tarjoajaan, 
+              vasta sen jälkeen voi luottaa tarjoajan kertomaan luokitukseen. -->
           
         </ul>
       </pre>
@@ -490,22 +370,6 @@
     </section>
     
     
-        <!--
-        <section style="display: none;">
-      
-          <h1>Studies on Phishing</h1>
-
-          Conclusively the standard security indicators in the browser context are not effective for a substantial fraction of end users.
-
-          "The popular anti-phishing method for OpenID is asking user to provide additional information when they sign up. When relaying party redirects the user to the OpenID provider, the information provided by the user appears firstly, [..] so user can identify whether it is a phishing site [..]" <cite>open_identity_management_saas_2009</cite>.
-          - Mutta entä jos phishing site ei kysy mitään?
-          - vs. "Dancing pigs"
-
-          OpenID is an open standard which supports decentralized architectures. OpenID 1.0 was originally developed in 2005 to allow lightweight authentication for blog post commenters in LiveJournal.com. [CITE] It is now deployed by a wide range of websites, particularly on sites having much user-generated content. As the user base has evolved, so has the need for new OpenID authentication features. Along the growth, the OpenID community has shared a common vision that OpenID could become and umbrella under which multiple technologies can fit. The intention has been to keep OpenID free and open so that no one company owned or controlled the specification <cite>openid_2.0_platform_2009</cite>.
-          -->
-          
-
-
       
     </article>
 

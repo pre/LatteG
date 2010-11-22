@@ -6,6 +6,9 @@
 \usepackage{color}
 \usepackage{graphicx}
 
+% rubber: module pdflatex
+% rubber: pdflatex.options -Ppdf -t a4
+
 \begin{document}
 
 \title{Designing a Phishing Resistant OpenID Identity Provider}
@@ -136,21 +139,19 @@ Teacher'' or ''dac-123 as University of Helsinki'' correspondingly.
       Phishing message in figure XX includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it does not lead where it is visibly pointing to. Instead the link leads to a phishing site illustrated in image XX where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking \cite{nordea_fsecure_2006, nordea_miller_2006}. The link also includes a unique identification code included in its URL which allows the attacker to identify the recipient. Because the sender can connect each identification code and email address, it is consequentially not necessary to ask for the customer's email address on the phishing site.
       
           
-% \begin{figure}
-%   \centering
-%   \includegraphics[]{images/nordea_phishing_email.jpg}
-%   \caption{Phishing email targeted against Nordea customers in 2006}
-%   
-%   \label{}
-% \end{figure}
-% 
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.6\textwidth]{images/nordea_phishing_website.png}
-%   \caption{Phishing site asking for Nordea customers' e-bank accounts in the year 2006}
-%   
-%   \label{}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/nordea_phishing_email.jpg}
+  \caption{Phishing email targeted against Nordea customers in 2006}
+  \label{fig:nordea_phishing_email}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/nordea_phishing_website.png}
+  \caption{Phishing site asking for Nordea customers' e-bank accounts in the year 2006}
+  \label{fig:nordea_phishing_website}
+\end{figure}
 
       
 \subsection{Deceptive Man-in-the-Middle Proxy}
@@ -198,21 +199,21 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website \cite{fsecure_webtrojan_2010}. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to ''download updates''. The ''update'' contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation as visualized in figure XX. 
 
         
-%   \begin{figure}
-%     \centering
-% \includegraphics[width=0.6\textwidth]{images/firefox_reported_attack_page_trojan.png}
-%     \caption{Imitated warning offers to download a trojan as an ''update''.}
-%     
-%     \label{}
-%   \end{figure}
-% 
-%   \begin{figure}
-%     \centering
-%     \includegraphics[width=0.6\textwidth]{images/firefox_reported_attack_page_authentic.png}
-%     \caption{Authentic browser warning does not offer anything to download.}
-%     
-%     \label{}
-%   \end{figure}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/firefox_reported_attack_page_trojan.png}
+    \caption{Imitated warning offers to download a trojan as an ''update''.}
+    
+    \label{fig:ff_malicious_warning}
+  \end{figure}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/firefox_reported_attack_page_authentic.png}
+    \caption{Authentic browser warning does not offer anything to download.}
+    
+    \label{fig:ff_authentic_warning}
+  \end{figure}
 
 
     Beating the dancing pigs \cite{schneier_secrets_and_lies_2000} seems to require either restrictive system administration, effective anti-virus software and software security education. Neither of them is in the scope of this thesis, hence, integrity of user's client software is left outside the scope of this thesis.
@@ -259,12 +260,12 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     OpenID Provider Authentication Policy Extension defines a schema for phishing-resistant authentication \cite{openid_2.0_pape_phishing_07} which requires usage of a certificate in addition to a password. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
 
         
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.6\textwidth]{images/openid_authentication_policy_examples.jpg}
-%   \caption{Examples of common authentication technologies and their mapping to the Authentication Policies defined in \cite{openid_2.0_pape_phishing_07} (Section 4).}    
-%   \label{}
-% \end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/openid_authentication_policy_examples.jpg}
+  \caption{Examples of common authentication technologies and their mapping to the Authentication Policies defined in \cite{openid_2.0_pape_phishing_07} (Section 4).}    
+  \label{fig:openid_policy_examples}
+\end{figure}
 
 
     Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private component of the user's certificate is stored in user's browser and is never sent on the communications channel. Capturing user's credentials would require the user deliberately send the private key file to an attacker or compromise the user's software security. However, as explained in chapter [REF trojans], integrity of user's software is out of our scope. 

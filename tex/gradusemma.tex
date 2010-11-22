@@ -33,18 +33,15 @@
 \mytableofcontents
 
 
-% latte.xsl says: \section
-\section{Introduction}       
-  Phishing is a form of online identity theft targeting to steal sensitive information from an end user 
-  \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}
-  . Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}
-  . The process usually involves a fraudulent web site imitating a specific authentic site. 
+\section{Introduction}
 
-  The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. A common way to lure someone to a fraudulent phishing site is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+    Phishing is a form of online identity theft targeting to steal sensitive information from an end user   \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}. The process usually involves a fraudulent web site imitating a specific authentic site. 
 
-        Studies of Dhamija et al. \cite{why_phishing_works_06} show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore phishing poses a risk that affects especially single sign-on systems. 
+    The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. A common way to lure someone to a fraudulent phishing site is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
 
-        Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing \cite{why_phishing_works_06}. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
+    Studies of Dhamija et al. \cite{why_phishing_works_06} show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore phishing poses a risk that affects especially single sign-on systems. 
+
+    Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing \cite{why_phishing_works_06}. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
 
       
     
@@ -287,3 +284,12 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
       Secondly, since OpenID provides a standardized authentication protocol for which several mature libraries exists. The details regarding the handling of certificates and authentication are outsourced to the identity provider. Hence, the service developers of the relying party need to apply only one authentication procedure. It is enough for relying party to trust the PAPE security level given by the identity provider. If the security level is insufficient, the user may be redirected to the identity provider for a more secure authentication.
       
       The identity provider guarantees only that one OpenID identifier is accessible only for one user who cannot be impersonated. A relying party does not necessarily need to know an OpenID provider beforehand. In some cases, for example when handling financial transactions, it might be recommended to allow identity providers only from a predefined selection including only providers who are known trustworthy. It seems that many relying parties already provide only a predefined selection of identity providers and don't allow an arbitrary OpenID identifier. Nevertheless, this is a compromise against the user-centric principles.
+      
+      
+      
+ \bibliographystyle{tktl}
+\bibliography{lahteet}
+
+\lastpage
+
+\end{document}

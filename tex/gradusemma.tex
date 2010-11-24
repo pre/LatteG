@@ -46,11 +46,10 @@
 
     Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing \cite{why_phishing_works_06}. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
 
-    % TODO: Myyntipuhe: antaa eväät gradun suunnitteluun, mitä tässä dokkarissa tulee
-      
-    
-\section{Authentication in the Web}
+    The focus of this paper is to define risks that phishing poses to web services. We then conclude that the combination of OpenID and client certificates could eliminate the risk for phishing. The use of client side certificates is relatively rare due to their inherent complexities and the fact that clients can only authenticate on machines which have the private certificate component installed \cite{owasp_tls_cheatsheet}. This aspect is addressed in my master's thesis for which this seminar paper serves as a primer. The goal is to design a service that could provide a practical and phishing resistant authentication for multiple internet services.
 
+
+\section{Authentication in the Web}
 
 
 \subsection{Concepts of Authentication and Authorization}
@@ -65,7 +64,7 @@ cases to basic concepts of ''principal, statement and channel''. If \emph{s}
 is a statement, for instance a request, then authentication answers the
 question ''Who said \emph{s}?'' with a principal. Likewise, if \emph{o} is an
 object, then authorization answers the question ''Who is trusted to access
-\emph{o} ?'' with a principal. A simple principal could for example be a
+\emph{o}?'' with a principal. A simple principal could for example be a
 person (''Peter''), a machine (''dac-123'') or a role (''Teacher''). A
 compound principal is build up of other principals such as ''Peter as
 Teacher'' or ''dac-123 as University of Helsinki'' correspondingly.
@@ -163,7 +162,6 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
     Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since the lack of knowledge and attention is a considerable factor in being susceptible to phishing \cite{why_phishing_works_06}, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
 
-%TODO: Blockquote
   \begin{quote}
     ''If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed.'' \cite{schneier_secrets_and_lies_2000}
   \end{quote}

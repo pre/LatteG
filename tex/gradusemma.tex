@@ -11,8 +11,8 @@
 
 \begin{document}
 
-\title{Designing a Phishing Resistant OpenID Identity Provider}
-\author{}
+\title{Phishing as a Risk for Web Authentication}
+\author{Petrus Repo}
 \date{\today}
 \level{Hajautettujen järjestelmien pro--gradu-seminaari}
 \maketitle
@@ -22,8 +22,8 @@
 
 \level{Seminaarityö}
 \faculty{Matemaattis-luonnontieteellinen}
-\department{Tietojenksittelytieteen laitos}
-\subject{Tietojenksittelytiede}
+\department{Tietojenkäsittelytieteen laitos}
+\subject{Tietojenkäsittelytiede}
 \numberofpagesinformation{\numberofpages\ sivua}
 
 \keywords{UTF-8, Ääkköset}
@@ -46,6 +46,7 @@
 
     Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing \cite{why_phishing_works_06}. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
 
+    % TODO: Myyntipuhe: antaa eväät gradun suunnitteluun, mitä tässä dokkarissa tulee
       
     
 \section{Authentication in the Web}
@@ -239,7 +240,7 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     % FIXME: Huono lainaus!
     Nevertheless, according to Schneier \cite{schneier_2factor_2005} [TODO: OISKO muitakin?] two-factor authentication \cite{per se} does not increase security as a whole if the weakest link is elsewhere. ''An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself.'' \cite{schneier_2factor_2005} As explained in chapter [REF: edellinen kpl], if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication does not provide any extra security. The user can provide a correct response to all challenges proposed by the authentic service, but since both the challenges and response go through a malicious third party, he has no way of knowing whether his request has been altered.
     
-    Let us assume a user is accessing a web bank service and he is fooled to a fraudulent imitation site. When the user creates a transaction, e.g. pay 10 &euro; to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site. 
+    Let us assume a user is accessing a web bank service and he is fooled to a fraudulent imitation site. When the user creates a transaction, e.g. pay 10 euros to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site. 
     % TODO: Kuva
 
     Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 \cite{google_2step_2010}. Google was cautious in their announcement which only promised to provide a ''more secure'' cloud authentication. They agree indirectly with Schneier \cite{schneier_2factor_2005} by stating that the improvement helps only on stolen passwords. According to Schneier, two-factor authentication works within some corporate networks and for local log-in, but it won't work for remote authentication over the Internet \cite{schneier_2factor_2005}. Implementing it as another layer of security will only result in a change of phishing strategies, because two-factor authentication mostly helps against passive eavesdropping, stolen passwords and offline password guessing.

@@ -26,10 +26,13 @@
 \subject{Tietojenkäsittelytiede}
 \numberofpagesinformation{\numberofpages\ sivua}
 
-\keywords{UTF-8, Ääkköset}
+\keywords{phishing, openid, client-certificates, pape}
 
 \begin{abstract}
-  Ääkkönen
+  Phishing is a form of online identity theft targeting to steal sensitive information from an end user   \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}. The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service.
+  
+  The focus of this paper is to define risks that phishing poses to web services. We then conclude that the combination of OpenID and client certificates could eliminate the risk for phishing. The use of client side certificates is relatively rare due to their inherent complexities and the fact that clients can only authenticate on machines which have the private certificate component installed \cite{owasp_tls_cheatsheet}. This aspect is addressed in my master's thesis for which this seminar paper serves as a primer. The goal is to design a service that could provide a practical and phishing resistant authentication for multiple internet services.
+
 \end{abstract}
 
 \setcounter{tocdepth}{3}
@@ -40,7 +43,7 @@
 
     Phishing is a form of online identity theft targeting to steal sensitive information from an end user   \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}. The process usually involves a fraudulent web site imitating a specific authentic site. 
 
-    The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. A common way to lure someone to a fraudulent phishing site is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend or a trusted social network, the more effectively it will work [CITE]. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+    The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. A common way to lure someone to a fraudulent phishing site is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend, a trusted social network or a company that the user has an existing relationship with, the more credible it will be \cite{suspectibility_to_phishing_2006}. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
 
     Studies of Dhamija \emph{et al.} \cite{why_phishing_works_06} show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore phishing poses a risk that affects especially single sign-on systems. 
 
@@ -81,8 +84,8 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
       Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
 
-      Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification [TODO: kuva!] for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a word included in a scrambled bitmap image. The motivation is to present a question which only a human is able to understand, although the actual answer is publicly known.
-
+      Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a word included in a scrambled bitmap image. The motivation is to present a question which only a human is able to understand, although the actual answer is publicly known.
+% TODO: Captcha-kuva
 
 
 \subsection{User-centric Identity}
@@ -91,20 +94,26 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
     An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is to dereference the identity address to discover and invoke the associated identity service \cite{openid_2.0_platform_2009}. XRI addresses have lately been deprecated \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Hence, this paper concentrates on URL based identities such as \emph{http://user.example.com} or \emph{http://example.com/user}.
 
-    A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user \cite{openid_2.0_platform_2009}. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed \cite{openid_2.0_platform_2009} both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services. [CITE: etsi]. It also suffers from problems that are discussed on chapter [REF: client certs].
+    A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user \cite{openid_2.0_platform_2009}. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed \cite{openid_2.0_platform_2009} both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services.
 
-        
-      
+
+
 \subsection{Authentication with OpenID}
 
-    OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) \cite{openid_2.0_platform_2009}. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. The authentication flow is illustrated in figure [REF/TODO: openid-flow] and described below.
+    OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) \cite{openid_2.0_platform_2009}. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. The authentication flow is illustrated in figure~\ref{fig:basic_openid_flow} and described below.
+
+     In order to begin the authentication process, the relying party asks the user for an OpenID identifier. After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it. When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the claimed OpenID identifier. After a successful authentication, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then authenticated and signed in to the relying party which is the service he originally wanted to access.
+
+     The principle of user-centric identity provides the user with a possibility of choosing an identity provider of his own. This is different from the principle of federated identity where a trusted third-party guarantees the person behind an identifier. A user-centric identity provider verifies only that only an authenticated user may prove the ownership for an identifier, that is, the person behind of an identifier is not necessarily guaranteed. This does not, however, usually pose a problem because a typical web service wants only to distinguish between different identifiers. Hence, it is enough to guarantee that there is only one owner behind a particular identifier.
+
+          \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
+            \caption{Basic OpenID Authentication Flow \cite{openid_2.0_platform_2009}}
+            \label{fig:basic_openid_flow}
+          \end{figure}
           
-     In order to begin the authentication process, the relying party asks the user for an OpenID identifier (step XX). After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it (step XX). When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the claimed OpenID identifier. After a successful authentication, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then authenticated and signed in to the relying party which is the service he originally wanted to access.
-
-     The principle of user-centric identity provides the user with a possibility of choosing an identity provider of his own. This is different from the principle of federated identity where a trusted third-party guarantees the person behind an identifier. A user-centric identity provider verifies only that only an authenticated user may prove the ownership for an identifier, that is, the person behind of an identifier is not necessarily guaranteed. This does not, however, usually pose a problem because a typical web service wants only to distinguish between different identifiers [CITE]. Hence, it is enough to guarantee that there is only one owner behind a particular identifier.
-
-        
-      
+          
 \section{Landscape of Phishing}
 
     It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks \cite{phishing_attacks_and_solutions_2007}. Dhamija 
@@ -131,12 +140,13 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
 
 \subsection{Deceptive Phishing Attacks}
-
+   \label{sec:visual_deception}
+   
     Several studies have shown \cite{visual_similarity_phishing_2008, why_phishing_works_06, suspectibility_to_phishing_2006} that humans are especially vulnerable to visual deception. Dhamija \emph{et al.} \cite{why_phishing_works_06} provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study, however, shows that some visual deception attacks can fool even the most sophisticated users. In order to ''design web browsers, websites and other tools to shield users from such attacks,'' it is necessary to ''understand which attack strategies are successful, and what proportion of users they fool.'' \cite{why_phishing_works_06}
 
-    The biggest Nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in figure XX to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled some of them will. Because each fooled bank account holder means money for the attackers, targeted phishing can be lucrative (criminal) business.
+    The biggest Nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in figure~\ref{fig:nordea_phishing_email} to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled some of them will. Because each fooled bank account holder means money for the attackers, targeted phishing can be lucrative (criminal) business.
 
-      Phishing message in figure XX includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it is an HTML tag whose \emph{href} attribute has a different address than what visibly shown in the message. Instead the link leads to a phishing site illustrated in image XX where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking \cite{nordea_fsecure_2006, nordea_miller_2006}. The link also includes a unique identification code included in its URL which allows the attacker to identify the recipient. Because the sender can connect each identification code and email address, it is consequentially not necessary to ask for the customer's email address on the phishing site.
+      Phishing message in figure~\ref{fig:nordea_phishing_email} includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it is an HTML tag whose \emph{href} attribute has a different address than what visibly shown in the message. Instead the link leads to a phishing site illustrated in figure~\ref{fig:nordea_phishing_website} where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking \cite{nordea_fsecure_2006, nordea_miller_2006}. The link also includes a unique identification code included in its URL which allows the attacker to identify the recipient. Because the sender can connect each identification code and email address, it is consequentially not necessary to ask for the customer's email address on the phishing site.
       
           
 \begin{figure}
@@ -155,14 +165,17 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
       
 \subsection{Deceptive Man-in-the-Middle Proxy}
+  \label{sec:man_in_the_middle}
 
     Active phishing is more sophisticated and has a bigger potential for causing trouble than above examples of passive attacks. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle proxy that communicates interactively with the site which it imitates. A successful man-in-the-middle could allow bypassing of all security measures protecting the authentication process \cite{beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06}: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
 
-    Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies \cite{why_phishing_works_06, suspectibility_to_phishing_2006}[, CITE, CITE] show that users can't be protected using only a technical approach. For example, the Mozilla Security Reviewers' Guide \cite{mozilla_security_guide_2010} states: ''Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible.'' However, user can typically override the browser's protective measures.
+    % TODO: [, CITE, CITE]  "studies show" -kohtaan
+    Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies \cite{why_phishing_works_06, suspectibility_to_phishing_2006} show that users can't be protected using only a technical approach. For example, the Mozilla Security Reviewers' Guide \cite{mozilla_security_guide_2010} states: ''Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible.'' However, user can typically override the browser's protective measures.
 
     Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since the lack of knowledge and attention is a considerable factor in being susceptible to phishing \cite{why_phishing_works_06}, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
 
   \begin{quote}
+    \label{quote:dancing_pigs}
     ''If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed.'' \cite{schneier_secrets_and_lies_2000}
   \end{quote}
           
@@ -185,7 +198,7 @@ to \emph{www.nordea.com} or that a URL \emph{http://www.microsoft.com:login.asp@
 is originated from \emph{www.microsoft.com} instead of \emph{62.236.117.4}. 
 Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate organizations further confused our participants by hosting secure pages with third parties, where the domain name does not match the brand name.''
         
-    Security is often a secondary goal \cite{why_phishing_works_06}, even though security cannot be applied independently or afterwards \cite{schneier_secrets_and_lies_2000, lampson_distributed_1992}. Even if users have the knowledge described above and can detect visual deception described in chapter [REF], they may still be deceived if they fail to notice security indicators or the absence of them \cite{why_phishing_works_06}. The Firefox browser shows several indicators for SSL protected pages, but there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist \cite{why_phishing_works_06}.
+    Security is often a secondary goal \cite{why_phishing_works_06}, even though security cannot be applied independently or afterwards \cite{schneier_secrets_and_lies_2000, lampson_distributed_1992}. Even if users have the knowledge described above and can detect visual deception described in chapter~\ref{sec:visual_deception}, they may still be deceived if they fail to notice security indicators or the absence of them \cite{why_phishing_works_06}. The Firefox browser shows several indicators for SSL protected pages, but there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist \cite{why_phishing_works_06}.
         
     Dhamija \emph{et al.} conclude \cite{why_phishing_works_06} that ''even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website.'' Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants in the study \cite{why_phishing_works_06}. 23\% of the participants ignored all security indicators and cues in the browser's status bar and address bar. The study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija \emph{et al.} point out that security indicators should alert users of an untrusted state -- in addition to have indicators appear under trusted conditions \cite{why_phishing_works_06}. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
         
@@ -193,10 +206,11 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     
 % latte.xsl says: \subsection
 \subsection{Trojan-based Attacks}
+  \label{sec:trojans}
+  
+  ''Game Over'' could be used to describe getting infected by a trojan. Uninvited code or a program executed without user's actual permission is called a trojan. The victim is usually asked if he wishes to install a particular program. As stated in the quote about dancing pigs in page~\pageref{quote:dancing_pigs} and studied in \cite{why_phishing_works_06}, the victim usually does not bother reading any warnings.
 
-  ''Game Over'' could be used to describe getting infected by a trojan. Uninvited code or a program executed without user's actual permission is called a trojan. The victim is usually asked if he wishes to install a particular program. As explained previously in the quote about dancing pigs [REF: sivunumero] and studied in \cite{why_phishing_works_06}, the victim usually does not bother reading any warnings.
-
-    Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website \cite{fsecure_webtrojan_2010}. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to ''download updates''. The ''update'' contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation as visualized in figure XX. 
+    Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website \cite{fsecure_webtrojan_2010}. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to ''download updates''. The ''update'' contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation. 
 
         
   \begin{figure}
@@ -215,8 +229,8 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     \label{fig:ff_authentic_warning}
   \end{figure}
 
-
-    Beating the dancing pigs \cite{schneier_secrets_and_lies_2000} seems to require either restrictive system administration, effective anti-virus software and software security education [CITE]. Neither of them is in the scope of this thesis, hence, integrity of user's client software is left outside the scope of this thesis.
+    % TODO: Cite, cite, cite ....
+    Beating the dancing pigs \cite{schneier_secrets_and_lies_2000} seems to require either restrictive system administration, effective anti-virus software and software security education. Neither of them is in the scope of this thesis, hence, integrity of user's client software is left outside the scope of this thesis.
 
       
       
@@ -224,9 +238,10 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     
 \section{Phishing Resistant Authentication Process}
 
-    A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server \cite{phishing_attacks_and_solutions_2007}. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication \cite{NIST_SP800-63, schneier_2factor_2005, google_2step_2010}[CITE, CITE] on the application level.
+   % [CITE, CITE]
+    A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server \cite{phishing_attacks_and_solutions_2007}. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication \cite{NIST_SP800-63, schneier_2factor_2005, google_2step_2010} on the application level.
 
-    At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists \cite{visual_similarity_phishing_2008}. These blacklists store a set of reported phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting it. However, as described previously in chapter [REF], this approach can also be vulnerable to visual deception.
+    At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists \cite{visual_similarity_phishing_2008}. These blacklists store a set of reported phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting it. However, as described previously in chapter~\ref{sec:trojans}, this approach can also be vulnerable to visual deception.
 
 
 
@@ -237,7 +252,8 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
     Schneier \cite{schneier_2factor_2005} disagrees with the added security about two-step verification. He states that ''it solves the security problems we had 10 years ago, not the security problems we have today.'' Let us think that an internet bank service, such as described in the previous chapter, sends a challenge to the user's phone number via an SMS message and expects a reply via SMS. If all bank customers are expected to have a cellphone, then this adds a two-factor authentication without extra hardware. The verification message is also transferred over another communications channel, which makes eavesdropping significantly more difficult.
 
     % FIXME: Huono lainaus!
-    Nevertheless, according to Schneier \cite{schneier_2factor_2005} [TODO: OISKO muitakin?] two-factor authentication \emph{per se} does not increase security as a whole if the weakest link is elsewhere. ''An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself.'' \cite{schneier_2factor_2005} As explained in chapter [REF: edellinen kpl], if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication does not provide any extra security. The user can provide a correct response to all challenges proposed by the authentic service, but since both the challenges and response go through a malicious third party, he has no way of knowing whether his request has been altered.
+    % TODO: OISKO muitakin kuin Schneierin essee?
+    Nevertheless, according to Schneier \cite{schneier_2factor_2005} two-factor authentication \emph{per se} does not increase security as a whole if the weakest link is elsewhere. ''An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself.'' \cite{schneier_2factor_2005} As explained in chapter~\ref{sec:man_in_the_middle}, if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication does not provide any extra security. The user can provide a correct response to all challenges proposed by the authentic service, but since both the challenges and response go through a malicious third party, he has no way of knowing whether his request has been altered.
     
     Let us assume a user is accessing a web bank service and he is fooled to a fraudulent imitation site. When the user creates a transaction, e.g. pay 10 euros to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site. 
     % TODO: Kuva
@@ -249,7 +265,9 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
 \subsection{Quality of OpenID Authentication}
 
 
-   While being agnostic about the person behind an OpenID identifier is sufficient in many use cases, it is not viable for all services. For example, it is not recommended to use an OpenID identifier authenticated only by a password to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party \cite{yahoo_openid_bestpractices_2010}. In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) \cite{openid_2.0_specification_07, openid_2.0_pape_07}[CITE]. Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID authentication is appropriate for a particular use case. The NIST Special Publication 800-63 \cite{NIST_SP800-63} defines a set of Assurance Levels from 1 to 4 which may be used by the identity provider in communication with the relying party. There exists also a level 0 which is used to signify that the identity provider has verified the owner of the OpenID identifier, but authentication did not meet the requirements of Level 1.
+   While being agnostic about the person behind an OpenID identifier is sufficient in many use cases, it is not viable for all services. For example, it is not recommended to use an OpenID identifier authenticated only by a password to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party \cite{yahoo_openid_bestpractices_2010}. In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) \cite{openid_2.0_specification_07, openid_2.0_pape_07}. 
+
+   Employing PAPE allows a relying party to detect and decide whether the quality of an OpenID authentication is appropriate for a particular use case. The NIST Special Publication 800-63 \cite{NIST_SP800-63} defines a set of Assurance Levels from 1 to 4 which may be used by the identity provider in communication with the relying party. There exists also a level 0 which is used to signify that the identity provider has verified the owner of the OpenID identifier, but authentication did not meet the requirements of Level 1.
 
    For example Yahoo! OpenID assertions are marked as NIST Auth Level 0 to indicate that they ''should not be used to authorize any transaction of value, including, but not limited to, financial transactions or accessing sensitive information, [..]'' \cite{yahoo_openid_bestpractices_2010}. In that case Yahoo! recommends that the relying party implement additional factors of authentication. However, this contradicts with the goal of delegating authentication procedures from the relying party to the identity provider.
    % TODO: Etsi google, facebook jne openid bestpractices viitteeksi edelliseen!          
@@ -261,7 +279,7 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
 
     Delegating the authentication to the identity provider as a whole implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability to handle transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
 
-    OpenID provider authentication policy extension defines a schema for phishing-resistant authentication \cite{openid_2.0_pape_07} which requires usage of a certificate in addition to a password [REF: TAULUKKO]. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
+    OpenID provider authentication policy extension defines a schema for phishing-resistant authentication \cite{openid_2.0_pape_07}. Phishing-resistan schema requires the usage of a certificate in addition to a password as illustrated in figure~\ref{fig:openid_policy_examples}. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate). 
 
     % TODO: Tähän oma kappale jossa selitetään ero server & client sertifikaateista 
     
@@ -274,7 +292,7 @@ Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate 
 \end{figure}
 
 
-    Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private component of the user's certificate is stored in user's browser and is never sent on the communications channel. Capturing user's credentials would require the user deliberately send the private key file to an attacker or a compromise of the user's software security. However, as explained in chapter [REF trojans], integrity of user's software is out of our scope. 
+    Due to the nature of asymmetric encryption, certificates also eliminate the risk of the user accidentally giving his credentials to a fraudulent site. The private component of the user's certificate is stored in user's browser and is never sent on the communications channel. Capturing user's credentials would require the user deliberately send the private key file to an attacker or a compromise of the user's software security. However, as explained in chapter~\ref{sec:trojans}, integrity of user's software is out of our scope. 
 
       Having one identity provider providing the public component for the certificate for multiple services is also a convenience for the user. Whenever the user wants to change his certificate, e.g. when the old one expires, he needs to update the public component only for the identity provider. This has an advantage over the relying party storing anything: if a relying party had a credential storage of its own, the public component of the certificate would need to be individually updated to each.
 

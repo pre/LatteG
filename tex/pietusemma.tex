@@ -47,11 +47,14 @@ Jos \emph{s} on väite, autentikointi vastaa kysymykseen ''Kuka sanoi \emph{s}?'
 Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kysymykseen ''Kenellä on pääsy kohteeseen \emph{o}?'' \cite{lampson_distributed_1992}.
 
 
-Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{wikipedia:Challenge-response_authentication}. 
+Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. 
+
+Haaste voi olla satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
 
 Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasanat ovat yleisin tapa tunnistautua palveluihin webissä.
+Muita yleisiä haaste--vastine-autentikoinnin sovelluksia ovat esimerkiksi spämmiesto CAPTCHA-tunnistuksella.
 
-Muita yleisiä haaste--vastine-autentikoinnin sovelluksia ovat esimerkiksi spämmiesto CAPTCHA-tunnistuksella tai kysyen luonnollisella kiellä ''Oletko robotti? -En.''.
+Tämän paperin yhteydessä tiedonsiirtokanava oletetaan turvalliseksi, eikä yhteyden salakuuntelua käsitellä riskinä.
 
 
 \subsection{Kaksiosainen autentikointi}
@@ -63,21 +66,22 @@ MITM esittely.
 Tämän kirjoituksen puitteissa oletetaan käyttäjän yhteys ja päätelaite turvallisiksi.
 
 
-\subsection{Sertifikaatit}
+\subsection{Sertifikaatit ja julkisen avaimen infrastruktuuri}
 
-HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Tätä kutsutaan jäljempänä HTTPS-yhteydeksi, koska kirjoituksen puitteissa valittu tekninen HTTPS-toteutus ei ole oleellista.
+Julkisen avaimen infrastruktuuri mahdollistaa kahden osapuolen kommunikoimisen ilman yhteisesti jaettua salaisuutta. 
+Salaukseen käytetään kahta avainta, jotka on luotu etukäteen ja samanaikaisesti. Toinen avaimista on julkinen ja toinen yksityinen. Kummalla tahansa avaimella salattu tieto on mahdollista purkaa avainparin toisella avaimella. Tämän johdosta tietyllä julkisella avaimella salattu tieto on mahdollista purkaa vain ja ainoastaan sitä vastaavalla yksityisellä avaimella -- ja päinvastoin. Kryptaus epäsymmetrisellä algoritmilla on merkittävästä hitaampaa kuin symmetrisellä, minkä johdosta ne eivät sovellu laajan tietomassan salaamiseen \cite{nist_pki_intro, NIST_SP800-63}. Sen sijaan niitä käytetään muun muassa autentikoinnissa ja tiedon yhtenäisyyden varmistamisessa.
 
-HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti.
+Toiminnan perusteena on matemaattinen todennäköisyys. Sen perusteella julkista avainta vastaavaa yksityistä avainta ei ole käytännössä mahdollista arvata, koska yksityisen avaimen laskeminen väkisin vaatisi mahdottoman määrän laksenta-aikaa. Samaan todennäköisyyteen perustuu, että kaksi satunnaisesti generoitua avainparia eivät käytännössä koskaan ole identtiset.
+
+HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Näin suojattua HTTP-yhteyttä kutsutaan jäljempänä HTTPS-yhteydeksi. HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti. Tähän luottamukseen liittyy väärinkäytösriski \cite{certified_lies, observatory_for_the_ssliverse}, jota emme kuitenkaan käsittele tämän paperin yhteydessä tarkemmin.
 
 Sertifikaatilla on julkinen komponentti ja yksityinen komponentti. 
-Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa (\emph{public-key infrastructure}).
-Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntemalla on mahdollista osoittaa olevansa julkista komponenttia esittävä taho.
-
-Luotetun CA:n myöntämällä sertifikaatilla kohdepalvelin osoittaa olevansa domain-osoitettansa vastaava palvelu. 
+Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa (\emph{public-key infrastructure}) \cite{nist_pki_intro, henry_story_foaf_ssl}.
+Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntemalla on mahdollista osoittaa olevansa julkista komponenttia vastaava taho. Luotetun CA:n myöntämällä sertifikaatilla kohdepalvelin osoittaa olevansa domain-osoitettansa vastaava palvelu \cite{authenticated_names}.
 Suojattu HTTPS-yhteys neuvotellaan palvelimen ja käyttäjän selaimen välille palvelimen sertifikaatin sisältämien tunnistautumistietojen perusteella.
 
-Tavanomaisessa HTTPS-yhteydessä ainoastaan kohdepalvelimelta edellytetään sertifikaattia, koska käyttäjä tunnistetaan muilla keinoin -- kuten käyttäjätunnusta vastaavalla salasanalla. 
-Kuitenkin myös käyttäjä voidaan tunnistaa sertifikaatilla. 
+Tavanomaisessa HTTPS-yhteydessä ainoastaan kohdepalvelimelta edellytetään sertifikaattia, koska käyttäjä tunnistetaan muilla keinoin -- kuten käyttäjätunnuksella ja salasanalla. 
+Kuitenkin myös käyttäjä on mahdollista tunnistaa sertifikaatilla. Tällaista tunnistautumistapaa kutsutaan asiakassertifikaatiksi (\emph{client-certificate}) \cite{ henry_story_foaf_ssl }.
 Tällöin suojattu yhteys neuvotellaan sekä palvelimen että käyttäjän sertifikaatin sisältämien tunnistutumistietojen perusteella. 
 Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 
@@ -86,6 +90,7 @@ Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 \subsection{Palvelukohtainen oma salasana}
 \subsection{OpenID}
 \subsection{OAuth}
+
 \subsection{WebID}
 
 \section{OpenID autentikointistandardina}

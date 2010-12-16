@@ -99,8 +99,8 @@ Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Fl
 
 \section{Menetelmiä autentikoitumiseen webissä}
 
-
 \subsection{OpenID}
+OpenID pyrkii ratkaisemaan 
 \subsection{OAuth}
 \subsection{WebID}
 \subsection{OpenID autentikointistandardina}
@@ -109,28 +109,32 @@ Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Fl
 \subsubsection{Huonoja puolia}
 \subsubsection{Näkemys OpenID:stä}
 
-\section{Salasanoista ei päästä eroon}
+\section{Salasanat ovat vallitseva käytäntö}
 
-Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, jakaminen, vaihtamattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
+Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, jakaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
 
-Helposti muistettavat salasanat ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen valitussa sanakirjassa olevia sanoja sekä niiden muunnoksia \cite{passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä sanakirjahyökkäyksen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen useassa palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08}.
+Helposti muistettavat salasanat ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä sanakirjahyökkäyksen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen useassa palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08}.
 
-Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15 \% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan \cite{microsoft_pw_survey_04} neljäsosa (27 \%) britannialaisista unohtavat salasanansa säännöllisesti. Lähes puolet 46 \% käyttäjistä kertoivat helpon muistettavuuden ja 71 \% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein lapulle näppäimistön alle \cite{pw_auth_system_perspective_08}.
+Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15 \% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27 \%) britannialaisista unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Lähes puolet 46 \% käyttäjistä kertoivat helpon muistettavuuden ja 71 \% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
+
+ % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
+ % - salasanaa jaetaan
+ % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
+ % - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
 
 
+\subsection{Salasanoista ei päästä eroon}
 
- - käyttäjät unohtaa salasanojansa
-   - table 2 \cite{study_of_passwords_07} 
+  \begin{quote}
+      ''The fool saith, 'Put not all thy eggs in one basket' ... 
+      but the wise man saith, 'Put all your eggs in one basket, and watch that basket!' ''
+      \\--- Mark Twain \cite{twain_eggs_1894}
+  \end {quote}
 
- - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
- - salasanaa jaetaan
- - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
- - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
- - Mother's maiden name and favorite soccer team rank as top password choices among Brits
-  Microsoft UK Password Survey
-   http://passwordresearch.com/stats/study85.html
+Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole mahdollista autentikoitua sertifikaatilla jokaiseen käytettyyn pavleluun. Edellä todetun perusteella jokaiseen palveluun tulisi olla itsenäinen salasana. Itsenäisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa sekä montaa erilaista vahvaa salasanaa että sitä, mihin palveluun mikäkin salasana käy, tarvitaan salasanojen hallintaa.
+
+
    
-   Mark Twain - munat samaan koriin
    
 \subsection{Katsaus olemassaoleviin toteutuksiin}
 \subsection{Vaatimukset pilviyhteensopivalle autentikoinnille}

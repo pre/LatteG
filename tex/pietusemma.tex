@@ -87,7 +87,8 @@ Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 
 
 \subsection{Salasanat}
-
+ \label{sec:passwords}
+ 
 Salasanat ovat yleisin tapa tunnistautua palveluihin webissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
 Salasanan turvallisuus riippuu uniikkiuden lisäksi siitä, kuinka vaikea se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjä käyttää lyhyttä ja helppoa salasanaa kaikissa käyttämissänsä palveluissa.
 
@@ -109,6 +110,28 @@ Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Fl
 \subsubsection{Näkemys OpenID:stä}
 
 \section{Salasanoista ei päästä eroon}
+
+Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, jakaminen, vaihtamattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
+
+Helposti muistettavat salasanat ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen valitussa sanakirjassa olevia sanoja sekä niiden muunnoksia \cite{passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä sanakirjahyökkäyksen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen useassa palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08}.
+
+Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15 \% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan \cite{microsoft_pw_survey_04} neljäsosa (27 \%) britannialaisista unohtavat salasanansa säännöllisesti. Lähes puolet 46 \% käyttäjistä kertoivat helpon muistettavuuden ja 71 \% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein lapulle näppäimistön alle \cite{pw_auth_system_perspective_08}.
+
+
+
+ - käyttäjät unohtaa salasanojansa
+   - table 2 \cite{study_of_passwords_07} 
+
+ - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
+ - salasanaa jaetaan
+ - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
+ - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
+ - Mother's maiden name and favorite soccer team rank as top password choices among Brits
+  Microsoft UK Password Survey
+   http://passwordresearch.com/stats/study85.html
+   
+   Mark Twain - munat samaan koriin
+   
 \subsection{Katsaus olemassaoleviin toteutuksiin}
 \subsection{Vaatimukset pilviyhteensopivalle autentikoinnille}
 \subsection{Rajoitteet}

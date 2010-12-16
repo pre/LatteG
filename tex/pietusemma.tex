@@ -51,7 +51,7 @@ Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kuts
 
 Haaste voi olla satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
 
-Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasanat ovat yleisin tapa tunnistautua palveluihin webissä.
+Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. 
 Muita yleisiä haaste--vastine-autentikoinnin sovelluksia ovat esimerkiksi spämmiesto CAPTCHA-tunnistuksella.
 
 Tämän paperin yhteydessä tiedonsiirtokanava oletetaan turvalliseksi, eikä yhteyden salakuuntelua käsitellä riskinä.
@@ -86,23 +86,48 @@ Tällöin suojattu yhteys neuvotellaan sekä palvelimen että käyttäjän serti
 Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 
 
+\subsection{Salasanat}
+
+Salasanat ovat yleisin tapa tunnistautua palveluihin webissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
+Salasanan turvallisuus riippuu uniikkiuden lisäksi siitä, kuinka vaikea se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjä käyttää lyhyttä ja helppoa salasanaa kaikissa käyttämissänsä palveluissa.
+
+Saman salasanan käyttäminen monessa palvelussa on vaarallinen riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}. 
+
+Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
+
+
 \section{Menetelmiä autentikoitumiseen webissä}
-\subsection{Palvelukohtainen oma salasana}
+
+
 \subsection{OpenID}
 \subsection{OAuth}
-
 \subsection{WebID}
-
-\section{OpenID autentikointistandardina}
-\subsection{Periaate ja tavoite}
-\subsection{Hyviä puolia}
-\subsection{Huonoja puolia}
-\subsection{Näkemys OpenID:stä}
+\subsection{OpenID autentikointistandardina}
+\subsubsection{Periaate ja tavoite}
+\subsubsection{Hyviä puolia}
+\subsubsection{Huonoja puolia}
+\subsubsection{Näkemys OpenID:stä}
 
 \section{Salasanoista ei päästä eroon}
 \subsection{Katsaus olemassaoleviin toteutuksiin}
 \subsection{Vaatimukset pilviyhteensopivalle autentikoinnille}
-
+\subsection{Rajoitteet}
+ - Jokaiselle selaimelle oma plugin
+ - Spyware ja MITM. 
+ - DNS: Oletetaan että DNS palauttaa oikean IP osoitteen
+ - Fokuksen varastaminen
+ 
+% \section{Related Work}
+%   Kamouflage: loss-resistant password management
+%   http://portal.acm.org/citation.cfm?id=1888881.1888904&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+%   
+%   Secure passwords through enhanced hashing
+%   http://portal.acm.org/citation.cfm?id=1855698.1855705&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+%   
+%   Passpet: convenient password management and phishing protection
+%   http://portal.acm.org/citation.cfm?id=1143120.1143126&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+  
+  
 \section{Jatkotutkimuksia}
 \section{Yhteenveto}
 

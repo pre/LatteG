@@ -100,22 +100,36 @@ Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Fl
 \section{Menetelmiä autentikoitumiseen webissä}
 
 \subsection{OpenID}
+
 OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
+Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimitaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
+
 OpenID pyrkii toteuttamaan ''käyttäjäkeskeisen identiteetin infrastruktuurin'', jossa käyttäjällä on valinnanvapaus käyttämänsä identiteetintarjoajan suhteen \cite{openid_2.0_platform_2009}. OpenID:n spesifikaatio määrittelee kaksi käyttäjäkeskeisen identiteetin arkkitehtuuria: osoiteperusteisen (\emph{address-based}) ja korttiperusteisen (\emph{card-based}) identiteetin \cite{openid_2.0_specification_07}. 
 
 Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digitaalinen osoite. Käyttäjän tunnistautuminen tapahtuu todistamalla omistajuus esitettyyn osoitteeseen. Osoiteperusteisen OpenID-identiteetin käyttäjätunnus voi olla muodostettu URL- tai XRI-osoitteesta. XRI-osoitteiden käyttäminen on äskettäin äänestetty OASIS-standardointikomiteassa vanhentuneeksi eikä XRI-osoitteiden hyödyntämistä enää suositella \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Tämän johdosta osoiteperusteisessa identiteetissä käytetään vain URL:ään perustuvia osoitteita kuten \emph{http://user.example.com} or \emph{http://example.com/user}.
 
 Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti tai ne voivat täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
 
+      \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
+        \caption{Basic OpenID Authentication Flow \cite{openid_2.0_platform_2009}}
+        \label{fig:basic_openid_flow}
+      \end{figure}
+
+% TODO: 
+% OpenID:n autentikointiprosessin ensimmäinen vaihe on osoitetteeseen assosioidun identiteetintarjoajan löytäminen.
+
 
 \subsubsection{OpenID:n hyviä puolia}
 
 Käy
-OpenID:n autentikointiprosessin ensimmäinen vaihe on osoitetteeseen assosioidun identiteetintarjoajan löytäminen.
 
 palvelun ei tarvitse säilyttää salasanoja
 
 \subsection{OpenID:n heikkouksia}
+
+OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_security_story, cameron_infocard_07, three_types_of_openid_ids_10}, joista merkittävimmät on selitetty jäljempänä olevassa listauksessa.
 
 \begin{description}
 
@@ -139,6 +153,12 @@ palvelun ei tarvitse säilyttää salasanoja
       Jos identiteetintarjoaja lopettaa toimintansa pysyvästi, siihen kytketyt tunnisteet eivät ole enää 
       käytettävissä. Ongelmaa on mahdollista kiertää kytkemällä palveluihin useampi eri OpenID-identiteetti. 
       Tämä kuitenkin lisää monimutkaisuutta, kun käytettäviä palveluja ja identiteettejä on useita.
+
+  \item[5. Tunnisteiden kierrättäminen] \hfill \\
+    Identiteetintarjoaja ei saisi antaa kerran käytössä ollutta OpenID-osoitetta enää ikinä kenellekään.
+    Jos käyttäjä poistaa OpenID-identiteettinsä identiteetintarjoajalta, käyttäjän täytyy poistaa sitä vastava 
+    OpenID-osoite
+    myös \emph{kaikista} palveluista, joissa sitä on käytetty.
    
   \item[5. Luottamus DNS-protokollaan] \hfill \\
     OpenID-protokollan mukaisesti kohdepalvelu ei tunne käyttäjän identiteetintarjoajaa etukäteen.    

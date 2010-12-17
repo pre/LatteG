@@ -73,7 +73,7 @@ Salaukseen käytetään kahta avainta, jotka on luotu etukäteen ja samanaikaise
 
 Toiminnan perusteena on matemaattinen todennäköisyys. Sen perusteella julkista avainta vastaavaa yksityistä avainta ei ole käytännössä mahdollista arvata, koska yksityisen avaimen laskeminen väkisin vaatisi mahdottoman määrän laksenta-aikaa. Samaan todennäköisyyteen perustuu, että kaksi satunnaisesti generoitua avainparia eivät käytännössä koskaan ole identtiset.
 
-HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Näin suojattua HTTP-yhteyttä kutsutaan jäljempänä HTTPS-yhteydeksi. HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti. Tähän luottamukseen liittyy väärinkäytösriski \cite{certified_lies, observatory_for_the_ssliverse}, jota emme kuitenkaan käsittele tämän paperin yhteydessä tarkemmin.
+HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Näin suojattua HTTP-yhteyttä kutsutaan jäljempänä HTTPS-yhteydeksi. HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti. Tähän luottamukseen liittyy väärinkäytösriski \cite{certified_lies, eff_ssliverse}, jota emme kuitenkaan käsittele tämän paperin yhteydessä tarkemmin.
 
 Sertifikaatilla on julkinen komponentti ja yksityinen komponentti. 
 Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa (\emph{public-key infrastructure}) \cite{nist_pki_intro, henry_story_foaf_ssl}.
@@ -81,7 +81,7 @@ Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntema
 Suojattu HTTPS-yhteys neuvotellaan palvelimen ja käyttäjän selaimen välille palvelimen sertifikaatin sisältämien tunnistautumistietojen perusteella.
 
 Tavanomaisessa HTTPS-yhteydessä ainoastaan kohdepalvelimelta edellytetään sertifikaattia, koska käyttäjä tunnistetaan muilla keinoin -- kuten käyttäjätunnuksella ja salasanalla. 
-Kuitenkin myös käyttäjä on mahdollista tunnistaa sertifikaatilla. Tällaista tunnistautumistapaa kutsutaan asiakassertifikaatiksi (\emph{client-certificate}) \cite{ henry_story_foaf_ssl }.
+Kuitenkin myös käyttäjä on mahdollista tunnistaa sertifikaatilla. Tällaista tunnistautumistapaa kutsutaan asiakassertifikaatiksi (\emph{client-certificate}) \cite{henry_story_foaf_ssl}.
 Tällöin suojattu yhteys neuvotellaan sekä palvelimen että käyttäjän sertifikaatin sisältämien tunnistutumistietojen perusteella. 
 Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 
@@ -151,8 +151,9 @@ Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten k
 
 \end{itemize}
 
+Tavoitteet pilviyhteensopivalle autentikoinnille
 
-\begin{Tavoitteet pilviyhteensopivalle autentikoinnille:}
+\begin{itemize}
 
   \item{Käyttäjä pääsee käyttämiinsä web-palveluihin miltä tahansa työasemalta.}
   \item{Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.}

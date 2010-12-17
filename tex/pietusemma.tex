@@ -97,9 +97,7 @@ Saman salasanan käyttäminen monessa palvelussa on vaarallinen riski. Jos käyt
 Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
 
-\section{Menetelmiä autentikoitumiseen webissä}
-
-\subsection{OpenID}
+\section{OpenID autentikoitumismenetelmänä}
 
 OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
 Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimitaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
@@ -117,15 +115,6 @@ Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token})
         \label{fig:basic_openid_flow}
       \end{figure}
 
-% TODO: 
-% OpenID:n autentikointiprosessin ensimmäinen vaihe on osoitetteeseen assosioidun identiteetintarjoajan löytäminen.
-
-
-\subsubsection{OpenID:n hyviä puolia}
-
-Käy
-
-palvelun ei tarvitse säilyttää salasanoja
 
 \subsection{OpenID:n heikkouksia}
 
@@ -174,23 +163,37 @@ OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_
 \end{description}
 
    
-\subsection{Hyviä puolia}
+\subsection{Katsaus mahdollisuuksiin}
 
-\subsection{Näkemys OpenID:stä}
+OpenID-standardi tarjoaa laajalle levinneen autentikointiprotokollan, jolle on tarjolla laaja ja kypsä kirjastotuki \cite{openid_libraries}. Selvin OpenID:n hyöty on saman käyttäjätunnuksen käyttäminen monessa palvelussa ilman salasanan jakamista näiden palvelujen kesken. Koska käyttäjän itsensä tarvitsee autentikoitua ainoastaan identiteetintarjoajalle -- yhteen palveluun -- voidaan tämä nimenomainen sisäänkirjautuminen tehdä mahdollisimman turvalliseksi \cite{blackhat_openid_security_story}. Salasanan sijaan tai sen lisäksi käyttäjältä voidaan edellyttää korttiperusteista identiteettiä \cite{cameron_infocard_07} tai sertifikaattia \cite{henry_story_foaf_ssl}. OpenID:n saavutuksena on, että vaihtoehtoinen tai rinnakkainen autentikoitumismenetelmä riittää toteuttaa ainoastaan yhteen palveluun eli identiteetintarjoajaan.
+
+OpenID vähentää salasanojen kokonaismäärää, mutta se ei auta pääsemään eroon kaikista palvelukohtaisista
+salasanoista. Esimerkiksi kirjoittajalla on tällä hetkellä noin 80 eri salasanaa 60 eri web-palveluun. Jos
+OpenID olisi tuettu 50~\%:ssa näissä palveluissa, salasanoja olisi edelleen monta kymmentä. Yleinen tapa
+OpenID:n soveltamiselle on hyväksyä ainoastaan ennalta määritetty joukko OpenID-identiteetintarjoajia
+\cite{openid_seven_sites_mailinglist, openid_tech_or_movement}, joihin luetaan yleensä ainoastaan suuret
+palveluntarjoajat, jotka hyväksyvät ainoastaan itsensä myöntämän OpenID-tunnisteen. Tämän seurauksena
+käyttäjällä on väistämättä monta OpenID-identiteettiä, jolloin käyttäjällä on myös tarve monelle eri
+salasanalle.
+
+
+
 \subsection{WebID}
+
+\cite{webid_home}
+
 
 
 \section{Salasanat ovat vallitseva käytäntö}
   \label{sec:passwords_de_facto}
 
-Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
+Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Lisäksi salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
 
 Helposti muistettavat salasanat, kuten luonnollisen kielen sanat, niiden johdannaiset tai nimet, ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{users_are_not_the_enemy_99, passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä väkisinarvaamisen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
 
 Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Lähes puolet 46~\% käyttäjistä kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
 
  % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
- % - salasanaa jaetaan
  % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
  % - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
  % - twitter adminin salasana murrettu sanakirja hyökkäyksellä, seurauksena lukuisia suosittuja käyttäjäprofiileja kaapattiin: http://www.codinghorror.com/blog/2009/01/dictionary-attacks-101.html

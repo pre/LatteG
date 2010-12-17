@@ -111,9 +111,9 @@ OpenID pyrkii ratkaisemaan
 
 \section{Salasanat ovat vallitseva käytäntö}
 
-Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, jakaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
+Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken. Salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä internetin käyttäjien kesken \cite{study_of_passwords_07, pw_auth_system_perspective_08, passpet_06}.
 
-Helposti muistettavat salasanat ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä sanakirjahyökkäyksen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen useassa palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08}.
+Helposti muistettavat salasanat, kuten luonnollisen kielen sanat, niiden johdannaiset tai nimet, ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{users_are_not_the_enemy_99, passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä väkisinarvaamisen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
 
 Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Lähes puolet 46~\% käyttäjistä kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
 
@@ -121,7 +121,8 @@ Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Flo
  % - salasanaa jaetaan
  % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
  % - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
-
+ % - twitter adminin salasana murrettu sanakirja hyökkäyksellä, seurauksena lukuisia suosittuja käyttäjäprofiileja kaapattiin: http://www.codinghorror.com/blog/2009/01/dictionary-attacks-101.html
+%     - admin käytti heikkoa salasanaa JA palvelu salli rajoittamattoman määrän yrityksiä
 
 \subsection{Vaatimukset pilviyhteensopivalle autentikoinnille}
 
@@ -131,27 +132,38 @@ Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06}. Flo
       \\--- Mark Twain \cite{twain_eggs_1894}
   \end {quote}
 
-Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole mahdollista autentikoitua sertifikaatilla jokaiseen käytettyyn pavleluun. Edellä todetun perusteella jokaiseen palveluun tulisi olla itsenäinen salasana. Itsenäisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa sekä montaa erilaista vahvaa salasanaa että sitä, mihin palveluun mikäkin salasana käy, tarvitaan salasanojen hallintaa.
+Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole mahdollista autentikoitua sertifikaatilla jokaiseen käytettyyn pavleluun. Edellä todetun perusteella jokaiseen palveluun tulisi olla itsenäinen salasana. Itsenäisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan salasanojen hallintaa. 
+% TODO: Salasanat vs. OpenID
+
+Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa lisää muistettavaa. Tutkimuksen käyttäjät eivät ymmärtäneet tietoturvarajoitusten tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seuraus oli, että lukuisat tutkimuksen käyttäjistä päätyivät kiertämään turvallisuussääntöjä.
 
 
 
-Tavoitteet salasanojen hallinnalle:
+\subsection{Tavoitteet salasanojen hallinnalle}
 
-Jokaiseen palveluun generoidaan vahva salasana.
-Samaa salasanaa käytetään vain yhdessä palvelussa.
-Salasanat eivät ole johdannaisia toisistansa.
-Käyttäjän ei tarvitse tietää palveluissa käyttämäänsä salasanaa.
-Käyttäjä keksii ja muistaa yhden vahvan ja pitkän salasanan (salainen lause, \emph{passphrase}).
+\begin{itemize}
+
+  \item{Jokaiseen palveluun generoidaan vahva salasana.}
+  \item{Salasanat eivät ole johdannaisia toisistansa.}
+  \item{Samaa salasanaa käytetään vain yhdessä palvelussa.}
+  \item{Käyttäjän ei tarvitse tietää palveluissa käyttämäänsä salasanaa.}
+  \item{Käyttäjän tarvitsee muistaa yksi vahva salasana: salainen lause  (\emph{passphrase}).}
+
+\end{itemize}
 
 
-Tavoitteet pilviyhteensopivalle autentikoinnille:
+\begin{Tavoitteet pilviyhteensopivalle autentikoinnille:}
 
-Pilviyhteensopiva salasanahallinta edellyttää, että käyttäjä pääsee käyttämiinsä web-palveluihin miltä tahansa työasemalta. 
-Salasanat sisältävä kokoelmatiedosto täytyy pystyä tallentamaan ja avaamaan verkossa olevasta palvelusta. 
-Kokoelmatiedostoa säilytetään verkossa kryptatussa muodossa. 
-Kryptauksessa käytetään avaimena käyttäjän keksimää riittävän vahvaa 
-Kryptauksessa käytettyä avainta ei koskaan välitetä verkon yli.
+  \item{Käyttäjä pääsee käyttämiinsä web-palveluihin miltä tahansa työasemalta.}
+  \item{Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.}
+  \item{Salasanakokoelmaa säilytetään verkossa kryptatussa muodossa.}
+  \item{Kryptauksessa käytettyä salausavainta ei koskaan välitetä verkon yli.}
 
+\end{itemize}
+
+Kryptauksessa käytetty salausavain johdetaan käyttäjän salaisesta lauseesta.
+- tai käytetään salausavaimena käyttäjän salasanaa
+- valinta: pitääkö salausavain muistaa? kirjoitetaanko se lompakkoon?
 
 Salasanojen purkaminen suoritetaan web-selaimessa selainlaajennoksen avulla.
 

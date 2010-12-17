@@ -137,30 +137,47 @@ Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole mahdollista autent
 
 Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa lisää muistettavaa. Tutkimuksen käyttäjät eivät ymmärtäneet tietoturvarajoitusten tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seuraus oli, että lukuisat tutkimuksen käyttäjistä päätyivät kiertämään turvallisuussääntöjä.
 
+parapara \cite{generating_and_remembering_pws_04}
+
+\subsection{Tavoitteet salasanojen turvallisuudelle}
+
+\begin{description}
+
+  \item[1. Jokaiseen palveluun generoidaan vahva salasana.] \hfill \\
+    Lorem ipsum
+     
+  \item[2. Salasanat eivät ole johdannaisia toisistansa.] \hfill \\
+  Lorem ipsum
+  
+  \item[3. Yhtä salasanaa käytetään vain yhdessä palvelussa.] \hfill \\
+  Lorem ipsum
+  
+  \item[4. Käyttäjän ei tarvitse tietää palvelussa käyttämäänsä salasanaa.] \hfill \\
+  Lorem ipsum
+  
+  \item[5. Käyttäjän tarvitsee muistaa vain yksi vahva salasana.] \hfill \\
+    salainen lause  (\emph{passphrase})
+
+\end{description}
 
 
 \subsection{Tavoitteet salasanojen hallinnalle}
 
-\begin{itemize}
+\begin{description}
 
-  \item{Jokaiseen palveluun generoidaan vahva salasana.}
-  \item{Salasanat eivät ole johdannaisia toisistansa.}
-  \item{Samaa salasanaa käytetään vain yhdessä palvelussa.}
-  \item{Käyttäjän ei tarvitse tietää palveluissa käyttämäänsä salasanaa.}
-  \item{Käyttäjän tarvitsee muistaa yksi vahva salasana: salainen lause  (\emph{passphrase}).}
+  \item[1. Käyttäjä pääsee käsiksi salasanoihin miltä tahansa työasemalta.] \hfill \\
+    Loerem ipspspssum dolem amet sit ja niin edelleen
+    
+  \item[2. Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.] \hfill \\
+      Loerem ipspspssum dolem amet sit ja niin edelleen
+      
+  \item[3. Salasanakokoelmaa säilytetään verkossa kryptatussa muodossa.] \hfill \\
+      Loerem ipspspssum dolem amet sit ja niin edelleen
+      
+  \item[4. Kryptauksen salausavainta ei koskaan välitetä verkon yli.] \hfill \\
+      Loerem ipspspssum dolem amet sit ja niin edelleen
 
-\end{itemize}
-
-Tavoitteet pilviyhteensopivalle autentikoinnille
-
-\begin{itemize}
-
-  \item{Käyttäjä pääsee käyttämiinsä web-palveluihin miltä tahansa työasemalta.}
-  \item{Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.}
-  \item{Salasanakokoelmaa säilytetään verkossa kryptatussa muodossa.}
-  \item{Kryptauksessa käytettyä salausavainta ei koskaan välitetä verkon yli.}
-
-\end{itemize}
+\end{description}
 
 Kryptauksessa käytetty salausavain johdetaan käyttäjän salaisesta lauseesta.
 - tai käytetään salausavaimena käyttäjän salasanaa

@@ -108,14 +108,57 @@ Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digita
 Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti tai ne voivat täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
 
 
+\subsubsection{OpenID:n hyviä puolia}
+
+Käy
 OpenID:n autentikointiprosessin ensimmäinen vaihe on osoitetteeseen assosioidun identiteetintarjoajan löytäminen.
 
+palvelun ei tarvitse säilyttää salasanoja
+
+\subsection{OpenID:n heikkouksia}
+
+\begin{description}
+
+  \item[1. Calastelu (\emph{phishing})] \hfill \\
+    Pahantahtoinen sivu voi kysyä OpenID-tunnusta ja ohjata käyttäjän autenttista identiteetintarjoajaa matkivaan palveluun. Jos käyttäjä autentikoituu huijaussivulle salasanalla, käyttäjän OpenID-identiteetti päätyy vääriin käsiin. Korttiperustaisen autentikoinnin käyttäminen estäisi tämän haavoittuvuuden \cite{cameron_infocard_07}. Identiteetintarjoajista Yahoo! tarjoaa lisäsuojaa eräänlaisella ''vesileimalla'' \cite{yahoo_phishing_seal}.
+
+   \item[2. Keskitetty riski] \hfill \\
+      Jos OpenID-identiteetti päätyy vääriin käsiin, jokainen siihen kytketty palvelu on myös väärissä käsissä. 
+      Riskinä tämä vertautuu sähköpostitunnuksen salasanan kadottamiseen, koska yleensä erinäisten palvelujen 
+      salasananpalautustoiminnot lähettävät tarkisteen käyttäjälle suojaamattomassa sähköpostissa.
+   
+   \item[3. Luottamus identiteetintarjoajaan] \hfill \\
+      Kaikki sisäänkirjautumistiedot ovat palveluntarjoajalla, jos tunnistautuminen kohdepalveluun tehdään
+      osoiteperusteisella identiteetillä. Tällöin kohdepalvelu edellyttää käyttäjältä
+      ainoastaan identiteetintarjoajaan kytketyn käyttäjätunnuksen haltijuuden todentamista.
+      Asiakassertifikaatin (\emph{client certificate}) tai korttiperusteisen identiteetin käyttäminen
+      lisätunnisteena ei tuo lisäturvaa, koska sellaisen vaatiminen on ainoastaan
+      identiteetintarjoajan ja käyttäjän välinen asia.
+      
+   \item[4. Luottamus pysyvyyteen] \hfill \\
+      Jos identiteetintarjoaja lopettaa toimintansa pysyvästi, siihen kytketyt tunnisteet eivät ole enää 
+      käytettävissä. Ongelmaa on mahdollista kiertää kytkemällä palveluihin useampi eri OpenID-identiteetti. 
+      Tämä kuitenkin lisää monimutkaisuutta, kun käytettäviä palveluja ja identiteettejä on useita.
+   
+  \item[5. Luottamus DNS-protokollaan] \hfill \\
+    OpenID-protokollan mukaisesti kohdepalvelu ei tunne käyttäjän identiteetintarjoajaa etukäteen.    
+    Jos DNS-kyselyihin ei saada autenttista vastausta, palvelu voi johtaa käyttäjän oikeaksi naamioituneelle,
+    huijaukseen osallistuvalle identiteetintarjoajalle. Vaatimalla osoiteperusteinen käyttäjätunnus
+    etuliitteellä \emph{https://} ja DNSSec-laajennoksen yleistyminen lieventävät riskiä.
+
+   \item[6. Epätasa-arvoiset identiteetintarjoajat] \hfill \\
+      Monet suuret palvelut, kuten Google, Facebook, Microsoft MSN, Yahoo, tarjoavat OpenID-tunnisteen, jota
+      voi käyttää sisäänkirjautumiseksi muihin palveluihin. Yksikään näistä ei kuitenkaan hyväksy
+      sisäänkirjautumista omaan palveluunsa muulla kuin itsensä myöntämällä OpenID-käyttäjätunnuksella.
+      
+\end{description}
+
+   
+\subsection{Hyviä puolia}
+
+\subsection{Näkemys OpenID:stä}
 \subsection{WebID}
-\subsection{OpenID autentikointistandardina}
-\subsubsection{Periaate ja tavoite}
-\subsubsection{Hyviä puolia}
-\subsubsection{Huonoja puolia}
-\subsubsection{Näkemys OpenID:stä}
+
 
 \section{Salasanat ovat vallitseva käytäntö}
   \label{sec:passwords_de_facto}
@@ -224,7 +267,9 @@ Salasanojen purkaminen suoritetaan web-selaimessa selainlaajennoksen avulla.
   
 \section{Jatkotutkimuksia}
 \section{Yhteenveto}
-
+% http://www.codinghorror.com/blog/2008/05/openid-does-the-world-really-need-yet-another-username-and-password.html
+% I realize that OpenID is far from an ideal solution. But right now, the one-login-per-website problem is so bad that I am willing to accept these tradeoffs for a partial worse is better solution. There's absolutely no way I'd put my banking credentials behind an OpenID. But there are also dozens of sites that I don't need anything remotely approaching banking-grade security for, and I use these sites far more often than my bank. The collective pain of remembering all these logins -- and the way my email inbox becomes a de-facto collecting point and security gateway for all of them -- is substantial. 
+%        If we can't make OpenID work, at least for run of the mill, low-value credentials that litter the web in increasing numbers -- what hope do we have of ever fixing the login explosion problem? 
 
 \bibliographystyle{tktl}
 \bibliography{lahteet}

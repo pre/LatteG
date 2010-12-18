@@ -105,16 +105,17 @@ Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunni
 
 OpenID pyrkii toteuttamaan ''käyttäjäkeskeisen identiteetin infrastruktuurin'', jossa käyttäjällä on valinnanvapaus käyttämänsä identiteetintarjoajan suhteen \cite{openid_2.0_platform_2009}. OpenID:n spesifikaatio määrittelee kaksi käyttäjäkeskeisen identiteetin arkkitehtuuria: osoiteperusteisen (\emph{address-based}) ja korttiperusteisen (\emph{card-based}) identiteetin \cite{openid_2.0_specification_07}. 
 
-Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digitaalinen osoite. Käyttäjän tunnistautuminen tapahtuu todistamalla omistajuus esitettyyn osoitteeseen. Osoiteperusteisen OpenID-identiteetin käyttäjätunnus voi olla muodostettu URL- tai XRI-osoitteesta. XRI-osoitteiden käyttäminen on äskettäin äänestetty OASIS-standardointikomiteassa vanhentuneeksi eikä XRI-osoitteiden hyödyntämistä enää suositella \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Tämän johdosta osoiteperusteisessa identiteetissä käytetään vain URL:ään perustuvia osoitteita kuten \emph{http://user.example.com} or \emph{http://example.com/user}.
-
-Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti tai ne voivat täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
-
       \begin{figure}
         \centering
         \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
         \caption{Basic OpenID Authentication Flow \cite{openid_2.0_platform_2009}}
         \label{fig:basic_openid_flow}
       \end{figure}
+
+Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digitaalinen osoite. Käyttäjän tunnistautuminen tapahtuu todistamalla omistajuus esitettyyn osoitteeseen. Osoiteperusteisen OpenID-identiteetin käyttäjätunnus voi olla muodostettu URL- tai XRI-osoitteesta. XRI-osoitteiden käyttäminen on äskettäin äänestetty OASIS-standardointikomiteassa vanhentuneeksi eikä XRI-osoitteiden hyödyntämistä enää suositella \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Tämän johdosta osoiteperusteisessa identiteetissä käytetään vain URL:ään perustuvia osoitteita kuten \emph{http://user.example.com} or \emph{http://example.com/user}.
+
+Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti tai ne voivat täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
+
 
 
 \subsection{OpenID:n heikkouksia}

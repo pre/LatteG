@@ -37,24 +37,24 @@
 
 \section{Johdanto}
 
-Jesjes.
+Keskimääräisellä internet-käyttäjällä on 25 käyttäjätunnusta, noin 7 eri salasanaa ja hän kirjoittaa salasanan kahdeksan kertaa joka päivä \cite{study_of_passwords_07}. Keskiverto käyttäjä ratkaisee salasanojen muistamiseen liittyviä ongelmia käyttämällä samaa salasanaa monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on lisäksi erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
+
+Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tehtävänä on tarjota kertakirjautumispalvelu (\emph{single sign-on system}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa jakamatta kuitenkaan käyttäjätunnuksen salasanaa näiden palvelujen kesken \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi, ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, ovat tarjoavat OpenID-identiteettiä. Kappaleessa~\ref{sec:openid_auth} käydään läpi syitä siihen, miksei OpenID ole onnistunut syrjäyttämään salasanoja.
+
+Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Ratkaisu ei voi olla ainoastaan tekninen, vaan myös käyttäjiä on valistettava tietoturvallisuuden suhteen. Tässä kirjoituksessa keskitytään kuitenkin ratkaisun tekniseen puoleen. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
+
 
 \section{Autentikoituminen ja web}
 
 Autentikoituminen on identiteetin määrittämistä. 
-
+Jotta käyttäjän pääsyoikeus pyydettyyn resurssiin on mahdollista määrittää, täytyy käyttäjä ensin tunnistaa.
 Jos \emph{s} on väite, autentikointi vastaa kysymykseen ''Kuka sanoi \emph{s}?''.
 Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kysymykseen ''Kenellä on pääsy kohteeseen \emph{o}?'' \cite{lampson_distributed_1992}.
-
-
-Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. 
-
-Haaste voi olla satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
-
 Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. 
 Muita yleisiä haaste--vastine-autentikoinnin sovelluksia ovat esimerkiksi spämmiesto CAPTCHA-tunnistuksella.
 
-Tämän paperin yhteydessä tiedonsiirtokanava oletetaan turvalliseksi, eikä yhteyden salakuuntelua käsitellä riskinä.
+Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
+
 
 
 \subsection{Kaksiosainen autentikointi}
@@ -98,6 +98,7 @@ Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Fl
 
 
 \section{OpenID autentikoitumismenetelmänä}
+ \label{sec:openid_auth}
 
 OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
 Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimitaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
@@ -265,14 +266,18 @@ Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoit
     Salasanan huijaaminen hallintaohjelmistolta voi kuitenkin olla edelleen mahdollista.
 
   \item[5. Käyttäjän tarvitsee muistaa vain yksi \emph{master}-salasana.] \hfill \\
-    Koska käyttäjän tarvitsee tietää ainoastaan yksi salasana tai salainen lause (\emph{passphrase}), 
-    siitä voidaan tehdä mahdollisimman turvallinen.
+    Koska käyttäjän tarvitsee tietää ainoastaan yksi salasana tai salainen lause (\emph{passphrase}), siitä
+    voidaan tehdä mahdollisimman turvallinen. Tämä on huomattava parannus tilanteeseen, jossa useassa palvelussa
+    käytetään samaa salasanaa tai jossa salasanat eivät ole turvallisia. Jos jokin palvelu, esimerkiksi
+    verkkopankki, on liian tärkeä ollakseen yhden \emph{master}-salasanan takana, voidaan sille käyttää
+    itsenäistä autentikointitunnistetta.
 
 \end{description}
 
 
 \subsection{Tavoitteet salasanojen hallinnalle}
-
+  \label{sec:goals_for_pw_management}
+  
 Salasanan turvallisuuteen liittyvien tavoitteiden toteutuminen ilman hallintaohjelmistoa ei ole käytännöllistä, koska on selvää, ettei käyttäjä voi muistaa lukuisia vahvoja salasanoja. Tällöin turvallisuuteen liittyviä tavoitteita tulee rikottua kuten tutkimuksissa on havaittu \cite{study_of_passwords_07, password_management_strategies_06}. Hallintaohjelmistoja on olemassa lukuisia \cite{dunn_password_managers_08}, mutta suurin osa niistä ovat joko työpöytäohjelmistoja tai web-palveluja.
 
 Työpöytäohjelmiston hyvänä puolena on luottamus säilytettävään datan, koska salausavain ei liiku verkossa. Työpöytäohjelmisto vaatii kuitenkin jonkin tavan tietojen synkronointiin eri työasemien välillä. Ohjelmiston asentaminen saattaa edellyttää pääkäyttäjäoikeuksia, ja tuo mukanaan käyttöjärjestelmäriippuvuuden, jollei ohjelmistosta tehdä versiota eri alustoille. Lisäksi työpöytäohjelmiston on käytettävyyden vuoksi integroiduttava selaimeen esimerkiksi laajennoksen avulla.
@@ -342,12 +347,21 @@ Ongelma on mahdollista ratkaista yhdistämällä hyvät puolet molemmista ratkai
 
 \section{Yhteenveto}
 
-- Jokaiselle selaimelle oma plugin
-- Spyware ja MITM. 
-- DNS: Oletetaan että DNS palauttaa oikean IP osoitteen
-- Fokuksen varastaminen
-- OpenID, webid
-- Firefox Sync, Chromium Sync
+Keskivertolla internet-käyttäjällä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia. 
+OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.
+
+Ratkaisuksi esitettiin kappaleessa~\ref{sec:goals_for_pw_management} asettaa kaikki salasanat yhden salasanan taakse. Koska käyttäjän ei tarvitse edes tietää salasanojansa, voidaan jokaiseen käytettävään palveluun generoida uniikki ja turvallinen salasana. Toisin kuin OpenID:n kanssa, salasanan hallintaohjelmisto ei vaadi tukea käytettävältä palvelulta. Tämä mahdollistaa yhden salasanan käyttämisen kaikkiin palveluihin välittömästi eikä vaadi minkään nimenomaisen autentikointitekniikan yleistymistä. Luonnollisesti kaikkia salasanoja ei silti tarvitse tallettaa samaan säilöön: jos jokin palvelu liian tärkeä ollakseen saman salasanan takana kuin muut, sille voidaan käyttää omaa tunnistetta.
+
+Tämän kirjoituksen yhteydessä tiedonsiirtokanava ja käytettävä päätelaite oletettiin turvallisiksi. Erinäiset vakoiluohjelmistot ja troijalaiset ovat kuitenkin merkittävä riski ''Kaikki munat yhdessä korissa''-strategialle. Lisäksi luottamus internetin DNS-protokollaan on merkittävä riski: epäluotettavassa verkossa DNS voi huijata käyttäjää, jolloin käyttäjä altistuu calastelulle (\emph{phishing}). 
+Internetissä on meneillään prosessi nimipalvelujen turvaamiseksi DNSSec-laajennoksella, mikä kuitenkin on käytännössä valmis vasta vuosien kuluttua.
+
+Käytettävyyden vuoksi selaimelle on oltava laajennos, joka automatisoi salasanojen käsittelyn mahdollisimman
+pitkälle. Mozilla Firefox 4:n beta-versiossa on kokeiluversio Mozilla Sync -palvelusta, joka tallentaa
+autentikointitiedot kryptattuna verkkoon ja toteuttaa kappaleessa~\ref{sec:goals_for_pw_management} esitetyt
+vaatimukset turvalliselle salasanojen hallintaohjelmistolle. Samoin Googlen Chrome-selaimeen kaavaillaan avointa
+salasanojen ja muiden tietojen synkronointirajapintaa \cite{chromium_sync_09}. Käyttöjärjestelmäriippuvuuteen
+verrattuna selainriippuvuus on huomattavasti pienempi ongelma. Mobiilit päätelaitteet ja niiden web-selaimet
+ovat tosin oma ongelmansa. Pitkällä aikavälillä avoin selainrajapinta, joka antaa valita vapaasti käytettävän tallennuspalvelun ja täyttää kappaleessa~\ref{sec:goals_for_pw_management} esitetyt vaatimukset, ratkaisee lopullisesti salasanojen ongelmat.
 
 % http://www.codinghorror.com/blog/2008/05/openid-does-the-world-really-need-yet-another-username-and-password.html
 % I realize that OpenID is far from an ideal solution. But right now, the one-login-per-website problem is so bad that I am willing to accept these tradeoffs for a partial worse is better solution. There's absolutely no way I'd put my banking credentials behind an OpenID. But there are also dozens of sites that I don't need anything remotely approaching banking-grade security for, and I use these sites far more often than my bank. The collective pain of remembering all these logins -- and the way my email inbox becomes a de-facto collecting point and security gateway for all of them -- is substantial. 

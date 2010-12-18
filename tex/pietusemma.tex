@@ -197,7 +197,8 @@ Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, pass
  % - twitter adminin salasana murrettu sanakirja hyökkäyksellä, seurauksena lukuisia suosittuja käyttäjäprofiileja kaapattiin: http://www.codinghorror.com/blog/2009/01/dictionary-attacks-101.html
 %     - admin käytti heikkoa salasanaa JA palvelu salli rajoittamattoman määrän yrityksiä
 
-\subsection{Vaatimukset pilviyhteensopivalle autentikoinnille}
+
+\subsection{Vaatimukset turvalliselle salasana-autentikoinnille}
 
   \begin{quote}
       ''The fool saith, 'Put not all thy eggs in one basket' ... 
@@ -223,14 +224,18 @@ Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten k
 % ''Password expiration does not offer any benefit when a nattacker wants to do all of the damage that he's going to do right now. It does offer a benefit when the attacker intends to continue accessing a system for an extended period of time.''
 % https://lopsa.org/node/295
 % -- S. Alexander, Jr. In defense of password expiration. Post to LOPSA blog, April 2006.
-
-parapara \cite{generating_and_remembering_pws_04, password_management_strategies_06}
+%
+%
+%  \cite{why_phishing_works_06}
 
 
 \subsection{Tavoitteet salasanojen turvallisuudelle}
 
-Ilman hallintaohjelmista näitä sääntöjä tulee rikottua.
-\cite{why_phishing_works_06}
+Monet käyttäjät eivät osaa luoda vahvaa salasanaa \cite{generating_and_remembering_pws_04, password_management_strategies_06}. Jos salasanan luominen siirrettäisiin käyttäjän vastuulta salasanojen hallintaohjelmiston tehtäväksi, kaikista salasanoista saataisiin turvallisia. Pelkkä ''vahvuus'' ei kuitenkaan vielä itsessään tee salasanasta turvallista. 
+Schneier \cite{schneier_password_advice_09} listaa 10 kriteeriä salasanojen turvallisuudelle, ja mainitsee itse rikkovansa niistä säännöllisesti seitsemää. Inhimillisen tekijään ei ole teknistä ratkaisua.
+
+Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoitteet toteuttava salasanojen hallintaohjelmisto mahdollistaisi salasanojen turvallisen käytön lisäämättä käyttäjän kognitiivista muistikuormaa. Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
+
 
 \begin{description}
 
@@ -247,51 +252,62 @@ Ilman hallintaohjelmista näitä sääntöjä tulee rikottua.
    muissa palveluissa. Jos jokaisessa palvelussa on eri salasana, tietomurron aiheuttama vahinko rajoittuu
    murron kohteena olevaan palveluun.
 
-  
   \item[3. Salasanat eivät ole johdannaisia toisistansa.] \hfill \\
     Yhden tai useamman salasanan ei perusteella ei saa voida arvata tai tuottaa muita salasanoja. Jos käyttäjän
-    salasana esimerkiksi Facebookiin on ''faceYhfmn2\#3'' ja Gmailiin ''gmaYhfmn2\#3'', helpottuu Yahoo-tunnuksen
-    salasanan murtaminen merkittävästi. Hyökkääjän riittää kokeilla kaikki palvelun nimestä johdettavat
-    kombinaatiot ja liittää niihin muista salasanoista tunnetut yhteiset osat.
-  
+    salasana esimerkiksi Facebookiin on ''faceYhfmn2\#3'' ja Gmailiin ''gmaYhfmn2\#3'', hyökkääjän riittää
+    kokeilla kaikki palvelun nimestä johdettavat kombinaatiot ja liittää niihin muista salasanoista tunnetut
+    yhteiset osat.
+
   \item[4. Käyttäjän ei tarvitse tietää palvelussa käyttämäänsä salasanaa.] \hfill \\
-    Tavoitteena on vähentää käyttäjän muistin kuormitusta.
-    Toisin sanoen tavoitteena on siirtää vastuu salasanojen hallinnasta
+    Tavoitteena on vähentää käyttäjän muistin kuormitusta ja siirtää vastuu salasanojen hallinnasta
     mahdollisimman suurelta osin on salasanojen hallintaohjelmiston tehtäväksi.
     Koska käyttäjä ei tunne salasanaansa, salasanaa ei ole mahdollista huijata käyttäjältä.
-    Salasanan huijaaminen hallintaohjelmistolta, jos käyttäjä antaa siihen itse luvan, on tosin edelleen
-    mahdollista.
-  
-  \item[5. Käyttäjän tarvitsee muistaa vain yksi vahva salasana.] \hfill \\
-    salainen lause  (\emph{passphrase})
+    Salasanan huijaaminen hallintaohjelmistolta voi kuitenkin olla edelleen mahdollista.
+
+  \item[5. Käyttäjän tarvitsee muistaa vain yksi \emph{master}-salasana.] \hfill \\
+    Koska käyttäjän tarvitsee tietää ainoastaan yksi salasana tai salainen lause (\emph{passphrase}), 
+    siitä voidaan tehdä mahdollisimman turvallinen.
 
 \end{description}
 
 
 \subsection{Tavoitteet salasanojen hallinnalle}
 
+Salasanan turvallisuuteen liittyvien tavoitteiden toteutuminen ilman hallintaohjelmistoa ei ole käytännöllistä, koska on selvää, ettei käyttäjä voi muistaa lukuisia vahvoja salasanoja. Tällöin turvallisuuteen liittyviä tavoitteita tulee rikottua kuten tutkimuksissa on havaittu \cite{study_of_passwords_07, password_management_strategies_06}. Hallintaohjelmistoja on olemassa lukuisia \cite{dunn_password_managers_08}, mutta suurin osa niistä ovat joko työpöytäohjelmistoja tai web-palveluja.
+
+Työpöytäohjelmiston hyvänä puolena on luottamus säilytettävään datan, koska salausavain ei liiku verkossa. Työpöytäohjelmisto vaatii kuitenkin jonkin tavan tietojen synkronointiin eri työasemien välillä. Ohjelmiston asentaminen saattaa edellyttää pääkäyttäjäoikeuksia, ja tuo mukanaan käyttöjärjestelmäriippuvuuden, jollei ohjelmistosta tehdä versiota eri alustoille. Lisäksi työpöytäohjelmiston on käytettävyyden vuoksi integroiduttava selaimeen esimerkiksi laajennoksen avulla.
+
+Web-palveluna toimivan salasanapesän etuna on tiedon saatavuus, koska autentikointitietoihin pääsee käsiksi työasemasta riippumatta. Tämä on kuitenkin myös riski, vaikka autentikointitiedot säilöttäisiin palveluun kryptattuina. Jos tallennettujen salasanojen kryptaus ja purkaminen tehdään palvelussa, palvelulla on pääsy käytettävään salausavaimeen. Tämä mahdollistaa teoreettisen pääsyn suojaamattomaan dataan mahdollisen tietomurron yhteydessä, jos hyökkääjä pääsee käsiksi salausavaimeen.
+
+Ongelma on mahdollista ratkaista yhdistämällä hyvät puolet molemmista ratkaisuista:
+
 \begin{description}
 
   \item[1. Käyttäjä pääsee käsiksi salasanoihin miltä tahansa työasemalta.] \hfill \\
-    Loerem ipspspssum dolem amet sit ja niin edelleen
-    
+      Tavoitteena on tarjota riippumattomuus käyttöympäristöstä.
+      Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
+
   \item[2. Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.] \hfill \\
-      Loerem ipspspssum dolem amet sit ja niin edelleen
+      Päätelaiteriippumattomuus saavutetaan, kun tieto tallennetaan verkkoon. 
+      Käyttäjän ei tarvitse tietää, missä autentikointitiedot ovat, kunhan hänellä on pääsy 
+      tiedot säilövään palveluun.
       
   \item[3. Salasanakokoelmaa säilytetään verkossa kryptatussa muodossa.] \hfill \\
-      Loerem ipspspssum dolem amet sit ja niin edelleen
-      
+      Palveluun ei tallenneta mitään tietoa selväkielisenä, jolloin tallennetusta tiedosta itsessään
+      ei ole kenellekään hyötyä ilman salausavainta.
+
   \item[4. Kryptauksen salausavainta ei koskaan välitetä verkon yli.] \hfill \\
-      Loerem ipspspssum dolem amet sit ja niin edelleen
+      Salausavain voidaan johtaa joko master-salasanasta tai salauksessa voidaan käyttää erillistä
+      salausavainta. Salauksen purkuun käytettävää avainta ei kuitenkaan koskaan lähetetä verkkoon. Tällöin
+      autentikointitiedot eivät ole vaarassa edes tietomurron yhteydessä, kun käytetty salausavain on
+      turvallinen.
+
+  \item[5. Riippumattomuus käytettävästä palvelusta.] \hfill \\
+      Kohdepalvelun ei tarvitse tietää, että käyttäjällä on salasanojen hallintaohjelmisto.
+      Tämä takaa yhteensopivuuden kaikkiin verkon palveluihin, koska palvelun ei tarvitse tukea mitään uutta
+      autentikointimenetelmää.
 
 \end{description}
-
-Kryptauksessa käytetty salausavain johdetaan käyttäjän salaisesta lauseesta.
-- tai käytetään salausavaimena käyttäjän salasanaa
-- valinta: pitääkö salausavain muistaa? kirjoitetaanko se lompakkoon?
-
-Salasanojen purkaminen suoritetaan web-selaimessa selainlaajennoksen avulla.
-
 
 
 

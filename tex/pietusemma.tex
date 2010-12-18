@@ -25,9 +25,15 @@
 \subject{Tietojenkäsittelytiede}
 \numberofpagesinformation{\numberofpages\ sivua}
 
-\keywords{}
+\keywords{salasanat, OpenID, internet}
 
 \begin{abstract}
+
+Keskiverto internet-käyttäjä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia. 
+
+OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.
+
+Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
 
 \end{abstract}
 
@@ -61,7 +67,7 @@ Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kuts
 
 Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjälle esitetään kaksi haastetta. Ensimmäinen haaste edellyttää vastineeksi jotain, jonka käyttäjä \emph{tietää} (salasana). Toisen haasteen vastineeksi edellytetään jotain, jota käyttäjällä \emph{on} (esimerkiksi puhelinnumero) \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla koodia, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
 
-Kaksiosainen autentikointi ei ratkaise \cite{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}. 
+Kaksiosainen autentikointi ei ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}. 
 Man-in-the-middle (MITM) on kolmas osapuoli, joka asettuu käyttäjän ja käytettävän palvelun väliin. MITM voi kuunnella tietoliikennettä passiivisesti tai muuttaa viestejä mielensä mukaan. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma. Tämän kirjoituksen puitteissa oletetaan sekä käyttäjän yhteys että päätelaite turvallisiksi.
 
 

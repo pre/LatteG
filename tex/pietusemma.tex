@@ -163,24 +163,22 @@ OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_
 \end{description}
 
    
-\subsection{Katsaus mahdollisuuksiin}
+\subsection{Sama OpenID-identiteetti ei käy kaikkiin palveluihin}
 
-OpenID-standardi tarjoaa laajalle levinneen autentikointiprotokollan, jolle on tarjolla laaja ja kypsä kirjastotuki \cite{openid_libraries}. Selvin OpenID:n hyöty on saman käyttäjätunnuksen käyttäminen monessa palvelussa ilman salasanan jakamista näiden palvelujen kesken. Koska käyttäjän itsensä tarvitsee autentikoitua ainoastaan identiteetintarjoajalle -- yhteen palveluun -- voidaan tämä nimenomainen sisäänkirjautuminen tehdä mahdollisimman turvalliseksi \cite{blackhat_openid_security_story}. Salasanan sijaan tai sen lisäksi käyttäjältä voidaan edellyttää korttiperusteista identiteettiä \cite{cameron_infocard_07} tai sertifikaattia \cite{henry_story_foaf_ssl}. OpenID:n saavutuksena on, että vaihtoehtoinen tai rinnakkainen autentikoitumismenetelmä riittää toteuttaa ainoastaan yhteen palveluun eli identiteetintarjoajaan.
+OpenID-standardi tarjoaa laajalle levinneen autentikointiprotokollan, jolle on tarjolla laaja ja kypsä kirjastotuki \cite{openid_libraries}. Selvin OpenID:n hyöty on saman käyttäjätunnuksen käyttäminen monessa palvelussa ilman salasanan jakamista näiden palvelujen kesken. Koska käyttäjän itsensä tarvitsee autentikoitua ainoastaan identiteetintarjoajalle -- yhteen palveluun -- voidaan tämä nimenomainen sisäänkirjautuminen tehdä mahdollisimman turvalliseksi \cite{blackhat_openid_security_story}. Salasanan sijaan tai sen lisäksi käyttäjältä voidaan edellyttää korttiperusteista identiteettiä \cite{cameron_infocard_07} tai asiakassertifikaattia \cite{henry_story_foaf_ssl}. OpenID:n saavutuksena on, että vaihtoehtoinen tai rinnakkainen autentikoitumismenetelmä riittää toteuttaa ainoastaan yhteen palveluun eli identiteetintarjoajaan.
+
+Yleinen tapa OpenID:n soveltamiselle on hyväksyä ainoastaan ennalta määritetty joukko (\emph{whitelist})
+OpenID-identiteetintarjoajia \cite{openid_seven_sites_mailinglist, openid_tech_or_movement}. 
+Jos palvelu ei hyväksy vapaavalintaista OpenID-identiteetintarjoajaa, hyväksyttyjä tarjoajia ovat usein ainoastaan suuret palveluntarjoajat (Google, Facebook, Microsoft, Yahoo), jotka hyväksyvät ainoastaan itsensä
+myöntämän OpenID-tunnisteen. Tämän seurauksena käyttäjällä on väistämättä monta eri OpenID-identiteettiä,
+jolloin käyttäjällä on myös tarve monelle eri salasanalle.
 
 OpenID vähentää salasanojen kokonaismäärää, mutta se ei auta pääsemään eroon kaikista palvelukohtaisista
-salasanoista. Esimerkiksi kirjoittajalla on tällä hetkellä noin 80 eri salasanaa 60 eri web-palveluun. Jos
-OpenID olisi tuettu 50~\%:ssa näissä palveluissa, salasanoja olisi edelleen monta kymmentä. Yleinen tapa
-OpenID:n soveltamiselle on hyväksyä ainoastaan ennalta määritetty joukko OpenID-identiteetintarjoajia
-\cite{openid_seven_sites_mailinglist, openid_tech_or_movement}, joihin luetaan yleensä ainoastaan suuret
-palveluntarjoajat, jotka hyväksyvät ainoastaan itsensä myöntämän OpenID-tunnisteen. Tämän seurauksena
-käyttäjällä on väistämättä monta OpenID-identiteettiä, jolloin käyttäjällä on myös tarve monelle eri
-salasanalle.
-
-
-
-\subsection{WebID}
-
-\cite{webid_home}
+salasanoista. Keskimääräisellä käyttäjällä on tunnus 25:ssä eri palvelussa \cite{study_of_passwords_07}.
+Kuitenkin esimerkiksi kirjoittajalla on tällä hetkellä käyttäjätunnus noin 60:ssa eri web-palvelussa. Vaikka
+OpenID olisi tuettu 50~\%:ssa näissä palveluissa, palvelukohtaisia salasanoja olisi edelleen kolmekymmentä.
+Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites} yksikään suosituimmista 50:sta
+palvelusta ei hyväksy kuin itsensä tai taustayrityksensä myöntämän käyttäjätunnuksen.
 
 
 
@@ -289,6 +287,24 @@ Salasanojen purkaminen suoritetaan web-selaimessa selainlaajennoksen avulla.
   
   
 \section{Jatkotutkimuksia}
+
+   \subsection{WebID}
+      \cite{webid_home}
+      % http://esw.w3.org/WebID#How_does_the_WebID_Protocol_compare_with_OpenID.3F
+
+   \subsection{Firefox Sync, Chromium Sync}
+     % Chromium sync 
+     %  https://groups.google.com/group/chromium-dev/browse_frm/thread/bdacc1bdf3c5cb6a?hl=en&pli=1
+     %  Password sync coming probably soon, tavoite 6.0 beta
+     %    http://www.readwriteweb.com/archives/google_chrome_gets_extension_sync.php
+     %  "The team is working on it"
+     %    https://www.google.com/support/forum/p/Chrome/thread?tid=6d4d3953859d6a9b&hl=en
+     %  Chrome Cloud synchronization, google
+     %    http://arstechnica.com/open-source/news/2009/08/google-reveals-plans-for-chrome-cloud-synchronization.ars
+     %  The protocol _is_ open.  Protobufs are open source and the sync spec built on them is also open source.
+     %   https://groups.google.com/group/chromium-dev/browse_thread/thread/bdacc1bdf3c5cb6a
+     
+
 \section{Yhteenveto}
 % http://www.codinghorror.com/blog/2008/05/openid-does-the-world-really-need-yet-another-username-and-password.html
 % I realize that OpenID is far from an ideal solution. But right now, the one-login-per-website problem is so bad that I am willing to accept these tradeoffs for a partial worse is better solution. There's absolutely no way I'd put my banking credentials behind an OpenID. But there are also dozens of sites that I don't need anything remotely approaching banking-grade security for, and I use these sites far more often than my bank. The collective pain of remembering all these logins -- and the way my email inbox becomes a de-facto collecting point and security gateway for all of them -- is substantial. 

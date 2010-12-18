@@ -37,9 +37,9 @@
 
 \section{Johdanto}
 
-Keskimääräisellä internet-käyttäjällä on 25 käyttäjätunnusta, noin 7 eri salasanaa ja hän kirjoittaa salasanan kahdeksan kertaa joka päivä \cite{study_of_passwords_07}. Keskiverto käyttäjä ratkaisee salasanojen muistamiseen liittyviä ongelmia käyttämällä samaa salasanaa monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on lisäksi erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
+Keskimääräisellä internet-käyttäjällä on 25 käyttäjätunnusta, noin 7 eri salasanaa ja hän kirjoittaa salasanan kahdeksan kertaa joka päivä \cite{study_of_passwords_07}. Keskiverto käyttäjä ratkaisee salasanojen muistamiseen liittyviä ongelmia käyttämällä samaa salasanaa monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on kuitenkin erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
 
-Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tehtävänä on tarjota kertakirjautumispalvelu (\emph{single sign-on system}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa jakamatta kuitenkaan käyttäjätunnuksen salasanaa näiden palvelujen kesken \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi, ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, ovat tarjoavat OpenID-identiteettiä. Kappaleessa~\ref{sec:openid_auth} käydään läpi syitä siihen, miksei OpenID ole onnistunut syrjäyttämään salasanoja.
+Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tehtävänä on tarjota kertakirjautumispalvelu (\emph{single sign-on system}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa jakamatta kuitenkaan käyttäjätunnuksen salasanaa näiden palvelujen kesken \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi, ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, tarjoavat OpenID-identiteettiä. Kappaleessa~\ref{sec:openid_auth} käydään läpi syitä siihen, miksei OpenID ole kuitenkaan onnistunut syrjäyttämään perinteisiä käyttäjätunnuksia.
 
 Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Ratkaisu ei voi olla ainoastaan tekninen, vaan myös käyttäjiä on valistettava tietoturvallisuuden suhteen. Tässä kirjoituksessa keskitytään kuitenkin ratkaisun tekniseen puoleen. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
 
@@ -53,7 +53,7 @@ Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kys
 Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. 
 Muita yleisiä haaste--vastine-autentikoinnin sovelluksia ovat esimerkiksi spämmiesto CAPTCHA-tunnistuksella.
 
-Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
+Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla myös esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, haastaja pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos haastajan laskema ja vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
 
 
 
@@ -61,23 +61,22 @@ Haaste--vastine-autentikoinniksi (\emph{challenge-response authentication}) kuts
 
 Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjälle esitetään kaksi haastetta. Ensimmäinen haaste edellyttää vastineeksi jotain, jonka käyttäjä \emph{tietää} (salasana). Toisen haasteen vastineeksi edellytetään jotain, jota käyttäjällä \emph{on} (esimerkiksi puhelinnumero) \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla koodia, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
 
-Kaksiosainen autentikointi ei ratkaise man-in-the-middle-ongelmaa \cite{schneier_2factor_2005}. 
-MITM esittely.
-Tämän kirjoituksen puitteissa oletetaan käyttäjän yhteys ja päätelaite turvallisiksi.
+Kaksiosainen autentikointi ei ratkaise \cite{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}. 
+Man-in-the-middle (MITM) on kolmas osapuoli, joka asettuu käyttäjän ja käytettävän palvelun väliin. MITM voi kuunnella tietoliikennettä passiivisesti tai muuttaa viestejä mielensä mukaan. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma. Tämän kirjoituksen puitteissa oletetaan sekä käyttäjän yhteys että päätelaite turvallisiksi.
 
 
 \subsection{Sertifikaatit ja julkisen avaimen infrastruktuuri}
 
-Julkisen avaimen infrastruktuuri mahdollistaa kahden osapuolen kommunikoimisen ilman yhteisesti jaettua salaisuutta. 
-Salaukseen käytetään kahta avainta, jotka on luotu etukäteen ja samanaikaisesti. Toinen avaimista on julkinen ja toinen yksityinen. Kummalla tahansa avaimella salattu tieto on mahdollista purkaa avainparin toisella avaimella. Tämän johdosta tietyllä julkisella avaimella salattu tieto on mahdollista purkaa vain ja ainoastaan sitä vastaavalla yksityisellä avaimella -- ja päinvastoin. Kryptaus epäsymmetrisellä algoritmilla on merkittävästä hitaampaa kuin symmetrisellä, minkä johdosta ne eivät sovellu laajan tietomassan salaamiseen \cite{nist_pki_intro, NIST_SP800-63}. Sen sijaan niitä käytetään muun muassa autentikoinnissa ja tiedon yhtenäisyyden varmistamisessa.
+Julkisen avaimen infrastruktuuri (\emph{public-key infrastructure}) mahdollistaa kahden osapuolen kommunikoimisen ilman yhteisesti jaettua salaisuutta. 
+Salaukseen käytetään kahta avainta, jotka on luotu etukäteen ja samanaikaisesti. Toinen avaimista on julkinen ja toinen yksityinen. Kummalla tahansa avaimella salattu tieto on mahdollista purkaa avainparin toisella avaimella. Tämän johdosta tietyllä julkisella avaimella salattu tieto on mahdollista purkaa vain ja ainoastaan sitä vastaavalla yksityisellä avaimella --- ja päinvastoin. Kryptaus epäsymmetrisellä algoritmilla on merkittävästi hitaampaa kuin symmetrisellä, minkä johdosta ne eivät sovellu laajan tietomassan salaamiseen \cite{nist_pki_intro, NIST_SP800-63}. Sen sijaan niitä käytetään muun muassa autentikoinnissa ja tiedon yhtenäisyyden varmistamisessa.
 
-Toiminnan perusteena on matemaattinen todennäköisyys. Sen perusteella julkista avainta vastaavaa yksityistä avainta ei ole käytännössä mahdollista arvata, koska yksityisen avaimen laskeminen väkisin vaatisi mahdottoman määrän laksenta-aikaa. Samaan todennäköisyyteen perustuu, että kaksi satunnaisesti generoitua avainparia eivät käytännössä koskaan ole identtiset.
+Sertifikaattien toimintaperusteena on matemaattinen todennäköisyys. Sen perusteella julkista avainta vastaavaa yksityistä avainta ei ole käytännössä mahdollista arvata, koska yksityisen avaimen laskeminen väkisin vaatisi mahdottoman määrän laksenta-aikaa. Samaan todennäköisyyteen perustuu, että kaksi satunnaisesti generoitua avainparia eivät käytännössä koskaan ole identtiset.
 
 HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Näin suojattua HTTP-yhteyttä kutsutaan jäljempänä HTTPS-yhteydeksi. HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti. Tähän luottamukseen liittyy väärinkäytösriski \cite{certified_lies, eff_ssliverse}, jota emme kuitenkaan käsittele tämän paperin yhteydessä tarkemmin.
 
 Sertifikaatilla on julkinen komponentti ja yksityinen komponentti. 
-Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa (\emph{public-key infrastructure}) \cite{nist_pki_intro, henry_story_foaf_ssl}.
-Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntemalla on mahdollista osoittaa olevansa julkista komponenttia vastaava taho. Luotetun CA:n myöntämällä sertifikaatilla kohdepalvelin osoittaa olevansa domain-osoitettansa vastaava palvelu \cite{authenticated_names}.
+Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa \cite{nist_pki_intro, henry_story_foaf_ssl}.
+Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntemalla on mahdollista osoittaa olevansa julkista komponenttia vastaava toimija. Luotetun CA:n myöntämällä sertifikaatilla kohdepalvelin osoittaa olevansa domain-osoitettansa vastaava palvelu \cite{authenticated_names}.
 Suojattu HTTPS-yhteys neuvotellaan palvelimen ja käyttäjän selaimen välille palvelimen sertifikaatin sisältämien tunnistautumistietojen perusteella.
 
 Tavanomaisessa HTTPS-yhteydessä ainoastaan kohdepalvelimelta edellytetään sertifikaattia, koska käyttäjä tunnistetaan muilla keinoin -- kuten käyttäjätunnuksella ja salasanalla. 
@@ -89,19 +88,19 @@ Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa.
 \subsection{Salasanat}
  \label{sec:passwords}
  
-Salasanat ovat yleisin tapa tunnistautua palveluihin webissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
-Salasanan turvallisuus riippuu uniikkiuden lisäksi siitä, kuinka vaikea se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjä käyttää lyhyttä ja helppoa salasanaa kaikissa käyttämissänsä palveluissa.
+Salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
+Salasanan turvallisuus riippuu salasanan uniikkiuden lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjä käyttää lyhyttä ja helppoa salasanaa kaikissa käyttämissänsä palveluissa.
 
-Saman salasanan käyttäminen monessa palvelussa on vaarallinen riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}. 
+Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}. 
 
-Turvallinen salasana edellyttää siis hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
+Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
 
 \section{OpenID autentikoitumismenetelmänä}
  \label{sec:openid_auth}
 
 OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
-Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimitaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
+Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimivaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
 
 OpenID pyrkii toteuttamaan ''käyttäjäkeskeisen identiteetin infrastruktuurin'', jossa käyttäjällä on valinnanvapaus käyttämänsä identiteetintarjoajan suhteen \cite{openid_2.0_platform_2009}. OpenID:n spesifikaatio määrittelee kaksi käyttäjäkeskeisen identiteetin arkkitehtuuria: osoiteperusteisen (\emph{address-based}) ja korttiperusteisen (\emph{card-based}) identiteetin \cite{openid_2.0_specification_07}. 
 
@@ -114,7 +113,7 @@ OpenID pyrkii toteuttamaan ''käyttäjäkeskeisen identiteetin infrastruktuurin'
 
 Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digitaalinen osoite. Käyttäjän tunnistautuminen tapahtuu todistamalla omistajuus esitettyyn osoitteeseen. Osoiteperusteisen OpenID-identiteetin käyttäjätunnus voi olla muodostettu URL- tai XRI-osoitteesta. XRI-osoitteiden käyttäminen on äskettäin äänestetty OASIS-standardointikomiteassa vanhentuneeksi eikä XRI-osoitteiden hyödyntämistä enää suositella \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Tämän johdosta osoiteperusteisessa identiteetissä käytetään vain URL:ään perustuvia osoitteita kuten \emph{http://user.example.com} or \emph{http://example.com/user}.
 
-Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti tai ne voivat täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
+Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti, mutta ne voivat myös täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}. 
 
 
 
@@ -125,19 +124,19 @@ OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_
 \begin{description}
 
   \item[1. Calastelu (\emph{phishing})] \hfill \\
-    Pahantahtoinen sivu voi kysyä OpenID-tunnusta ja ohjata käyttäjän autenttista identiteetintarjoajaa matkivaan palveluun. Jos käyttäjä autentikoituu huijaussivulle salasanalla, käyttäjän OpenID-identiteetti päätyy vääriin käsiin. Korttiperustaisen autentikoinnin käyttäminen estäisi tämän haavoittuvuuden \cite{cameron_infocard_07}. Identiteetintarjoajista Yahoo! tarjoaa lisäsuojaa eräänlaisella ''vesileimalla'' \cite{yahoo_phishing_seal}.
+    Pahantahtoinen sivu voi kysyä OpenID-tunnusta ja ohjata käyttäjän autenttista identiteetintarjoajaa matkivaan palveluun. Jos käyttäjä autentikoituu huijaussivulle salasanalla, käyttäjän OpenID-identiteetti päätyy vääriin käsiin. Korttiperustaisen autentikoinnin käyttäminen estäisi tämän haavoittuvuuden \cite{cameron_infocard_07}. Identiteetintarjoajien on mahdollista tarjoata lisäsuojaa kaksiosaisella autentikoinnilla, asiakassertifikaatilla tai eräänlaisella ''vesileimalla'' \cite{yahoo_phishing_seal}.
 
    \item[2. Keskitetty riski] \hfill \\
-      Jos OpenID-identiteetti päätyy vääriin käsiin, jokainen siihen kytketty palvelu on myös väärissä käsissä. 
-      Riskinä tämä vertautuu sähköpostitunnuksen salasanan kadottamiseen, koska yleensä erinäisten palvelujen 
-      salasananpalautustoiminnot lähettävät tarkisteen käyttäjälle suojaamattomassa sähköpostissa.
+      Jos OpenID-identiteetti päätyy vääriin käsiin, jokainen siihen kytketty käyttäjäprofiili on myös väärissä
+      käsissä. Riskinä tämä vertautuu sähköpostitunnuksen salasanan kadottamiseen, koska yleensä erinäisten
+      palvelujen salasananpalautustoiminnot lähettävät tarkisteen käyttäjälle suojaamattomassa sähköpostissa.
    
    \item[3. Luottamus identiteetintarjoajaan] \hfill \\
       Kaikki sisäänkirjautumistiedot ovat palveluntarjoajalla, jos tunnistautuminen kohdepalveluun tehdään
       osoiteperusteisella identiteetillä. Tällöin kohdepalvelu edellyttää käyttäjältä
       ainoastaan identiteetintarjoajaan kytketyn käyttäjätunnuksen haltijuuden todentamista.
       Asiakassertifikaatin (\emph{client certificate}) tai korttiperusteisen identiteetin käyttäminen
-      lisätunnisteena ei tuo lisäturvaa, koska sellaisen vaatiminen on ainoastaan
+      lisätunnisteena ei tuo tältä osin lisäturvaa, koska sellaisen vaatiminen on ainoastaan
       identiteetintarjoajan ja käyttäjän välinen asia.
       
    \item[4. Luottamus pysyvyyteen] \hfill \\
@@ -152,14 +151,14 @@ OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_
     myös \emph{kaikista} palveluista, joissa sitä on käytetty.
    
   \item[5. Luottamus DNS-protokollaan] \hfill \\
-    OpenID-protokollan mukaisesti kohdepalvelu ei tunne käyttäjän identiteetintarjoajaa etukäteen.    
+    OpenID-protokollan mukaisesti kohdepalvelu ei välttämättä tunne käyttäjän identiteetintarjoajaa etukäteen.    
     Jos DNS-kyselyihin ei saada autenttista vastausta, palvelu voi johtaa käyttäjän oikeaksi naamioituneelle,
     huijaukseen osallistuvalle identiteetintarjoajalle. Vaatimalla osoiteperusteinen käyttäjätunnus
     etuliitteellä \emph{https://} ja DNSSec-laajennoksen yleistyminen lieventävät riskiä.
 
    \item[6. Epätasa-arvoiset identiteetintarjoajat] \hfill \\
-      Monet suuret palvelut, kuten Google, Facebook, Microsoft MSN, Yahoo, tarjoavat OpenID-tunnisteen, jota
-      voi käyttää sisäänkirjautumiseksi muihin palveluihin. Yksikään näistä ei kuitenkaan hyväksy
+      Monet suuret palveluntarjoajat, kuten Google, Facebook, Microsoft MSN, Yahoo, tarjoavat OpenID-tunnisteen,
+      jota voi käyttää sisäänkirjautumiseksi muihin palveluihin. Yksikään näistä ei kuitenkaan hyväksy
       sisäänkirjautumista omaan palveluunsa muulla kuin itsensä myöntämällä OpenID-käyttäjätunnuksella.
       
 \end{description}
@@ -191,7 +190,7 @@ Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenete
 
 Helposti muistettavat salasanat, kuten luonnollisen kielen sanat, niiden johdannaiset tai nimet, ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{users_are_not_the_enemy_99, passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä väkisinarvaamisen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{password_management_strategies_06, passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
 
-Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, password_management_strategies_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Lähes puolet 46~\% käyttäjistä kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yksi tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
+Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, password_management_strategies_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Symantecin kyselyssä lähes puolet 46~\% vastaajista kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yhdet tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
 
  % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
  % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
@@ -209,7 +208,7 @@ Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, pass
   \end {quote}
 
 Mikään yksittäinen autentikointimenetelmä ei sovi kaikkiin tilanteisiin \cite{will_we_ever_escape_passwords_05}.
-Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole käytännössä mahdollista vaatia turvallisempaa autentikointitapaa, kuten sertifikaatit, avaimet ja ulkoiset laitteet -- jokaisessa palvelussa.
+Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole käytännössä mahdollista vaatia turvallisempaa autentikointitapaa, kuten asiakassertifikaatit, avaimet ja ulkoiset laitteet -- jokaisessa palvelussa.
 Salasanat eivät kuitenkaan itsessään ole tietoturvaketjun heikoin lenkki. Salasanat pystyvät vastaamaan tiukkoihinkin turvallisuusvaatimuksiin, kunhan niitä käytetään täsmällisesti \cite{will_we_ever_escape_passwords_05}.
 
 Kappaleessa~\ref{sec:passwords_de_facto} todetun perusteella yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa. Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan salasanojen hallintaa. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}. 
@@ -242,7 +241,7 @@ Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoit
 \begin{description}
 
   \item[1. Salasana generoidaan vahvaksi.] \hfill \\
-    Salasana voidaan generoidaan ilman käyttäjän vuorovaikutusta. 
+    Salasana generoidaan ilman käyttäjän vuorovaikutusta. 
     Jos käyttäjän annetaan kehittää salasana itse, täytyy ohjelman arvioida salasanan vahvuus.
     Käyttäjät arvioivat helposti salasanan vahvuuden väärin \cite{password_management_strategies_06}. 
     Esimerkiksi salasana ''Sn00py'' voi olla kryptografisesti vahvempi kuin ''123456'', mutta
@@ -264,7 +263,8 @@ Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoit
     Tavoitteena on vähentää käyttäjän muistin kuormitusta ja siirtää vastuu salasanojen hallinnasta
     mahdollisimman suurelta osin on salasanojen hallintaohjelmiston tehtäväksi.
     Koska käyttäjä ei tunne salasanaansa, salasanaa ei ole mahdollista huijata käyttäjältä.
-    Salasanan huijaaminen hallintaohjelmistolta voi kuitenkin olla edelleen mahdollista.
+    Salasanan huijaaminen hallintaohjelmistolta voi kuitenkin olla edelleen mahdollista, jos käyttäjä
+    \emph{antaa siihen luvan} \cite{why_phishing_works_06}.
 
   \item[5. Käyttäjän tarvitsee muistaa vain yksi \emph{master}-salasana.] \hfill \\
     Koska käyttäjän tarvitsee tietää ainoastaan yksi salasana tai salainen lause (\emph{passphrase}), siitä
@@ -281,7 +281,7 @@ Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoit
   
 Salasanan turvallisuuteen liittyvien tavoitteiden toteutuminen ilman hallintaohjelmistoa ei ole käytännöllistä, koska on selvää, ettei käyttäjä voi muistaa lukuisia vahvoja salasanoja. Tällöin turvallisuuteen liittyviä tavoitteita tulee rikottua kuten tutkimuksissa on havaittu \cite{study_of_passwords_07, password_management_strategies_06}. Hallintaohjelmistoja on olemassa lukuisia \cite{dunn_password_managers_08}, mutta suurin osa niistä ovat joko työpöytäohjelmistoja tai web-palveluja.
 
-Työpöytäohjelmiston hyvänä puolena on luottamus säilytettävään datan, koska salausavain ei liiku verkossa. Työpöytäohjelmisto vaatii kuitenkin jonkin tavan tietojen synkronointiin eri työasemien välillä. Ohjelmiston asentaminen saattaa edellyttää pääkäyttäjäoikeuksia, ja tuo mukanaan käyttöjärjestelmäriippuvuuden, jollei ohjelmistosta tehdä versiota eri alustoille. Lisäksi työpöytäohjelmiston on käytettävyyden vuoksi integroiduttava selaimeen esimerkiksi laajennoksen avulla.
+Työpöytäohjelmiston hyvänä puolena on luottamus säilytettävään datan, koska salausavain ei liiku verkossa. Työpöytäohjelmisto vaatii kuitenkin jonkin tavan tietojen synkronointiin eri työasemien välillä. Ohjelmiston asentaminen saattaa edellyttää pääkäyttäjäoikeuksia ja tuo mukanaan käyttöjärjestelmäriippuvuuden, jollei ohjelmistosta tehdä versiota eri alustoille. Lisäksi työpöytäohjelmiston on käytettävyyden vuoksi integroiduttava selaimeen esimerkiksi laajennoksen avulla.
 
 Web-palveluna toimivan salasanapesän etuna on tiedon saatavuus, koska autentikointitietoihin pääsee käsiksi työasemasta riippumatta. Tämä on kuitenkin myös riski, vaikka autentikointitiedot säilöttäisiin palveluun kryptattuina. Jos tallennettujen salasanojen kryptaus ja purkaminen tehdään palvelussa, palvelulla on pääsy käytettävään salausavaimeen. Tämä mahdollistaa teoreettisen pääsyn suojaamattomaan dataan mahdollisen tietomurron yhteydessä, jos hyökkääjä pääsee käsiksi salausavaimeen.
 
@@ -348,12 +348,12 @@ Ongelma on mahdollista ratkaista yhdistämällä hyvät puolet molemmista ratkai
 
 \section{Yhteenveto}
 
-Keskivertolla internet-käyttäjällä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia. 
+Keskiverto internet-käyttäjä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia. 
 OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.
 
-Ratkaisuksi esitettiin kappaleessa~\ref{sec:goals_for_pw_management} asettaa kaikki salasanat yhden salasanan taakse. Koska käyttäjän ei tarvitse edes tietää salasanojansa, voidaan jokaiseen käytettävään palveluun generoida uniikki ja turvallinen salasana. Toisin kuin OpenID:n kanssa, salasanan hallintaohjelmisto ei vaadi tukea käytettävältä palvelulta. Tämä mahdollistaa yhden salasanan käyttämisen kaikkiin palveluihin välittömästi eikä vaadi minkään nimenomaisen autentikointitekniikan yleistymistä. Luonnollisesti kaikkia salasanoja ei silti tarvitse tallettaa samaan säilöön: jos jokin palvelu liian tärkeä ollakseen saman salasanan takana kuin muut, sille voidaan käyttää omaa tunnistetta.
+Ratkaisuksi esitettiin kappaleessa~\ref{sec:goals_for_pw_management} asettaa kaikki salasanat yhden salasanan taakse. Koska käyttäjän ei tarvitse itse tietää salasanojansa, voidaan jokaiseen käytettävään palveluun generoida uniikki ja turvallinen salasana. Toisin kuin OpenID:n kanssa, salasanan hallintaohjelmisto ei vaadi tukea käytettävältä palvelulta. Tämä mahdollistaa yhden salasanan käyttämisen kaikkiin palveluihin välittömästi eikä vaadi minkään nimenomaisen autentikointitekniikan yleistymistä. Luonnollisesti kaikkia salasanoja ei silti tarvitse tallettaa samaan säilöön: jos jokin palvelu on liian tärkeä ollakseen saman salasanan takana kuin muut, sille voidaan käyttää omaa tunnistetta.
 
-Tämän kirjoituksen yhteydessä tiedonsiirtokanava ja käytettävä päätelaite oletettiin turvallisiksi. Erinäiset vakoiluohjelmistot ja troijalaiset ovat kuitenkin merkittävä riski ''Kaikki munat yhdessä korissa''-strategialle. Lisäksi luottamus internetin DNS-protokollaan on merkittävä riski: epäluotettavassa verkossa DNS voi huijata käyttäjää, jolloin käyttäjä altistuu calastelulle (\emph{phishing}). 
+Tämän kirjoituksen yhteydessä tiedonsiirtokanava ja käytettävä päätelaite oletettiin turvallisiksi. Erinäiset vakoiluohjelmistot ja troijalaiset ovat kuitenkin merkittävä riski ''kaikki munat yhdessä korissa''-strategialle. Lisäksi luottamus internetin DNS-protokollaan on merkittävä riski: epäluotettavassa verkossa DNS voi huijata käyttäjää, jolloin käyttäjä altistuu calastelulle (\emph{phishing}). 
 Internetissä on meneillään prosessi nimipalvelujen turvaamiseksi DNSSec-laajennoksella, mikä kuitenkin on käytännössä valmis vasta vuosien kuluttua.
 
 Käytettävyyden vuoksi selaimelle on oltava laajennos, joka automatisoi salasanojen käsittelyn mahdollisimman
@@ -362,7 +362,7 @@ autentikointitiedot kryptattuna verkkoon ja toteuttaa kappaleessa~\ref{sec:goals
 vaatimukset turvalliselle salasanojen hallintaohjelmistolle. Samoin Googlen Chrome-selaimeen kaavaillaan avointa
 salasanojen ja muiden tietojen synkronointirajapintaa \cite{chromium_sync_09}. Käyttöjärjestelmäriippuvuuteen
 verrattuna selainriippuvuus on huomattavasti pienempi ongelma. Mobiilit päätelaitteet ja niiden web-selaimet
-ovat tosin oma ongelmansa. Pitkällä aikavälillä avoin selainrajapinta, joka antaa valita vapaasti käytettävän tallennuspalvelun ja täyttää kappaleessa~\ref{sec:goals_for_pw_management} esitetyt vaatimukset, ratkaisee lopullisesti salasanojen ongelmat.
+luovat lisäksi omat vaatimuksensa. Pitkällä aikavälillä avoin selainrajapinta, joka antaa valita vapaasti käytettävän tallennuspalvelun ja täyttää kappaleessa~\ref{sec:goals_for_pw_management} esitetyt vaatimukset, ratkaisee lopullisesti salasanojen ongelmat.
 
 % http://www.codinghorror.com/blog/2008/05/openid-does-the-world-really-need-yet-another-username-and-password.html
 % I realize that OpenID is far from an ideal solution. But right now, the one-login-per-website problem is so bad that I am willing to accept these tradeoffs for a partial worse is better solution. There's absolutely no way I'd put my banking credentials behind an OpenID. But there are also dozens of sites that I don't need anything remotely approaching banking-grade security for, and I use these sites far more often than my bank. The collective pain of remembering all these logins -- and the way my email inbox becomes a de-facto collecting point and security gateway for all of them -- is substantial. 

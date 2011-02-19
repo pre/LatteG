@@ -1,0 +1,85 @@
+Gradusuunnitelma                                                     2.12.2010 
+Petrus Repo
+
+                  "THERE IS NO WAY TO GET RID OF PASSWORDS"
+                  - So let's deal with it!
+
+1 Introduction
+
+2 Authentication in the Web
+  2.1 Concepts of Authentication and Authorization
+  2.2 Challenge-Response Authentication
+  2.3 Client-Server Authentication
+  2.3 Current state of Web Authentication mechanisms:
+      OpenID, WebID, Oma-ID, Kaikki-Id
+
+3. OpenID as web authentication standard
+  3.1 How openid works
+  3.3 Evaluation of use cases with openid / current state of implementations
+  3.3 Phishing as a Risk for OpenID
+  3.3.1 Deceptive Phishing Attacks
+  3.3.1 Lack of Knowledge and Attention
+  3.3.2 Trojan-based Attacks
+  3.4 Summary of openid and summaries
+
+4 Phishing Resistant Authentication Process
+  4.1 Two-factor Authentication
+  4.2 Client Certificate as an Authentication Response
+  4.3 Combining Benefits of OpenID and Client Certificates
+  4.4 Compatibility with Current Paradigms
+  4.5 Quality of OpenID: PAPE Extensions
+
+5 Implementing a Phishing Resistant Authentication Process
+  6.1 Lets pay a lot of money / do everything the hard way
+  6.2 usbtikku, kännykkä, eli fyysinen laite aina mukana (katoaminen?)
+  6.3 Talletetaan pilveen (luottamus)
+  6.4 client-sertifikaatit: sidonnaisuus työasemaan. 
+      public component & dnssec?
+  6.5 ratkeamattomuuden mahdollisuus: people problem
+
+6 There is No (Practical) Way to Get Rid of Passwords
+  6.1 ratkeamattoman ongelman todistus. 
+      78 salasanaa - 25 openid-palvelua = 53 salasanaa
+      Eri tasoinen auth eri palveluihin.
+      Yleisiin palveluihin täytyy päästä esim. nettikahvilasta.
+  6.2 Salasanoja vaan pitää olla JOTEN, 
+     tehdään niistä mahdollismman hyvät 1password practicet yms pilvijutut
+     phishing epäonnistuu, koska
+      * pilvipw tuntee etukäteen palvelut joihin salasana syötetään 
+      * käyttäjä ei itsekään tiedä salasanaansa (generoitu ja talletettu)
+  6.3. Ownership and Access to the data
+      * kryptattu käytännössä vs. teoriassa, 
+        vrt. githubissa kaikki kryptaamattomana
+      * Encrypting the Data:
+        vain avainpointit esim. indeksi (backblaze), kaikki (onelogin)
+        Access to the decryption key: serverside vs clientside
+  6.4. Security considerations
+       SSL aina päällä tai session voi kaapata tuntematta salasanaa.
+       Lisätasoja: 
+         Nettikahvila-autentikointi voisi olla oma juttunsa, joka vaatii SMS:n 
+          * jos esim domain&selaincombo jota ei ole määritetty luotetuksi
+          * client-sertifikaatti puuttuu
+
+7 Future work
+  * Käytännöllinen: (Prototyyppi) selainlaajennoksesta
+  * Idealistinen: Selaimessa autentikointirajapinta, 
+      jolle konffataan storage & key
+
+8 Conclusions
+
+  There is No *Practical* Way to Get Rid of Passwords:
+    OpenID-tunnuksia on monta: käyttäjäkeskeinen identiteetti ei toteudu. 
+    Kaikki eivät tule koskaan tukemaan OpenID:tä. 
+    Isot toimijat hyväksyvät vain oman OpenID:nsä.
+  
+  Eritasoinen autentikointi eritasoisiin palveluihin:
+    On parempi säilöä monta vahvaa salasanaa yhden vahvan master-salasanan
+      taakse kuin käyttää samaa salasanaa monessa palvelussa.
+    Salasanan lisäksi voidaan tarvittaessa vaatia sertifikaattia tai
+      kuittausta tekstiviestillä.
+    Tärkeimpien palvelujen (GMail, Nordea) salasanan voi pitää itsenäisenä 
+      (ei pilvipw:n takana).
+  
+  Salasanaongelma koskettaa kaikkia. 
+  Ongelma pitäisi ratkaista ilman palvelusidonnaisuutta: 
+     selainrajapinta & mahdollisuus vaihtaa storage.

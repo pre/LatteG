@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DOC="gradusemma"
+DOC="pg"
 
 bibtex $DOC
 pdflatex $DOC

@@ -49,11 +49,13 @@ The focus of this paper is to define risks that phishing poses to web services. 
 
 \section{Johdanto}
 
-Keskimääräisellä internet-käyttäjällä on 25 käyttäjätunnusta, noin 7 eri salasanaa ja hän kirjoittaa salasanan kahdeksan kertaa joka päivä \cite{study_of_passwords_07}. Keskiverto käyttäjä ratkaisee salasanojen muistamiseen liittyviä ongelmia käyttämällä samaa salasanaa monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on kuitenkin erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
+Länsimaalaisella internet-käyttäjällä on keskimäärin 25 käyttäjätunnusta ja seitsemän erilaista salasanaa, ja joka päivä hän antaa salasanan yhteensä kahdeksan kertaa \cite{study_of_passwords_07}. Yleinen ratkaisu lukuisten salasanojen muistamiseen on  saman salasanan käyttäminen monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on silti erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
 
-Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tehtävänä on tarjota kertakirjautumispalvelu (\emph{single sign-on system}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa jakamatta kuitenkaan käyttäjätunnuksen salasanaa näiden palvelujen kesken \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi, ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, tarjoavat OpenID-identiteettiä. Kappaleessa~\ref{sec:openid_auth} käydään läpi syitä siihen, miksei OpenID ole kuitenkaan onnistunut syrjäyttämään perinteisiä käyttäjätunnuksia.
+Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tehtävänä on tarjota \emph{kertakirjautumispalvelu} (\emph{single sign-on system}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa jakamatta kuitenkaan käyttäjätunnuksen salasanaa näiden palvelujen kesken \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, tarjoavat OpenID-identiteettiä. Kappaleessa~\ref{sec:openid_auth} käydään läpi syitä siihen, miksei OpenID ole kuitenkaan onnistunut syrjäyttämään perinteisiä käyttäjätunnuksia.
 
-Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Ratkaisu ei voi olla ainoastaan tekninen, vaan myös käyttäjiä on valistettava tietoturvallisuuden suhteen. Tässä kirjoituksessa keskitytään kuitenkin ratkaisun tekniseen puoleen. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
+Salasanat ovat internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, joten niiden hallitsemiseksi tarvitaan ratkaisu. Ratkaisu ei voi olla ainoastaan tekninen, vaan käyttäjiä on myös valistettava tietoturvallisuuden suhteen. Tässä tutkielmassa keskitytään ratkaisun tekniseen puoleen. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
+
+Tutkielman väitteenä on, että käyttäjän on mahdollista päästä eroon salasanojen muistamisesta ja silti käyttää jokaisessa palvelussa erilaista salasanaa. Tavoite saavutetaan tallettamalla kaikki salasanat hallintaohjelmistoon, jonka tiedot suojataan pääsalasanalla ennen niiden tallettamista verkkoon. Pääsalasanaa ei kuitenkaan koskaan lähetetä verkon yli, jolloin palvelinylläpidolla ei ole valmiutta purkaa sillä suojattuja salasanoja -- poislukien valmius salasanan arvaamiseen väkisin. Lisäksi sisäänkirjautumisessa hyödynnetään kaksiosaista autentikointia, mikä pienentää riskiä väärinkäytöksiin käytettäessä palvelua julkiselta tai epäluotettavalta työasemalta.
 
 
 \section{Autentikoituminen ja web}
@@ -82,6 +84,23 @@ Salasanan turvallisuus riippuu salasanan uniikkiuden lisäksi siitä, kuinka ty�
 Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}.
 
 Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
+
+
+\subsection{Salasanojen vanheneminen ei ole ratkaisu}
+
+% Salasanan vanheneminen:
+% ''The downside of changing passwords is that it makes them harder to remember. And if you force people to change their passwords regularly, they're more likely to choose easy-to-remember -- and easy-to-guess -- passwords than they are if they can use the same passwords for many years. So any password-changing policy needs to be chosen with that consideration in mind.''
+% http://www.schneier.com/blog/archives/2010/11/changing_passwo.html
+%
+% Jos käyttäjää vaaditaan vaihtamaan liian salasana usein, käyttäjän seuraavat salasanat ovat johdannaisia, jotka on mahdollista arvata jos tiedetään ensimmäinen salasana.
+% \cite{password_expiration_10}
+%
+% ''Password expiration does not offer any benefit when a nattacker wants to do all of the damage that he's going to do right now. It does offer a benefit when the attacker intends to continue accessing a system for an extended period of time.''
+% https://lopsa.org/node/295
+% -- S. Alexander, Jr. In defense of password expiration. Post to LOPSA blog, April 2006.
+%
+%
+%  \cite{why_phishing_works_06}
 
 
 \subsection{Concepts of Authentication and Authorization}
@@ -284,7 +303,6 @@ Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest
 
 
 
-          % latte.xsl says: \subsection
           \subsection{Trojan-based Attacks}
             \label{sec:trojans}
 
@@ -486,19 +504,6 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
 
          Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa uutta muistettavaa. Tutkimuksessa käyttäjät eivät ymmärtäneet tietoturvasäännöstön tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seuraus oli, että lukuisat tutkimuksen käyttäjistä päätyivät kiertämään turvallisuussääntöjä.
 
-         % Salasanan vanheneminen:
-         % ''The downside of changing passwords is that it makes them harder to remember. And if you force people to change their passwords regularly, they're more likely to choose easy-to-remember -- and easy-to-guess -- passwords than they are if they can use the same passwords for many years. So any password-changing policy needs to be chosen with that consideration in mind.''
-         % http://www.schneier.com/blog/archives/2010/11/changing_passwo.html
-         %
-         % Jos käyttäjää vaaditaan vaihtamaan liian salasana usein, käyttäjän seuraavat salasanat ovat johdannaisia, jotka on mahdollista arvata jos tiedetään ensimmäinen salasana.
-         % \cite{password_expiration_10}
-         %
-         % ''Password expiration does not offer any benefit when a nattacker wants to do all of the damage that he's going to do right now. It does offer a benefit when the attacker intends to continue accessing a system for an extended period of time.''
-         % https://lopsa.org/node/295
-         % -- S. Alexander, Jr. In defense of password expiration. Post to LOPSA blog, April 2006.
-         %
-         %
-         %  \cite{why_phishing_works_06}
 
 
 \subsection{Tavoitteet salasanojen turvallisuudelle}

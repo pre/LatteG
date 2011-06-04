@@ -475,7 +475,7 @@ Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites
 
     Delegating the authentication to the identity provider as a whole implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability to handle transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
 
-    OpenID provider authentication policy extension defines a schema for phishing-resistant authentication \cite{openid_2.0_pape_07}. Phishing-resistan schema requires the usage of a certificate in addition to a password as illustrated in figure~\ref{fig:openid_policy_examples}. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate).
+    OpenID provider authentication policy extension defines a schema for phishing-resistant authentication \cite{openid_2.0_pape_07}. Phishing-resistant schema requires the usage of a certificate in addition to a password as illustrated in figure~\ref{fig:openid_policy_examples}. By implementing client certificates in an addition to the normal password challenge, the identity provider employs a two-factor authentication scheme. A successful authentication requires something that you know (password) and something that you have (certificate).
 
     % TODO: Tähän oma kappale jossa selitetään ero server & client sertifikaateista
 
@@ -497,7 +497,18 @@ Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites
 
 
 
-\section{Turvallinen ja inhimillinen autentikoitumisprosessi}
+\section{Autentikoituminen turvallisesti ja käytännöllisesti}
+
+Tietoturvallisuus on riskienhallintaa: tietoturvan täydellisyys on suoraan verrannollinen siihen liittyviin kustannuksiin. Salasanojen hallinnassa ei siksi ole mielekästä tavoitella täydellistä tietoturvaa vaan käyttötapauksen riskeihin suhteutettuna \emph{riittävän hyvää} turvallisuustasoa. Salasanat ovat webin yleisin autentikoitumistapa, koska salasana on sopiva kompromissi turvallisuuden, käytettävyyden ja kustannusten välillä. Tässä luvussa esitetään sopiva käytännöllinen menetelmä salasanojen hallintaan, jonka ansioista salasanan käyttö webissä on \emph{riittävän turvallista} ja \emph{riittävän käytännöllistä}.
+
+Salasanat eivät itsessään ole tietoturvaketjun heikoin lenkki. Salasanat pystyvät vastaamaan tiukkoihinkin turvallisuusvaatimuksiin, kunhan niitä käytetään täsmällisesti \cite{will_we_ever_escape_passwords_05}. Salasanoja tarvitaan webissä niin kauan kuin salasanan sijasta ei ole käytännöllistä vaatia turvallisempaa autentikointitapaa kuten asiakassertifikaatit, avaimet ja ulkoiset laitteet -- jokaisessa palvelussa.
+
+
+TODO: Ammenna tähän lisää sopivasta lähteestä.
+* Salasanahallinta: millainen kompromissi.
+* Turvallisuusvaatimukset käyttäjälle (pw manager)
+* JA turvallisuusvaatimukset lisäksi myös palvelulle (2-factor)
+* ONGELMA: Kuinka matkapuhelin ja sormitietokone?
 
 A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server \cite{phishing_attacks_and_solutions_2007}. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication \cite{NIST_SP800-63, schneier_2factor_2005, google_2step_2010} on the application level.
 
@@ -505,7 +516,7 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
 
 
 
-\subsection{Vaatimukset turvalliselle salasana-autentikoinnille}
+\subsection{Vaatimukset salasana-autentikoinnin prosessille (TODO: kuvaavampi otsikko)}
 
            \begin{quote}
                ''The fool saith, 'Put not all thy eggs in one basket' ...
@@ -513,17 +524,22 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
                \\--- Mark Twain \cite{twain_eggs_1894}
            \end {quote}
 
-         Mikään yksittäinen autentikointimenetelmä ei sovi kaikkiin tilanteisiin \cite{will_we_ever_escape_passwords_05}.
-         Salasanoja tarvitaan niin kauan kuin salasanan sijasta ei ole käytännössä mahdollista vaatia turvallisempaa autentikointitapaa kuten asiakassertifikaatit, avaimet ja ulkoiset laitteet -- jokaisessa palvelussa.
-         Salasanat eivät kuitenkaan itsessään ole tietoturvaketjun heikoin lenkki. Salasanat pystyvät vastaamaan tiukkoihinkin turvallisuusvaatimuksiin, kunhan niitä käytetään täsmällisesti \cite{will_we_ever_escape_passwords_05}.
-
          Kappaleessa~\ref{sec:passwords_de_facto} todetun perusteella yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa. Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan ratkaisu salasanojen hallintaan. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}.
 
          Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa uutta muistettavaa. Tutkimuksessa käyttäjät eivät ymmärtäneet tietoturvasäännöstön tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seurauksena oli, että lukuisat tutkimuksen kohteena olleet käyttäjät päätyivät kiertämään turvallisuussääntöjä.
 
 
+\subsection{Vaatimukset autentikoinnin kohteena olevalle palvelulle}
 
-\subsection{Tavoitteet salasanojen turvallisuudelle}
+* SALLI: pitkä salasana (naurettavaa että salasanan pituutta rajoitetaan). Parhaita salasanoja ovat pitkät ja mieluiten järjettömät lauseet, jotka eivät ole arvattavissa ja joiden arvaaminen sanakirjahyökkäyksellä on liian työlästä. TÄHÄN VIITE (http://www.baekdal.com/tips/password-security-usability) artikkelista jossa oli laskettu erilaisia arvausaikoja salasanan pituuden perusteella. Tuloksena oli, että kolmesta sanasta koostuva salasana on käytännössä mahdoton arvata brute-forcella.
+
+* HYÖDYNNÄ: 2-factor. Anti-phishing, vaikka ongelmat. Google & Facebook hyödyntävät jo. Mahdollistaa käytön myös ns. kahvilakoneelta, koska pelkkä salasana ei riitä.
+
+
+
+* ESTÄ: Useiden peräkkäisten kokeilu (ohi scopesta?)
+
+\subsection{Vaatimukset salasanojen turvallisuudelle}
 
          Kovinkaan moni käyttäjä ei osaa luoda vahvaa salasanaa \cite{generating_and_remembering_pws_04, password_management_strategies_06}. Jos salasanan luominen siirrettäisiin käyttäjän vastuulta salasanojen hallintaohjelmiston tehtäväksi, kaikista salasanoista saataisiin turvallisia. Pelkkä ''vahvuus'' ei kuitenkaan vielä itsessään tee salasanasta turvallista.
          Schneier \cite{schneier_password_advice_09} listaa 10 kriteeriä salasanojen turvallisuudelle, ja mainitsee itse rikkovansa niistä säännöllisesti seitsemää. Inhimillisen tekijään ei ole teknistä ratkaisua.
@@ -569,7 +585,7 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
          \end{description}
 
 
-\subsection{Tavoitteet salasanojen hallinnalle}
+\subsection{Vaatimukset salasanojen hallinnalle}
            \label{sec:goals_for_pw_management}
 
          Salasanan turvallisuuteen liittyvien tavoitteiden toteutuminen ilman hallintaohjelmistoa ei ole käytännöllistä, koska on selvää, ettei käyttäjä voi muistaa lukuisia vahvoja salasanoja. Tällöin turvallisuuteen liittyviä tavoitteita tulee rikottua kuten tutkimuksissa on havaittu \cite{study_of_passwords_07, password_management_strategies_06}. Hallintaohjelmistoja on olemassa lukuisia \cite{dunn_password_managers_08}, mutta suurin osa niistä ovat joko työpöytäohjelmistoja tai web-palveluja.

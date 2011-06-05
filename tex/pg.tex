@@ -104,22 +104,6 @@ Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän sala
 Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
 
-\subsection{Salasanojen vanheneminen ei ole ratkaisu}
-
-% Salasanan vanheneminen:
-% ''The downside of changing passwords is that it makes them harder to remember. And if you force people to change their passwords regularly, they're more likely to choose easy-to-remember -- and easy-to-guess -- passwords than they are if they can use the same passwords for many years. So any password-changing policy needs to be chosen with that consideration in mind.''
-% http://www.schneier.com/blog/archives/2010/11/changing_passwo.html
-%
-% Jos käyttäjää vaaditaan vaihtamaan liian salasana usein, käyttäjän seuraavat salasanat ovat johdannaisia, jotka on mahdollista arvata jos tiedetään ensimmäinen salasana.
-% \cite{password_expiration_10}
-%
-% ''Password expiration does not offer any benefit when a nattacker wants to do all of the damage that he's going to do right now. It does offer a benefit when the attacker intends to continue accessing a system for an extended period of time.''
-% https://lopsa.org/node/295
-% -- S. Alexander, Jr. In defense of password expiration. Post to LOPSA blog, April 2006.
-%
-%
-%  \cite{why_phishing_works_06}
-
 
 \subsection{Concepts of Authentication and Authorization}
 
@@ -524,16 +508,23 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
                \\--- Mark Twain \cite{twain_eggs_1894}
            \end {quote}
 
-         Kappaleessa~\ref{sec:passwords_de_facto} todetun perusteella yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa. Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan ratkaisu salasanojen hallintaan. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}.
+         Yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa (ks. luku~\ref{sec:passwords_de_facto}). Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan ratkaisu salasanojen hallintaan. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}.
 
          Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa uutta muistettavaa. Tutkimuksessa käyttäjät eivät ymmärtäneet tietoturvasäännöstön tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seurauksena oli, että lukuisat tutkimuksen kohteena olleet käyttäjät päätyivät kiertämään turvallisuussääntöjä.
 
 
+
+
 \subsection{Vaatimukset autentikoinnin kohteena olevalle palvelulle}
 
-* SALLI: pitkä salasana (naurettavaa että salasanan pituutta rajoitetaan). Parhaita salasanoja ovat pitkät ja mieluiten järjettömät lauseet, jotka eivät ole arvattavissa ja joiden arvaaminen sanakirjahyökkäyksellä on liian työlästä. TÄHÄN VIITE (http://www.baekdal.com/tips/password-security-usability) artikkelista jossa oli laskettu erilaisia arvausaikoja salasanan pituuden perusteella. Tuloksena oli, että kolmesta sanasta koostuva salasana on käytännössä mahdoton arvata brute-forcella.
+* SALLI: pitkä salasana (käsittämätöntä että salasanan pituutta rajoitetaan). Parhaita salasanoja ovat pitkät ja mieluiten järjettömät lauseet, jotka eivät ole arvattavissa ja joiden arvaaminen sanakirjahyökkäyksellä on liian työlästä. TÄHÄN VIITE (http://www.baekdal.com/tips/password-security-usability) artikkelista jossa oli laskettu erilaisia arvausaikoja salasanan pituuden perusteella. Tuloksena oli, että kolmesta sanasta koostuva salasana on käytännössä mahdoton arvata brute-forcella.
 
-* HYÖDYNNÄ: 2-factor. Anti-phishing, vaikka ongelmat. Google & Facebook hyödyntävät jo. Mahdollistaa käytön myös ns. kahvilakoneelta, koska pelkkä salasana ei riitä.
+Salasanan vanheneminen ei välttämättä paranna turvallisuutta. Jos käyttäjää vaaditaan vaihtamaan salasana liian usein, käyttäjän seuraavat salasanat ovat johdannaisia, jotka on mahdollista arvata sitä nopeammin, mitä useampi käyttäjän edellisistä salasanoista tunnetaan \cite{password_expiration_10}. Tämän tutkielman kirjoittaja on havainnut saman ilmiön Helsingin yliopiston tietoverkossa. Kun yliopiston salasana on vanhentunut, kirjoittaja on koko opiskeluaikanansa vaihtanut vanhasta salasanastaan vain yhden merkin -- ja senkin vain siksi, koska järjestelmä ei kelpuuttanut uudeksi salasanaksi juuri vanhentunutta salasana.
+
+Salasanojen vaihtamisen kääntöpuolena on uuden muistettavan lisääntyminen. Jos käyttäjät pakotetaan vaihtamaan salasanansa säännöllisesti, käyttäjä valitsee salasanakseen helpommin muistettavan -- ja helpommin arvattavan -- salasanan verrattuna siihen, että käyttäjä voisi käyttää samaa salasanaa useita vuosia \cite{schneier_changing_passwords_10}. Tämä näkökohta on otettava huomioon, kun harkitaan salasanan vanhenemissäännöstöä. Salasanan vanhenemisen hyötynä on auttaa päättämään vääriin käsiin päätynyt käyttöoikeus pitkällä aikavälillä. Salasanan vanheneminen ei kuitenkaan estä vahinkoa, jonka hyökkääjä tekee ennen salasanan vanhenemista \cite{lopsa_pw_expiry_06}.
+
+
+* HYÖDYNNÄ: 2-factor. Anti-phishing, vaikka ongelmat. Google \& Facebook hyödyntävät jo. Mahdollistaa käytön myös ns. kahvilakoneelta, koska pelkkä salasana ei riitä.
 
 
 

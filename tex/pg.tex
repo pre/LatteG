@@ -103,6 +103,14 @@ Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän sala
 
 Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
+\subsection{Perusteet salasanan vahvuudelle (TODO)}
+Tähän tarvitaan teoriapohja, johon viitataan loppukappaleessa.
+ \\
+ \\ * Oletetaan käytetty kryptausalgoritmi turvalliseksi (koska ei liity tutkielmaan)
+ \\ * Kryptografinen turvallisuus ei ole ainoa seikka, huomioitava sanakirjahyökkäy. l/p: Toni Mäki / t0n1m4k1
+ \\ * Lainaa http://www.baekdal.com/tips/password-security-usability
+ \\ * 10 kriteeriä turvallisuudelle \cite{schneier_password_advice_09}
+ \\ *
 
 
 \subsection{Concepts of Authentication and Authorization}
@@ -193,7 +201,7 @@ Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa. (TODO: 
 
              Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, password_management_strategies_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Symantecin kyselyssä lähes puolet 46~\% vastaajista kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yhdet tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
 
-              % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin)
+              % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin, MUTTA: kappaleessa salasanan vanheneminen suositellaan saman salasanan käyttämistä pitkään)
               % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
               % - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
               % - twitter adminin salasana murrettu sanakirja hyökkäyksellä, seurauksena lukuisia suosittuja käyttäjäprofiileja kaapattiin: http://www.codinghorror.com/blog/2009/01/dictionary-attacks-101.html
@@ -519,34 +527,42 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
 
 * SALLI: pitkä salasana (käsittämätöntä että salasanan pituutta rajoitetaan). Parhaita salasanoja ovat pitkät ja mieluiten järjettömät lauseet, jotka eivät ole arvattavissa ja joiden arvaaminen sanakirjahyökkäyksellä on liian työlästä. TÄHÄN VIITE (http://www.baekdal.com/tips/password-security-usability) artikkelista jossa oli laskettu erilaisia arvausaikoja salasanan pituuden perusteella. Tuloksena oli, että kolmesta sanasta koostuva salasana on käytännössä mahdoton arvata brute-forcella.
 
-Salasanan vanheneminen ei välttämättä paranna turvallisuutta. Jos käyttäjää vaaditaan vaihtamaan salasana liian usein, käyttäjän seuraavat salasanat ovat johdannaisia, jotka on mahdollista arvata sitä nopeammin, mitä useampi käyttäjän edellisistä salasanoista tunnetaan \cite{password_expiration_10}. Tämän tutkielman kirjoittaja on havainnut saman ilmiön Helsingin yliopiston tietoverkossa. Kun yliopiston salasana on vanhentunut, kirjoittaja on koko opiskeluaikanansa vaihtanut vanhasta salasanastaan vain yhden merkin -- ja senkin vain siksi, koska järjestelmä ei kelpuuttanut uudeksi salasanaksi juuri vanhentunutta salasana.
+Salasanan vanhenemisen hyötynä on auttaa päättämään vääriin käsiin päätynyt käyttöoikeus pitkällä aikavälillä. Salasanan vanheneminen ei kuitenkaan estä vahinkoa, jonka hyökkääjä tekee ennen salasanan vanhenemista \cite{lopsa_pw_expiry_06}. Salasanan vanheneminen ei siten välittömästi paranna turvallisuutta, vaikka toimenpide vähentää pitkällä aikavälillä väärissä käsissä olevien salasanojen kokonaislukumäärää.
 
-Salasanojen vaihtamisen kääntöpuolena on uuden muistettavan lisääntyminen. Jos käyttäjät pakotetaan vaihtamaan salasanansa säännöllisesti, käyttäjä valitsee salasanakseen helpommin muistettavan -- ja helpommin arvattavan -- salasanan verrattuna siihen, että käyttäjä voisi käyttää samaa salasanaa useita vuosia \cite{schneier_changing_passwords_10}. Tämä näkökohta on otettava huomioon, kun harkitaan salasanan vanhenemissäännöstöä. Salasanan vanhenemisen hyötynä on auttaa päättämään vääriin käsiin päätynyt käyttöoikeus pitkällä aikavälillä. Salasanan vanheneminen ei kuitenkaan estä vahinkoa, jonka hyökkääjä tekee ennen salasanan vanhenemista \cite{lopsa_pw_expiry_06}.
+Salasanojen vaihtamisen haittapuolena on uuden muistettavan lisääntyminen. Jos käyttäjät pakotetaan vaihtamaan salasanansa \emph{liian usein}, käyttäjä valitsee salasanakseen helpommin muistettavan -- ja helpommin arvattavan -- salasanan verrattuna siihen, että käyttäjä voisi käyttää samaa salasanaa useita vuosia \cite{schneier_changing_passwords_10}. Käyttäjän seuraava salasana voi myös olla johdannainen, joka on mahdollista arvata sitä vaivattomammin, mitä useampi käyttäjän edellisistä salasanoista tunnetaan \cite{password_expiration_10}. Tämän tutkielman kirjoittaja on havainnut saman ilmiön Helsingin yliopiston tietoverkossa. Kun yliopiston salasana on vanhentunut, kirjoittaja on koko opiskeluaikanansa vaihtanut vanhasta salasanastaan vain yhden merkin -- ja senkin vain siksi, koska järjestelmä ei kelpuuttanut uudeksi salasanaksi juuri vanhentunutta salasana.
 
+Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökulmasta, jos palvelun tietoturvapolitiikkaan suunnitellaan salasanan vanhenemissäännöstöä. Organisaation täytyy arvioida todennäköisyys ja vakavuus riskeille, että käyttäjä valitsee heikon salasanan ja että väärin käsiin päätynyttä salasanaa käytetään liian pitkään.
 
 * HYÖDYNNÄ: 2-factor. Anti-phishing, vaikka ongelmat. Google \& Facebook hyödyntävät jo. Mahdollistaa käytön myös ns. kahvilakoneelta, koska pelkkä salasana ei riitä.
 
-
-
 * ESTÄ: Useiden peräkkäisten kokeilu (ohi scopesta?)
+
 
 \subsection{Vaatimukset salasanojen turvallisuudelle}
 
          Kovinkaan moni käyttäjä ei osaa luoda vahvaa salasanaa \cite{generating_and_remembering_pws_04, password_management_strategies_06}. Jos salasanan luominen siirrettäisiin käyttäjän vastuulta salasanojen hallintaohjelmiston tehtäväksi, kaikista salasanoista saataisiin turvallisia. Pelkkä ''vahvuus'' ei kuitenkaan vielä itsessään tee salasanasta turvallista.
          Schneier \cite{schneier_password_advice_09} listaa 10 kriteeriä salasanojen turvallisuudelle, ja mainitsee itse rikkovansa niistä säännöllisesti seitsemää. Inhimillisen tekijään ei ole teknistä ratkaisua.
+         \\
+         TODO: Avaa turvallisuuskriteerit
 
          Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoitteet toteuttava salasanojen hallintaohjelmisto mahdollistaisi salasanojen turvallisen käytön lisäämättä käyttäjän kognitiivista muistikuormaa. Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
 
 
          \begin{description}
 
-           \item[1. Salasana generoidaan vahvaksi.] \hfill \\
-             Salasana generoidaan ilman käyttäjän vuorovaikutusta.
-             Jos käyttäjän annetaan kehittää salasana itse, täytyy ohjelman arvioida salasanan vahvuus.
+           \item[1. Salasanan täytyy olla riittävän vahva.] \hfill \\
+            * Kriteerit vahvuudelle, TODO: Teoriakappale alkuun \\
              Käyttäjät arvioivat helposti salasanan vahvuuden väärin \cite{password_management_strategies_06}.
              Esimerkiksi salasana ''Sn00py'' voi olla kryptografisesti vahvempi kuin ''123456'', mutta
              sanakirjahyökkäyksessä eroa ei välttämättä ole. Myös profiilitiedot käyttäjästä nopeuttavat murtumista, jos
              esimerkiksi tiedetään ''Snoopyn'' olevan käyttäjän suosikkisarjakuvahahmo ja salasana on ''Sn00py''.
+
+           \item[X. Salasana generoidaan käyttäjän puolesta.] \hfill \\
+           Salasana generoidaan ilman käyttäjän vuorovaikutusta.
+           Jos käyttäjän annetaan kehittää salasana itse, täytyy ohjelman arvioida salasanan vahvuus.
+            * Salasanassa voi olla käyttäjän antama runko-osa (esim. xyzzy-kiipeli) \\
+            * Salasanasta tehdään sellainen että se olisi mahdollsita kirjoittaa käsin (xyzzy-kiipeli-10-turnaus) \\
+            * Salasanamanageri vastaa siitä, että salasanasta generoidaan riittävän vahva \\
 
            \item[2. Yhtä salasanaa käytetään vain yhdessä palvelussa.] \hfill \\
             Tavoitteena on estää tilanne, jossa yhden salasanan joutuminen vääriin käsiin vaarantaisi käyttäjän tiedot

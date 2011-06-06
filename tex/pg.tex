@@ -112,6 +112,10 @@ Tähän tarvitaan teoriapohja, johon viitataan loppukappaleessa.
  \\ * 10 kriteeriä turvallisuudelle \cite{schneier_password_advice_09}
  \\ *
 
+ Esimerkiksi salasana ''Sn00py'' voi olla kryptografisesti vahvempi kuin ''123456'', mutta
+ sanakirjahyökkäyksessä eroa ei välttämättä ole. Myös profiilitiedot käyttäjästä nopeuttavat murtumista, jos
+ esimerkiksi tiedetään ''Snoopyn'' olevan käyttäjän suosikkisarjakuvahahmo ja salasana on ''Sn00py''.
+
 
 \subsection{Concepts of Authentication and Authorization}
 
@@ -553,9 +557,21 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
            \item[1. Salasanan täytyy olla riittävän vahva.] \hfill \\
             * Kriteerit vahvuudelle, TODO: Teoriakappale alkuun \\
              Käyttäjät arvioivat helposti salasanan vahvuuden väärin \cite{password_management_strategies_06}.
-             Esimerkiksi salasana ''Sn00py'' voi olla kryptografisesti vahvempi kuin ''123456'', mutta
-             sanakirjahyökkäyksessä eroa ei välttämättä ole. Myös profiilitiedot käyttäjästä nopeuttavat murtumista, jos
-             esimerkiksi tiedetään ''Snoopyn'' olevan käyttäjän suosikkisarjakuvahahmo ja salasana on ''Sn00py''.
+
+           \item[X. Salasanan täytyy olla käytettävä] \hfill \\
+            * Salasanaohjelmisto ei todennäköisesti ole käytettävissä sormitietokoneelle tai matkapuhelimelle. Näillä laitteilla käytettävien palvelujen joukko on laitteen käyttöprofiilin vuoksi pienempi kuin työpöytäkoneella, mutta on myös näillä laitteilla käytetään salasanoja edellyttäviä palveluja. Käyttäjä joutuu siksi kirjoittamaan salasanansa joskus myös käsin (vaikka näitä on vähemmän).
+
+            XYZ väittää (http://www.baekdal.com/tips/usable-security-reply-to-security-now/) että kolmesta riittävän satunnaisesta sanasta kehitetty salasana (esim. ''this-is-fun'') olisi väkisin arvaamamisen ja sanakirjahyökkäyksen kannalta (brute-force \& dictionary attack) turvallisempi kuin lyhyt satunnaismerkkijono  ''J4fS<2''. Salasanan vahvuus kasvaa lisäämällä monimutkaisuutta, mutta käytettävyys ei. Esimerkiksi 25-merkkinen salasana ''jlSDF vn3987rjlFkmciEujf.'' on vahva, satunnainen ja kompleksinen mutta se ei ole käytettävä. Vaikka tällaisen salasanan pystyisi jollain keinolla muistamaan, se olisi ärsyttävä kirjoittaa. Kuitenkin vastaavan pituinen salasana ''Ihme-Päsmärin mustikkaa!' on paremmin muistettavissa luonnollisen kielen kautta ja sen kirjoittaminen on satunnaismerkkijonoa vaivattomampaa.
+
+            % You can always make a password more secure by adding complexity. But you will also very quickly reach a point in which it is no longer usable.
+            %
+            % You cannot remember a password like "8;dU2i2{xs1*hT#4A9tccT." And even if you could, it would be really annoying to type.
+            %
+            % The time and agony involved in using that password would costs too much, compared to the low risk of using the much simpler "this is fun" (which is still 11 characters long and quite secure).
+            %
+            % The questions you need to ask are. When is a password secure enough? At what point do I no longer need to make it more complex (either by choice or by circumstance)?
+            %
+            %
 
            \item[X. Salasana generoidaan käyttäjän puolesta.] \hfill \\
            Salasana generoidaan ilman käyttäjän vuorovaikutusta.

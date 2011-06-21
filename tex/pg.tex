@@ -21,7 +21,7 @@
 
 \begin{document}
 
-\title{Salasanoista ei päästä eroon.\\ --- Mutta äheltämisestä päästään!}
+\title{Salasana on kuollut. Eläköön salasana!\\ --- Kuinka kirjautua sisään internet-palveluihin.}
 \author{Petrus Repo}
 \date{\today}
 \level{G!}
@@ -607,6 +607,33 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
 
          \end{description}
 
+\subsection{TODO: ABAC for SOA tarjoaa teoriapohaja pwmanagerilla}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/abac_for_soa.jpg}
+    \caption{Piirrä oma kuva tästä}
+    \label{fig:abac_for_soa}
+  \end{figure}
+  % TODO: Lisää sitaatti lähteisiin "Authorization-Based Access Control for the Services Oriented Architecture"
+  Tutkielman näkökulmana on yksityishenkilö internetin käyttäjänä, EI organisaatio. Organisaation sisällä on mahdollista toteuttaa yhteisöön liittyviä sääntöjä ja niitä on mahdollista tukea erikseen palkatuilla helpdesk-työntekijöillä. Yksityishenkliöllä ei yleensä ole käytettävissä  henkilökohtaista helpdesk-avustajaa. Lisäksi yksityishenkilön käyttämä palveluvalikoima on heterogeeninen eivätkä palvelut tunne toisiansa (toisin kuin jonkin organisaation sisällä).
+
+  Kertakirjautuminen
+
+  * Yhteen palvelukokonaisuuteen yhdestä ovesta --> toimii. Jos palvelukokonaisuus on jollain tavalla linkitetty toisiinsa, niin autentikoitumistapa voidaan tehdä yhtenäiseksi.
+  -- esim. SAML
+  'One of the motiva- tions behind SAML is Single Sign On (SSO), a means of avoiding the need to sign on multiple times with a variety of passwords.'
+
+  * Koko internetin laajuisesti --> OpenID yritti. Jokaista sellaista palvelua kohden, joka jättää OpenID:n tukematta, tarvitaan rinnalle vaihtoehtoinen autentikoitumistapa -- käytännössä salasana. 80 palvelua joissa 50\%:ssa OpenID --> 40 palvelua, joissa salasana.
+
+  Salasanahallinta : kuin authorization based access control, jossa ''policy engine'' on ''Käyttäjän oma'', eli 1Password/Firefox sync tms, vrt ABAC for SOA
+  "Authorization-based access control doesn’t have
+  the problems inherent in identity-based access control. Since each domain only has information about its own principals, there are no problems of distributed iden- tity management."
+
+
+  "Large scale distributed systems are inherently dif-
+  ferent from stand-alone computers. There is little rea- son to think that designs for the latter are applicable to the former. Yet that’s what identity-based access con- trol does. It takes an access model from one realm and tries to make it work in the other. Authorization- based access control, which has advantages even on stand-alone computers, is a better match to the re- quirements of distributed systems that span adminis- trative domains." [ABAC for SOA]
+
 
 \subsection{Vaatimukset salasanojen hallinnalle}
            \label{sec:goals_for_pw_management}
@@ -624,6 +651,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
            \item[1. Käyttäjä pääsee käsiksi salasanoihin miltä tahansa työasemalta.] \hfill \\
                Tavoitteena on tarjota riippumattomuus käyttöympäristöstä.
                Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
+               Jos työasemaan (tai kohteena olevaan palveluun) ei voi luottaa (esim troijalainen),
+               ei oikeastaan millään muulla turvallisuustekijällä ole paljoakaan väliä.
 
            \item[2. Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.] \hfill \\
                Päätelaiteriippumattomuus saavutetaan, kun tieto tallennetaan verkkoon.

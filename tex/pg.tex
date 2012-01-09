@@ -811,6 +811,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
 
             XYZ väittää (http://www.baekdal.com/tips/usable-security-reply-to-security-now/) että kolmesta riittävän satunnaisesta sanasta kehitetty salasana (esim. ''this-is-fun'') olisi väkisin arvaamamisen ja sanakirjahyökkäyksen kannalta (brute-force \& dictionary attack) turvallisempi kuin lyhyt satunnaismerkkijono  ''J4fS<2''. Salasanan vahvuus kasvaa lisäämällä monimutkaisuutta, mutta käytettävyys ei. Esimerkiksi 25-merkkinen salasana ''jlSDF vn3987rjlFkmciEujf.'' on vahva, satunnainen ja kompleksinen mutta se ei ole käytettävä. Vaikka tällaisen salasanan pystyisi jollain keinolla muistamaan, se olisi ärsyttävä kirjoittaa. Kuitenkin vastaavan pituinen salasana ''Ihme-Päsmärin mustikkaa!' on paremmin muistettavissa luonnollisen kielen kautta ja sen kirjoittaminen on satunnaismerkkijonoa vaivattomampaa.
 
+            TODO: TÄHÄN XKCD-KUVA
+
             % You can always make a password more secure by adding complexity. But you will also very quickly reach a point in which it is no longer usable.
             %
             % You cannot remember a password like "8;dU2i2{xs1*hT#4A9tccT." And even if you could, it would be really annoying to type.
@@ -824,8 +826,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
            \item[X. Salasana generoidaan käyttäjän puolesta.] \hfill \\
            Salasana generoidaan ilman käyttäjän vuorovaikutusta.
            Jos käyttäjän annetaan kehittää salasana itse, täytyy ohjelman arvioida salasanan vahvuus.
-            * Salasanassa voi olla käyttäjän antama runko-osa (esim. xyzzy-kiipeli) \\
-            * Salasanasta tehdään sellainen että se olisi mahdollsita kirjoittaa käsin (xyzzy-kiipeli-10-turnaus) \\
+            * Salasanassa voi olla käyttäjän antama runko-osa (esim. ''myssy-kiipeli'') \\
+            * Salasanasta tehdään sellainen että se olisi mahdollsita kirjoittaa käsin (myssy-kiipeli-10-turnaus) \\
             * Salasanamanageri vastaa siitä, että salasanasta generoidaan riittävän vahva \\
 
            \item[2. Yhtä salasanaa käytetään vain yhdessä palvelussa.] \hfill \\
@@ -836,8 +838,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
            \item[3. Salasanat eivät ole johdannaisia toisistansa.] \hfill \\
              Yhden tai useamman salasanan ei perusteella ei saa voida arvata tai tuottaa muita salasanoja. Jos käyttäjän
              salasana esimerkiksi Facebookiin on ''faceYhfmn2\#3'' ja Gmailiin ''gmaYhfmn2\#3'', hyökkääjän riittää
-             kokeilla kaikki palvelun nimestä johdettavat kombinaatiot ja liittää niihin muista salasanoista tunnetut
-             yhteiset osat.
+             kokeilla kaikki palvelun nimestä johdettavat kombinaatiot ja liittää niihin muista salasanoista tunnetun
+             yhteisen osan (''Yhfmn2\#3'').
 
            \item[4. Käyttäjän ei tarvitse tietää palvelussa käyttämäänsä salasanaa.] \hfill \\
              Tavoitteena on vähentää käyttäjän muistin kuormitusta ja siirtää vastuu salasanojen hallinnasta
@@ -930,6 +932,20 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
                Tämä takaa yhteensopivuuden kaikkiin verkon palveluihin, koska palvelun ei tarvitse tukea mitään uutta
                autentikointimenetelmää.
 
+           \item[X. Uuden salasanan luominen/kytkeminen palveluun tulee olla vaivatonta.] \hfill \\
+               OpenID feilaa koska kaikki ei tue. 1Password feilaa koska vaikea (uuden palvelun lisäys menee helposti pieleen).
+               Käyttäjän täytyy osata luoda uusi tunnus pwmanageriin HELPOSTI. Normikäyttäjä ei lisää uutta tunnusta pwmanageriin
+               jos se ei ole vaivatonta. Vaivattomampaa käyttää samaa tai huonoa salasanaa.
+
+           \item[X. Salasanojen tulee olla aina synkronissa eri päätelaitteilla.] \hfill \\
+                Chromium Sync käyttää XMPP:tä pushaamiseen. 1PAssword Dropboxia, joka myös Pushaa. Firefox Sync? (Push vs. Poll:
+                1000 käyttäjää, 3min välein poll = poll req every 0.18 second = 5.6 queries/s -- silloin kun pelkkä pollaus eikä
+                muutoksia)]
+
+           \item[X. Salasanoihin pääsee käsiksi selaimesta riippumatta.] \hfill \\
+                Chromium Sync vain Chromessa, Firefox Sync vain Firefoxissa. Selainlaajennos kaikissa työpöydällä.
+                Selainlaajennos ei mobiilissa. Mobiilissa erillinen applikaatio voi tarjota pääsyn salasanoihin, mutta syöttäminen selaimeen on kankeaa (esim 1pw ios-ohjelmasta pitää copypastettaa). Saitin voisi myös avata suoraan mobiiliappsista ehkä?
+
          \end{description}
 
 
@@ -961,6 +977,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
               %    http://arstechnica.com/open-source/news/2009/08/google-reveals-plans-for-chrome-cloud-synchronization.ars
               %  The protocol _is_ open.  Protobufs are open source and the sync spec built on them is also open source.
               %   https://groups.google.com/group/chromium-dev/browse_thread/thread/bdacc1bdf3c5cb6a
+              %
+              % Firefox sync: http://docs.services.mozilla.com/sync/overview.html
 
 
 
@@ -968,8 +986,34 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
 
 
 
-\section{Käytännön 1Password} % (fold)
+\section{Vaatimukset käytännössä, vertailu salasanahallinnan toteutuksista} % (fold)
 \label{sec:käytännön_1password}
+\begin{itemize}
+
+  \item * Browser ID
+  \item * 1Password
+  \item * Firefox Sync
+  \item * Chrome Sync
+  \item * Microsoft JOTAIN?
+  \item * Rajataanko web-palvelut pois? Passpack.com, onelogin.com
+
+\end{itemize}
+
+
+\subsection{Selainlaajennos} % (fold)
+\label{sub:selainlaajennokset}
+
+% subsection selainlaajennokset (end)
+
+\subsection{Web-palvelu (SaaS)} % (fold)
+\label{sub:web_palvelut_saas_}
+
+% subsection web_palvelut_saas_ (end)
+
+\subsection{Asennettava ohjelmisto} % (fold)
+\label{sub:asennettava_ohjelmist}
+
+% subsection asennettava_ohjelmist (end)
 
 % section käytännön_1password (end)
 

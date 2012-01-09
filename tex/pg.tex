@@ -211,7 +211,8 @@ Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa. (TODO: 
 
 
 % TODO: Pilko:
-%   * symmetrinen & epäsymmetrinen salaus
+%   * symmetrinen & epäsymmetrinen salaus:
+%        Asymetric cryptography is used to establish a shared secret. The shared secret is then used to encrypt the data with symmetric cryptography
 %   * sertifikaatit
 \subsection{Julkisen avaimen infrastruktuuri} % (fold)
 \label{sub:julkisen_avaimen_infrastruktuuri}
@@ -226,9 +227,21 @@ Epäsymmetrisen salauksen toimintaperusteena on matemaattinen todennäköisyys. 
 
 % subsection julkisen_avaimen_infrastruktuuri (end)
 
-\subsection{Man-in-the-Middle} % (fold)
-\label{sub:man_in_the_middle}
-% subsection man_in_the_middle (end)
+\subsection{HTTP-yhteyden suojaus SSL/TLS-tekniikalla} % (fold)
+\label{sub:tekniikoiden_esittely_ssl_tls}
+
+% MEMO:
+%
+% SSL/TLS; Sertifikaatit webissä (webid, tls tarjoaa autentikoinnin)
+%    HTTPS (https:// vs. http://, 443 vs 80, koko end-to-end yhteys suojattu ml. headerit vs. s-http;
+%      HTTPS ei erillinen protokolla, vaan tarkoittaa HTTP:n käyttöä SSL/TLS yli)
+%    Simple vs. Mutual; (mutual -> käyttäjällä myös cert)
+%    Netscape kehitti v1994; alunperin ssl1.0, 2.0, 3.0, kunnes tls1.0; nyt tls1.3
+%    - wikipedia https
+%    - https://www.owasp.org/index.php?title=Transport_Layer_Protection_Cheat_Sheet
+
+% subsection tekniikoiden_esittely_ssl_tls (end)
+
 
 \subsection{Luotettava kolmas osapuoli} % (fold)
 \label{sub:luotettava_kolmas_osapuoli}
@@ -357,7 +370,7 @@ Mutta ... ei ratkaise perimmäistä ongelmaa eli salasanan muistamista.
 
 Active phishing is more sophisticated and has a bigger potential for causing trouble than above examples of passive attacks. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle proxy that communicates interactively with the site which it imitates. A successful man-in-the-middle could allow bypassing of all security measures protecting the authentication process \cite{beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06}: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
 
-              % TODO: [, CITE, CITE]  "studies show" -kohtaan
+              % TODO: SSL ei technically designed to prevent MITM
 Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies \cite{why_phishing_works_06, suspectibility_to_phishing_2006} show that users can't be protected using only a technical approach. For example, the Mozilla Security Reviewers' Guide \cite{mozilla_security_guide_2010} states: ''Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible.'' However, user can typically override the browser's protective measures.
 
 Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since the lack of knowledge and attention is a considerable factor in being susceptible to phishing \cite{why_phishing_works_06}, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
@@ -367,6 +380,17 @@ Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest
               ''If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed.'' \cite{schneier_secrets_and_lies_2000}
             \end{quote}
 
+% MEMO: Tähän esimerkki MITM + sertifikaatit.
+% - HSTS draft; http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+% - DNSSec (hsts-data dns:ään)
+% - ForceSSL (EFF)
+% - SSL Stripping
+% - Käyttäjäsession ja palvelukeksin kaappaus (myös force secure -täppä)
+% - Epäluotettava verkkoympäristö (sniffaus, sslstrip; vrt. firesheep)
+% - Suojaamaton login, suojattu login+suojaamaton muu (yhteys jollain matkalla epäluotettava; miten paketit kulkee)
+% - Väärän sertifikaatin hyväksyminen (amazon.çom/amazom.com/jne vs amazon.com)
+%   - Extended Validation (EV) -sertifikaatit: ei vahvempi kuin tavallinen sert; ainoastaan UI.
+% - OAuth 2.0 Security Considerations; http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-15#page-10
 
 % subsection kolmas_osapuoli_välissä_man_in_the_middle_ (end)
 
@@ -389,6 +413,12 @@ Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest
 
 
 % subsection man_in_the_middle_kaksiosaisessa_autentikoinnissa (end)
+
+\subsection{SSL Stripping} % (fold)
+\label{sub:ssl_stripping}
+MITM, väärän sertifikaatin hyväksyminen
+% subsection ssl_stripping (end)
+
 
 \subsection{The Lack of Knowledge and Attention} % (fold)
 \label{sub:the_lack_of_knowledge_and_attention}
@@ -455,6 +485,39 @@ Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest
 
 % section katsaus_autentikoitumistekniikoihin_kertakirjautumismenetelmiin (end)
 
+\subsection{OAuth} % (fold)
+\label{sub:oaauth_auktorisointimenetelmä}
+
+OAuth 1.0 on auktoritointimentelmä, jolla saitti S voi pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää S:ään. Käyttäjän täytyy vahvistaa tietojen pyytäminen, eli S ei saa P:n tietoja salaa ilman käyttäjän lupaa.
+
+OAuth 2.0 tukee lisäksi myös autentikoitumista. OAuth 2.0 on vielä keskeneräinen draft. Facebook on vaikuttanut voimakkaasti draftin luomisprosessiin. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. 1.0:ssa ongelmia + Facebook Connect --> OAuth 2.0.
+
+
+Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
+Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
+
+OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
+
+http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
+
+
+http://tools.ietf.org/html/draft-ietf-oauth-v2-22
+
+http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01
+
+http://hueniverse.com/2010/05/introducing-oauth-2-0/
+''OAuth is a security protocol that enables users to grant third-party access to their web resources without sharing their passwords.''
+''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone.''
+''OAuth includes two main parts: obtaining a token by asking the user to grant access, and using tokens to access protected resources. The methods for obtaining an access token are called flows.''
+''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
+''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
+
+
+''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
+
+% subsection oaauth_auktorisointimenetelmä (end)
+
+
 \subsection{OpenID-autentikoitumismenetelmä} % (fold)
 \label{sub:openid_autentikoitumismenetelmä}
 
@@ -505,8 +568,38 @@ A card-based identity uses a digital token that contains or references a collect
 
 % subsection käyttäjäkeskeinen_identiteetti_user_centric_identity_ (end)
 
+\subsection{Saittikeskeinen identiteetti (Site-centric Identity)} % (fold)
+\label{sub:saittikeskeinen_identiteetti_site_centric_identity_}
+''Mozilla has an answer to site-centric identity systems like Facebook’s — put the browser in charge of your online logins instead. -- Account Manager allows you to log in and out of websites directly through the browser, rather than relying on a particular site’s login form. Using a new menu item in the main toolbar — a button with a picture of a key that sits next to the address field — Account Manager lets you pick a login to use at any site you visit. It stores logins you’ve already created, suggesting them whenever they can be used. It can also generate (and remember) random passwords to make your logins more secure. It’s a radical step up from Firefox’s current Password Manager feature.''
+http://www.webmonkey.com/2010/04/mozilla-gets-it-right-moves-identity-management-into-firefox/
+
+Account Manager -projekti lopetettiin. Tilalle tuli BrowserID (https://www.browserid.org/).
+
+Fedarated Identity? Shibboleth/SAML2: Lyhyt esittely?
+
+% subsection saittikeskeinen_identiteetti_site_centric_identity_ (end)
+
 \subsection{OpenID:n heikkouksia} % (fold)
 \label{sub:openid_n_heikkouksia}
+
+% MEMO:
+The problem with OpenID, according to Dave Recordon, is that v2 of the standard was incredibly difficult to implement (http://thenextweb.com/socialmedia/2010/11/04/facebook-connect-oauth-and-openid-the-differences-and-the-future/):
+\begin{quote}
+  ''I’ve heard story after story from developers implementing OpenID 2.0 who don’t understand why it is so complex and inevitably forgot to do something.''
+\end{quote}
+
+''So, combine that complexity with the fact that OpenID hasn’t been updated in 3 years and you have a bit of a recipe for disaster. There’s also the problem that it requires more than one handshake (introduction) in order to get data stored on a server. In fact, OpenID cannot, at this point, acquire that information on its own. It has to send a second request for OAuth to handle the information transfer.'' -- OpenID Connect (will be built on top of OAuth)
+
+''OAuth [1.0] differs from OpenID in that it cannot request identification (at least in its present form). What it can do is allow a 3rd party to have access to your data without the need for you to show your password to that 3rd party site. There is a revision to OAuth that has been proposed, allowing OAuth to acquire identity as well, but it is far from finalized.''
+
+Iso listaus OpenID-rutinaa: http://www.quora.com/OpenID/What-s-wrong-with-OpenID
+
+Facebook Connect mahdollistaa sekä autentikoinnin että auktorisoinnin eli yhdistää hyviä puolia OpenID:stä ja OAuth 1.0:sta. Facebookilla vahva vaikutus OAuth 2.0:n laatimisessa, joka nyt draft-vaiheessa. Facebook Connect yleistynyt yli 250.000 saitille (ja Facebookilla 800 miljoonaa käyttäjää) kun pidempään markkinoilla ollut OpenID on saavuttanut tuen vain 50.000 saitille.
+
+
+Stackoverflow ja OpenID: http://blog.stackoverflow.com/2010/04/openid-one-year-later/
+Summary: Yksi salasana per jokainen web-palvelu on pahempi ongelma kuin OpenID:n tradeoffit yhteensä. Ovat mieluummin osa ratkaisua kuin yksi ongelma lisää.
+
 
 OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_security_story, cameron_infocard_07, three_types_of_openid_ids_10}, joista merkittävimmät on selitetty jäljempänä olevassa listauksessa.
 
@@ -554,7 +647,7 @@ OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_
 
 % subsection openid_n_heikkouksia (end)
 
-\subsection{Sama OpenID-identiteetti ei käy kaikkiin palveluihin} % (fold)
+\subsection{Miksi OpenID ei onnistu? Sama OpenID-identiteetti ei käy kaikkiin palveluihin} % (fold)
 \label{sub:sama_openid_identiteetti_ei_käy_kaikkiin_palveluihin}
 
 OpenID-standardi tarjoaa laajalle levinneen autentikointiprotokollan, jolle on tarjolla laaja ja kypsä kirjastotuki \cite{openid_libraries}. Selvin OpenID:n hyöty on saman käyttäjätunnuksen käyttäminen monessa palvelussa ilman salasanan jakamista näiden palvelujen kesken. Koska käyttäjän itsensä tarvitsee autentikoitua ainoastaan identiteetintarjoajalle -- yhteen palveluun -- voidaan tämä nimenomainen sisäänkirjautuminen tehdä mahdollisimman turvalliseksi \cite{blackhat_openid_security_story}. Salasanan sijaan tai sen lisäksi käyttäjältä voidaan edellyttää korttiperusteista identiteettiä \cite{cameron_infocard_07} tai asiakassertifikaattia \cite{henry_story_foaf_ssl}. OpenID:n saavutuksena on, että vaihtoehtoinen tai rinnakkainen autentikoitumismenetelmä riittää toteuttaa ainoastaan yhteen palveluun eli identiteetintarjoajaan.
@@ -573,11 +666,31 @@ OpenID olisi tuettu 50~\%:ssa näissä palveluissa, palvelukohtaisia salasanoja 
 Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites} yksikään suosituimmista
 50:sta palvelusta ei hyväksy kuin itsensä tai taustayrityksensä myöntämän käyttäjätunnuksen.
 
+% http://www.webmonkey.com/2011/01/openid-the-webs-most-successful-failure/
+%
+% First 37Signals announced it would drop support for OpenID. Then Microsoft’s Dare Obasanjo called OpenID a failure (along with XML and AtomPub). Former Facebooker Yishan Wong’s scathing (and sometimes wrong) rant calling OpenID a failure is one of the more popular answers on Quora.
+% But if OpenID is a failure, it’s one of the web’s most successful failures.
+%
+% The main reason no one uses OpenID is because Facebook Connect does the same thing and does it better. Everyone knows what Facebook is and it’s much easier to understand that Facebook is handling your identity than some vague, unrecognized thing called OpenID. That’s why, despite the impressive sounding billion URLs and 50,000 sites supporting OpenID, it pales next to Facebook Connect. Facebook Connect has been around less than half the time of OpenID and yet it’s been adopted by some 250,000 websites, is available to the hundreds of millions of Facebook users and has the advantage of Facebook’s brand familiarity.
+%
+% Facebook also added a key ingredient that helped drive other sites to adopt Facebook Connect — sharing user data. One of the reasons more sites support Facebook Connect is that they get a piece of the user pie.
+%
+% Web publishers never warmed to OpenID since it allows a user to log in to a website and leave a comment on a story, a blog post or a photo while essentially remaining anonymous to the publisher. That anonymous aspect has made OpenID less attractive to publishers who want to collect more data about their readers or interact with them — whether that means following them on Twitter, connecting with them on Facebook or sending them e-mail.
+
+
 
 % subsection sama_openid_identiteetti_ei_käy_kaikkiin_palveluihin (end)
 
 
-\subsection{Quality of OpenID Authentication} % (fold)
+\subsection{Internet Identity} % (fold)
+\label{sub:internet_identity}
+
+http://openid.net/2011/01/08/internet-identity-system-said-readied-by-obama/
+
+% subsection internet_identity (end)
+
+
+\subsection{POIS? Quality of OpenID Authentication} % (fold)
 \label{sub:quality_of_openid_authentication}
 
    While being agnostic about the person behind an OpenID identifier is sufficient in many use cases, it is not viable for all services. For example, it is not recommended to use an OpenID identifier authenticated only by a password to allow financial transacticions, such as a purchase with a credit card stored by the Relying Party \cite{yahoo_openid_bestpractices_2010}. In order to automatically cope with different levels of trust in the authentication, OpenID specifies a provider authentication policy extension (PAPE) \cite{openid_2.0_specification_07, openid_2.0_pape_07}.
@@ -593,7 +706,7 @@ Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites
 % subsection quality_of_openid_authentication (end)
 
 
-\subsection{Extending the Security Level of OpenID Authentication} % (fold)
+\subsection{POIS? Extending the Security Level of OpenID Authentication} % (fold)
 \label{sub:extending_the_security_level_of_openid_authentication}
 
     Delegating the authentication to the identity provider as a whole implies that the relying party should not need to implement any additional authentication or handle stored credentials of its own. Relying party's ability to handle transactions of value poses a requirement for the identity provider: the OpenID assertion, when required, should qualify for a specific assurance level.
@@ -620,7 +733,7 @@ Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites
 % subsection extending_the_security_level_of_openid_authentication (end)
 
 
-\section{Autentikoituminen turvallisesti ja käytännöllisesti} % (fold)
+\section{Vaatimukset turvalliselle ja käytännölliselle autentikoinnille} % (fold)
 \label{sec:autentikoituminen_turvallisesti_ja_käytännöllisesti}
 
 Tietoturvallisuus on riskienhallintaa: tietoturvan täydellisyys on suoraan verrannollinen siihen liittyviin kustannuksiin. Salasanojen hallinnassa ei siksi ole mielekästä tavoitella täydellistä tietoturvaa vaan käyttötapauksen riskeihin suhteutettuna \emph{riittävän hyvää} turvallisuustasoa. Salasanat ovat webin yleisin autentikoitumistapa, koska salasana on sopiva kompromissi turvallisuuden, käytettävyyden ja kustannusten välillä. Tässä luvussa esitetään sopiva käytännöllinen menetelmä salasanojen hallintaan, jonka ansioista salasanan käyttö webissä on \emph{riittävän turvallista} ja \emph{riittävän käytännöllistä}.
@@ -853,6 +966,12 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
 
 % subsection vaatimukset_salasanojen_hallinnalle (end)
 
+
+
+\section{Käytännön 1Password} % (fold)
+\label{sec:käytännön_1password}
+
+% section käytännön_1password (end)
 
 
 

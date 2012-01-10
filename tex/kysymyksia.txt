@@ -1,0 +1,78 @@
+
+Miksei HST-kortti tai mobiilivarmenne?
+- mobiilivarmenteet ovat liian vaikeita integroida järjestelmiin. Rautapuolen ratkaisut eivät toimi massoille koska yleisesti saatavilla olevaa sirukortin lukijalaitetta tai tietynlaista sim-kortin sirua ei ole. matkapuhelimien sim-kortteja ei yleensä vaihdella kuin ehkä 3–5 vuoden välein. Monissa palveluissa mobiilivarmennetta ei voi ottaa käyttöön ennen kuin ne ovat tarpeeksi laajalla joukolla käytössä.
+-- TS 28.11.11
+
+
+Miksei SAML2.0 ole relevantti gradun kannalta?
+
+Miksei Shibboleth ole relevantti?
+
+Mikä on "Circle of Trust?" Onko se federated identityn juttu?
+
+Onko OAuth federated identity vai saittikohtainen identity?
+
+Onko saittikohtainen identity eri asia kuin federated identity?
+
+Tarviiko federated identityssä idp:n luottaa id consumeriin?
+- idp:n täytyy tuntea id consumer
+
+Tarvitseeko Facebook Connectissa idp:n tuntea idc?
+- In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
+- auktorisointipäätös käyttäjälle itselleen (ei automaatille)
+
+
+Jos palvelu ei luota Facebook Connectiin mutta autentikoi käyttäjän FBC:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
+
+
+Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille?
+https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+
+
+Mitä eroa on OpenID Connect ja OAuth 2.0 ?
+OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
+Onko OpenID-C edelleen user-centric id?
+
+For real, mitä eroa on OAuth ja SAML
+https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
+
+
+Mitä Ping Federate tekee?
+https://www.pingidentity.com/resource-center/consumer-use-cases.cfm
+
+
+Mikä on OpenID Abstract Binding ?
+The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
+https://www.pingidentity.com/resource-center/openid.cfm
+
+Tarvitaanko gradussa "NIST Assurance Levels" -juttua kuitenkin? (Poistettu 10.1.2012)
+
+
+Onko CSRF relevantti gradun/autentikoinnin kannalta?
+Facebook (https://developers.facebook.com/docs/authentication/):
+Cross Site Request Forgery (CSRF)
+Cross site request forgery is an attack in which a trusted (authenticated and authorized) user unknowingly performs an action on website. To prevent this attack, you should pass an identifier in the state parameter, and then validate the state parameter matches on the response. We strongly recommend that any app implementing Facebook user login implement CSRF protection using this mechanism.
+
+
+Terms and concepts: subjects
+Entity (or system entity): An active element
+of a computer/network system
+Principal: An entity whose identity can be
+authenticated
+Subject: A principal in the context of a security
+domai
+
+
+Terms and concepts: identities
+Identity: The essence of an entity, often described by
+one's characteristics, traits, and preferences
+Anonymity: Having an identity that is unknown or concealed
+Identifier: A data object that uniquely refers to a
+particular entity
+Pseudonym: A privacy-preserving identifier
+Federated identity: Existence of an agreement
+between providers on a set of identifiers and/or attributes to
+use to refer to a principal
+Account linkage: Relating a principal's accounts at two different
+providers so that they can communicate about the principal

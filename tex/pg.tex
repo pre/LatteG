@@ -168,7 +168,7 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
 
 
-\subsection{Kaksiosainen autentikointi} % (fold)
+\subsection{Kaksiosainen/kaksivaiheinen autentikointi} % (fold)
 \label{sub:kaksiosainen_autentikointi}
 
 Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjälle esitetään kaksi haastetta. Ensimmäinen haaste edellyttää vastineeksi jotain, jonka käyttäjä \emph{tietää} (salasana). Toisen haasteen vastineeksi edellytetään jotain, jota käyttäjällä \emph{on} (esimerkiksi puhelinnumero) \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla koodia, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
@@ -176,6 +176,11 @@ Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjäll
 Kaksiosainen autentikointi ei ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}.
 Man-in-the-middle (MITM) on kolmas osapuoli, joka asettuu käyttäjän ja käytettävän palvelun väliin. MITM voi kuunnella tietoliikennettä passiivisesti tai muuttaa viestejä mielensä mukaan. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma. Tämän kirjoituksen puitteissa oletetaan sekä käyttäjän yhteys että päätelaite turvallisiksi. Tästä kerrotaan lisää kappaleessa X-TODO-X.
 % TODO: Viite
+
+Googlella iOS-sovellus ja varaliuska tunnareita; ''-- Jos siis joku varastaa tai arvaa salasanasi, tilin kaappaaja ei silti pääse kirjautumaan tiliisi, koska hänellä ei ole käytössään puhelintasi, Google toteaa verkko-ohjeissaan.''
+
+Tectia Mobile ID: Kun käyttäjä kirjautuu palveluun, kännykkään lähetetään (flash-)tekstiviestinä viisinumeroinen koodi, joka pitää syöttää palveluun normaalin salasanan lisäksi.
+
 
 
 % subsection kaksiosainen_autentikointi (end)
@@ -290,6 +295,20 @@ Mutta ... ei ratkaise perimmäistä ongelmaa eli salasanan muistamista.
 \subsection{Salasanat ovat vallitseva käytäntö} % (fold)
 \label{sub:salasanat_ovat_vallitseva_käytäntö}
 \label{sec:passwords_de_facto}
+
+% MEMO Taloussanomat 28.11.2011:
+% It-asiantuntija Petteri Järvinen pitää tilannetta mahdottomana käyttäjän kannalta.
+% – Kun salasanat otettiin alunperin tietokoneissa käyttöön, niin ihmisellä oli vain yksi järjestelmä mihin hän kirjautui. Oli yksi käyttäjätunnus ja yksi salasana. Nyt kun nettipalveluita on käytössä kymmeniä, niin eihän se enää toimi. Joka paikkaan pitäisi olla vähintään 15 merkkiä pitkät salasanat ja vaihtaa säännöllisesti, sehän on täysin mahdotonta.
+% Viestintäviraston tietoturvayksikkö Cert-fi ohjeisti hiljattain, että hyvässä salasanassa pitäisi olla vähintään 15 merkkiä ja jokaisessa verkkopalvelussa pitäisi käyttää eri salasanaa.
+% – Jos salasanassa on käytetty oikeita sanoja, niin silloin 15 merkkiä. Jos on käytetty satunnaisia merkkejä, niin kahdeksan on vielä hyvä, vaikka alkaakin olla siellä alarajoilla, Ylönen arvioi.
+% Ylönen muistuttaa, että hyvä salasana on vähintään kahdeksan merkkiä. Se sisältää suurin piirtein yhtä paljon isoja ja pieniä kirjaimia, lisäksi on oltava yksi tai kaksi erikoismerkkiä. Salasanasta ei saisi muodostua mitään tunnistettavia sanoja.
+% – Kovin monta tällaista salasanaa ei voi muistaa, myöntää Ylönen.
+% Helposti muistettavat salasanat ovat usein huonoja. Ylösen mukaan varsinkin sellaisia salasanoja, joissa on käytetty oikeita sanoja ja vaikkapa vuosilukuja pystytään yllättävän tehokkaasti murtamaan käyttäjien koneilta.
+
+  \begin{quote}
+    -- ''Jopa ihmiset, joiden pitäisi tietää paremmin, kuten minä, käyttävät samoja salasanoja liian pitkään'', huokaisee Tatu Ylönen. (Taloussanomat 28.11.2011)
+  \end{quote}
+
 
              Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken \cite{study_of_passwords_07}. Lisäksi salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä \cite{password_management_strategies_06, pw_auth_system_perspective_08, passpet_06}.
 
@@ -480,6 +499,17 @@ MITM, väärän sertifikaatin hyväksyminen
 
 % subsection trojan_based_attacks (end)
 
+\subsection{Passiiviset hyökkäykset} % (fold)
+\label{sub:passiiviset_hyökkäykset}
+
+Autentikoitumistietojen (salasana, avain tms) tallettaminen selväkielisenä taustajärjestelmään.
+
+Salasanatietokanta tulee kryptata jo työasemalla (joka oletetaan turvalliseksi) eikä kryptausavainta saa viedä palvelimelle edes väliaikaisesti.
+Kun kryptausavain ei koskaan ole taustajärjestelmän tiedossa, vääriin käsiin päätyneen salasanatietokannan avaaminen onnistuu vain väkisin (brute force).
+
+
+% subsection passiiviset_hyökkäykset (end)
+
 \section{Katsaus autentikoitumistekniikoihin/kertakirjautumismenetelmiin} % (fold)
 \label{sec:katsaus_autentikoitumistekniikoihin_kertakirjautumismenetelmiin}
 
@@ -487,6 +517,18 @@ MITM, väärän sertifikaatin hyväksyminen
 
 \subsection{OAuth} % (fold)
 \label{sub:oaauth_auktorisointimenetelmä}
+
+OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja kysynyt palvelu kysyi suoraan käyttäjän Facebook-salasanaa. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen -- jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista palvelujen kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan datan omistavassa palvelussa eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen toteuttamaan palveluun. Tällöin esimerkiksi käyttäjän kuvia halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
+
+OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (http://user:password@palvelu.com/osoite). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+
+Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Lisäksi käyttäjälle on mahdollista tarjota selkeä näkyvyys siihen, minkä tietojen jakamiseen hän on antanut luvan. Esimerkiksi Facebookin Developer -sivustolla huomautetaan ulkopuolisia kehittäjiä, että mitä laajempaan joukkoon käyttöoikeuksia pyydetään lupaa, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana käyttäjällä ei yleensä ollut mahdollisuutta rajata oikeuksia ollenkaan, koska kolmannen osapuolen palvelu pystyi tekemään pyytämällään käyttäjän salasanalla mitä vain.
+
+
+Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
+
+Luvan kysyminen mobiilissa on vaikeaa
+
 
 OAuth 1.0 on auktoritointimentelmä, jolla saitti S voi pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää S:ään. Käyttäjän täytyy vahvistaa tietojen pyytäminen, eli S ei saa P:n tietoja salaa ilman käyttäjän lupaa.
 
@@ -500,6 +542,7 @@ OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid
 
 http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
 
+OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
 
 http://tools.ietf.org/html/draft-ietf-oauth-v2-22
 
@@ -576,6 +619,11 @@ http://www.webmonkey.com/2010/04/mozilla-gets-it-right-moves-identity-management
 Account Manager -projekti lopetettiin. Tilalle tuli BrowserID (https://www.browserid.org/).
 
 Fedarated Identity? Shibboleth/SAML2: Lyhyt esittely?
+
+Simple Cloud Identity Management?
+  https://www.pingidentity.com/resource-center/SCIM.cfm
+  http://www.simplecloud.info/
+
 
 % subsection saittikeskeinen_identiteetti_site_centric_identity_ (end)
 
@@ -676,7 +724,8 @@ Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites
 % Facebook also added a key ingredient that helped drive other sites to adopt Facebook Connect — sharing user data. One of the reasons more sites support Facebook Connect is that they get a piece of the user pie.
 %
 % Web publishers never warmed to OpenID since it allows a user to log in to a website and leave a comment on a story, a blog post or a photo while essentially remaining anonymous to the publisher. That anonymous aspect has made OpenID less attractive to publishers who want to collect more data about their readers or interact with them — whether that means following them on Twitter, connecting with them on Facebook or sending them e-mail.
-
+%
+% URL käyttäjätunnuksena on myös vieras suurelle osalle ihmisistä. Korjauksena tunnarina sähköpostiosoite. Sekään ei täydellinen, koska niin monella meiliosoite vaihtuu usein.
 
 
 % subsection sama_openid_identiteetti_ei_käy_kaikkiin_palveluihin (end)
@@ -993,6 +1042,8 @@ Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökul
 
 \section{Yhteenveto (Salasanat)} % (fold)
 \label{sec:yhteenveto_salasanat_}
+
+Salasanoista ei päästä täysin eroon pitkään aikaan, koska ne ovat liian halpa menetelmä muihin verrattuna. Usein vasta kun väärinkäytöksiä tulee tarpeeksi, merkittävät taloudelliset arvot ovat kyseessä tai yksittäisen väärinkäytöksen vakavuus on suuri, on riskienhallinnan kannalta edullisempaa toteuttaa jokin salasanan korvaava ratkaisu.
 
 Keskiverto internet-käyttäjä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia.
 OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.

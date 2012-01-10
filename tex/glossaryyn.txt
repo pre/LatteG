@@ -1,0 +1,17 @@
+Entity
+Principal:
+Subject:
+Identity:
+Anonymity:
+Identifier:
+Pseudonym:
+Federated identity
+Account linkage
+Asserting party (SAML authority)
+Identity provider:
+Relying party:
+Service provider: An entity that provides services to
+principals or other entities
+
+Token
+Artifact

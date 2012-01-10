@@ -1,3 +1,5 @@
+LatteG
+
 - Varmistaja, että otsikot Kirjoitetaan Isoilla Alkukirjaimilla
   - onnistuu text-transform: capitalize;
   MUTTA: tarttis kielioppitarkistimen, jottei prepositiot ym. tule isoilla

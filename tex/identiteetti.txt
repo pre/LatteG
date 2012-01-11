@@ -1,0 +1,52 @@
+7 Laws of Identity:
+
+A comparison between the bricks-and-mortar world and the online world is illustrative: In the
+bricks-and-mortar world you can tell when you are at a branch of your bank. It would be very
+difﬁcult to set up a fake bank branch and convince people to do transactions there. But in today’s
+online world it is trivial to set up a fake banking site (or e-commerce site …) and convince a
+signiﬁcant portion of the population that it’s the real thing. This is an enormous identity problem.
+Web sites currently do not have reliable ways of identifying themselves to people, thus enabling
+impostors to ﬂourish. What is needed is reliable site-to-user authentication, which aims to make
+it as difﬁcult to produce counterfeit services in the online world, as it is to produce them in the
+physical world.
+
+The Laws of Identity
+
+The "Laws of Identity" are intended to codify a set of fundamental principles to which any universally adopted, sustainable identity architecture must conform. The Laws were proposed, debated, and refined through a long-running, open, and continuing dialogue on the Internet. Taken together, the Laws define the architecture of the identity metasystem.
+
+They are:
+
+User Control and Consent: Identity systems must only reveal information identifying a user with the user's consent.
+Minimal Disclosure for a Constrained Use: The identity system must disclose the least identifying information possible, as this is the most stable, long-term solution.
+Justifiable Parties: Identity systems must be designed so the disclosure of identifying information is limited to parties having a necessary and justifiable place in a given identity relationship.
+Directed Identity: A universal identity system must support both "omni-directional" identifiers for use by public entities and "uni-directional" identifiers for use by private entities, thus facilitating discovery while preventing unnecessary release of correlation handles.
+Pluralism of Operators and Technologies: A universal identity solution must utilize and enable the interoperation of multiple identity technologies run by multiple identity providers.
+Human Integration: Identity systems must define the human user to be a component of the distributed system, integrated through unambiguous human-machine communication mechanisms offering protection against identity attacks.
+Consistent Experience Across Contexts: The unifying identity metasystem must guarantee its users a simple, consistent experience while enabling separation of contexts through multiple operators and technologies.
+For more information, see the Laws of Identity whitepaper. To join in the discussion of the Laws of Identity, visit www.identityblog.com.
+
+
+Roles within the Identity Metasystem
+
+Different parties participate in the metasystem in different ways. The three roles within the metasystem are:
+
+Identity Providers, which issue digital identities. For example, credit card providers might issue identities enabling payment, businesses might issue identities to their customers, governments might issue identities to citizens, and individuals might use self-issued identities in contexts like signing on to Web sites.
+Relying Parties, which require identities. For example, a Web site or online service that utilizes identities offered by other parties.
+Subjects, which are the individuals and other entities about whom claims are made. Examples of subjects include end users, companies, and organizations.
+In many cases, the participants in the metasystem play more than one role, and often all three.
+
+---
+
+http://acs.codeplex.com/
+ACS 2.0 contains many features that substantially advance the capabilities of the previous release. The main features of this release are listed below:
+Integrates with Windows Identity Foundation (WIF) and tooling
+Out-of-the-box support for popular web identity providers including: Windows Live ID, Google, Yahoo, and Facebook
+Out-of-the-box support for Active Directory Federation Services 2.0
+Support for OAuth 2.0 (draft 13), WS-Trust, and WS-Federation protocols
+Support for the SAML 1.1, SAML 2.0, and Simple Web Token (SWT) token formats
+Integrated and customizable Home Realm Discovery that allows users to choose their identity provider
+An OData-based Management Service that provides programmatic access to ACS configuration
+A Web Portal that allows administrative access to ACS configuration
+
+https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/
+Windows Azure ACS is built on the principals of claims-based identity - a consistent approach to creating authentication mechanisms for applications running on-premises or in the cloud. Claims-based identity provides a common way for applications and services to acquire the identity information they need about users inside their organization, in other organizations, and on the Internet.

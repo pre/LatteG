@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DOC="pg"
+DOC="g"
 
 pdflatex $DOC
 bibtex $DOC

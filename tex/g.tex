@@ -1,0 +1,274 @@
+\documentclass[english,gradu]{tktltiki}
+\usepackage{ae,aecompl}
+\usepackage{url}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{graphicx}
+
+% MEMO:
+%   Teksti etenee kuin haluaisi hyvän oppikirjan etenevän.
+%   Käsitteet määritellään.
+%   Kun käsite ekaa kertaa: italics.
+
+
+\begin{document}
+
+\title{Internet-skaalan identiteetti: \\ ''Mitä eroa on OAuth 2.0 ja SAML 2.0 -standardeilla?''}
+\author{Petrus Repo}
+\date{\today}
+\level{G!}
+\maketitle
+
+
+\onehalfspacing
+
+\level{Graduluonnos}
+\faculty{Matemaattis-luonnontieteellinen}
+\department{Tietojenkäsittelytieteen laitos}
+\subject{Tietojenkäsittelytiede}
+\numberofpagesinformation{\numberofpages\ sivua}
+
+\keywords{OpenID, OAuth, SAML, internet, autentikointi, auktorisointi}
+
+\begin{abstract}
+
+  \begin{verbatim}
+
+
+
+
+                                                            ___
+                                                         ,o88888
+                                                      ,o8888888'
+                                ,:o:o:oooo.        ,8O88Pd8888"
+                            ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+                          ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+                         , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
+                        , ..:.::o:ooOoOO8O888O8O,COCOO"
+                       , . ..:.::o:ooOoOOOO8OOOOCOCO"
+                        . ..:.::o:ooOoOoOO8O8OCCCC"o
+                           . ..:.::o:ooooOoCoCCC"o:o
+                           . ..:.::o:o:,cooooCo"oo:o:
+                        `   . . ..:.:cocoooo"'o:o:::'
+                        .`   . ..::ccccoc"'o:o:o:::'
+                       :.:.    ,c:cccc"':.:.:.:.:.'
+                     ..:.:"'`::::c:"'..:.:.:.:.:.'
+                   ...:.'.:.::::"'    . . . . .'
+                  .. . ....:."' `   .  . . ''
+                . . . ...."'
+                .. . ."'
+               .
+
+  \end{verbatim}
+
+\end{abstract}
+
+\setcounter{tocdepth}{3}
+\mytableofcontents
+
+\section{Johdanto} % (fold)
+\label{sec:johdanto}
+
+% section johdanto (end)
+
+
+
+\section{Autentikoituminen ja Web} % (fold)
+\label{sec:autentikoituminen_ja_web}
+
+  Web, SaaS, HTTP.
+  Mikä on web-palvelu?
+  Mikä on sisäinen palvelu?
+  Mitä tarkoittaa autentikointi?
+  Mitä tarkoittaa auktorisointi (authorization)?
+
+  Rajataanko aihe SaaS-palveluihin, jotka julkisesti internetissä?
+  - ei oteta kantaa sisäisiin palveluihin?
+
+  \subsection{Haaste--Vastine-autentikaatio} % (fold)
+  \label{sub:haaste_vastine_autentikaatio}
+
+  % subsection haaste_vastine_autentikaatio (end)
+
+  \subsection{Salasanat ovat vallitseva käytäntö} % (fold)
+  \label{sub:salasanat}
+  Salasanojen vahvuus, ihmisten tapa käyttää salasanoja, salasanat kustannustehokas ratkaisu.
+  Ihmiset eivät muista salasanoja. Sama salasana monessa paikassa. Ongelma.
+
+  Yhdistä tähän kappaleet Salasanat ja Salasanat ovat vallitseva käytäntö
+  % subsection salasanat (end)
+
+  \subsection{Kaksivaiheinen autentikointi} % (fold)
+  \label{sub:kaksivaiheinen_autentikointi}
+
+  % subsection kaksivaiheinen_autentikointi (end)
+
+  \subsection{Sertifikaatit webissä} % (fold)
+  \label{sub:sertifikaatit_webissä}
+  Julkisen avaimen infrastruktuutri.
+  Diffie-Hellman.
+  Sertifikaatit, luotettava kolmas osapuoli.
+  HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS.
+  Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
+  WebID-draft.
+
+  % subsection sertifikaatit_webissä (end)
+% section autentikoituminen_ja_web (end)
+
+
+\section{Uhat turvalliselle autentikoitumiselle} % (fold)
+\label{sec:uhat_turvalliselle_autentikoitumiselle}
+  Mitkä on Pihvin kannalta oleellisimmat?
+  OAuth draftin threat model -dokumentti.
+  Onko CSRF relevantti?
+% section uhat_turvalliselle_autentikoitumiselle (end)
+
+\section{Identiteetti internetissä} % (fold)
+\label{sec:identiteetti_internetissä}
+  7 Laws of Identity.
+  Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
+  Miksei OpenID yleistynyt?
+  Miksi Facebook koetaan uhkana? (vrt 2500 sivua dataa keskivertokansalaisesta vs kgb/cia vs eu-lait)
+  Miksei Facebook-tunnusta voi käyttää kaikkialla?
+  Eri järjestelmien pitää toimia keskenään yhteen, jotta yksi identiteetti riittäisi.
+  Fyysisen laitteen vaativat tekniikat, niiden ongelmat. (HST-kortti, SIM-kortti)
+  Jos palvelu ei luota Facebook Connectiin mutta autentikoi käyttäjän FBC:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
+
+  \subsection{Käyttäjäkeskeinen identiteetti} % (fold)
+  \label{sub:käyttäjäkeskeinen_identiteetti}
+
+  % subsection käyttäjäkeskeinen_identiteetti (end)
+
+  \subsection{Saittikeskeinen/federated identiteetti} % (fold)
+  \label{sub:saittikeskeinen_identiteetti}
+  Onko saittikohtainen identity eri asia kuin federated identity?
+  Tarviiko federated identityssä idp:n luottaa id consumeriin?
+  - idp:n täytyy tuntea id consumer
+
+  Tarvitseeko Facebook Connectissa idp:n tuntea idc?
+    % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
+    % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
+
+
+  % subsection saittikeskeinen_identiteetti (end)
+
+  \subsection{Directed Identity} % (fold)
+  \label{sub:directed_identity}
+
+  % subsection directed_identity (end)
+
+  \subsection{Luottamusmalli (Trust Model)} % (fold)
+  \label{sub:luottamusmalli_trust_model_}
+  Milloin tarvitaan trust model? Kun halutaan vaihtaa dataa palvelujen kesken? Onko Facebook Connectissa Trust Model?
+
+  Jos palvelu ei luota Facebook Connectiin mutta autentikoi käyttäjän FBC:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
+
+  % subsection luottamusmalli_trust_model_ (end)
+% section identiteetti_internetissä (end)
+
+
+\section{Kertakirjautuminen internetissä (Single-Sign On, SSO)} % (fold)
+\label{sec:Kertakirjautumisstandardit}
+  \begin{quote}
+      ''The fool saith, 'Put not all thy eggs in one basket' ...
+      but the wise man saith, 'Put all your eggs in one basket, and watch that basket!' ''
+      \\--- Mark Twain \cite{twain_eggs_1894}
+  \end{quote}
+
+  Onko CAS relevantti?
+  Onko LDAP relevantti?
+  Onko SASL relevantti?
+  Onko Shibboleth relevantti?
+  Onko Information Cards relevantti?
+  Onko User Provisioning käsitteenä relevantti?
+  Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
+  Onko WS-Trust ja WS-Federation relevantteja?
+
+  Mikä on ''Circle of Trust?'' Onko se federated identityn juttu?
+
+  Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
+  - OpenID aina http, SAMLissa muitakin. Entä OAuth?
+
+  Missä tilanteessa Microsoft Active Directory relevantti?
+  - AD voi toimia SAML IdP:nä
+  - Windows Live voi toimia OpenID IdP:nä
+  - "AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners." http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
+
+
+
+  \subsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
+  \label{sub:kertauloskirjautuminen}
+
+  % subsection kerta (end)
+  \subsection{OpenID} % (fold)
+  \label{sub:openid}
+  Mitä eroa on OpenID Connect ja OAuth 2.0 ?
+  OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
+  Onko OpenID-C edelleen user-centric id?
+
+  Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
+  % The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
+
+  % subsection openid (end)
+
+  \subsection{OAuth} % (fold)
+  \label{sub:oauth}
+  Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
+  ks. Internet-Scale Identity Systems: An Overview and Comparison
+
+  Onko OAuth federated identity vai saittikohtainen identity?
+  Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
+
+  Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
+  ks. Internet-Scale Identity Systems: An Overview and Comparison
+
+  % subsection oauth (end)
+
+  \subsection{SAML} % (fold)
+  \label{sub:saml}
+  For real, mitä eroa on OAuth ja SAML
+  https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+  https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
+
+  % subsection saml (end)
+
+  \subsection{Tekniikoiden yhtäläisyydet} % (fold)
+  \label{sub:tekniikoiden_yhtäläisyydet}
+
+  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
+  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
+  + Trust Model: RP/SP initiated; IDP initieated %; (esim definition of trust: "A reasonable expectation of confidence in an actor’s behavior")
+  + Registration / Discovery % ("Discovery is similar to a Web search for an identity."; "Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.")
+
+    % http://stackoverflow.com/questions/7699200/what-is-the-difference-between-openid-and-saml
+    % SAML2 supports single sign-out - but OpenID does not
+    % SAML2 service providers are coupled with the SAML2 Identity Providers, but OpenID relying parties are not coupled with OpenID Providers. OpenID has a discovery protocol which dynamically discovers the corresponding OpenID Provider, once an OpenID is given.
+    % With SAML2, the user is coupled to the SAML2 IdP - your SAML2 identifier is only valid for the SAML2 IdP who issued it. But with OpenID, you own your identifier and you can map it to any OpenID Provider you wish.
+    % SAML2 has different bindings while the only binding OpenID has is HTTP
+    %
+    %
+  % subsection tekniikoiden_yhtäläisyydet (end)
+% section Kertakirjautumisstandardit (end)
+
+
+\section{Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
+\label{sec:kertakirjautumisjärjestelmien_}
+
+  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
+  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
+  + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
+  + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
+
+% section kertakirjautumisjärjestelmien_ (end)
+
+\section{Yhteenveto} % (fold)
+\label{sec:yhteenveto}
+
+% section yhteenveto (end)
+
+\bibliographystyle{tktl}
+\bibliography{lahteet}
+
+\lastpage
+
+\end{document}

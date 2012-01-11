@@ -1,98 +1,19 @@
 
-Rajataanko SaaS-palveluihin, jotka julkisesti internetissä?
-- ei oteta kantaa sisäisiin palveluihin?
-
 Miksei HST-kortti tai mobiilivarmenne?
 - mobiilivarmenteet ovat liian vaikeita integroida järjestelmiin. Rautapuolen ratkaisut eivät toimi massoille koska yleisesti saatavilla olevaa sirukortin lukijalaitetta tai tietynlaista sim-kortin sirua ei ole. matkapuhelimien sim-kortteja ei yleensä vaihdella kuin ehkä 3–5 vuoden välein. Monissa palveluissa mobiilivarmennetta ei voi ottaa käyttöön ennen kuin ne ovat tarpeeksi laajalla joukolla käytössä.
 -- TS 28.11.11
-
-Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
-- OpenID aina http, SAMLissa muitakin
-
-Onko CAS relevantti? Mitä eroa CAS SAML?
-
-Onko LDAP relevantti?
-Onko SASL relevantti?
-
-Onko Information Cards relevantti?
-
-Missä tilanteessa Microsoft Active Directory relevantti?
-- AD voi toimia SAML IdP:nä
-- Windows Live voi toimia OpenID IdP:nä
-- "AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners." http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
-
-Onko User Provisioning käsitteenä relevantti?
-
-Miksei SAML2.0 ole relevantti gradun kannalta?
-
-http://stackoverflow.com/questions/7699200/what-is-the-difference-between-openid-and-saml
-SAML2 supports single sign-out - but OpenID does not
-SAML2 service providers are coupled with the SAML2 Identity Providers, but OpenID relying parties are not coupled with OpenID Providers. OpenID has a discovery protocol which dynamically discovers the corresponding OpenID Provider, once an OpenID is given.
-With SAML2, the user is coupled to the SAML2 IdP - your SAML2 identifier is only valid for the SAML2 IdP who issued it. But with OpenID, you own your identifier and you can map it to any OpenID Provider you wish.
-SAML2 has different bindings while the only binding OpenID has is HTTP
-
-
-Miksei Shibboleth ole relevantti?
-
-Mikä on "Circle of Trust?" Onko se federated identityn juttu?
-
-Onko OAuth federated identity vai saittikohtainen identity?
-
-Onko saittikohtainen identity eri asia kuin federated identity?
-
-Tarviiko federated identityssä idp:n luottaa id consumeriin?
-- idp:n täytyy tuntea id consumer
-
-Tarvitseeko Facebook Connectissa idp:n tuntea idc?
-- In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
-- auktorisointipäätös käyttäjälle itselleen (ei automaatille)
-
-Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
-ks. Internet-Scale Identity Systems: An Overview and Comparison
-
-Jos palvelu ei luota Facebook Connectiin mutta autentikoi käyttäjän FBC:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
-
-
-Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille?
-https://www.pingidentity.com/resource-center/oauth-essentials.cfm
-
-
-Mitä eroa on OpenID Connect ja OAuth 2.0 ?
-OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
-Onko OpenID-C edelleen user-centric id?
-
-For real, mitä eroa on OAuth ja SAML
-https://www.pingidentity.com/resource-center/oauth-essentials.cfm
-https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
 
 
 Mitä Ping Federate tekee?
 https://www.pingidentity.com/resource-center/consumer-use-cases.cfm
 
 
-Mikä on OpenID Abstract Binding ?
-The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
-https://www.pingidentity.com/resource-center/openid.cfm
 
 Tarvitaanko gradussa "NIST Assurance Levels" -juttua kuitenkin? (Poistettu 10.1.2012)
 
-Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
-+ Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
-+ Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: "A reasonable expectation of confidence in an actor’s behavior")
-+ Registration / Discovery ("Discovery is similar to a Web search for an identity."; "Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.")
 
 "signon.com has implemented phishing resistant authentication"
 
-Milloin tarvitaan trust model? Kun halutaan vaihtaa dataa palvelujen kesken? Onko Facebook Connectissa Trust Model?
-
-Diffie-Helman cryptographic techniques
-+ mitm haavoittuvuus ilman ssl:ää
-
-Onko 7 Laws of Identity relevantti?
-
-Mikä on "Directed Identity"?
-
-Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
 
 Onko CSRF relevantti gradun/autentikoinnin kannalta?
 Facebook (https://developers.facebook.com/docs/authentication/):

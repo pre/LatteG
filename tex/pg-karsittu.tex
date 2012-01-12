@@ -1,0 +1,1077 @@
+\documentclass[english,gradu]{tktltiki}
+\usepackage{ae,aecompl}
+\usepackage{url}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{graphicx}
+
+% rubber: module pdflatex
+% rubber: pdflatex.options -Ppdf -t a4
+
+% MEMO:
+%   teksti etenee kuin haluaisi hyvän oppikirjan etenevän.
+%   käsitteet määritellään.
+%   Kun käsite ekaa kertaa: italics.
+
+
+% TODO: Trends in web application development
+% - miksi web-app: päivitykset, ylläpito, työasemariippumattomuus
+%
+
+
+\begin{document}
+
+\title{Salasana on kuollut. Eläköön salasana!\\ --- Kuinka kirjautua sisään internet-palveluihin.}
+\author{Petrus Repo}
+\date{\today}
+\level{G!}
+\maketitle
+
+
+\onehalfspacing
+
+\level{Graduluonnos}
+\faculty{Matemaattis-luonnontieteellinen}
+\department{Tietojenkäsittelytieteen laitos}
+\subject{Tietojenkäsittelytiede}
+\numberofpagesinformation{\numberofpages\ sivua}
+
+\keywords{salasanat, OpenID, internet, phishing, authentication}
+
+\begin{abstract}
+
+Keskiverto internet-käyttäjä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia.
+
+OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.
+
+Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikointimenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Kappaleessa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
+
+***
+
+Phishing is a form of online identity theft targeting to steal sensitive information from an end user   \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}. The goal is to trick the user to submit his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service.
+
+The focus of this paper is to define risks that phishing poses to web services. We then conclude that the combination of OpenID and client certificates could eliminate the risk for phishing. The use of client side certificates is relatively rare due to their inherent complexities and the fact that clients can only authenticate on machines which have the private certificate component installed \cite{owasp_tls_cheatsheet}. This aspect is addressed in my master's thesis for which this seminar paper serves as a primer. The goal is to design a service that could provide a practical and phishing resistant authentication for multiple internet services.
+
+\end{abstract}
+
+\setcounter{tocdepth}{3}
+\mytableofcontents
+
+
+\section{Johdanto} % (fold)
+\label{sec:johdanto}
+
+
+Länsimaalaisella internet-käyttäjällä on keskimäärin 25 käyttäjätunnusta ja seitsemän erilaista salasanaa, ja joka päivä hän antaa salasanan yhteensä kahdeksan kertaa \cite{study_of_passwords_07}. Yleinen ratkaisu lukuisten salasanojen muistamiseen on  saman salasanan käyttäminen monessa eri palvelussa \cite{password_management_strategies_06}. Salasanan, käyttäjätunnuksen tai niiden yhdistelmän unohtaminen on silti erittäin yleistä \cite{will_we_ever_escape_passwords_05}.
+
+Salasanojen hallintaan liittyvien ongelmien ratkaisemiseksi on kehitetty OpenID-autentikoitumisprotkolla. OpenID:n tavoitteena on tarjota \emph{kertakirjautumispalvelu} (\emph{single sign-on service}), jonka avulla samaa käyttäjätunnusta voidaan käyttää monessa palvelussa ilman, että yksikään palveluista tuntee käyttäjätunnuksen salasanaa \cite{openid_2.0_platform_2009}. OpenID on laajalle levinnyt standardi ja isot palveluntarjoajat, kuten Google, Facebook, Microsoft ja Yahoo, tarjoavat OpenID-identiteettiä.
+
+OpenID ei ole kuitenkaan onnistunut syrjäyttämään perinteisiä käyttäjätunnuksia. Koska salasanat ovat toistaiseksi internetin \emph{de facto} autentikoitumismenetelmä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}, niiden hallitsemiseksi tarvitaan ratkaisu. Ratkaisu ei voi olla ainoastaan tekninen, vaan käyttäjiä on myös valistettava tietoturvallisuuden suhteen. Tässä tutkielmassa keskitytään ratkaisun tekniseen puoleen. Luvussa~\ref{sec:goals_for_pw_management} esitetään tavoitteet sekä web-palvelun että työpöytäohjelmiston parhaat puolet yhdistävälle salasanahallintaohjelmistolle.
+
+Tutkielman väitteenä on, että käyttäjän on mahdollista päästä eroon salasanojen muistamisesta ja silti käyttää jokaisessa palvelussa erilaista salasanaa. Tavoite saavutetaan tallettamalla kaikki salasanat hallintaohjelmistoon, jonka tiedot suojataan pääsalasanalla ennen niiden tallettamista verkkoon. Pääsalasanaa ei kuitenkaan koskaan lähetetä verkon yli, jolloin palvelinylläpidolla ei ole valmiutta purkaa sillä suojattuja salasanoja -- poislukien valmius salasanan arvaamiseen väkisin. Lisäksi sisäänkirjautumisessa hyödynnetään kaksiosaista autentikointia, mikä pienentää riskiä väärinkäytöksiin käytettäessä palvelua julkiselta tai epäluotettavalta työasemalta.
+
+
+% section johdanto (end)
+
+
+\section{Autentikoituminen ja web} % (fold)
+\label{sec:autentikoituminen_ja_web}
+
+% FIXME: Duplikaatiota, Lampson myös jäljempänä
+TODO: Määrittele autentikointi
+\emph{Autentikoituminen} on identiteetin määrittämistä.
+Jotta käyttäjän pääsyoikeus pyydettyyn resurssiin on mahdollista määrittää, täytyy käyttäjä ensin tunnistaa.
+Jos \emph{s} on väite, autentikointi vastaa kysymykseen ''Kuka sanoi \emph{s}?''.
+Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kysymykseen ''Kenellä on pääsy kohteeseen \emph{o}?'' \cite{lampson_distributed_1992}.
+
+
+% section autentikoituminen_ja_web (end)
+
+
+\subsection{Challenge-Response Authentication} % (fold)
+\label{sub:challenge_response_authentication}
+
+\emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
+
+Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus.
+A simple example of a challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination. However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
+
+Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
+
+Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a word included in a scrambled bitmap image. Here the motivation is to present a question which only a human is able to understand, although the actual answer is publicly known.
+% TODO: Captcha-kuva
+
+
+% subsection challenge_response_authentication (end)
+
+\subsection{Salasanat} % (fold)
+\label{sub:salasanat}
+
+
+
+ \label{sec:passwords}
+
+Salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
+Salasanan turvallisuus riippuu salasanan uniikkiuden lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjällä on lyhyt ja helppo salasana kaikissa käyttämissänsä palveluissa.
+
+Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}.
+
+Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
+
+
+% subsection salasanat (end)
+
+
+\subsection{Salasanojen vahvuus (TODO)} % (fold)
+\label{sub:salasanojen_vahvuus_todo_}
+
+
+Tähän tarvitaan teoriapohja, johon viitataan loppukappaleessa.
+ \\
+ \\ * Oletetaan käytetty kryptausalgoritmi turvalliseksi (koska ei liity tutkielmaan)
+ \\ * Kryptografinen turvallisuus ei ole ainoa seikka, huomioitava sanakirjahyökkäy. l/p: Toni Mäki / t0n1m4k1
+ \\ * Lainaa http://www.baekdal.com/tips/password-security-usability
+ \\ * 10 kriteeriä turvallisuudelle \cite{schneier_password_advice_09}
+ \\ *
+
+ Esimerkiksi salasana ''Sn00py'' voi olla kryptografisesti vahvempi kuin ''123456'', mutta
+ sanakirjahyökkäyksessä eroa ei välttämättä ole. Myös profiilitiedot käyttäjästä nopeuttavat murtumista, jos
+ esimerkiksi tiedetään ''Snoopyn'' olevan käyttäjän suosikkisarjakuvahahmo ja salasana on ''Sn00py''.
+
+% subsection salasanojen_vahvuus_todo_ (end)
+
+\subsection{Autentikointi ja auktorisointi (TODO: käännä)} % (fold)
+\label{sub:autentikointi_ja_auktorisointi_todo_käännä_}
+
+  % TODO: Käsitteen 'trust' merkitys tässä asiayhteydessä
+    \emph{Authentication} is usually considered a synonym for confirming the identity of a requester. In order to apply an access control policy, a requester must first be authenticated. In other words, verifying the identity of a requestor is a preceding step for controlling access to a resource. Claiming an identity, however, does not require trust between the identified requestor and the accessed resource. It barely means that a particular requestor is able to present credentials for a particular identity. The level of trust is defined in access control policy and implemented by an authorization process \cite{lampson_distributed_1992}.
+
+  Granting someone permission to access a requested resource is called \emph{authorization}. An authorization transaction is typically preceded by an authentication process to verify the identity of the requester. When the requester has been identified, the access control process checks that he be authorized to use the targeted resource. It can also be possible to implement an access control policy without actually identifying the requester. A request could, for instance, be authorized by requester's geolocation, an access token or simply by the time of the day.
+
+  Lampson \emph{et al.} define a theory of authentication in distributed systems
+\cite{lampson_distributed_1992}. They create an abstraction of many special
+cases to basic concepts of ''\emph{principal}, \emph{statement} and \emph{channel}''. If \emph{s}
+is a statement, for instance a request, then authentication answers the
+question ''Who said \emph{s}?'' with a principal. Likewise, if \emph{o} is an
+object, then authorization answers the question ''Who is trusted to access
+\emph{o}?'' with a principal. A simple principal could for example be a
+person (''Peter''), a machine (''dac-123'') or a role (''Teacher''). A
+compound principal is build up of other principals such as ''Peter as
+Teacher'' or ''dac-123 as University of Helsinki'' correspondingly.
+
+          Lampson \emph{et al.} \cite{lampson_distributed_1992} define that a channel is the only kind of a principal that can directly make statements to a computer. For example, there is no direct path from a person to a computer, that is, communication must be over some channel,
+involving keystrokes, wires, networks \emph{et cetera}. Naturally some of these channels are not secure. In the scope of this paper we assume
+the HTTP communications channel be secured with the proper usage of secure sockets layer (SSL) and transport layer security (TLS).
+
+
+% subsection autentikointi_ja_auktorisointi_todo_käännä_ (end)
+
+
+
+\subsection{Kaksiosainen/kaksivaiheinen autentikointi} % (fold)
+\label{sub:kaksiosainen_autentikointi}
+
+Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjälle esitetään kaksi haastetta. Ensimmäinen haaste edellyttää vastineeksi jotain, jonka käyttäjä \emph{tietää} (salasana). Toisen haasteen vastineeksi edellytetään jotain, jota käyttäjällä \emph{on} (esimerkiksi puhelinnumero) \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla koodia, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
+
+Kaksiosainen autentikointi ei ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}.
+Man-in-the-middle (MITM) on kolmas osapuoli, joka asettuu käyttäjän ja käytettävän palvelun väliin. MITM voi kuunnella tietoliikennettä passiivisesti tai muuttaa viestejä mielensä mukaan. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma. Tämän kirjoituksen puitteissa oletetaan sekä käyttäjän yhteys että päätelaite turvallisiksi. Tästä kerrotaan lisää kappaleessa X-TODO-X.
+% TODO: Viite
+
+Googlella iOS-sovellus ja varaliuska tunnareita; ''-- Jos siis joku varastaa tai arvaa salasanasi, tilin kaappaaja ei silti pääse kirjautumaan tiliisi, koska hänellä ei ole käytössään puhelintasi, Google toteaa verkko-ohjeissaan.''
+
+Tectia Mobile ID: Kun käyttäjä kirjautuu palveluun, kännykkään lähetetään (flash-)tekstiviestinä viisinumeroinen koodi, joka pitää syöttää palveluun normaalin salasanan lisäksi.
+
+
+
+% subsection kaksiosainen_autentikointi (end)
+
+\section{Sertifikaatit webissä} % (fold)
+\label{sec:sertifikaatit_webissä}
+
+
+% MEMO:
+%
+% SSL/TLS; Sertifikaatit webissä (webid, tls tarjoaa autentikoinnin)
+%    HTTPS (https:// vs. http://, 443 vs 80, koko end-to-end yhteys suojattu ml. headerit vs. s-http;
+%      HTTPS ei erillinen protokolla, vaan tarkoittaa HTTP:n käyttöä SSL/TLS yli)
+%    Simple vs. Mutual; (mutual -> käyttäjällä myös cert)
+%    Netscape kehitti v1994; alunperin ssl1.0, 2.0, 3.0, kunnes tls1.0; nyt tls1.3
+%    - wikipedia https
+%    - https://www.owasp.org/index.php?title=Transport_Layer_Protection_Cheat_Sheet
+
+% TODO: Hio omaksi kappaleekseen, oli osa PKI-kappaletta
+HTTP-yhteys voidaan suojata Secure Sockets Layer ja Transport Layer Security -protokollalla. Näin suojattua HTTP-yhteyttä kutsutaan jäljempänä \emph{HTTPS-yhteydeksi}. HTTPS-yhteydessä kohdepalvelimella on sertifikaatti, jonka on myöntänyt jokin sertifikaattiauktoriteetti (\emph{certificate authority}, CA). Käyttäjän selaimeen on etukäteen asetettu lista tunnetuista CA-toimijoista sekä jokaista CA-toimijaa vastaavan juurisertifikaatin julkinen komponentti. Tähän luottamukseen liittyy väärinkäytösriski \cite{certified_lies, eff_ssliverse}, jota emme kuitenkaan käsittele tämän paperin yhteydessä tarkemmin.
+
+Sertifikaatilla on julkinen komponentti ja yksityinen komponentti.
+Sertifikaattien toimintaperiaate on sama kuin julkisen avaimen infrastruktuurissa \cite{nist_pki_intro, henry_story_foaf_ssl}.
+Yksityinen komponentti on salainen, ja ainoastaan yksityisen komponentin tuntemalla on mahdollista osoittaa olevansa julkista komponenttia vastaava toimija. Luotetun CA:n myöntämällä sertifikaatilla kohdepalvelin osoittaa olevansa domain-osoitettansa vastaava palvelu \cite{authenticated_names}.
+Suojattu HTTPS-yhteys neuvotellaan palvelimen ja käyttäjän selaimen välille palvelimen sertifikaatin sisältämien tunnistautumistietojen perusteella.
+
+Tavanomaisessa HTTPS-yhteydessä ainoastaan kohdepalvelimelta edellytetään sertifikaattia, koska käyttäjä tunnistetaan muilla keinoin -- kuten käyttäjätunnuksella ja salasanalla.
+Kuitenkin myös käyttäjä on mahdollista tunnistaa sertifikaatilla. Tällaista tunnistautumistapaa kutsutaan asiakassertifikaatiksi (\emph{client-certificate}) \cite{henry_story_foaf_ssl}.
+Tällöin suojattu yhteys neuvotellaan sekä palvelimen että käyttäjän sertifikaatin sisältämien tunnistutumistietojen perusteella.
+Tällöin käyttäjän tunnistaututuminen onnistuu jopa ilman salasanaa. (TODO: Pitäisikö tästä kertoa lisää?)
+
+% section sertifikaatit_webissä (end)
+
+
+% TODO: Pilko:
+%   * symmetrinen & epäsymmetrinen salaus:
+%        Asymetric cryptography is used to establish a shared secret. The shared secret is then used to encrypt the data with symmetric cryptography
+%   * sertifikaatit
+\subsection{Julkisen avaimen infrastruktuuri} % (fold)
+\label{sub:julkisen_avaimen_infrastruktuuri}
+
+% MEMO: ks. understanding ssl/tls
+
+Julkisen avaimen infrastruktuuri (\emph{public-key infrastructure}) mahdollistaa kahden osapuolen kommunikoimisen ilman yhteisesti jaettua salaisuutta. Tätä kutsutaan \emph{epäsymmetriseksi} salaukseksi, koska kummallakin osapuolella on erilainen salausavain. Salaukseen käytetään kahta avainta, jotka on luotu etukäteen ja samanaikaisesti. Toinen avaimista on julkinen ja toinen yksityinen. Kummalla tahansa avaimella salattu tieto on mahdollista purkaa avainparin toisella avaimella. Tämän johdosta tietyllä julkisella avaimella salattu tieto on mahdollista purkaa vain ja ainoastaan sitä vastaavalla yksityisellä avaimella --- ja päinvastoin.
+
+Kryptaus epäsymmetrisellä algoritmilla on merkittävästi hitaampaa kuin identtistä avainta käyttävällä symmetrisellä salauksella, minkä johdosta epäsymmetriset algoritmit eivät sovellu laajan tietomassan salaamiseen \cite{nist_pki_intro, NIST_SP800-63}. Sen sijaan niitä voidaan käyttää muun muassa autentikoinnissa ja tiedon yhtenäisyyden varmistamisessa.
+
+Epäsymmetrisen salauksen toimintaperusteena on matemaattinen todennäköisyys. Sen perusteella julkista avainta vastaavaa yksityistä avainta ei ole käytännössä mahdollista arvata, koska mahdollisten vaihtoehtojen läpikäyminen yksi kerrallaan vaatisi mahdottoman määrän laskenta-aikaa. Samaan todennäköisyyteen perustuu, että kaksi satunnaisesti generoitua avainparia eivät käytännössä voi koskaan olla identtiset.
+
+% subsection julkisen_avaimen_infrastruktuuri (end)
+
+\subsection{HTTP-yhteyden suojaus SSL/TLS-tekniikalla} % (fold)
+\label{sub:tekniikoiden_esittely_ssl_tls}
+
+% MEMO:
+%
+% SSL/TLS; Sertifikaatit webissä (webid, tls tarjoaa autentikoinnin)
+%    HTTPS (https:// vs. http://, 443 vs 80, koko end-to-end yhteys suojattu ml. headerit vs. s-http;
+%      HTTPS ei erillinen protokolla, vaan tarkoittaa HTTP:n käyttöä SSL/TLS yli)
+%    Simple vs. Mutual; (mutual -> käyttäjällä myös cert)
+%    Netscape kehitti v1994; alunperin ssl1.0, 2.0, 3.0, kunnes tls1.0; nyt tls1.3
+%    - wikipedia https
+%    - https://www.owasp.org/index.php?title=Transport_Layer_Protection_Cheat_Sheet
+
+% subsection tekniikoiden_esittely_ssl_tls (end)
+
+
+\subsection{Luotettava kolmas osapuoli} % (fold)
+\label{sub:luotettava_kolmas_osapuoli}
+
+% subsection luotettava_kolmas_osapuoli (end)
+
+\subsection{Digitaalinen allekirjoitus} % (fold)
+\label{sub:digitaalinen_allekirjoitus}
+
+% subsection digitaalinen_allekirjoitus (end)
+
+\subsection{Toisen osapuolen tunnistaminen} % (fold)
+\label{sub:toisen_osapuolen_tunnistaminen}
+Varmistetaan että toinen osapuoli todella on se kuka hän väittää olevansa
+% subsection toisen_osapuolen_tunnistaminen (end)
+
+
+\subsection{Näkökulma riskienhallintaan} % (fold)
+\label{sub:näkökulma_riskienhallintaan}
+VPN (verkkotason ratkaisu)
+
+SSL/TLS (applikaatiotaso; usually implemented on top of transport layer protocols)
+
+Mutta ... ei ratkaise perimmäistä ongelmaa eli salasanan muistamista.
+
+% subsection näkökulma_riskienhallintaan (end)
+
+
+% UHAT
+\section{Uhat turvalliselle autentikoinnille} % (fold)
+\label{sec:uhat_turvalliselle_autentikoinnille}
+
+    Phishing is a form of online identity theft targeting to steal sensitive information from an end user   \cite{phishing_attacks_and_solutions_2007, why_phishing_works_06, suspectibility_to_phishing_2006}. Victims are tricked into providing such information by a combination of spoofing techniques and social engineering \cite{visual_similarity_phishing_2008}. The process usually involves a fraudulent web site imitating a specific authentic site.
+
+    The goal is to trick the user submitting his secret information to the fraudulent imitation site that could be later used by somebody else to access the authentic service. A common way to lure someone to a fraudulent phishing site is to send the victim an email or instant message that asks him to visit a malicious site. Additionally, if that message appears to come from a friend, a trusted social network or a company that the user has an existing relationship with, the more credible it will be \cite{suspectibility_to_phishing_2006}. The goal is to acquire sensitive information, such as a username and password, by masquerading the malicious site as a particular trustworthy entity.
+
+    Studies of Dhamija \emph{et al.} \cite{why_phishing_works_06} show that in order for a phishing attempt to be convincing, it must be targeted to a specific system. Since a single sign-on system provides access to multiple services, a successful phishing attempt targeted against the identity provider affects all its identity consumers. Therefore phishing poses a risk that affects especially single sign-on systems.
+
+    Being an attractive target for phishing might give an impression that single sign-on systems should be avoided for business critical services. One big factor is that by nature any web service is, to some level, vulnerable to phishing \cite{why_phishing_works_06}. Using a central identification provider allows a malicious party to focus his attack on that particular provider. But on the other hand, this also allows the service administrators to focus on the issues on only one particular identity provider. Thus, if identification provider were to be implemented on a per service basis, it would require focusing on phishing issues on each and every one of them.
+
+    The focus of this paper is to define risks that phishing poses to web services. We then conclude that the combination of OpenID and client certificates could eliminate the risk for phishing. The use of client side certificates is relatively rare due to their inherent complexities and the fact that clients can only authenticate on machines which have the private certificate component installed \cite{owasp_tls_cheatsheet}. This aspect is addressed in my master's thesis for which this seminar paper serves as a primer. The goal is to design a service that could provide a practical and phishing resistant authentication for multiple internet services.
+
+
+% section uhat_turvalliselle_autentikoinnille (end)
+
+\subsection{Salasanat ovat vallitseva käytäntö} % (fold)
+\label{sub:salasanat_ovat_vallitseva_käytäntö}
+\label{sec:passwords_de_facto}
+
+% MEMO Taloussanomat 28.11.2011:
+% It-asiantuntija Petteri Järvinen pitää tilannetta mahdottomana käyttäjän kannalta.
+% – Kun salasanat otettiin alunperin tietokoneissa käyttöön, niin ihmisellä oli vain yksi järjestelmä mihin hän kirjautui. Oli yksi käyttäjätunnus ja yksi salasana. Nyt kun nettipalveluita on käytössä kymmeniä, niin eihän se enää toimi. Joka paikkaan pitäisi olla vähintään 15 merkkiä pitkät salasanat ja vaihtaa säännöllisesti, sehän on täysin mahdotonta.
+% Viestintäviraston tietoturvayksikkö Cert-fi ohjeisti hiljattain, että hyvässä salasanassa pitäisi olla vähintään 15 merkkiä ja jokaisessa verkkopalvelussa pitäisi käyttää eri salasanaa.
+% – Jos salasanassa on käytetty oikeita sanoja, niin silloin 15 merkkiä. Jos on käytetty satunnaisia merkkejä, niin kahdeksan on vielä hyvä, vaikka alkaakin olla siellä alarajoilla, Ylönen arvioi.
+% Ylönen muistuttaa, että hyvä salasana on vähintään kahdeksan merkkiä. Se sisältää suurin piirtein yhtä paljon isoja ja pieniä kirjaimia, lisäksi on oltava yksi tai kaksi erikoismerkkiä. Salasanasta ei saisi muodostua mitään tunnistettavia sanoja.
+% – Kovin monta tällaista salasanaa ei voi muistaa, myöntää Ylönen.
+% Helposti muistettavat salasanat ovat usein huonoja. Ylösen mukaan varsinkin sellaisia salasanoja, joissa on käytetty oikeita sanoja ja vaikkapa vuosilukuja pystytään yllättävän tehokkaasti murtamaan käyttäjien koneilta.
+
+  \begin{quote}
+    -- ''Jopa ihmiset, joiden pitäisi tietää paremmin, kuten minä, käyttävät samoja salasanoja liian pitkään'', huokaisee Tatu Ylönen. (Taloussanomat 28.11.2011)
+  \end{quote}
+
+
+             Salasana on palvelun toimittajan kannalta kustannustehokas autentikoitumismenetelmä, ja siksi salasanat ovat olleet vallitsevin tunnistamistapa vuosikymmenten ajan \cite{pw_auth_system_perspective_08}. Kuten kappaleessa~\ref{sec:passwords} esiteltiin, käyttäjillä on keskimäärin 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken \cite{study_of_passwords_07}. Lisäksi salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä \cite{password_management_strategies_06, pw_auth_system_perspective_08, passpet_06}.
+
+             Helposti muistettavat salasanat, kuten luonnollisen kielen sanat, niiden johdannaiset tai nimet, ovat haavoittuvaisia \emph{sanakirjahyökkäykselle}, jossa hyökkääjä yrittää arvata salasanoja käyttäen ennalta valitun sanakirjan sanoja sekä niiden muunnoksia \cite{users_are_not_the_enemy_99, passpet_06}. Salasanan säännöllinen vaihtaminen pienentää todennäköisyyttä väkisinarvaamisen onnistumiseen, jos jonkin käytetyn palvelun salasanat ovat päätyneet vääriin käsiin. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun ja salasanan vaihtaminen usein kuitenkin on epätoivoinen taakka ihmisille \cite{password_management_strategies_06, passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
+
+             Ihmiset unohtavat salasanansa säännöllisesti \cite{ponemon_pw_survey_06, password_management_strategies_06}. Florêncion ja Herleyn 500.000 käyttäjän tutkimuksessa \cite{study_of_passwords_07} esimerkiksi Yahoon salasananvaihtotoimintoa käytettiin 15~\% yhtä usein kuin sisäänkirjautumista. Microsoft UK:n salasanaselvityksen mukaan neljäsosa (27~\%) briteistä unohtavat salasanansa säännöllisesti \cite{microsoft_pw_survey_04}. Symantecin kyselyssä lähes puolet 46~\% vastaajista kertoivat helpon muistettavuuden ja 71~\% salasanan vahvuuden olevan yhdet tärkeimmistä kriteereistä salasanan valinnassa \cite{symantec_pw_survey_10}. Kuitenkin salasana kirjoitetaan usein paperilapulle, joka sijoitetaan näppäimistön alle \cite{pw_auth_system_perspective_08}.
+
+              % - ihmiset käyttävät samaa salasanaa pitkään (paha yhdistettynä muihin ongelmiin, MUTTA: kappaleessa salasanan vanheneminen suositellaan saman salasanan käyttämistä pitkään)
+              % - huono salasana jaetaan useammin kuin hyvä \cite{study_of_passwords_07}
+              % - phishing: datan \cite{study_of_passwords_07} perusteella 0,4 \% internetin käyttäjistä falls victim to a phishing attack a year
+              % - twitter adminin salasana murrettu sanakirja hyökkäyksellä, seurauksena lukuisia suosittuja käyttäjäprofiileja kaapattiin: http://www.codinghorror.com/blog/2009/01/dictionary-attacks-101.html
+             %     - admin käytti heikkoa salasanaa JA palvelu salli rajoittamattoman määrän yrityksiä
+
+% subsection salasanat_ovat_vallitseva_käytäntö (end)
+
+
+\subsection{Landscape of Phishing} % (fold)
+\label{sub:landscape_of_phishing}
+
+              It is not feasible to produce a comprehensive catalog of phishing methods given both the current sophistication and rapid evolution of phishing attacks \cite{phishing_attacks_and_solutions_2007}. Dhamija
+          \emph{et al.} \cite{why_phishing_works_06} studied phishing strategies that were organized along three dimensions: visual deception, lack of knowledge, and lack of attention. According to \cite{phishing_attacks_and_solutions_2007, suspectibility_to_phishing_2006} general attack vectors include the following:
+
+          \begin{itemize}
+
+            \item{Deceptive attacks (spear phishing),
+                      in which users are tricked by fraudulent messages into giving out
+                      information; could involve personalized emails or emails sent to a specifically
+                      targeted group.
+                    }
+
+            \item{Domain-based attacks (pharming attacks),
+                      in which the lookup of hostnames is altered to send users to a
+                      fraudulent server.
+                    }
+
+            \item{Malicious code-based or trojan-based attacks,
+                        in which malicious software causes a data compromise.
+                    }
+
+          \end{itemize}
+
+
+% subsection landscape_of_phishing (end)
+
+\subsection{Deceptive Phishing Attacks} % (fold)
+\label{sub:deceptive_phishing_attacks}
+
+             \label{sec:visual_deception}
+
+              Several studies have shown \cite{visual_similarity_phishing_2008, why_phishing_works_06, suspectibility_to_phishing_2006} that humans are especially vulnerable to visual deception. Dhamija \emph{et al.} \cite{why_phishing_works_06} provide empirical evidence about which phishing strategies are successful at deceiving average users. Their study, however, shows that some visual deception attacks can fool even the most sophisticated users. In order to ''design web browsers, websites and other tools to shield users from such attacks,'' it is necessary to ''understand which attack strategies are successful, and what proportion of users they fool.'' \cite{why_phishing_works_06}
+
+              The biggest Nordic bank Nordea has been targeted several times for different phishing attacks. A typical method has been to send a message illustrated in figure~\ref{fig:nordea_phishing_email} to thousands of recipients. Not all of the recipients are customers of the target service provider, but some are. And although not all of the customers will get fooled some of them will. Because each fooled bank account holder means money for the attackers, targeted phishing can be lucrative (criminal) business.
+
+                Phishing message in figure~\ref{fig:nordea_phishing_email} includes an authentic looking link to the web bank and a request to go and fill all the one time passwords. The hyperlink is obfuscated: it is an HTML tag whose \emph{href} attribute has a different address than what visibly shown in the message. Instead the link leads to a phishing site illustrated in figure~\ref{fig:nordea_phishing_website} where the victim is supposed to fill in their unused passwords and all of the confirmation codes for Nordea's online banking \cite{nordea_fsecure_2006, nordea_miller_2006}. The link also includes a unique identification code included in its URL which allows the attacker to identify the recipient. Because the sender can connect each identification code and email address, it is consequentially not necessary to ask for the customer's email address on the phishing site.
+
+
+          \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{images/nordea_phishing_email.jpg}
+            \caption{Phishing email targeted against Nordea customers in 2006}
+            \label{fig:nordea_phishing_email}
+          \end{figure}
+
+          \begin{figure}
+            \centering
+            \includegraphics[width=0.9\textwidth]{images/nordea_phishing_website.png}
+            \caption{Phishing site asking for Nordea customers' e-bank accounts in the year 2006}
+            \label{fig:nordea_phishing_website}
+          \end{figure}
+
+
+% subsection deceptive_phishing_attacks (end)
+
+\subsection{Kolmas osapuoli välissä (Man-in-the-Middle)} % (fold)
+\label{sub:kolmas_osapuoli_välissä_man_in_the_middle_}
+
+\label{sec:man_in_the_middle}
+
+Active phishing is more sophisticated and has a bigger potential for causing trouble than above examples of passive attacks. Instead of being disconnected from the authentic site, the phishing site could act as a man-in-the-middle proxy that communicates interactively with the site which it imitates. A successful man-in-the-middle could allow bypassing of all security measures protecting the authentication process \cite{beamauth_2factor_2007, schneier_2factor_2005, why_phishing_works_06}: when the authentic site asks a challenge, the man-in-the-middle just delegates the question to the user. And when the user sends the response, it is delivered through the man-in-the-middle. As a result the transaction is compromised, because the original request can be altered without user's notice.
+
+              % TODO: SSL ei technically designed to prevent MITM
+Transport layer security (TLS) and secure sockets authentication (SSL) are designed to technically prevent man-in-the-middle vulnerabilities with certificates granted by a trusted third party. Nevertheless, the SSL/TLS secured communication can be compromised if the user does not arrive at the authentic site but is instead misguided to a visually deceptive man-in-the-middle phishing site. Studies \cite{why_phishing_works_06, suspectibility_to_phishing_2006} show that users can't be protected using only a technical approach. For example, the Mozilla Security Reviewers' Guide \cite{mozilla_security_guide_2010} states: ''Many of our potential users are inexperienced computer users, who do not understand the risks involved in using interactive Web content. This means we must rely on the user's judgement as little as possible.'' However, user can typically override the browser's protective measures.
+
+Study data of Downs \emph{et al.} \cite{suspectibility_to_phishing_2006} suggest that people can manage the risks that they are most familiar with, but don't appear to be wary of unfamiliar risks. Since the lack of knowledge and attention is a considerable factor in being susceptible to phishing \cite{why_phishing_works_06}, there exists a famous assertion regarding the correlation of dancing pigs and users' interest on security:
+
+            \begin{quote}
+              \label{quote:dancing_pigs}
+              ''If J. Random Websurfer clicks on a button that promises dancing pigs on his computer monitor, and instead gets a hortatory message describing the potential dangers of the applet — he's going to choose dancing pigs over computer security any day. If the computer prompts him with a warning screen like: 'The applet DANCING PIGS could contain malicious code that might do permanent damage to your computer, steal your life's savings, and impair your ability to have children,' he'll click OK without even reading it. Thirty seconds later he won't even remember that the warning screen even existed.'' \cite{schneier_secrets_and_lies_2000}
+            \end{quote}
+
+% MEMO: Tähän esimerkki MITM + sertifikaatit.
+% - HSTS draft; http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+% - DNSSec (hsts-data dns:ään)
+% - ForceSSL (EFF)
+% - SSL Stripping
+% - Käyttäjäsession ja palvelukeksin kaappaus (myös force secure -täppä)
+% - Epäluotettava verkkoympäristö (sniffaus, sslstrip; vrt. firesheep)
+% - Suojaamaton login, suojattu login+suojaamaton muu (yhteys jollain matkalla epäluotettava; miten paketit kulkee)
+% - Väärän sertifikaatin hyväksyminen (amazon.çom/amazom.com/jne vs amazon.com)
+%   - Extended Validation (EV) -sertifikaatit: ei vahvempi kuin tavallinen sert; ainoastaan UI.
+% - OAuth 2.0 Security Considerations; http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-15#page-10
+
+% subsection kolmas_osapuoli_välissä_man_in_the_middle_ (end)
+
+
+\subsection{Man-in-the-Middle kaksiosaisessa autentikoinnissa} % (fold)
+\label{sub:man_in_the_middle_kaksiosaisessa_autentikoinnissa}
+
+
+            Schneier \cite{schneier_2factor_2005} disagrees with the added security about two-step verification. He states that ''it solves the security problems we had 10 years ago, not the security problems we have today.'' Let us think that an internet bank service, such as described in the previous chapter, sends a challenge to the user's phone number via an SMS message and expects a reply via SMS. If all bank customers are expected to have a cellphone, then this adds a two-factor authentication without extra hardware. The verification message is also transferred over another communications channel, which makes eavesdropping significantly more difficult.
+
+             % FIXME: Huono lainaus!
+             % TODO: OISKO muitakin kuin Schneierin essee?
+             DUPLIKAATTI:
+             Nevertheless, according to Schneier \cite{schneier_2factor_2005} two-factor authentication \emph{per se} does not increase security as a whole if the weakest link is elsewhere. ''An attacker using a man-in-the-middle attack is happy to have the user deal with the SMS portion of the log-in, since he can’t do it himself.'' \cite{schneier_2factor_2005} As explained in chapter~\ref{sec:man_in_the_middle}, if the user communicates with the authentic service having a man-in-the-middle, then two-factor authentication does not provide any extra security. The user can provide a correct response to all challenges proposed by the authentic service, but since both the challenges and response go through a malicious third party, he has no way of knowing whether his request has been altered.
+
+             Let us assume a user is accessing a web bank service and he is fooled to a fraudulent imitation site. When the user creates a transaction, e.g. pay 10 euros to a friend, the man-in-the-middle proxy intercepts the request. The request may then be replaced with a new one created by the man-in-the-middle. The bank starts the verification process to authorize the request. The user is still shown details about the request he created, although the bank never received it. Instead, the actual verification process is executed for the fraudulent request created by the phishing site. When the user sends his response to the verification challenge, he provides it to the man-in-the-middle. The user is deceived into thinking he authorized his own request, even though he actually authorized an arbitrary request created by the man-in-the-middle phishing site.
+             % TODO: Kuva
+
+             Google rolled out two-step verification as a part of their Google Apps authentication process in September 2010 \cite{google_2step_2010}. Google was cautious in their announcement which only promised to provide a ''more secure'' cloud authentication. They agree indirectly with Schneier \cite{schneier_2factor_2005} by stating that the improvement helps only on stolen passwords. According to Schneier, two-factor authentication works within some corporate networks and for local log-in, but it won't work for remote authentication over the Internet \cite{schneier_2factor_2005}. Implementing it as another layer of security will only result in a change of phishing strategies, because two-factor authentication mostly helps against passive eavesdropping, stolen passwords and offline password guessing.
+
+
+% subsection man_in_the_middle_kaksiosaisessa_autentikoinnissa (end)
+
+\subsection{SSL Stripping} % (fold)
+\label{sub:ssl_stripping}
+MITM, väärän sertifikaatin hyväksyminen
+% subsection ssl_stripping (end)
+
+
+\subsection{The Lack of Knowledge and Attention} % (fold)
+\label{sub:the_lack_of_knowledge_and_attention}
+
+              Many users do not understand security indicators \cite{why_phishing_works_06}. For example, many users do not know that a closed padlock icon in the browser indicates that the page they are viewing was secured by SSL. Studies of Dhamija \emph{et al.} \cite{why_phishing_works_06} show that even if users understand the meaning of the padlock icon, they can be fooled by its placement within the body of a webpage. Generally, users are not aware of the difference between the elements displayed in the browser's interface and the elements displayed in the web page content area. The browser interface consists of e.g. toolbars, windows, address bar, and status bar that are constructed around the web page. The browser interface cannot be altered by a web page, thus, icons and notifications displayed in it should be trusted. On the contrary, icons and notifications displayed in the content of a web page can be placed there arbitrarily and should not be trusted.
+
+                  A surprising finding by Dhamija \emph{et al.} \cite{why_phishing_works_06} was that some users have erroneous knowledge and misconceptions about what website features indicate security. For example, ''participants assumed that if websites contained professional-looking images, animations, and ads, they assumed the sites were legitimate.'' Similarly, dedicated login pages to bank services were less trusted than login form that was on the bank front page. For user convenience, some legitimate organizations allow users to login from non-SSL pages. Although the data may be transmitted securely (login form is submitted to an HTTPS URL), the browser does not display a visual cue whether SSL is used for form submission. As a workaround designers may place a padlock icon in the page content. Users who know to look for an SSL padlock icon may simply scan for the presence of it regardless of position, which is feasible for phishers since they can add a padlock in the contents of a phishing site too.
+
+
+% subsection the_lack_of_knowledge_and_attention (end)
+
+
+\subsection{Examples of Security Ignorance} % (fold)
+\label{sub:examples_of_security_ignorance}
+
+              In addition to understanding the security indicators of the browser, users lack of basic knowledge about how the web, email and applications work \cite{why_phishing_works_06}. Phishing sites can exploit several aspects of this lack of knowledge. For example, some users do not understand the syntax of domain names and can not distinguish an authentic web address from a fraudulent one. For example a user may think
+          \emph{ebay-members-security.com} belongs to \emph{ebay.com}, address \\
+          \emph{www.nordea.com.sitemod.sess26xvwcwbcnnzoycvszh.blockerey.tw/confirm/login} \\
+          to \emph{www.nordea.com} or that a URL \emph{http://www.microsoft.com:login.asp@62.236.117.4}
+          is originated from \emph{www.microsoft.com} instead of \emph{62.236.117.4}.
+          Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate organizations further confused our participants by hosting secure pages with third parties, where the domain name does not match the brand name.''
+
+              Security is often a secondary goal \cite{why_phishing_works_06}, even though security cannot be applied independently or afterwards \cite{schneier_secrets_and_lies_2000, lampson_distributed_1992}. Even if users have the knowledge described above and can detect visual deception described in chapter~\ref{sec:visual_deception}, they may still be deceived if they fail to notice security indicators or the absence of them \cite{why_phishing_works_06}. The Firefox browser shows several indicators for SSL protected pages, but there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist \cite{why_phishing_works_06}.
+
+              Dhamija \emph{et al.} conclude \cite{why_phishing_works_06} that ''even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website.'' Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants in the study \cite{why_phishing_works_06}. 23\% of the participants ignored all security indicators and cues in the browser's status bar and address bar. The study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija \emph{et al.} point out that security indicators should alert users of an untrusted state -- in addition to have indicators appear under trusted conditions \cite{why_phishing_works_06}. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
+
+
+% subsection examples_of_security_ignorance (end)
+
+\subsection{Trojan-based Attacks} % (fold)
+\label{sub:trojan_based_attacks}
+
+            \label{sec:trojans}
+
+            ''Game Over'' could be used to describe getting infected by a trojan. Uninvited code or a program executed without user's actual permission is called a trojan. The victim is usually asked if he wishes to install a particular program. As stated in the quote about dancing pigs in page~\pageref{quote:dancing_pigs} and studied in \cite{why_phishing_works_06}, the victim usually does not bother reading any warnings.
+
+              Very clever infiltrating methods have been found in the wild. One intriguing example is a malicious website which directly tells the visitor that it is a malicious website \cite{fsecure_webtrojan_2010}. The site masquerades as a browser warning page and applies the correct layout and contents according to the victim's browser. The difference with the authentic page is that the malicious one offers a link to ''download updates''. The ''update'' contains a browser specific trojan. Although a confirmation action is required for the installation, the victim may happily agree with it and proceed with the installation.
+
+
+            \begin{figure}
+              \centering
+              \includegraphics[width=0.9\textwidth]{images/firefox_reported_attack_page_trojan.png}
+              \caption{Imitated warning offers to download a trojan as an ''update''.}
+
+              \label{fig:ff_malicious_warning}
+            \end{figure}
+
+            \begin{figure}
+              \centering
+              \includegraphics[width=0.9\textwidth]{images/firefox_reported_attack_page_authentic.png}
+              \caption{Authentic browser warning does not offer anything to download.}
+
+              \label{fig:ff_authentic_warning}
+            \end{figure}
+
+              % TODO: Cite, cite, cite ....
+              Beating the dancing pigs \cite{schneier_secrets_and_lies_2000} seems to require either restrictive system administration, effective anti-virus software and software security education. Neither of them is in the scope of this thesis, hence, integrity of user's client software is left outside the scope of this thesis.
+
+
+% subsection trojan_based_attacks (end)
+
+\subsection{Passiiviset hyökkäykset} % (fold)
+\label{sub:passiiviset_hyökkäykset}
+
+Autentikoitumistietojen (salasana, avain tms) tallettaminen selväkielisenä taustajärjestelmään.
+
+Salasanatietokanta tulee kryptata jo työasemalla (joka oletetaan turvalliseksi) eikä kryptausavainta saa viedä palvelimelle edes väliaikaisesti.
+Kun kryptausavain ei koskaan ole taustajärjestelmän tiedossa, vääriin käsiin päätyneen salasanatietokannan avaaminen onnistuu vain väkisin (brute force).
+
+
+% subsection passiiviset_hyökkäykset (end)
+
+\section{Katsaus autentikoitumistekniikoihin/kertakirjautumismenetelmiin} % (fold)
+\label{sec:katsaus_autentikoitumistekniikoihin_kertakirjautumismenetelmiin}
+
+% section katsaus_autentikoitumistekniikoihin_kertakirjautumismenetelmiin (end)
+
+\subsection{OAuth} % (fold)
+\label{sub:oaauth_auktorisointimenetelmä}
+
+OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja kysynyt palvelu kysyi suoraan käyttäjän Facebook-salasanaa. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen -- jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista palvelujen kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan datan omistavassa palvelussa eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen toteuttamaan palveluun. Tällöin esimerkiksi käyttäjän kuvia halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
+
+OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (http://user:password@palvelu.com/osoite). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+
+Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Lisäksi käyttäjälle on mahdollista tarjota selkeä näkyvyys siihen, minkä tietojen jakamiseen hän on antanut luvan. Esimerkiksi Facebookin Developer -sivustolla huomautetaan ulkopuolisia kehittäjiä, että mitä laajempaan joukkoon käyttöoikeuksia pyydetään lupaa, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana käyttäjällä ei yleensä ollut mahdollisuutta rajata oikeuksia ollenkaan, koska kolmannen osapuolen palvelu pystyi tekemään pyytämällään käyttäjän salasanalla mitä vain.
+
+
+Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
+
+Luvan kysyminen mobiilissa on vaikeaa
+
+
+OAuth 1.0 on auktoritointimentelmä, jolla saitti S voi pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää S:ään. Käyttäjän täytyy vahvistaa tietojen pyytäminen, eli S ei saa P:n tietoja salaa ilman käyttäjän lupaa.
+
+OAuth 2.0 tukee lisäksi myös autentikoitumista. OAuth 2.0 on vielä keskeneräinen draft. Facebook on vaikuttanut voimakkaasti draftin luomisprosessiin. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. 1.0:ssa ongelmia + Facebook Connect --> OAuth 2.0.
+
+
+Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
+Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
+
+OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
+
+http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
+
+OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
+
+http://tools.ietf.org/html/draft-ietf-oauth-v2-22
+
+http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01
+
+http://hueniverse.com/2010/05/introducing-oauth-2-0/
+''OAuth is a security protocol that enables users to grant third-party access to their web resources without sharing their passwords.''
+''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone.''
+''OAuth includes two main parts: obtaining a token by asking the user to grant access, and using tokens to access protected resources. The methods for obtaining an access token are called flows.''
+''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
+''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
+
+
+''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
+
+% subsection oaauth_auktorisointimenetelmä (end)
+
+
+\subsection{OpenID-autentikoitumismenetelmä} % (fold)
+\label{sub:openid_autentikoitumismenetelmä}
+
+\label{sec:openid_auth}
+
+OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
+Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimivaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
+
+OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) \cite{openid_2.0_platform_2009}. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. The authentication flow is illustrated in figure~\ref{fig:basic_openid_flow} and described below.
+
+In order to begin the authentication process, the relying party asks the user for an OpenID identifier. After the user has submitted his claimed identifier, the relying party initializes a discovery process for finding an identity provider that is associated with it. When the identity provider has been discovered, the user is redirected to its sign in page. By signing in to the identity provider the user proves the ownership of the claimed OpenID identifier. After a successful authentication, the user is redirected back to the relying party along with a cryptographic proof of the ownership of the claimed identifier. The user is then authenticated and signed in to the relying party which is the service he originally wanted to access.
+
+The principle of user-centric identity provides the user with a possibility of choosing an identity provider of his own. This is different from the principle of federated identity where a trusted third-party guarantees the person behind an identifier. A user-centric identity provider verifies only that only an authenticated user may prove the ownership for an identifier, that is, the person behind of an identifier is not necessarily guaranteed. This does not, however, usually pose a problem because a typical web service wants only to distinguish between different identifiers. Hence, it is enough to guarantee that there is only one owner behind a particular identifier.
+
+     \begin{figure}
+       \centering
+       \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
+       \caption{Basic OpenID Authentication Flow \cite{openid_2.0_platform_2009}}
+       \label{fig:basic_openid_flow}
+     \end{figure}
+
+
+              % FIXME: Duplikaatti
+              DUPLIKAATTI:
+OpenID pyrkii toteuttamaan ''käyttäjäkeskeisen identiteetin infrastruktuurin'', jossa käyttäjällä on valinnanvapaus käyttämänsä identiteetintarjoajan suhteen \cite{openid_2.0_platform_2009}. OpenID:n spesifikaatio määrittelee kaksi käyttäjäkeskeisen identiteetin arkkitehtuuria: osoiteperusteisen (\emph{address-based}) ja korttiperusteisen (\emph{card-based}) identiteetin \cite{openid_2.0_specification_07}.
+
+              % FIXME: Duplikaatti
+              DUPLIKAATTI:
+Osoiteperusteisessa identiteetissä jokaisella käyttäjällä on uniikki digitaalinen osoite. Käyttäjän tunnistautuminen tapahtuu todistamalla omistajuus esitettyyn osoitteeseen. Osoiteperusteisen OpenID-identiteetin käyttäjätunnus voi olla muodostettu URL- tai XRI-osoitteesta. XRI-osoitteiden käyttäminen on äskettäin äänestetty OASIS-standardointikomiteassa vanhentuneeksi eikä XRI-osoitteiden hyödyntämistä enää suositella \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Tämän johdosta osoiteperusteisessa identiteetissä käytetään vain URL:ään perustuvia osoitteita kuten \emph{http://user.example.com} or \emph{http://example.com/user}.
+
+              % FIXME: Duplikaatti
+              DUPLIKAATTI:
+Korttiperusteinen identiteetti hyödyntää digitaalista polettia (\emph{token}), joka viittaa kokoelmaan tai sisältää kokoelman tunnisteattribuutteja, jotka yksinään tai ryhmänä voivat todentaa käyttäjän identiteetin \cite{openid_2.0_platform_2009}. Osoite- ja korttiperustainen identiteetti toimivat molemmat itsenäisesti, mutta ne voivat myös täydentää toisiansa. Esimerkiksi korttipohjainen tunniste voi sisältää osoiteperusteisen identiteetin tai osoiteperusteinen identiteetin löytämisen jälkeen tunnistautuminen voidaan suorittaa korttipohjaisella identiteetillä \cite{openid_2.0_platform_2009}. Korttipohjaista identiteettiä on siten mahdollista käyttää salasanan korvaavana tunnisteena \cite{infocards_09}, mikä ratkaisisi myös calasteluun (\emph{phishing}) liittyviä riskejä \cite{cameron_infocard_07}.
+
+
+% subsection openid_autentikoitumismenetelmä (end)
+
+
+\subsection{Käyttäjäkeskeinen identiteetti (User-centric Identity)} % (fold)
+\label{sub:käyttäjäkeskeinen_identiteetti_user_centric_identity_}
+
+Giving full control of the identity lifecycle to the customer is a prerequisite for user-centric identity. It allows the customer to decide when and how their identity information can be accessed \cite{open_identity_management_saas_2009}. The term ''user-centric identity management'' is understood to mean digital identity infrastructure where an individual end-user has substantially independent control over the use of his identifier(s) and personally-identifiable information \cite{openid_2.0_platform_2009}. OpenID specification provides user-centric infrastructure with two overall architectures: an address-based and a card-based identity.
+
+An address-based identity employs a unique digital address to identify a user. The identification process is based on proving the ownership of a particular address. For example an OpenID identity address may be composed of a URL or an XRI. One of the first steps in the OpenID authentication process is to dereference the identity address to discover and invoke the associated identity service \cite{openid_2.0_platform_2009}. XRI addresses have lately been deprecated \cite{xri_depcrecated_08a, xri_depcrecated_08b, xri_depcrecated_08c, xri_depcrecated_08d}. Hence, this paper concentrates on URL based identities such as \emph{http://user.example.com} or \emph{http://example.com/user}.
+
+A card-based identity uses a digital token that contains or references a collection of attributes that may individually or collectively identify the user \cite{openid_2.0_platform_2009}. The collection provides the necessary information to accomplish an identity-based transaction. According to Recordon and Reed \cite{openid_2.0_platform_2009} both address- and card-based approaches can be applied individually, but they also can complement each other. As an example an address-based identity could be used to discover a card-based identity, and a card-based identity could contain one or more address-based identities. Card-based identity has not, however, gained much popularity among OpenID enabled services.
+
+
+% subsection käyttäjäkeskeinen_identiteetti_user_centric_identity_ (end)
+
+\subsection{Saittikeskeinen identiteetti (Site-centric Identity)} % (fold)
+\label{sub:saittikeskeinen_identiteetti_site_centric_identity_}
+''Mozilla has an answer to site-centric identity systems like Facebook’s — put the browser in charge of your online logins instead. -- Account Manager allows you to log in and out of websites directly through the browser, rather than relying on a particular site’s login form. Using a new menu item in the main toolbar — a button with a picture of a key that sits next to the address field — Account Manager lets you pick a login to use at any site you visit. It stores logins you’ve already created, suggesting them whenever they can be used. It can also generate (and remember) random passwords to make your logins more secure. It’s a radical step up from Firefox’s current Password Manager feature.''
+http://www.webmonkey.com/2010/04/mozilla-gets-it-right-moves-identity-management-into-firefox/
+
+Account Manager -projekti lopetettiin. Tilalle tuli BrowserID (https://www.browserid.org/).
+
+Fedarated Identity? Shibboleth/SAML2: Lyhyt esittely?
+
+Simple Cloud Identity Management?
+  https://www.pingidentity.com/resource-center/SCIM.cfm
+  http://www.simplecloud.info/
+
+
+% subsection saittikeskeinen_identiteetti_site_centric_identity_ (end)
+
+\subsection{OpenID:n heikkouksia} % (fold)
+\label{sub:openid_n_heikkouksia}
+
+% MEMO:
+The problem with OpenID, according to Dave Recordon, is that v2 of the standard was incredibly difficult to implement (http://thenextweb.com/socialmedia/2010/11/04/facebook-connect-oauth-and-openid-the-differences-and-the-future/):
+\begin{quote}
+  ''I’ve heard story after story from developers implementing OpenID 2.0 who don’t understand why it is so complex and inevitably forgot to do something.''
+\end{quote}
+
+''So, combine that complexity with the fact that OpenID hasn’t been updated in 3 years and you have a bit of a recipe for disaster. There’s also the problem that it requires more than one handshake (introduction) in order to get data stored on a server. In fact, OpenID cannot, at this point, acquire that information on its own. It has to send a second request for OAuth to handle the information transfer.'' -- OpenID Connect (will be built on top of OAuth)
+
+''OAuth [1.0] differs from OpenID in that it cannot request identification (at least in its present form). What it can do is allow a 3rd party to have access to your data without the need for you to show your password to that 3rd party site. There is a revision to OAuth that has been proposed, allowing OAuth to acquire identity as well, but it is far from finalized.''
+
+Iso listaus OpenID-rutinaa: http://www.quora.com/OpenID/What-s-wrong-with-OpenID
+
+Facebook Connect mahdollistaa sekä autentikoinnin että auktorisoinnin eli yhdistää hyviä puolia OpenID:stä ja OAuth 1.0:sta. Facebookilla vahva vaikutus OAuth 2.0:n laatimisessa, joka nyt draft-vaiheessa. Facebook Connect yleistynyt yli 250.000 saitille (ja Facebookilla 800 miljoonaa käyttäjää) kun pidempään markkinoilla ollut OpenID on saavuttanut tuen vain 50.000 saitille.
+
+
+Stackoverflow ja OpenID: http://blog.stackoverflow.com/2010/04/openid-one-year-later/
+Summary: Yksi salasana per jokainen web-palvelu on pahempi ongelma kuin OpenID:n tradeoffit yhteensä. Ovat mieluummin osa ratkaisua kuin yksi ongelma lisää.
+
+
+OpenID-protokollasta on dokumentoitu lukuisia heikkouksia \cite{blackhat_openid_security_story, cameron_infocard_07, three_types_of_openid_ids_10}, joista merkittävimmät on selitetty jäljempänä olevassa listauksessa.
+
+  \begin{description}
+
+  \item[1. Calastelu (\emph{phishing})] \hfill \\
+    Pahantahtoinen sivu voi kysyä OpenID-tunnusta ja ohjata käyttäjän autenttista identiteetintarjoajaa matkivaan palveluun. Jos käyttäjä autentikoituu huijaussivulle salasanalla, käyttäjän OpenID-identiteetti päätyy vääriin käsiin. Korttiperustaisen autentikoinnin käyttäminen estäisi tämän haavoittuvuuden \cite{cameron_infocard_07}. Identiteetintarjoajien on mahdollista tarjoata lisäsuojaa kaksiosaisella autentikoinnilla, asiakassertifikaatilla tai eräänlaisella ''vesileimalla'' \cite{yahoo_phishing_seal}.
+
+   \item[2. Keskitetty riski] \hfill \\
+      Jos OpenID-identiteetti päätyy vääriin käsiin, jokainen siihen kytketty käyttäjäprofiili on myös väärissä
+      käsissä. Riskinä tämä vertautuu sähköpostitunnuksen salasanan kadottamiseen, koska yleensä erinäisten
+      palvelujen salasananpalautustoiminnot lähettävät tarkisteen käyttäjälle suojaamattomassa sähköpostissa.
+
+   \item[3. Luottamus identiteetintarjoajaan] \hfill \\
+      Kaikki sisäänkirjautumistiedot ovat palveluntarjoajalla, jos tunnistautuminen kohdepalveluun tehdään
+      osoiteperusteisella identiteetillä. Tällöin kohdepalvelu edellyttää käyttäjältä
+      ainoastaan identiteetintarjoajaan kytketyn käyttäjätunnuksen haltijuuden todentamista.
+      Asiakassertifikaatin (\emph{client certificate}) tai korttiperusteisen identiteetin käyttäminen
+      lisätunnisteena ei tuo tältä osin lisäturvaa, koska sellaisen vaatiminen on ainoastaan
+      identiteetintarjoajan ja käyttäjän välinen asia.
+
+   \item[4. Luottamus pysyvyyteen] \hfill \\
+      Jos identiteetintarjoaja lopettaa toimintansa pysyvästi, siihen kytketyt tunnisteet eivät ole enää
+      käytettävissä. Ongelmaa on mahdollista kiertää kytkemällä palveluihin useampi eri OpenID-identiteetti.
+      Tämä kuitenkin lisää monimutkaisuutta, kun käytettäviä palveluja ja identiteettejä on useita.
+
+  \item[5. Tunnisteiden kierrättäminen] \hfill \\
+    Identiteetintarjoaja ei saisi antaa kerran käytössä ollutta OpenID-osoitetta enää ikinä kenellekään.
+    Jos käyttäjä poistaa OpenID-identiteettinsä identiteetintarjoajalta, käyttäjän täytyy poistaa sitä vastava
+    OpenID-osoite
+    myös \emph{kaikista} palveluista, joissa sitä on käytetty.
+
+  \item[5. Luottamus DNS-protokollaan] \hfill \\
+    OpenID-protokollan mukaisesti kohdepalvelu ei välttämättä tunne käyttäjän identiteetintarjoajaa etukäteen.
+    Jos DNS-kyselyihin ei saada autenttista vastausta, palvelu voi johtaa käyttäjän oikeaksi naamioituneelle,
+    huijaukseen osallistuvalle identiteetintarjoajalle. Vaatimalla osoiteperusteinen käyttäjätunnus
+    etuliitteellä \emph{https://} ja DNSSec-laajennoksen yleistyminen lieventävät riskiä.
+
+   \item[6. Epätasa-arvoiset identiteetintarjoajat] \hfill \\
+      Monet suuret palveluntarjoajat, kuten Google, Facebook, Microsoft MSN, Yahoo, tarjoavat OpenID-tunnisteen,
+      jota voi käyttää sisäänkirjautumiseksi muihin palveluihin. Yksikään näistä ei kuitenkaan hyväksy
+      sisäänkirjautumista omaan palveluunsa muulla kuin itsensä myöntämällä OpenID-käyttäjätunnuksella.
+
+    \end{description}
+
+% subsection openid_n_heikkouksia (end)
+
+\subsection{Miksi OpenID ei onnistu? Sama OpenID-identiteetti ei käy kaikkiin palveluihin} % (fold)
+\label{sub:sama_openid_identiteetti_ei_käy_kaikkiin_palveluihin}
+
+OpenID-standardi tarjoaa laajalle levinneen autentikointiprotokollan, jolle on tarjolla laaja ja kypsä kirjastotuki \cite{openid_libraries}. Selvin OpenID:n hyöty on saman käyttäjätunnuksen käyttäminen monessa palvelussa ilman salasanan jakamista näiden palvelujen kesken. Koska käyttäjän itsensä tarvitsee autentikoitua ainoastaan identiteetintarjoajalle -- yhteen palveluun -- voidaan tämä nimenomainen sisäänkirjautuminen tehdä mahdollisimman turvalliseksi \cite{blackhat_openid_security_story}. Salasanan sijaan tai sen lisäksi käyttäjältä voidaan edellyttää korttiperusteista identiteettiä \cite{cameron_infocard_07} tai asiakassertifikaattia \cite{henry_story_foaf_ssl}. OpenID:n saavutuksena on, että vaihtoehtoinen tai rinnakkainen autentikoitumismenetelmä riittää toteuttaa ainoastaan yhteen palveluun eli identiteetintarjoajaan.
+
+Yleinen tapa OpenID:n soveltamiselle on hyväksyä ainoastaan ennalta määritetty joukko (\emph{whitelist})
+OpenID-identiteetintarjoajia \cite{openid_seven_sites_mailinglist, openid_tech_or_movement}. Jos palvelu ei
+hyväksy vapaavalintaista OpenID-identiteetintarjoajaa, hyväksyttyjä tarjoajia ovat usein ainoastaan suuret
+palveluntarjoajat (Google, Facebook, Microsoft, Yahoo), jotka hyväksyvät ainoastaan itsensä myöntämän
+OpenID-tunnisteen. Tämän seurauksena käyttäjällä on väistämättä monta eri OpenID-identiteettiä, jolloin
+käyttäjällä on myös tarve monelle eri salasanalle.
+
+OpenID vähentää salasanojen kokonaismäärää, mutta se ei auta pääsemään eroon kaikista palvelukohtaisista
+salasanoista. Keskimääräisellä käyttäjällä on tunnus 25:ssä eri palvelussa \cite{study_of_passwords_07}.
+Kuitenkin esimerkiksi kirjoittajalla on tällä hetkellä käyttäjätunnus noin 60:ssa eri web-palvelussa. Vaikka
+OpenID olisi tuettu 50~\%:ssa näissä palveluissa, palvelukohtaisia salasanoja olisi edelleen kolmekymmentä.
+Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites} yksikään suosituimmista
+50:sta palvelusta ei hyväksy kuin itsensä tai taustayrityksensä myöntämän käyttäjätunnuksen.
+
+% http://www.webmonkey.com/2011/01/openid-the-webs-most-successful-failure/
+%
+% First 37Signals announced it would drop support for OpenID. Then Microsoft’s Dare Obasanjo called OpenID a failure (along with XML and AtomPub). Former Facebooker Yishan Wong’s scathing (and sometimes wrong) rant calling OpenID a failure is one of the more popular answers on Quora.
+% But if OpenID is a failure, it’s one of the web’s most successful failures.
+%
+% The main reason no one uses OpenID is because Facebook Connect does the same thing and does it better. Everyone knows what Facebook is and it’s much easier to understand that Facebook is handling your identity than some vague, unrecognized thing called OpenID. That’s why, despite the impressive sounding billion URLs and 50,000 sites supporting OpenID, it pales next to Facebook Connect. Facebook Connect has been around less than half the time of OpenID and yet it’s been adopted by some 250,000 websites, is available to the hundreds of millions of Facebook users and has the advantage of Facebook’s brand familiarity.
+%
+% Facebook also added a key ingredient that helped drive other sites to adopt Facebook Connect — sharing user data. One of the reasons more sites support Facebook Connect is that they get a piece of the user pie.
+%
+% Web publishers never warmed to OpenID since it allows a user to log in to a website and leave a comment on a story, a blog post or a photo while essentially remaining anonymous to the publisher. That anonymous aspect has made OpenID less attractive to publishers who want to collect more data about their readers or interact with them — whether that means following them on Twitter, connecting with them on Facebook or sending them e-mail.
+%
+% URL käyttäjätunnuksena on myös vieras suurelle osalle ihmisistä. Korjauksena tunnarina sähköpostiosoite. Sekään ei täydellinen, koska niin monella meiliosoite vaihtuu usein.
+
+
+% subsection sama_openid_identiteetti_ei_käy_kaikkiin_palveluihin (end)
+
+
+\subsection{Internet Identity} % (fold)
+\label{sub:internet_identity}
+
+http://openid.net/2011/01/08/internet-identity-system-said-readied-by-obama/
+
+% subsection internet_identity (end)
+
+
+\section{Vaatimukset turvalliselle ja käytännölliselle autentikoinnille} % (fold)
+\label{sec:autentikoituminen_turvallisesti_ja_käytännöllisesti}
+
+Tietoturvallisuus on riskienhallintaa: tietoturvan täydellisyys on suoraan verrannollinen siihen liittyviin kustannuksiin. Salasanojen hallinnassa ei siksi ole mielekästä tavoitella täydellistä tietoturvaa vaan käyttötapauksen riskeihin suhteutettuna \emph{riittävän hyvää} turvallisuustasoa. Salasanat ovat webin yleisin autentikoitumistapa, koska salasana on sopiva kompromissi turvallisuuden, käytettävyyden ja kustannusten välillä. Tässä luvussa esitetään sopiva käytännöllinen menetelmä salasanojen hallintaan, jonka ansioista salasanan käyttö webissä on \emph{riittävän turvallista} ja \emph{riittävän käytännöllistä}.
+
+Salasanat eivät itsessään ole tietoturvaketjun heikoin lenkki. Salasanat pystyvät vastaamaan tiukkoihinkin turvallisuusvaatimuksiin, kunhan niitä käytetään täsmällisesti \cite{will_we_ever_escape_passwords_05}. Salasanoja tarvitaan webissä niin kauan kuin salasanan sijasta ei ole käytännöllistä vaatia turvallisempaa autentikointitapaa kuten asiakassertifikaatit, avaimet ja ulkoiset laitteet -- jokaisessa palvelussa.
+
+
+TODO: Ammenna tähän lisää sopivasta lähteestä.
+* Salasanahallinta: millainen kompromissi.
+* Turvallisuusvaatimukset käyttäjälle (pw manager)
+* JA turvallisuusvaatimukset lisäksi myös palvelulle (2-factor)
+* ONGELMA: Kuinka matkapuhelin ja sormitietokone?
+
+A good solution against the web site phishing should be able to ensure the user's privacy, even if the user has sent such credentials to a falsified web server \cite{phishing_attacks_and_solutions_2007}. In other words, even if the phishing site receives user's login credentials, they could not be re-used to log in to the legitimate system. Different kinds of schemes have been developed to achieve this, and in this paper we investigate possibilities of a two-factor authentication \cite{NIST_SP800-63, schneier_2factor_2005, google_2step_2010} on the application level.
+
+At the moment, the most popular and widely-deployed anti-phishing techniques are based on the use of blacklists \cite{visual_similarity_phishing_2008}. These blacklists store a set of reported phishing domains. When the user visits a blacklisted domain, the browser displays a warning page and tries to prevent the user from visiting it. However, as described previously in chapter~\ref{sec:trojans}, this approach can also be vulnerable to visual deception.
+
+
+% section autentikoituminen_turvallisesti_ja_käytännöllisesti (end)
+
+\subsection{Vaatimukset salasana-autentikoinnin prosessille (TODO: kuvaavampi otsikko)} % (fold)
+\label{sub:vaatimukset_salasana_autentikoinnin_prosessille_todo_kuvaavampi_otsikko_}
+
+           \begin{quote}
+               ''The fool saith, 'Put not all thy eggs in one basket' ...
+               but the wise man saith, 'Put all your eggs in one basket, and watch that basket!' ''
+               \\--- Mark Twain \cite{twain_eggs_1894}
+           \end {quote}
+
+         Yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa (ks. luku~\ref{sec:passwords_de_facto}). Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan ratkaisu salasanojen hallintaan. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}.
+
+         Salasanojen turvallisuus on suunniteltava käyttäjälähtöisesti, tai muuten käyttäjä pyrkii kiertämään rajoitukset itse. Adams \emph{et al.} havaitsivat \cite{users_are_not_the_enemy_99}, että käyttäjät valitsevat vähemmän turvallisia salasanoja, kun palvelu vaatii salasanan vaihtamista säännöllisesti. Syynä on luonnollisesti se, että uusi salasana tuottaa uutta muistettavaa. Tutkimuksessa käyttäjät eivät ymmärtäneet tietoturvasäännöstön tarkoitusta, minkä vuoksi käyttäjät kokivat rajoitukset pakottamisena. Seurauksena oli, että lukuisat tutkimuksen kohteena olleet käyttäjät päätyivät kiertämään turvallisuussääntöjä.
+
+% subsection vaatimukset_salasana_autentikoinnin_prosessille_todo_kuvaavampi_otsikko_ (end)
+
+
+\subsection{Vaatimukset autentikoinnin kohteena olevalle palvelulle} % (fold)
+\label{sub:vaatimukset_autentikoinnin_kohteena_olevalle_palvelulle}
+
+* SALLI: pitkä salasana (käsittämätöntä että salasanan pituutta rajoitetaan). Parhaita salasanoja ovat pitkät ja mieluiten järjettömät lauseet, jotka eivät ole arvattavissa ja joiden arvaaminen sanakirjahyökkäyksellä on liian työlästä. TÄHÄN VIITE (http://www.baekdal.com/tips/password-security-usability) artikkelista jossa oli laskettu erilaisia arvausaikoja salasanan pituuden perusteella. Tuloksena oli, että kolmesta sanasta koostuva salasana on käytännössä mahdoton arvata brute-forcella.
+
+Salasanan vanhenemisen hyötynä on auttaa päättämään vääriin käsiin päätynyt käyttöoikeus pitkällä aikavälillä. Salasanan vanheneminen ei kuitenkaan estä vahinkoa, jonka hyökkääjä tekee ennen salasanan vanhenemista \cite{lopsa_pw_expiry_06}. Salasanan vanheneminen ei siten välittömästi paranna turvallisuutta, vaikka toimenpide vähentää pitkällä aikavälillä väärissä käsissä olevien salasanojen kokonaislukumäärää.
+
+Salasanojen vaihtamisen haittapuolena on uuden muistettavan lisääntyminen. Jos käyttäjät pakotetaan vaihtamaan salasanansa \emph{liian usein}, käyttäjä valitsee salasanakseen helpommin muistettavan -- ja helpommin arvattavan -- salasanan verrattuna siihen, että käyttäjä voisi käyttää samaa salasanaa useita vuosia \cite{schneier_changing_passwords_10}. Käyttäjän seuraava salasana voi myös olla johdannainen, joka on mahdollista arvata sitä vaivattomammin, mitä useampi käyttäjän edellisistä salasanoista tunnetaan \cite{password_expiration_10}. Tämän tutkielman kirjoittaja on havainnut saman ilmiön Helsingin yliopiston tietoverkossa. Kun yliopiston salasana on vanhentunut, kirjoittaja on koko opiskeluaikanansa vaihtanut vanhasta salasanastaan vain yhden merkin -- ja senkin vain siksi, koska järjestelmä ei kelpuuttanut uudeksi salasanaksi juuri vanhentunutta salasana.
+
+Tällainen käyttäjien toiminta on otettava huomioon riskienhallinnan näkökulmasta, jos palvelun tietoturvapolitiikkaan suunnitellaan salasanan vanhenemissäännöstöä. Organisaation täytyy arvioida todennäköisyys ja vakavuus riskeille, että käyttäjä valitsee heikon salasanan ja että väärin käsiin päätynyttä salasanaa käytetään liian pitkään.
+
+* HYÖDYNNÄ: 2-factor. Anti-phishing, vaikka ongelmat. Google \& Facebook hyödyntävät jo. Mahdollistaa käytön myös ns. kahvilakoneelta, koska pelkkä salasana ei riitä.
+
+* ESTÄ: Useiden peräkkäisten kokeilu (ohi scopesta?)
+
+
+% subsection vaatimukset_autentikoinnin_kohteena_olevalle_palvelulle (end)
+
+\subsection{Vaatimukset salasanojen turvallisuudelle} % (fold)
+\label{sub:vaatimukset_salasanojen_turvallisuudelle}
+
+
+         Kovinkaan moni käyttäjä ei osaa luoda vahvaa salasanaa \cite{generating_and_remembering_pws_04, password_management_strategies_06}. Jos salasanan luominen siirrettäisiin käyttäjän vastuulta salasanojen hallintaohjelmiston tehtäväksi, kaikista salasanoista saataisiin turvallisia. Pelkkä ''vahvuus'' ei kuitenkaan vielä itsessään tee salasanasta turvallista.
+         Schneier \cite{schneier_password_advice_09} listaa 10 kriteeriä salasanojen turvallisuudelle, ja mainitsee itse rikkovansa niistä säännöllisesti seitsemää. Inhimillisen tekijään ei ole teknistä ratkaisua.
+         \\
+         TODO: Avaa turvallisuuskriteerit
+
+         Alla on listattu tavoitteet turvalliseen salasanojen käsittelyyn. Nämä tavoitteet toteuttava salasanojen hallintaohjelmisto mahdollistaisi salasanojen turvallisen käytön lisäämättä käyttäjän kognitiivista muistikuormaa. Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
+
+
+         \begin{description}
+
+           \item[1. Salasanan täytyy olla riittävän vahva.] \hfill \\
+            * Kriteerit vahvuudelle, TODO: Teoriakappale alkuun \\
+             Käyttäjät arvioivat helposti salasanan vahvuuden väärin \cite{password_management_strategies_06}.
+
+           \item[X. Salasanan täytyy olla käytettävä] \hfill \\
+            * Salasanaohjelmisto ei todennäköisesti ole käytettävissä sormitietokoneelle tai matkapuhelimelle. Näillä laitteilla käytettävien palvelujen joukko on laitteen käyttöprofiilin vuoksi pienempi kuin työpöytäkoneella, mutta on myös näillä laitteilla käytetään salasanoja edellyttäviä palveluja. Käyttäjä joutuu siksi kirjoittamaan salasanansa joskus myös käsin (vaikka näitä on vähemmän).
+
+            XYZ väittää (http://www.baekdal.com/tips/usable-security-reply-to-security-now/) että kolmesta riittävän satunnaisesta sanasta kehitetty salasana (esim. ''this-is-fun'') olisi väkisin arvaamamisen ja sanakirjahyökkäyksen kannalta (brute-force \& dictionary attack) turvallisempi kuin lyhyt satunnaismerkkijono  ''J4fS<2''. Salasanan vahvuus kasvaa lisäämällä monimutkaisuutta, mutta käytettävyys ei. Esimerkiksi 25-merkkinen salasana ''jlSDF vn3987rjlFkmciEujf.'' on vahva, satunnainen ja kompleksinen mutta se ei ole käytettävä. Vaikka tällaisen salasanan pystyisi jollain keinolla muistamaan, se olisi ärsyttävä kirjoittaa. Kuitenkin vastaavan pituinen salasana ''Ihme-Päsmärin mustikkaa!' on paremmin muistettavissa luonnollisen kielen kautta ja sen kirjoittaminen on satunnaismerkkijonoa vaivattomampaa.
+
+            TODO: TÄHÄN XKCD-KUVA
+
+            % You can always make a password more secure by adding complexity. But you will also very quickly reach a point in which it is no longer usable.
+            %
+            % You cannot remember a password like "8;dU2i2{xs1*hT#4A9tccT." And even if you could, it would be really annoying to type.
+            %
+            % The time and agony involved in using that password would costs too much, compared to the low risk of using the much simpler "this is fun" (which is still 11 characters long and quite secure).
+            %
+            % The questions you need to ask are. When is a password secure enough? At what point do I no longer need to make it more complex (either by choice or by circumstance)?
+            %
+            %
+
+           \item[X. Salasana generoidaan käyttäjän puolesta.] \hfill \\
+           Salasana generoidaan ilman käyttäjän vuorovaikutusta.
+           Jos käyttäjän annetaan kehittää salasana itse, täytyy ohjelman arvioida salasanan vahvuus.
+            * Salasanassa voi olla käyttäjän antama runko-osa (esim. ''myssy-kiipeli'') \\
+            * Salasanasta tehdään sellainen että se olisi mahdollsita kirjoittaa käsin (myssy-kiipeli-10-turnaus) \\
+            * Salasanamanageri vastaa siitä, että salasanasta generoidaan riittävän vahva \\
+
+           \item[2. Yhtä salasanaa käytetään vain yhdessä palvelussa.] \hfill \\
+            Tavoitteena on estää tilanne, jossa yhden salasanan joutuminen vääriin käsiin vaarantaisi käyttäjän tiedot
+            muissa palveluissa. Jos jokaisessa palvelussa on eri salasana, tietomurron aiheuttama vahinko rajoittuu
+            murron kohteena olevaan palveluun.
+
+           \item[3. Salasanat eivät ole johdannaisia toisistansa.] \hfill \\
+             Yhden tai useamman salasanan ei perusteella ei saa voida arvata tai tuottaa muita salasanoja. Jos käyttäjän
+             salasana esimerkiksi Facebookiin on ''faceYhfmn2\#3'' ja Gmailiin ''gmaYhfmn2\#3'', hyökkääjän riittää
+             kokeilla kaikki palvelun nimestä johdettavat kombinaatiot ja liittää niihin muista salasanoista tunnetun
+             yhteisen osan (''Yhfmn2\#3'').
+
+           \item[4. Käyttäjän ei tarvitse tietää palvelussa käyttämäänsä salasanaa.] \hfill \\
+             Tavoitteena on vähentää käyttäjän muistin kuormitusta ja siirtää vastuu salasanojen hallinnasta
+             mahdollisimman suurelta osin on salasanojen hallintaohjelmiston tehtäväksi.
+             Koska käyttäjä ei tunne salasanaansa, salasanaa ei ole mahdollista huijata käyttäjältä.
+             Salasanan huijaaminen hallintaohjelmistolta voi kuitenkin olla edelleen mahdollista, jos käyttäjä
+             \emph{antaa siihen luvan} \cite{why_phishing_works_06}.
+
+           \item[5. Käyttäjän tarvitsee muistaa vain yksi \emph{master}-salasana.] \hfill \\
+             Koska käyttäjän tarvitsee tietää ainoastaan yksi salasana tai salainen lause (\emph{passphrase}), siitä
+             voidaan tehdä mahdollisimman turvallinen. Tämä on huomattava parannus tilanteeseen, jossa useassa palvelussa
+             käytetään samaa salasanaa tai jossa salasanat eivät ole turvallisia. Jos jokin palvelu, esimerkiksi
+             verkkopankki, on liian tärkeä ollakseen yhden \emph{master}-salasanan takana, voidaan sille käyttää
+             itsenäistä autentikointitunnistetta.
+
+         \end{description}
+
+% subsection vaatimukset_salasanojen_turvallisuudelle (end)
+
+\subsection{TODO: ABAC for SOA tarjoaa teoriapohaja pwmanagerilla} % (fold)
+\label{sub:todo_abac_for_soa_tarjoaa_teoriapohaja_pwmanagerilla}
+
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/abac_for_soa.jpg}
+    \caption{Piirrä oma kuva tästä}
+    \label{fig:abac_for_soa}
+  \end{figure}
+  % TODO: Lisää sitaatti lähteisiin "Authorization-Based Access Control for the Services Oriented Architecture"
+  Tutkielman näkökulmana on yksityishenkilö internetin käyttäjänä, EI organisaatio. Organisaation sisällä on mahdollista toteuttaa yhteisöön liittyviä sääntöjä ja niitä on mahdollista tukea erikseen palkatuilla helpdesk-työntekijöillä. Yksityishenkliöllä ei yleensä ole käytettävissä  henkilökohtaista helpdesk-avustajaa. Lisäksi yksityishenkilön käyttämä palveluvalikoima on heterogeeninen eivätkä palvelut tunne toisiansa (toisin kuin jonkin organisaation sisällä).
+
+  Kertakirjautuminen
+
+  * Yhteen palvelukokonaisuuteen yhdestä ovesta --> toimii. Jos palvelukokonaisuus on jollain tavalla linkitetty toisiinsa, niin autentikoitumistapa voidaan tehdä yhtenäiseksi.
+  -- esim. SAML
+  'One of the motiva- tions behind SAML is Single Sign On (SSO), a means of avoiding the need to sign on multiple times with a variety of passwords.'
+
+  * Koko internetin laajuisesti --> OpenID yritti. Jokaista sellaista palvelua kohden, joka jättää OpenID:n tukematta, tarvitaan rinnalle vaihtoehtoinen autentikoitumistapa -- käytännössä salasana. 80 palvelua joissa 50\%:ssa OpenID --> 40 palvelua, joissa salasana.
+
+  Salasanahallinta : kuin authorization based access control, jossa ''policy engine'' on ''Käyttäjän oma'', eli 1Password/Firefox sync tms, vrt ABAC for SOA
+  "Authorization-based access control doesn’t have
+  the problems inherent in identity-based access control. Since each domain only has information about its own principals, there are no problems of distributed iden- tity management."
+
+
+  "Large scale distributed systems are inherently dif-
+  ferent from stand-alone computers. There is little rea- son to think that designs for the latter are applicable to the former. Yet that’s what identity-based access con- trol does. It takes an access model from one realm and tries to make it work in the other. Authorization- based access control, which has advantages even on stand-alone computers, is a better match to the re- quirements of distributed systems that span adminis- trative domains." [ABAC for SOA]
+
+% subsection todo_abac_for_soa_tarjoaa_teoriapohaja_pwmanagerilla (end)
+
+
+\subsection{Vaatimukset salasanojen hallinnalle} % (fold)
+\label{sub:vaatimukset_salasanojen_hallinnalle}
+
+           \label{sec:goals_for_pw_management}
+
+         Salasanan turvallisuuteen liittyvien tavoitteiden toteutuminen ilman hallintaohjelmistoa ei ole käytännöllistä, koska on selvää, ettei käyttäjä voi muistaa lukuisia vahvoja salasanoja. Tällöin turvallisuuteen liittyviä tavoitteita tulee rikottua kuten tutkimuksissa on havaittu \cite{study_of_passwords_07, password_management_strategies_06}. Hallintaohjelmistoja on olemassa lukuisia \cite{dunn_password_managers_08}, mutta suurin osa niistä ovat joko työpöytäohjelmistoja tai web-palveluja.
+
+         Työpöytäohjelmiston hyvänä puolena on luottamus säilytettävään datan, koska salausavain ei liiku verkossa. Työpöytäohjelmisto vaatii kuitenkin jonkin tavan tietojen synkronointiin eri työasemien välillä. Ohjelmiston asentaminen saattaa edellyttää pääkäyttäjäoikeuksia ja tuo mukanaan käyttöjärjestelmäriippuvuuden, jollei ohjelmistosta tehdä versiota eri alustoille. Lisäksi työpöytäohjelmiston on käytettävyyden vuoksi integroiduttava selaimeen esimerkiksi laajennoksen avulla.
+
+         Web-palveluna toimivan salasanapesän etuna on tiedon saatavuus, koska autentikointitietoihin pääsee käsiksi työasemasta riippumatta. Tämä on kuitenkin myös riski, vaikka autentikointitiedot säilöttäisiin palveluun kryptattuina. Jos tallennettujen salasanojen kryptaus ja purkaminen tehdään palvelussa, palvelulla on pääsy käytettävään salausavaimeen. Tämä mahdollistaa teoreettisen pääsyn suojaamattomaan dataan mahdollisen tietomurron yhteydessä, jos hyökkääjä pääsee käsiksi salausavaimeen.
+
+         Ongelma on mahdollista ratkaista yhdistämällä hyvät puolet molemmista ratkaisuista:
+
+         \begin{description}
+
+           \item[1. Käyttäjä pääsee käsiksi salasanoihin miltä tahansa työasemalta.] \hfill \\
+               Tavoitteena on tarjota riippumattomuus käyttöympäristöstä.
+               Käytettävä tiedonsiirtokanava, kohteena oleva palvelu sekä käyttäjän työasema oletetaan turvallisiksi.
+               Jos työasemaan (tai kohteena olevaan palveluun) ei voi luottaa (esim troijalainen),
+               ei oikeastaan millään muulla turvallisuustekijällä ole paljoakaan väliä.
+
+           \item[2. Salasanat sisältävä kokoelma talletetaan verkossa olevaan palveluun.] \hfill \\
+               Päätelaiteriippumattomuus saavutetaan, kun tieto tallennetaan verkkoon.
+               Käyttäjän ei tarvitse tietää, missä autentikointitiedot ovat, kunhan hänellä on pääsy
+               tiedot säilövään palveluun.
+
+           \item[3. Salasanakokoelmaa säilytetään verkossa kryptatussa muodossa.] \hfill \\
+               Palveluun ei tallenneta mitään tietoa selväkielisenä, jolloin tallennetusta tiedosta itsessään
+               ei ole kenellekään hyötyä ilman salausavainta.
+
+           \item[4. Kryptauksen salausavainta ei koskaan välitetä verkon yli.] \hfill \\
+               Salausavain voidaan johtaa joko master-salasanasta tai salauksessa voidaan käyttää erillistä
+               salausavainta. Salauksen purkuun käytettävää avainta ei kuitenkaan koskaan lähetetä verkkoon. Tällöin
+               autentikointitiedot eivät ole vaarassa edes tietomurron yhteydessä, kun käytetty salausavain on
+               turvallinen.
+
+           \item[5. Riippumattomuus käytettävästä palvelusta.] \hfill \\
+               Kohdepalvelun ei tarvitse tietää, että käyttäjällä on salasanojen hallintaohjelmisto.
+               Tämä takaa yhteensopivuuden kaikkiin verkon palveluihin, koska palvelun ei tarvitse tukea mitään uutta
+               autentikointimenetelmää.
+
+           \item[X. Uuden salasanan luominen/kytkeminen palveluun tulee olla vaivatonta.] \hfill \\
+               OpenID feilaa koska kaikki ei tue. 1Password feilaa koska vaikea (uuden palvelun lisäys menee helposti pieleen).
+               Käyttäjän täytyy osata luoda uusi tunnus pwmanageriin HELPOSTI. Normikäyttäjä ei lisää uutta tunnusta pwmanageriin
+               jos se ei ole vaivatonta. Vaivattomampaa käyttää samaa tai huonoa salasanaa.
+
+           \item[X. Salasanojen tulee olla aina synkronissa eri päätelaitteilla.] \hfill \\
+                Chromium Sync käyttää XMPP:tä pushaamiseen. 1PAssword Dropboxia, joka myös Pushaa. Firefox Sync? (Push vs. Poll:
+                1000 käyttäjää, 3min välein poll = poll req every 0.18 second = 5.6 queries/s -- silloin kun pelkkä pollaus eikä
+                muutoksia)]
+
+           \item[X. Salasanoihin pääsee käsiksi selaimesta riippumatta.] \hfill \\
+                Chromium Sync vain Chromessa, Firefox Sync vain Firefoxissa. Selainlaajennos kaikissa työpöydällä.
+                Selainlaajennos ei mobiilissa. Mobiilissa erillinen applikaatio voi tarjota pääsyn salasanoihin, mutta syöttäminen selaimeen on kankeaa (esim 1pw ios-ohjelmasta pitää copypastettaa). Saitin voisi myös avata suoraan mobiiliappsista ehkä?
+
+         \end{description}
+
+
+         % \section{Related Work}
+         %   Kamouflage: loss-resistant password management
+         %   http://portal.acm.org/citation.cfm?id=1888881.1888904&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+         %
+         %   Secure passwords through enhanced hashing
+         %   http://portal.acm.org/citation.cfm?id=1855698.1855705&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+         %
+         %   Passpet: convenient password management and phishing protection
+         %   http://portal.acm.org/citation.cfm?id=1143120.1143126&coll=DL&dl=GUIDE&CFID=2580387&CFTOKEN=49759375
+
+
+         %\section{Jatkotutkimuksia}
+
+         %   \subsection{WebID}
+         %      \cite{webid_home}
+               % http://esw.w3.org/WebID#How_does_the_WebID_Protocol_compare_with_OpenID.3F
+
+         %   \subsection{Firefox Sync, Chromium Sync}
+              % Chromium sync
+              %  https://groups.google.com/group/chromium-dev/browse_frm/thread/bdacc1bdf3c5cb6a?hl=en&pli=1
+              %  Password sync coming probably soon, tavoite 6.0 beta
+              %    http://www.readwriteweb.com/archives/google_chrome_gets_extension_sync.php
+              %  "The team is working on it"
+              %    https://www.google.com/support/forum/p/Chrome/thread?tid=6d4d3953859d6a9b&hl=en
+              %  Chrome Cloud synchronization, google
+              %    http://arstechnica.com/open-source/news/2009/08/google-reveals-plans-for-chrome-cloud-synchronization.ars
+              %  The protocol _is_ open.  Protobufs are open source and the sync spec built on them is also open source.
+              %   https://groups.google.com/group/chromium-dev/browse_thread/thread/bdacc1bdf3c5cb6a
+              %
+              % Firefox sync: http://docs.services.mozilla.com/sync/overview.html
+
+
+
+% subsection vaatimukset_salasanojen_hallinnalle (end)
+
+
+
+\section{Vaatimukset käytännössä, vertailu salasanahallinnan toteutuksista} % (fold)
+\label{sec:käytännön_1password}
+\begin{itemize}
+
+  \item * Browser ID
+  \item * 1Password
+  \item * Firefox Sync
+  \item * Chrome Sync
+  \item * Microsoft JOTAIN?
+  \item * Apple iCloud ?
+  \item * Rajataanko web-palvelut pois? Passpack.com, onelogin.com
+
+\end{itemize}
+
+
+\subsection{Selainlaajennos} % (fold)
+\label{sub:selainlaajennokset}
+
+% subsection selainlaajennokset (end)
+
+\subsection{Web-palvelu (SaaS)} % (fold)
+\label{sub:web_palvelut_saas_}
+
+% subsection web_palvelut_saas_ (end)
+
+\subsection{Asennettava ohjelmisto} % (fold)
+\label{sub:asennettava_ohjelmist}
+
+% subsection asennettava_ohjelmist (end)
+
+% section käytännön_1password (end)
+
+
+
+\section{Conclusions (Phishing)} % (fold)
+\label{sec:conclusions_phishing_}
+
+                 This paper explained severe phishing risks for online authentication. Understanding the problems of basic challenge-response authentication helps us to understand the requirements for extended security procedures. We presented that using a combination of OpenID and client certificate has benefits for both the users and the developers.
+
+                 Usage of client certificate could allow users to achieve a phishing resistant authentication. Because the communication channel never carries the private key component of a certificate, user cannot mistakenly submit his credentials to a fraudulent site. There is still no ultimate technical solution for deceptive attacks which can only be solved by educating users. Nevertheless, sometimes even experienced users fail to notice a scam, for example, the difference between domain names
+           \emph{www.bankofthewest.com} and \emph{www.bankofthevvest.com} \cite{why_phishing_works_06}.
+
+                 Secondly, since OpenID provides a standardized authentication protocol for which several mature libraries exists. The details regarding the handling of certificates and authentication are outsourced to the identity provider. Hence, the service developers of the relying party need to apply only one authentication procedure. It is enough for relying party to trust the PAPE security level given by the identity provider. If the security level is insufficient, the user may be redirected to the identity provider for a more secure authentication.
+
+                 The identity provider guarantees only that one OpenID identifier is accessible only for one user who cannot be impersonated. A relying party does not necessarily need to know an OpenID provider beforehand. In some cases, for example when handling financial transactions, it might be recommended to allow identity providers only from a predefined selection including only providers who are known trustworthy. It seems that many relying parties already provide only a predefined selection of identity providers and don't allow an arbitrary OpenID identifier. Nevertheless, this is a compromise against the user-centric principles.
+
+% section conclusions_phishing_ (end)
+
+\section{Yhteenveto (Salasanat)} % (fold)
+\label{sec:yhteenveto_salasanat_}
+
+Salasanoista ei päästä täysin eroon pitkään aikaan, koska ne ovat liian halpa menetelmä muihin verrattuna. Usein vasta kun väärinkäytöksiä tulee tarpeeksi, merkittävät taloudelliset arvot ovat kyseessä tai yksittäisen väärinkäytöksen vakavuus on suuri, on riskienhallinnan kannalta edullisempaa toteuttaa jokin salasanan korvaava ratkaisu.
+
+Keskiverto internet-käyttäjä käyttää turvattomia salasanoja, jakaa saman salasanan useassa palvelussa tai unohtaa salasanansa kokonaan \cite{study_of_passwords_07, password_management_strategies_06, generating_and_remembering_pws_04, users_are_not_the_enemy_99}. Käyttäjällä pitäisi olla vähemmän muistettavaa, mutta \emph{lisäksi} salasanoja pitäisi olla nykyistä enemmän ja niiden pitäisi olla turvallisia.
+OpenID-autentikoitumisstandardi tarjoaa mahdollisuuden käyttää samaa käyttäjätunnusta monessa palvelussa, mutta OpenID ei ole vielä yleistynyt riittävästi vähentääkseen merkittävästi salasanojen kokonaismäärää. Lisäksi isojen palveluntarjoajien yleinen tapa hyväksyä vain itsensä myöntämä OpenID-identiteetti johtaa siihen, että käyttäjällä on väistämättä useita eri OpenID-tunnuksia. Tällöin käyttäjällä on edelleen myös useita salasanoja.
+
+Ratkaisuksi esitettiin kappaleessa~\ref{sec:goals_for_pw_management} asettaa kaikki salasanat yhden salasanan taakse. Koska käyttäjän ei tarvitse itse tietää salasanojansa, voidaan jokaiseen käytettävään palveluun generoida uniikki ja turvallinen salasana. Toisin kuin OpenID:n kanssa, salasanan hallintaohjelmisto ei vaadi tukea käytettävältä palvelulta. Tämä mahdollistaa yhden salasanan käyttämisen kaikkiin palveluihin välittömästi eikä vaadi minkään nimenomaisen autentikointitekniikan yleistymistä. Luonnollisesti kaikkia salasanoja ei silti tarvitse tallettaa samaan säilöön: jos jokin palvelu on liian tärkeä ollakseen saman salasanan takana kuin muut, sille voidaan käyttää omaa tunnistetta.
+
+Tämän kirjoituksen yhteydessä tiedonsiirtokanava ja käytettävä päätelaite oletettiin turvallisiksi. Erinäiset vakoiluohjelmistot ja troijalaiset ovat kuitenkin merkittävä riski ''kaikki munat yhdessä korissa''-strategialle. Lisäksi luottamus internetin DNS-protokollaan on merkittävä riski: epäluotettavassa verkossa DNS voi huijata käyttäjää, jolloin käyttäjä altistuu calastelulle (\emph{phishing}).
+Internetissä on meneillään prosessi nimipalvelujen turvaamiseksi DNSSec-laajennoksella, mikä kuitenkin on käytännössä valmis vasta vuosien kuluttua.
+
+Käytettävyyden vuoksi selaimelle on oltava laajennos, joka automatisoi salasanojen käsittelyn mahdollisimman
+pitkälle. Mozilla Firefox 4:n beta-versiossa on kokeiluversio Mozilla Sync -palvelusta, joka tallentaa
+autentikointitiedot kryptattuna verkkoon ja toteuttaa kappaleessa~\ref{sec:goals_for_pw_management} esitetyt
+vaatimukset turvalliselle salasanojen hallintaohjelmistolle. Samoin Googlen Chrome-selaimeen kaavaillaan avointa
+salasanojen ja muiden tietojen synkronointirajapintaa \cite{chromium_sync_09}. Käyttöjärjestelmäriippuvuuteen
+verrattuna selainriippuvuus on huomattavasti pienempi ongelma. Mobiilit päätelaitteet ja niiden web-selaimet
+luovat lisäksi omat vaatimuksensa. Pitkällä aikavälillä avoin selainrajapinta, joka antaa valita vapaasti käytettävän tallennuspalvelun ja täyttää kappaleessa~\ref{sec:goals_for_pw_management} esitetyt vaatimukset, ratkaisee lopullisesti salasanojen ongelmat.
+
+% http://www.codinghorror.com/blog/2008/05/openid-does-the-world-really-need-yet-another-username-and-password.html
+% I realize that OpenID is far from an ideal solution. But right now, the one-login-per-website problem is so bad that I am willing to accept these tradeoffs for a partial worse is better solution. There's absolutely no way I'd put my banking credentials behind an OpenID. But there are also dozens of sites that I don't need anything remotely approaching banking-grade security for, and I use these sites far more often than my bank. The collective pain of remembering all these logins -- and the way my email inbox becomes a de-facto collecting point and security gateway for all of them -- is substantial.
+%        If we can't make OpenID work, at least for run of the mill, low-value credentials that litter the web in increasing numbers -- what hope do we have of ever fixing the login explosion problem?
+
+
+% section yhteenveto_salasanat_ (end)
+
+
+\bibliographystyle{tktl}
+\bibliography{lahteet}
+
+\lastpage
+
+\end{document}

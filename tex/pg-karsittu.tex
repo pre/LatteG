@@ -91,32 +91,13 @@ Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kys
 \subsection{Challenge-Response Authentication} % (fold)
 \label{sub:challenge_response_authentication}
 
-\emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
-
-Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus.
-A simple example of a challenge-response protocol is password authentication where one party asks for a username and password of which the another party needs to provide valid combination. However, if the communication channel may not be trusted, an eavesdropper might learn the response and exploit it.
-
-Software games of 1990s usually had piracy protection based on presenting a challenge and requiring a valid response for gameplay. Usually the challenge was an arbitrary question and the response could be found on a printed document which was delivered with a legal copy of the game. The motivation was that copying only the game files was not enough, and duplicating a printed document of codes was more difficult than only copying the files.
-
-Challenges may also involve a publicly known response. For example, the motivation could be restricting the group who may provide a response to only those who know Russian language, are familiar with an inside joke or are human users. A familiar example is a CAPTCHA verification for preventing spam-robot users. A challenge could be a simple mathematical operation asked in natural language or a word included in a scrambled bitmap image. Here the motivation is to present a question which only a human is able to understand, although the actual answer is publicly known.
-% TODO: Captcha-kuva
 
 
 % subsection challenge_response_authentication (end)
 
 \subsection{Salasanat} % (fold)
 \label{sub:salasanat}
-
-
-
  \label{sec:passwords}
-
-Salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
-Salasanan turvallisuus riippuu salasanan uniikkiuden lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Huonoin vaihtoehto on, että käyttäjällä on lyhyt ja helppo salasana kaikissa käyttämissänsä palveluissa.
-
-Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkiselle keskustelusivustolle \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}.
-
-Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
 
 % subsection salasanat (end)
@@ -170,17 +151,6 @@ the HTTP communications channel be secured with the proper usage of secure socke
 
 \subsection{Kaksiosainen/kaksivaiheinen autentikointi} % (fold)
 \label{sub:kaksiosainen_autentikointi}
-
-Kaksiosaisessa autentikoinnissa (\emph{two-factor authentication}) käyttäjälle esitetään kaksi haastetta. Ensimmäinen haaste edellyttää vastineeksi jotain, jonka käyttäjä \emph{tietää} (salasana). Toisen haasteen vastineeksi edellytetään jotain, jota käyttäjällä \emph{on} (esimerkiksi puhelinnumero) \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla koodia, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
-
-Kaksiosainen autentikointi ei ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}.
-Man-in-the-middle (MITM) on kolmas osapuoli, joka asettuu käyttäjän ja käytettävän palvelun väliin. MITM voi kuunnella tietoliikennettä passiivisesti tai muuttaa viestejä mielensä mukaan. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma. Tämän kirjoituksen puitteissa oletetaan sekä käyttäjän yhteys että päätelaite turvallisiksi. Tästä kerrotaan lisää kappaleessa X-TODO-X.
-% TODO: Viite
-
-Googlella iOS-sovellus ja varaliuska tunnareita; ''-- Jos siis joku varastaa tai arvaa salasanasi, tilin kaappaaja ei silti pääse kirjautumaan tiliisi, koska hänellä ei ole käytössään puhelintasi, Google toteaa verkko-ohjeissaan.''
-
-Tectia Mobile ID: Kun käyttäjä kirjautuu palveluun, kännykkään lähetetään (flash-)tekstiviestinä viisinumeroinen koodi, joka pitää syöttää palveluun normaalin salasanan lisäksi.
-
 
 
 % subsection kaksiosainen_autentikointi (end)
@@ -515,48 +485,9 @@ Kun kryptausavain ei koskaan ole taustajärjestelmän tiedossa, vääriin käsii
 
 % section katsaus_autentikoitumistekniikoihin_kertakirjautumismenetelmiin (end)
 
-\subsection{OAuth} % (fold)
+\subsection{SIIRRETTY OAuth} % (fold)
 \label{sub:oaauth_auktorisointimenetelmä}
 
-OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja kysynyt palvelu kysyi suoraan käyttäjän Facebook-salasanaa. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen -- jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista palvelujen kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan datan omistavassa palvelussa eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen toteuttamaan palveluun. Tällöin esimerkiksi käyttäjän kuvia halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
-
-OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (http://user:password@palvelu.com/osoite). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
-
-Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Lisäksi käyttäjälle on mahdollista tarjota selkeä näkyvyys siihen, minkä tietojen jakamiseen hän on antanut luvan. Esimerkiksi Facebookin Developer -sivustolla huomautetaan ulkopuolisia kehittäjiä, että mitä laajempaan joukkoon käyttöoikeuksia pyydetään lupaa, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana käyttäjällä ei yleensä ollut mahdollisuutta rajata oikeuksia ollenkaan, koska kolmannen osapuolen palvelu pystyi tekemään pyytämällään käyttäjän salasanalla mitä vain.
-
-
-Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
-
-Luvan kysyminen mobiilissa on vaikeaa
-
-
-OAuth 1.0 on auktoritointimentelmä, jolla saitti S voi pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää S:ään. Käyttäjän täytyy vahvistaa tietojen pyytäminen, eli S ei saa P:n tietoja salaa ilman käyttäjän lupaa.
-
-OAuth 2.0 tukee lisäksi myös autentikoitumista. OAuth 2.0 on vielä keskeneräinen draft. Facebook on vaikuttanut voimakkaasti draftin luomisprosessiin. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. 1.0:ssa ongelmia + Facebook Connect --> OAuth 2.0.
-
-
-Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
-Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
-
-OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
-
-http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
-
-OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
-
-http://tools.ietf.org/html/draft-ietf-oauth-v2-22
-
-http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01
-
-http://hueniverse.com/2010/05/introducing-oauth-2-0/
-''OAuth is a security protocol that enables users to grant third-party access to their web resources without sharing their passwords.''
-''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone.''
-''OAuth includes two main parts: obtaining a token by asking the user to grant access, and using tokens to access protected resources. The methods for obtaining an access token are called flows.''
-''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
-''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
-
-
-''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
 
 % subsection oaauth_auktorisointimenetelmä (end)
 
@@ -712,7 +643,7 @@ salasanoista. Keskimääräisellä käyttäjällä on tunnus 25:ssä eri palvelu
 Kuitenkin esimerkiksi kirjoittajalla on tällä hetkellä käyttäjätunnus noin 60:ssa eri web-palvelussa. Vaikka
 OpenID olisi tuettu 50~\%:ssa näissä palveluissa, palvelukohtaisia salasanoja olisi edelleen kolmekymmentä.
 Googlen listauksessa webin suosituimmista palveluista \cite{google_top1000_sites} yksikään suosituimmista
-50:sta palvelusta ei hyväksy kuin itsensä tai taustayrityksensä myöntämän käyttäjätunnuksen.
+50:sta palvelusta ei hyväksy kuin itsensä tai taustayrityksensä myöntämän käyttäjätunnuksen (FIXME: tämä oli v2010).
 
 % http://www.webmonkey.com/2011/01/openid-the-webs-most-successful-failure/
 %
@@ -762,12 +693,6 @@ At the moment, the most popular and widely-deployed anti-phishing techniques are
 
 \subsection{Vaatimukset salasana-autentikoinnin prosessille (TODO: kuvaavampi otsikko)} % (fold)
 \label{sub:vaatimukset_salasana_autentikoinnin_prosessille_todo_kuvaavampi_otsikko_}
-
-           \begin{quote}
-               ''The fool saith, 'Put not all thy eggs in one basket' ...
-               but the wise man saith, 'Put all your eggs in one basket, and watch that basket!' ''
-               \\--- Mark Twain \cite{twain_eggs_1894}
-           \end {quote}
 
          Yhtä salasanaa ei pitäisi käyttää kuin yhdessä palvelussa (ks. luku~\ref{sec:passwords_de_facto}). Lisäksi jokaisen salasanan tulisi olla vahva. Koska käyttäjän ei ole mahdollista muistaa monen erilaisen vahvan salasanan \emph{lisäksi} sitä, mihin palveluun mikäkin salasana käy, tarvitaan ratkaisu salasanojen hallintaan. On asiantuntijoita, joiden mielestä vahvan salasanan (tai sen osan) kirjoittaminen lompakossa säilytettävälle paperilapulle on turvallista \cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä. Salasanojen lukumäärän kasvaessa käy kuitenkin vaikeaksi muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}.
 

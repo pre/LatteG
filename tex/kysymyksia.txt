@@ -1,4 +1,7 @@
 
+Milloin kannattaa toteuttaa IdP:n päähän lisäksi 2-factor autentikointi?
+Milloin kannattaa toteuttaa RP:n päähän lisäksi oma salasana tai muu lisä?
+
 Miksei HST-kortti tai mobiilivarmenne?
 - mobiilivarmenteet ovat liian vaikeita integroida järjestelmiin. Rautapuolen ratkaisut eivät toimi massoille koska yleisesti saatavilla olevaa sirukortin lukijalaitetta tai tietynlaista sim-kortin sirua ei ole. matkapuhelimien sim-kortteja ei yleensä vaihdella kuin ehkä 3–5 vuoden välein. Monissa palveluissa mobiilivarmennetta ei voi ottaa käyttöön ennen kuin ne ovat tarpeeksi laajalla joukolla käytössä.
 -- TS 28.11.11

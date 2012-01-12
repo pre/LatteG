@@ -246,7 +246,7 @@
   - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
     % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
 
-
+  Cloud: Datan jakaminen rajapinnan kautta palvelujen kesken.
 
   \subsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
   \label{sub:kertauloskirjautuminen}
@@ -282,7 +282,12 @@
 
   OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (http://user:password@palvelu.com/osoite). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
 
-  Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Lisäksi käyttäjälle on mahdollista tarjota selkeä näkyvyys siihen, minkä tietojen jakamiseen hän on antanut luvan. Esimerkiksi Facebookin Developer -sivustolla huomautetaan ulkopuolisia kehittäjiä, että mitä laajempaan joukkoon käyttöoikeuksia pyydetään lupaa, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana käyttäjällä ei yleensä ollut mahdollisuutta rajata oikeuksia ollenkaan, koska kolmannen osapuolen palvelu pystyi tekemään pyytämällään käyttäjän salasanalla mitä vain.
+  Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antoi tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin ainoa luotettava tapa näiden oikeuksien poistamiseksi jälkeenpäin on käyttäjän oman salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
+
+  Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (todo lähdeviite https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
+
+  OAuth eriyttää toisistansa roolit resurssin omistajalle (käyttäjälle) sekä resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle. Tällöin käyttäjälle on mahdollista tarjota näkyvyys siihen, minkä resurssin tai tietojen jakamiseen hän antaa luvan. OAuth luo jokaiselle kolmannen osapuolen palvelulle oman valtakirjan, jolloin myöskään yhden palvelun pääsyoikeuksien poistaminen ei vaikuta muille palveluille myönnettyihin lupiin. Tällaista valtakirjaa kutsutaan pääsyoikeuspoletuksi (\emph{access token}, todo käännös). Palvelukohtaiseen pääsyoikeuspolettiin kytketään kolmannelle osapuolelle myönnettyjen oikeuksien laajuus sekä oikeuksien voimassaoloaika.
+
 
   Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
 

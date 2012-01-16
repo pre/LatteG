@@ -1,0 +1,10 @@
+OAuth vs. SAML
+
+http://getsatisfaction.com/oauth/topics/how_is_oauth_different_from_using_saml_and_xacml
+  bits of OAuth are logically similar to bits of SAML, XACML, and some Liberty pieces.
+
+  XACML is a syntax for expressing authz policies. So, the permissions the User defines at a Service Provider through OAuth could be captured in XACML. It would probably be overkill unless there were important distinctions, i.e. Consumer1 can read, Consumer2 can write, etc. to capture and you wanted some freedom from capturing such rules in a proprietary format.
+
+  As I see it, more than SAML, OAuth could be compared to Liberty's ID-WSF, i.e. as a framework for getting user consent for attribute sharing and securing the resulting API calls. Lots of differences, REST vs SOAP, simple vs complex, trust models, etc but the use cases are very similar.
+
+

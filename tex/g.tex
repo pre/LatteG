@@ -78,6 +78,8 @@
 \section{Autentikoituminen ja Web} % (fold)
 \label{sec:autentikoituminen_ja_web}
 
+  Pitäisikö otsikon olla ''salasanat ja web'' ja myöhemmin ''autentikoituminen ja web'' ?
+
   Web, SaaS, HTTP.
   Mikä on web-palvelu?
   Mikä on sisäinen palvelu?
@@ -86,6 +88,10 @@
 
   Rajataanko aihe SaaS-palveluihin, jotka julkisesti internetissä?
   - ei oteta kantaa sisäisiin palveluihin?
+
+  Identiteetti: Kuka teki pyynnön?
+  Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
+  Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
 
   Identity Management and Trust Services: Foundations for Cloud Computing
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
@@ -151,6 +157,7 @@
 
   % subsection kaksivaiheinen_autentikointi (end)
 
+
   \subsection{Sertifikaatit webissä} % (fold)
   \label{sub:sertifikaatit_webissä}
   Julkisen avaimen infrastruktuutri.
@@ -161,11 +168,48 @@
   WebID-draft.
 
   % subsection sertifikaatit_webissä (end)
+
+  \subsection{Sessiopohjainen autentikointi} % (fold)
+  \label{sub:sessiopohjainen_autentikointi}
+  Cookiet, user-agent, API. HTTP Basic Auth, HTTP Digest Auth.
+
+  Client-server, server-server. Application-Useragent-Server.
+
+  whitepaper: ''Is your API naked ?''
+  http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
+
+  \subsection{Rajapinnat ja web} % (fold)
+  \label{sub:rajapinnat_ja_web}
+
+  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
+  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
+
+  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
+
+  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
+
+  restapi security vs soap-api ja WS-Security
+
+  % subsection rajapinnat_ja_web (end)
+
+
+  % subsection sessiopohjainen_autentikointi (end)
 % section autentikoituminen_ja_web (end)
 
 
 \section{Uhat turvalliselle autentikoitumiselle} % (fold)
 \label{sec:uhat_turvalliselle_autentikoitumiselle}
+  HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.
+
+  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
+
+  Osoitetaanko miksi HTTPS on aina tarpeellinen?
+
+  OAuth security token -tyypit:
+  - Bearer vaatiin aina HTTPS:n.
+  - Mac (vrt. token scheme oauth 1.0), turvallinen vaikkei suojattu yhteys. Vaatii keyn ja secretin, ja käyttää hashmacia kryptaamaan osan requestista. Seurauksena pyyntö valid ainoastaan jos molemmilla osapuolilla samat avaimet, kolmannen osapuolen ei ole mahdollista uudelleenluoda alkuperäistä requestia ilman validia salasanaa.
+  - SAML Mahdollistaa SAML-assertioiden käytön. Mahdollistaa olemassaolevan SAML-toteutuksen hyödytämisen OAuthissa. (todo esimerkki milloin hyödyllinen, esim. sisäverkon active directory + julkinen web-palvelu)
+
   Mitkä on Pihvin kannalta oleellisimmat?
   OAuth draftin threat model -dokumentti.
   Onko CSRF relevantti?

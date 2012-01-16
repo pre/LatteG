@@ -1,3 +1,4 @@
+Mitä OAuth draft-versiota tutkitaan?
 
 Käytä termiä user-agent termin "selain" sijasta.
 
@@ -23,6 +24,10 @@ http://developer.yahoo.com/openid/faq.html
 OpenID identifiers can be recycled over time, and OpenID 2.0 specifies that OpenID Providers append URL fragments to the end of an OpenID URL as a generation identifier. The entire OpenID URL with the fragment, if present, should be used to identify the user. For instance, the following two OpenIDs are unique and represent different users:
 http://openid.example.com/username#aa
 http://openid.example.com/username#bb
+
+
+Onko OAuth device authentication flow siistein juttu mobiiliin?
+https://developers.facebook.com/docs/authentication/devices/
 
 
 Mitä Ping Federate tekee?

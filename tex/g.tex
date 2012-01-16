@@ -13,7 +13,9 @@
 
 \begin{document}
 
-\title{Internet-skaalan identiteetti: \\ ''Mitä eroa on OAuth 2.0 ja SAML 2.0 -standardeilla?''}
+\title{Internet-skaalan identiteetti:
+    \\ ''Mitä eroa on OAuth 2.0 ja SAML 2.0 -standardeilla?''
+    \\ ''Miksi OAuth 2.0 päihittää SAML 2.0:n pilvessä?''}
 \author{Petrus Repo}
 \date{\today}
 \level{G!}
@@ -321,8 +323,25 @@
 
   ''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
 
+  ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth & HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
+
   % subsection oauth (end)
 
+  \subsubsection{Selainkonteksti vs. applikaatiokonteksti} % (fold)
+  \label{ssub:selainkonteksti_vs_applikaatiokonteksti}
+  Tähän kuva app trust context (appin omat jutut) <--> browser trust context (authorize app)
+
+  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), app contextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen app contextissa olevan palvelun kanssa. Käyttäjä ei syötä salasanaansa eikä käyttäjältä myöskään kysytä mitään credentiaaleja app contextissa. Overlay-sivu tarjoillaan suoraan facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
+
+  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
+
+
+  % subsubsection selainkonteksti_vs_applikaatiokonteksti (end)
+
+  \subsection{subsection name} % (fold)
+  \label{sub:subsection_name}
+
+  % subsection subsection_name (end)
   \subsection{SAML} % (fold)
   \label{sub:saml}
   For real, mitä eroa on OAuth ja SAML

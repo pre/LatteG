@@ -1,4 +1,11 @@
 
+Käytä termiä user-agent termin "selain" sijasta.
+
+App Trust context (appin sisäiset jutut) vs Browser Trust context (facebook login, en haluu antaa appille ollenkaan)
+
+"The user experience of this OAuth process — and OpenID alike — has been criticised a bit. Users don’t expect to be moved between different websites, but they are familiar with entering their passwords all over the place."
+"The user experience of OAuth and OpenID is immature, and can still be massively improved and smoothed out with concerted design effort."
+
 Milloin kannattaa toteuttaa IdP:n päähän lisäksi 2-factor autentikointi?
 Milloin kannattaa toteuttaa RP:n päähän lisäksi oma salasana tai muu lisä?
 
@@ -6,10 +13,23 @@ Miksei HST-kortti tai mobiilivarmenne?
 - mobiilivarmenteet ovat liian vaikeita integroida järjestelmiin. Rautapuolen ratkaisut eivät toimi massoille koska yleisesti saatavilla olevaa sirukortin lukijalaitetta tai tietynlaista sim-kortin sirua ei ole. matkapuhelimien sim-kortteja ei yleensä vaihdella kuin ehkä 3–5 vuoden välein. Monissa palveluissa mobiilivarmennetta ei voi ottaa käyttöön ennen kuin ne ovat tarpeeksi laajalla joukolla käytössä.
 -- TS 28.11.11
 
+Onko historia relevanttia?
+Yahoo: "Browser-Based Authentication (BBAuth) supports access-control and single sign-on (SSO), but has been superseded by the OpenID-OAuth Hybrid Protocol."
+http://developer.yahoo.com/auth/
+
+
+Selitä OpenID identifier recycling
+http://developer.yahoo.com/openid/faq.html
+OpenID identifiers can be recycled over time, and OpenID 2.0 specifies that OpenID Providers append URL fragments to the end of an OpenID URL as a generation identifier. The entire OpenID URL with the fragment, if present, should be used to identify the user. For instance, the following two OpenIDs are unique and represent different users:
+http://openid.example.com/username#aa
+http://openid.example.com/username#bb
+
 
 Mitä Ping Federate tekee?
 https://www.pingidentity.com/resource-center/consumer-use-cases.cfm
 
+
+Educating users on browser log-ins. Miksi browser chromen kopioiminen on vaikeampaa kuin pelkän hötskän.
 
 
 Tarvitaanko gradussa "NIST Assurance Levels" -juttua kuitenkin? (Poistettu 10.1.2012)

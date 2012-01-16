@@ -1,3 +1,15 @@
 
 SAML-blogaaja
 http://blog.aniltj.org/
+
+Auth dokumentaatioita
+http://www.flickr.com/services/api/auth.spec.html
+
+http://developer.yahoo.com/openid/faq.html
+http://developer.yahoo.com/oauth/guide/index.html
+
+https://dev.twitter.com/docs/auth/
+
+http://developers.soundcloud.com/docs/api/authentication
+
+https://developers.facebook.com/docs/authentication/

@@ -9,6 +9,17 @@ http://hueniverse.com/oauth/guide/
 
 Mitä OAuth draft-versiota tutkitaan?
 
+Voiko OAuthia käyttää palvelin-palvelin-yhteyksiin?
+"We want to avoid using SAML or WS_Factory. We also want to use OAuth all the way, from SSO to web services."
+"You can pass the OAuth access token in the Authentication: HTTP header of your web service request."
+http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-2.3.1
+
+Kuinka OAuth 2.0 olisi Rengastustoimistolla?
+http://www.quora.com/OAuth-1/Should-I-create-an-OAuth-provider-for-my-sign-in-mechanism
+
+Kuinka valmis OAuth 2.0 on?
+07/2011: "Facebook (and others) just decided to use draft versions of OAuth 2 as a "release version.""
+
 Onko David Recordon OAuth 2.0 pääjehu? Oliko hän myös OpenID 2.0 pääjehu?
 
 Onko SAML 2:ssa aina manuaalinen exchange procedure, jolla osapuolet tulevat tietoisiksi toisistansa?

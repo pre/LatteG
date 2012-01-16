@@ -1,6 +1,14 @@
 
+OAuth-juttuja
+http://blog.apigee.com/taglist/OAuth
+
+
 SAML-blogaaja
 http://blog.aniltj.org/
+
+http://stackoverflow.com/questions/3560787/whats-the-difference-between-ws-trust-openid-and-saml-passive
+
+
 
 Auth dokumentaatioita
 http://www.flickr.com/services/api/auth.spec.html

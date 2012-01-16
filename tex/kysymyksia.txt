@@ -1,4 +1,17 @@
+Onko XAuth relevantti?
+http://www.quora.com/Whats-the-difference-between-xAuth-and-oAuth
+
+Kuinka OAuth 2.0 toimii?
+http://www.quora.com/OAuth-2-0/How-does-OAuth-2-0-work
+
+Kuinka OAuth 1.0 toimii?
+http://hueniverse.com/oauth/guide/
+
 Mitä OAuth draft-versiota tutkitaan?
+
+Onko David Recordon OAuth 2.0 pääjehu? Oliko hän myös OpenID 2.0 pääjehu?
+
+Onko SAML 2:ssa aina manuaalinen exchange procedure, jolla osapuolet tulevat tietoisiksi toisistansa?
 
 Käytä termiä user-agent termin "selain" sijasta.
 
@@ -28,6 +41,15 @@ http://openid.example.com/username#bb
 
 Onko OAuth device authentication flow siistein juttu mobiiliin?
 https://developers.facebook.com/docs/authentication/devices/
+
+"OAuth doesn't handle identity/authentication natively. However, the next generation OpenID protocol, OpenID Connect, is built on top of OAuth2, which will give us a standard identity/authentication layer built on top of OAuth's authorization layer."
+http://stackoverflow.com/questions/8662697/how-can-i-use-oauth-to-replace-openid-for-federated-login
+
+
+Mitä eroa OAuth 1.0a ja 2.0 ?
+  http://www.quora.com/What-are-the-differences-between-Facebook-Connect-and-Twitters-implementation-of-OAuth
+  SSL is required while signatures are not required for the actual API calls once the token has been generated in OAuth 2.0. It has only one security token. Facebook Connect is based on OAuth 2.0. OAuth 1.0 requires client to send two security tokens for each API call, and use both to generate the signature. Twitter uses 1.0a. Facebook is using OAuth 2.0, which is not yet a standard. Twitter uses 1.0a. With OAuth 1.0a you have to store a access tolen and token secret for each user, but for Facebook Connect you just need to store an access token.
+
 
 
 Mitä Ping Federate tekee?

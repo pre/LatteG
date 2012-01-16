@@ -212,7 +212,18 @@
 
   Mitkä on Pihvin kannalta oleellisimmat?
   OAuth draftin threat model -dokumentti.
-  Onko CSRF relevantti?
+
+  Haavoittuvuudet, jotka huomioitava, vaikka yhteys olisi suojattu HTTPS:llä:
+  CSRF: OAuth draft kpl 10.12.: ''The client MUST implement CSRF protection for its redirection URI.''
+  Clickjacking: Oauth draft kpl 10.13.
+     ''To prevent this form of attack, native applications SHOULD use
+     external browsers instead of embedding browsers in an iframe when
+     requesting end-user authorization.''
+  Code Injection ja Input Validation (kpl 10.14.)
+  Open Redirectors (kpl 10.15.)
+
+
+
 % section uhat_turvalliselle_autentikoitumiselle (end)
 
 \section{Identiteetti internetissä} % (fold)
@@ -352,9 +363,55 @@
 
   Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
   Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
+  ''Before initiating the protocol, the client registers with the authorization server. The means through which the client registers with the authorization
+  server are beyond the scope of this specification, but typically involve end-user interaction with an HTML registration form.'' (viite: ''client registration'' oauth draft)
+
+  Mahdollistaa ennakkoon rekisteröitymättömät asiakkaat: kpl 2.4 ''This specification does not exclude the use of unregistered clients. However, the use with
+  such clients is beyond the scope of this specification,...''
+  3.1.2.2 registration requirements:
+    Public ja Confidential clients utilizing the implicit grant type MUST register prior to using the authorization endpoint.
 
   OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
 
+  OAuth mahdollistaa http basic autentikoinnin (kpl 2.3.1) ennen auktorisointia.
+  Draft vaatii HTTPS:n ja brute-force suojauksen:
+    ''The authorization server MUST require the use of a transport-layer
+     security mechanism when sending requests to the token endpoint, as
+     requests using this authentication method result in the transmission
+     of clear-text credentials.
+
+     Since this client authentication method involves a password, the
+     authorization server MUST protect any endpoint utilizing it against
+     brute force attacks.''
+
+  Vaatii aina autentikoitumisen (3.2.1. Client Authentication) tietyissä tapauksissa.
+
+  Tietomurrosta toipuminen (3.2.1):
+  ''Changing a single set of client credentials is significantly faster than revoking an entire set of refresh tokens.''
+  ''Rotation of an entire set of refresh tokens can be challenging, while rotation of a single set of client credentials is significantly easier.''
+
+  9. Native Authentication:
+  ''When choosing between an external or embedded user-agent, developers should consider: [..]''
+
+  10. Client Authentication
+  Hyvä kappale eri tietoturvanäkökulmista ja uhkakuvista.
+  OAuth ja MITM:
+  - 10.6.  Authorization Code Redirection URI Manipulation
+  - 10.9.  Endpoints Authenticity
+  - 10.11.  Phishing Attacks
+
+
+  OAuth draft kpl 2.1:
+  OAuth Client Types: confindential/public
+  OAuth Client Profiles: Web Application, user-agent-based application, native application
+
+  Endpointit: kpl3.1
+   The authorization endpoint is used to interact with the resource
+      owner and obtain an authorization grant.  The authorization server
+      MUST first verify the identity of the resource owner.
+   Autentikointimenetelmään ei ota kantaa.
+   Edellytetään HTTPS:ää (''The authorization server MUST support TLS 1.0 ([RFC2246]), SHOULD support TLS 1.2 ([RFC5246]) and its future'')
+   ks. myös 3.1.2.1 HTTPS
   http://tools.ietf.org/html/draft-ietf-oauth-v2-22
 
   http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01

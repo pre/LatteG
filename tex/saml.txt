@@ -8,3 +8,43 @@ http://getsatisfaction.com/oauth/topics/how_is_oauth_different_from_using_saml_a
   As I see it, more than SAML, OAuth could be compared to Liberty's ID-WSF, i.e. as a framework for getting user consent for attribute sharing and securing the resulting API calls. Lots of differences, REST vs SOAP, simple vs complex, trust models, etc but the use cases are very similar.
 
 
+***
+
+http://www.oasis-open.org/committees/download.php/13525/sstc-saml-exec-overview-2.0-cd-01-2col.pdf
+
+SAML is a flexible and extensible protocol designed to be used – and customized if necessary – by other standards. The Liberty Alliance, the Internet2
+Shibboleth project, and the OASIS Web Services Security (WS-Security) committee have all adopted SAML as a technological underpinning for various purposes.
+
+SAML V1.0 became an OASIS standard in November 2002. SAML V1.1 followed in September 2003 and has seen significant success, gaining momentum in financial
+services, higher education, government, and other industry segments.
+
+SAML V2.0 unifies the building blocks of federated identity in SAML V1.1 with input from higher education's Shibboleth initiative and the Liberty Alliance's
+Identity Federation Framework. As such, SAML V2.0 is a critical step towards full convergence for federated identity standards.
+
+SAML assertions can be used within SOAP messages in order to convey security and identity information between actors in web service interactions. The SAML
+Token Profile produced by the OASIS Web Services Security (WSS) TC specifies how SAML assertions should be used for this purpose with the WS-Security
+framework. The Liberty Alliance's Identity Web Service Framework (ID-WSF) builds on these specifications to use SAML assertions for enabling secure and
+privacyrespecting access to web services.
+
+WS-Trust, one component of the private WS-* framework initiative, proposes protocols for the exchange and validation of security tokens used as described
+within WS-Security. SAML assertions are one such supported security token format.
+
+Assertions:
+SAML defines three different kinds of assertion statement that can be created by a SAML authority: authentication, attribute, authorization Decision.
+
+Bindings:
+Mappings from SAML request-response message exchanges into standard messaging or communication protocols are called SAML protocol bindings. For instance, the
+SAML SOAP Binding defines how SAML protocol messages can be communicated within SOAP messages, whilst the HTTP Redirect binding defines how to pass protocol
+messages through HTTP redirection
+
+Profiles:
+Generally, a profile of SAML defines constraints and/or extensions in support of the usage of SAML for a particular application, the goal being to enhance
+interoperability by removing some of the flexibility inevitable in a general-use standard. For instance, the Web Browser SSO Profile specifies how SAML
+authentication assertions are communicated between an identity provider and service provider to enable single sign-on for a browser user.
+
+The Web SSO Profile details how to use the SAML Authentication Request/Response protocol in conjunction with different combinations of the HTTP Redirect, HTTP
+POST, HTTP Artifact, and SOAP bindings.
+
+Another type of SAML profile is an attribute profile. SAML defines a series of attribute profiles to provide specific rules for interpretation of attributes
+in SAML attribute assertions. An example is the X.500/LDAP profile, describing how to carry X.500/LDAP attributes within SAML attribute
+

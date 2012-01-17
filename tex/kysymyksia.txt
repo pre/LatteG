@@ -1,6 +1,8 @@
 Onko XAuth relevantti?
 http://www.quora.com/Whats-the-difference-between-xAuth-and-oAuth
 
+Miksei Kerberos ole relevantti?
+
 Kuinka OAuth 2.0 toimii?
 http://www.quora.com/OAuth-2-0/How-does-OAuth-2-0-work
 

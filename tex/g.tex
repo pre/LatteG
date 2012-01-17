@@ -80,9 +80,15 @@
 
   Pitäisikö otsikon olla ''salasanat ja web'' ja myöhemmin ''autentikoituminen ja web'' ?
 
-  Web, SaaS, HTTP.
+  Paradigma: Web, SaaS, HTTP, user-agent/web-browser.
   Mikä on web-palvelu?
   Mikä on sisäinen palvelu?
+
+  Selitä auki tutkimuksen fokus:
+  Miksei active directory, kerberos, cas, ldap ole relevantti?
+  Voiko niitä kuitenkin hyödyntää (esim. SaaS-palvelu - Google Apps - Active Directory)
+  Miksi HTTP suosituin protokolla?
+
   Mitä tarkoittaa autentikointi?
   Mitä tarkoittaa auktorisointi (authorization)?
 
@@ -176,7 +182,7 @@
   Client-server, server-server. Application-Useragent-Server.
 
   whitepaper: ''Is your API naked ?''
-  http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
+  %http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
 
   \subsection{Rajapinnat ja web} % (fold)
   \label{sub:rajapinnat_ja_web}
@@ -192,8 +198,30 @@
 
   % subsection rajapinnat_ja_web (end)
 
-
   % subsection sessiopohjainen_autentikointi (end)
+
+  \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
+  \label{sub:arkkitehtuurityyli_ws_}
+    Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
+
+    SOAP ja XML.
+  % subsection arkkitehtuurityyli_ws_ (end)
+
+  \subsection{Arkkitehtuurityyli: REST} % (fold)
+  \label{sub:arkkitehtuurityyli_rest}
+
+  % subsection arkkitehtuurityyli_rest (end)
+
+  \subsection{Kommunikaatiotavat: front-channel ja back-channel} % (fold)
+  \label{sub:kommunikaatiotavat_front_channel_ja_back_channel}
+
+  Front Channel yksinkertainen toteutus kun HTTP-binding. Tällöin ainoastaan user-agent on viestinvälittäjä, mikä mahdollistaa yksinkertaisen protocol flown.
+
+  Korkeampaa turvallisuustasoa tai tiukempaa yksityisyyttä tavoiteltaessa kokonaisen viestin sijasta user-agent voi välittää pelkän \emph{viitteen} tietoon. Tällöin user-agentin viitteeseen liitetty varsinainen tieto (esim. SAML-assertio, artifakti) välitetään palvelin-palvelin-yhteydellä back-channelin kautta kyseisen user-agentin antaman viitteen perustella.
+
+  SAML ja back-channel määritellään SOAP-viestinvälityksenä (SAML over SOAP over HTTP). (viite http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+
+  % subsection kommunikaatiotavat_front_channel_ja_back_channel (end)
 % section autentikoituminen_ja_web (end)
 
 
@@ -282,6 +310,9 @@
       \\--- Mark Twain \cite{twain_eggs_1894}
   \end{quote}
 
+  Historia, miksi keskitetty kertakirjautumissysteemi on ollut tarpeellinen.
+  Milloin ja minkä toimijoiden aloitteesta SAML, OAuth, OpenID ovat syntyneet. Alunperin minkä ongelman ratkaisemiseksi?
+
   Onko CAS relevantti?
   Onko LDAP relevantti?
   Onko SASL relevantti?
@@ -304,6 +335,75 @@
     % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
 
   Cloud: Datan jakaminen rajapinnan kautta palvelujen kesken.
+
+  \subsection{SAML v2.0} % (fold)
+  \label{sub:saml_v2_0}
+  SAML ja SOAP.
+
+  Havainto: SAML-papereissa ei puhuta mitään OAuthista tai RESTistä. Ainoastaan WS-*, Shibboleth, XACML, ID-FF (jne) mainitaan.
+
+  SAML käyttää XML Encryption ja XML Signature -standardeja eheyden ja luotettavuuden saavuttamiseksi.
+  Niiden osalta viestinvälityskerroksen (transport layer) suojaaminen ei välttämätöntä, jos WS-Security.
+  HTTPS:n käyttäminen on kuitenkin yksinkertaista ja vähentää kryptografiaan aiheuttamaa kuormitus-overheadia.
+  Erikseen määritellyissä tapauksissa SAML edellyttää (\emph{mandate}) viestinvälityskerroksen suojaamista SSL/TLS:llä ja viestikerroksen (message-level, todo vai onko applikaatiolevel?) suojaamista XML Encryption ja XML Signature -standardilla.
+
+  SAML-assertiot ja SAML-protokollat määritellään pohjautuen XML Schema -standardiin.
+  SAML exchanges ilmaistaan muodoltaan standardoidulla XML-murteella, josta myös SAMLin nimi on peräisin (Security Assertion Markup Language). (viite http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+
+
+  For real, mitä eroa on OAuth ja SAML
+  https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+  https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
+
+  % subsection saml_v2_0 (end)
+
+  SAML v2.0: Rakentuu Shibbolething ja Liberty ID-FF:n toiminnallisuuden päälle.
+
+  Määrittele SAML-assertio. Onko assertio Suomea?
+
+
+  \subsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
+  \label{sub:samlin_johdannaiset}
+
+  % subsection samlin_johdannaiset (end)
+
+  \paragraph{ID-FF} % (fold)
+  \label{par:id_ff}
+  Liberty Alliancen Identity Federation Frameworkin (ID-FF) pohjalla oli SAML v1.1, jonka päälle Liberty toteutti lisää toiminnallisuutta.
+  Liberty Alliance tunnusti tarpeen yhdelle federated SSO:n standardille, joten Alliance tarjosi ID-FF v1.2:n takaisin OASIS-yhteisen tekniselle komitealle inputtina SAML v2.0:n rakentamiseksi.
+  Libertyn nykyinen web-tunnistautumisen framework on ID-WSF, joka käyttää SAML v2.0:aa autentikointi- ja auktorisointitietojen välittämiseksi web-palvelujen välillä.
+
+  ID-FF v1.2 ei yhteisistä juurista huolimatta ole kuitenkaan yhteensopiva SAML v2.0:n kanssa (viite https://wiki.shibboleth.net/confluence/display/SHIB/SAMLLibertyDiffs).
+
+  % paragraph id_ff (end)
+
+  \paragraph{Shibboleth} % (fold)
+  \label{par:saml_vs_shibboleth}
+
+  % paragraph saml_vs_shibboleth (end)
+
+  \paragraph{XACML} % (fold)
+  \label{par:xacml}
+
+  % paragraph xacml (end)
+  \paragraph{WS-Security} % (fold)
+  \label{par:ws_security}
+  WS-Security on OASIS-komitean standardi, joka määrittelee tavan varmistaa SOAP-viestien eheys (integrity) ja luottamuksellisuus (confidentiality) (viite saml exec overview).
+
+  WS-Security määrittelee turvallisuuspolettien (\emph{security tokens}) käsitteen, johon WS-*-arkkitehtuurityylin tietoturvanäkökulma perustuu.
+  Turvallisuuspoletti sisältää SOAP-viestiin liittyvän identiteetti- ja pääsyoikeustiedon.
+  WS-Securityssä on \emph{profiileja}, jotka määrittelevät yksityiskohdat turvallisuuspoletin käyttämiselle ja turvallisuuspoletin formaatin (todo käsite).
+  Tuettuja formaatteja ovat esimerkiksi X.509-sertifikaatit (todo käsite) ja Kerberos-lipukkeet (Kerberos tickets, todo käsite).
+
+  SAML Token Profile määrittelee SAML-assertioiden käytön WS-Securityn turvallisuuspolettina (viite saml exec overview).
+  SAML-standardi esittää WS-Securityn hyväksyttynä menetelmänä suojata SOAP-viestit, jotka kuljettavat SAML-protokollatietoja tai -assertioita.
+
+  % Jos transport layer security niin WSS:ä ei tarvita yhteyden suojaamiseen. Vähentää silloin myös overheadia jos ei WSS-kryptoa.
+  % Saatetaan tarvita jos SAML vaikka HTTPS?
+
+
+
+  % paragraph ws_security (end)
 
   \subsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
   \label{sub:kertauloskirjautuminen}
@@ -426,7 +526,7 @@
 
   ''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
 
-  ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth & HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
+  ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
 
   % subsection oauth (end)
 
@@ -441,17 +541,6 @@
 
   % subsubsection selainkonteksti_vs_applikaatiokonteksti (end)
 
-  \subsection{subsection name} % (fold)
-  \label{sub:subsection_name}
-
-  % subsection subsection_name (end)
-  \subsection{SAML} % (fold)
-  \label{sub:saml}
-  For real, mitä eroa on OAuth ja SAML
-  https://www.pingidentity.com/resource-center/oauth-essentials.cfm
-  https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
-
-  % subsection saml (end)
 
   \subsection{Tekniikoiden yhtäläisyydet} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}

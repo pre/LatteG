@@ -21,3 +21,10 @@ https://dev.twitter.com/docs/auth/
 http://developers.soundcloud.com/docs/api/authentication
 
 https://developers.facebook.com/docs/authentication/
+
+
+
+Web Services
+
+WS-Security:
+http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=wss

@@ -15,7 +15,9 @@
 
 \title{Internet-skaalan identiteetti:
     \\ ''Mitä eroa on OAuth 2.0 ja SAML 2.0 -standardeilla?''
-    \\ ''Miksi OAuth 2.0 päihittää SAML 2.0:n pilvessä?''}
+    \\ ''Miksi OAuth 2.0 päihittää SAML 2.0:n pilvessä?''
+    \\ ''Case-study kuinka OAuth 2.0 ja SAML 2.0 tukevat toisiaan SaaS-palvelun toteutuksessa''}
+
 \author{Petrus Repo}
 \date{\today}
 \level{G!}
@@ -71,8 +73,48 @@
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/auth_yleiskuva.jpg}
+    \caption{Yleiskuva asioiden välisestä suhteesta}
+    \label{fig:yleiskuva}
+  \end{figure}
+
 % section johdanto (end)
 
+
+\section{Web ja SaaS ilmiöinä} % (fold)
+\label{sec:web_ja_saas}
+  \subsection{Rajapinnat ja web} % (fold)
+  \label{sub:rajapinnat_ja_web}
+
+  ''Palvelusi kuolee eikä saa käyttäjiä, ellei siinä ole julkista API:a.'' (todo etsi lainaus)
+
+  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
+  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
+
+  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
+
+  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
+
+  restapi security vs soap-api ja WS-Security
+
+  % subsection rajapinnat_ja_web (end)
+
+  \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
+  \label{sub:arkkitehtuurityyli_ws_}
+    Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
+
+    SOAP ja XML.
+  % subsection arkkitehtuurityyli_ws_ (end)
+
+  \subsection{Arkkitehtuurityyli: REST} % (fold)
+  \label{sub:arkkitehtuurityyli_rest}
+
+  % subsection arkkitehtuurityyli_rest (end)
+
+
+% section web_ja_saas (end)
 
 
 \section{Autentikoituminen ja Web} % (fold)
@@ -184,33 +226,8 @@
   whitepaper: ''Is your API naked ?''
   %http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
 
-  \subsection{Rajapinnat ja web} % (fold)
-  \label{sub:rajapinnat_ja_web}
-
-  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
-  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
-
-  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
-
-  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
-
-  restapi security vs soap-api ja WS-Security
-
-  % subsection rajapinnat_ja_web (end)
 
   % subsection sessiopohjainen_autentikointi (end)
-
-  \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
-  \label{sub:arkkitehtuurityyli_ws_}
-    Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
-
-    SOAP ja XML.
-  % subsection arkkitehtuurityyli_ws_ (end)
-
-  \subsection{Arkkitehtuurityyli: REST} % (fold)
-  \label{sub:arkkitehtuurityyli_rest}
-
-  % subsection arkkitehtuurityyli_rest (end)
 
   \subsection{Kommunikaatiotavat: front-channel ja back-channel} % (fold)
   \label{sub:kommunikaatiotavat_front_channel_ja_back_channel}
@@ -219,40 +236,54 @@
 
   Korkeampaa turvallisuustasoa tai tiukempaa yksityisyyttä tavoiteltaessa kokonaisen viestin sijasta user-agent voi välittää pelkän \emph{viitteen} tietoon. Tällöin user-agentin viitteeseen liitetty varsinainen tieto (esim. SAML-assertio, artifakti) välitetään palvelin-palvelin-yhteydellä back-channelin kautta kyseisen user-agentin antaman viitteen perustella.
 
-  SAML ja back-channel määritellään SOAP-viestinvälityksenä (SAML over SOAP over HTTP). (viite http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+  SAML ja back-channel määritellään SOAP-viestinvälityksenä (SAML over SOAP over HTTP).
+  (viite %http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
 
   % subsection kommunikaatiotavat_front_channel_ja_back_channel (end)
 % section autentikoituminen_ja_web (end)
 
 
-\section{Uhat turvalliselle autentikoitumiselle} % (fold)
-\label{sec:uhat_turvalliselle_autentikoitumiselle}
-  HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.
+  \subsection{Selainkonteksti vs. applikaatiokonteksti} % (fold)
+  \label{sub:selainkonteksti_vs_applikaatiokonteksti}
+  Tähän kuva app trust context (appin omat jutut) <--> browser trust context (authorize app)
 
-  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
+  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), app contextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen app contextissa olevan palvelun kanssa. Käyttäjä ei syötä salasanaansa eikä käyttäjältä myöskään kysytä mitään credentiaaleja app contextissa. Overlay-sivu tarjoillaan suoraan facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
 
-  Osoitetaanko miksi HTTPS on aina tarpeellinen?
-
-  OAuth security token -tyypit:
-  - Bearer vaatiin aina HTTPS:n.
-  - Mac (vrt. token scheme oauth 1.0), turvallinen vaikkei suojattu yhteys. Vaatii keyn ja secretin, ja käyttää hashmacia kryptaamaan osan requestista. Seurauksena pyyntö valid ainoastaan jos molemmilla osapuolilla samat avaimet, kolmannen osapuolen ei ole mahdollista uudelleenluoda alkuperäistä requestia ilman validia salasanaa.
-  - SAML Mahdollistaa SAML-assertioiden käytön. Mahdollistaa olemassaolevan SAML-toteutuksen hyödytämisen OAuthissa. (todo esimerkki milloin hyödyllinen, esim. sisäverkon active directory + julkinen web-palvelu)
-
-  Mitkä on Pihvin kannalta oleellisimmat?
-  OAuth draftin threat model -dokumentti.
-
-  Haavoittuvuudet, jotka huomioitava, vaikka yhteys olisi suojattu HTTPS:llä:
-  CSRF: OAuth draft kpl 10.12.: ''The client MUST implement CSRF protection for its redirection URI.''
-  Clickjacking: Oauth draft kpl 10.13.
-     ''To prevent this form of attack, native applications SHOULD use
-     external browsers instead of embedding browsers in an iframe when
-     requesting end-user authorization.''
-  Code Injection ja Input Validation (kpl 10.14.)
-  Open Redirectors (kpl 10.15.)
+  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
 
 
+  % subsection selainkonteksti_vs_applikaatiokonteksti (end)
 
-% section uhat_turvalliselle_autentikoitumiselle (end)
+  \subsection{Uhat turvalliselle autentikoitumiselle ohjelmistokehittäjän näkökulmasta} % (fold)
+  \label{sec:uhat_turvalliselle_autentikoitumiselle}
+    HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.
+
+    Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
+
+    Osoitetaanko miksi HTTPS on aina tarpeellinen?
+
+    OAuth security token -tyypit:
+    - Bearer vaatiin aina HTTPS:n.
+    - Mac (vrt. token scheme oauth 1.0), turvallinen vaikkei suojattu yhteys. Vaatii keyn ja secretin, ja käyttää hashmacia kryptaamaan osan requestista. Seurauksena pyyntö valid ainoastaan jos molemmilla osapuolilla samat avaimet, kolmannen osapuolen ei ole mahdollista uudelleenluoda alkuperäistä requestia ilman validia salasanaa.
+    - SAML Mahdollistaa SAML-assertioiden käytön. Mahdollistaa olemassaolevan SAML-toteutuksen hyödytämisen OAuthissa. (todo esimerkki milloin hyödyllinen, esim. sisäverkon active directory + julkinen web-palvelu)
+
+    Mitkä on Pihvin kannalta oleellisimmat?
+    OAuth draftin threat model -dokumentti.
+
+    Haavoittuvuudet, jotka huomioitava, vaikka yhteys olisi suojattu HTTPS:llä:
+    CSRF: OAuth draft kpl 10.12.: ''The client MUST implement CSRF protection for its redirection URI.''
+    Clickjacking: Oauth draft kpl 10.13.
+       ''To prevent this form of attack, native applications SHOULD use
+       external browsers instead of embedding browsers in an iframe when
+       requesting end-user authorization.''
+    Code Injection ja Input Validation (kpl 10.14.)
+    Open Redirectors (kpl 10.15.)
+
+    Phishing ja selaimen omat vastatoimet.
+
+  % section uhat_turvalliselle_autentikoitumiselle (end)
+
+
 
 \section{Identiteetti internetissä} % (fold)
 \label{sec:identiteetti_internetissä}
@@ -298,6 +329,8 @@
 
   Jos palvelu ei luota Facebook Connectiin mutta autentikoi käyttäjän FBC:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
 
+  Luottamussuhteet ja vaatimukset, OpenID vs. OAuth vs. SAML.
+
   % subsection luottamusmalli_trust_model_ (end)
 % section identiteetti_internetissä (end)
 
@@ -336,6 +369,14 @@
 
   Cloud: Datan jakaminen rajapinnan kautta palvelujen kesken.
 
+  \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
+  \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
+  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle. Google on edelleen OpenID, mutta sitä käytetään kuvakkeen kautta eikä omaa openid-urlia edes ole tarkoitus muistaa ulkoa (anna esimerkki). Sen sijaan Yahoo!:n ja flickrin openid-tunnuksen url on suoraan yahoo.com ja flick.com.
+
+  % subsection tarve_yhteiskäyttöiselle_autentikointistandardille (end)
+
+  % paragraph yleisnäkymä_ilmakuva_overview (end)
+
   \subsection{SAML v2.0} % (fold)
   \label{sub:saml_v2_0}
   SAML ja SOAP.
@@ -348,7 +389,8 @@
   Erikseen määritellyissä tapauksissa SAML edellyttää (\emph{mandate}) viestinvälityskerroksen suojaamista SSL/TLS:llä ja viestikerroksen (message-level, todo vai onko applikaatiolevel?) suojaamista XML Encryption ja XML Signature -standardilla.
 
   SAML-assertiot ja SAML-protokollat määritellään pohjautuen XML Schema -standardiin.
-  SAML exchanges ilmaistaan muodoltaan standardoidulla XML-murteella, josta myös SAMLin nimi on peräisin (Security Assertion Markup Language). (viite http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+  SAML exchanges ilmaistaan muodoltaan standardoidulla XML-murteella, josta myös SAMLin nimi on peräisin (Security Assertion Markup Language). (viite
+  %http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
 
 
   For real, mitä eroa on OAuth ja SAML
@@ -409,7 +451,7 @@
   \label{sub:kertauloskirjautuminen}
 
   % subsection kerta (end)
-  \subsection{OpenID} % (fold)
+  \subsection{OpenID v2.0} % (fold)
   \label{sub:openid}
   Mitä eroa on OpenID Connect ja OAuth 2.0 ?
   OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
@@ -429,7 +471,7 @@
   % subsection openid_connect (end)
 
 
-  \subsection{OAuth} % (fold)
+  \subsection{OAuth v2.0} % (fold)
   \label{sub:oauth}
 
   OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja kysynyt palvelu kysyi suoraan käyttäjän Facebook-salasanaa. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen -- jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista palvelujen kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan datan omistavassa palvelussa eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen toteuttamaan palveluun. Tällöin esimerkiksi käyttäjän kuvia halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
@@ -530,17 +572,6 @@
 
   % subsection oauth (end)
 
-  \subsubsection{Selainkonteksti vs. applikaatiokonteksti} % (fold)
-  \label{ssub:selainkonteksti_vs_applikaatiokonteksti}
-  Tähän kuva app trust context (appin omat jutut) <--> browser trust context (authorize app)
-
-  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), app contextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen app contextissa olevan palvelun kanssa. Käyttäjä ei syötä salasanaansa eikä käyttäjältä myöskään kysytä mitään credentiaaleja app contextissa. Overlay-sivu tarjoillaan suoraan facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
-
-  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
-
-
-  % subsubsection selainkonteksti_vs_applikaatiokonteksti (end)
-
 
   \subsection{Tekniikoiden yhtäläisyydet} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}
@@ -561,7 +592,7 @@
 % section Kertakirjautumisstandardit (end)
 
 
-\section{Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
+\section{Case MOOC: Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
 \label{sec:kertakirjautumisjärjestelmien_}
 
   Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
@@ -569,10 +600,28 @@
   + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
   + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
 
+
+  MOOCissa tällä hetkellä oma tunnus ja salasana. MOOC on Helsingin yliopiston omista järjestelmistä täysin irrallaan mm. tietoturvanäkökulmien vuoksi. Yliopiston ulkopuoliset käyttäjät (joilla ei allekirjoitettua käyttöehtosopimusta yliopiston kanssa) lähettävät omaa koodiaan suoritettavaksi. Parempi olla ulkona yliopiston verkosta. Nykyisellään Rackspace, joka Amerikassa. Tällainen ISP on erikoistunut suojaamaan verkkonsa ja järjestelmänsä, koska bisnes perustuu ulkopuolisen ja lähtökohtaisesti epäluotettavan koodin suorittamiseen.
+
+  MOOCin omasta tunnus/salasana-yhdistelmästä halutaan eroon. Se voitaisiin myös säilyttää vaihtoehtoisena tapana. Hyviä ja huonoja puolia? Suositus?
+
+  MOOC tarjoaa Google/Facebook/Windows Live -autentikointipalvelut julkiseen autentikointiin. Kuka tahansa voi rekisteröityä. Mikä näistä on OpenID ja mikä OAuth. Huom, ei ole muita laajasti levinneitä yhteiskäyttöön soveltuvia standardeja julkisessa pilvessä.
+
+  MOOC on yhteydessä Helsingin yliopiston omiin järjestelmiin. Tässä kyseessä laaja jo olemassa oleva verkkoympäristö. Uuden rajoitettuun tarpeeseen tehdyn tekniikan käyttöönotto ei ole helppoa. SAML on monipuolinen ja laaja, tarjoaa runsaasti erilaisia vaihtoehtoja. SAMLiin pohjautuvaa Shibbolethia käytetään HUPnet-verkossa.
+
+  MOOC tarjoaa mahdollisuuden antaa opintosuoritusote lukioon. MOOC hakee suoritusotteen Oodista. Auktorisointiin käytetään OAuthia: luvan antaminen edellyttää että käyttäjä itse sallii MOOC-järjestelmän pääsyn Oodissa oleviin käyttäjätietoihinsa.
+
+  Kaikki standardit voivat elää rinnan: OpenID Google, OAuth Facebook, SAML ja sisäverkko, OAuth ja auktorisointi (esim. Oodiin, profiilikuva FB:stä).
+
+  On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
+
+
 % section kertakirjautumisjärjestelmien_ (end)
 
 \section{Yhteenveto} % (fold)
 \label{sec:yhteenveto}
+
+  Gradun tavoite on täyttynyt, jos koodinimi ''Tienaria'' edustava Luukkainen pystyy kertomaan, mitä eroa ja yhteisiä piiretitä on SAMLilla, OAuthilla ja OpenID:llä.
 
 % section yhteenveto (end)
 

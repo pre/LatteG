@@ -1,4 +1,4 @@
-\documentclass[english,gradu]{tktltiki}
+\documentclass[finnish,gradu]{tktltiki}
 \usepackage{ae,aecompl}
 \usepackage{url}
 \usepackage{amsfonts}
@@ -156,7 +156,12 @@
 
   Haasteeseen voi olla myös julkisesti tunnettu vastine. Spämmibottien torjumiseksi kehitetty CAPTCHA-testi (\emph{Completely Automated Public Turing test to tell Computers and Humans Apart}) kysyy kysymyksen (esittää haasteen), johon ihmisen on helppo vastata (tarjota vastine), mutta johon tietokone ei pysty luotettavasti tuottamaan oikeaa vastausta. CAPTCHA-haaste voi olla esimerkiksi yksinkertainen matemaattinen laskutoimitus, bittikarttakuvaan upotettu ihmissilmällä erottuva sana tai yksiselitteinen suomenkielinen kysymys, johon on yksiselitteinen ja yleisesti tunnettu vastaus.
 
-  Captcha-kuva tähän.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/Facebook_captcha_filled.jpg}
+    \caption{Esimerkki CAPTCHA:n käytöstä Facebookissa}
+    \label{fig:yleiskuva}
+  \end{figure}
 
   % subsection haaste_vastine_autentikaatio (end)
 
@@ -247,10 +252,30 @@
   \label{sub:selainkonteksti_vs_applikaatiokonteksti}
   Tähän kuva app trust context (appin omat jutut) <--> browser trust context (authorize app)
 
+  Selaimen oman ulkonäön ja turvallisuustoimien väärentäminen erittäin työlästä. Selainkontekstissa käyttäjä voi käytännössä luottaa siihen, mitä osoiterivillä lukee, kun työasema oletetaan turvalliseksi (ei troijalaisia tms).
+
+  Kuvassa~\ref{fig:facebook_reauth_ab} selaimen URL-osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko (A) ilmaisee, että yhteys selaimen ja palvelimen välillä on suojattu. Selainkontekstissa käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Selaimen osoiterivillä täytyy olla palvelua vastaava URL-osoite (B). Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Käyttäjää on mahdollista jekuttaa, jos osoiterivillä esim. ''faceboook.com''.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/Facebook_reauth_ab.jpg}
+    \caption{Turvallisuusilmoitukset selainkontekstissa}
+    \label{fig:facebook_reauth_ab}
+  \end{figure}
+
+  Sen sijaan käyttäjä ei voi luottaa selaimen näyttämän HTML-sisällön turvallisuusilmoituksiin. Kuvassa~\ref{fig:trust_context_html} sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/trust_context_html.jpg}
+    \caption{Turvallisuusilmoitukset HTML-sisältökontekstissa}
+    \label{fig:trust_context_html}
+  \end{figure}
+
+
   Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), app contextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen app contextissa olevan palvelun kanssa. Käyttäjä ei syötä salasanaansa eikä käyttäjältä myöskään kysytä mitään credentiaaleja app contextissa. Overlay-sivu tarjoillaan suoraan facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
 
-  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
 
+
+  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
 
   % subsection selainkonteksti_vs_applikaatiokonteksti (end)
 
@@ -514,6 +539,8 @@
     Public ja Confidential clients utilizing the implicit grant type MUST register prior to using the authorization endpoint.
 
   OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
+
+  Facebook OAuth dialogs: https://developers.facebook.com/docs/reference/dialogs/oauth/
 
   OAuth mahdollistaa http basic autentikoinnin (kpl 2.3.1) ennen auktorisointia.
   Draft vaatii HTTPS:n ja brute-force suojauksen:

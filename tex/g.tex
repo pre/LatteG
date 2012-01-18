@@ -270,6 +270,7 @@
     \label{fig:trust_context_html}
   \end{figure}
 
+  % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
   Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), app contextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen app contextissa olevan palvelun kanssa. Käyttäjä ei syötä salasanaansa eikä käyttäjältä myöskään kysytä mitään credentiaaleja app contextissa. Overlay-sivu tarjoillaan suoraan facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
 
@@ -394,6 +395,9 @@
 
   Cloud: Datan jakaminen rajapinnan kautta palvelujen kesken.
 
+  Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
+  % http://developers.soundcloud.com/docs/api/authentication#user-credentials-flow
+
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
   \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
   Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle. Google on edelleen OpenID, mutta sitä käytetään kuvakkeen kautta eikä omaa openid-urlia edes ole tarkoitus muistaa ulkoa (anna esimerkki). Sen sijaan Yahoo!:n ja flickrin openid-tunnuksen url on suoraan yahoo.com ja flick.com.
@@ -517,6 +521,9 @@
 
   Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
 
+  Kuva siitä, miltä oikeuksien myöntäminen Soundcloudissa % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
+
+
   Luvan kysyminen mobiilissa on vaikeaa.
 
   Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
@@ -597,6 +604,25 @@
 
   ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
 
+
+  Erilaiset OAuth -tokenit
+  % http://fireeagle.yahoo.net/developer/documentation/using_oauth
+  %
+  % http://developers.soundcloud.com/docs/api/authentication#refreshing
+  % Once an access_token is expired you can use the refresh_token to obtain a new one:
+  %
+  % $ curl "https://api.soundcloud.com/oauth2/token" \
+  %            -d 'client_id=YOUR_CLIENT_ID' \
+  %            -d 'client_secret=YOUR_CLIENT_SECRET' \
+  %            -d 'grant_type=refresh_token' \
+  %            -d 'refresh_token=04u7h-r3fr35h-70k3n'
+  % {
+  %   "access_token": "04u7h-4cc355-70k3n-2",
+  %   "expires_in": 3600,
+  %   "scope": null,
+  %   "refresh_token": "04u7h-r3fr35h-70k3n-2"
+  % }
+
   % subsection oauth (end)
 
 
@@ -642,6 +668,13 @@
 
   On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
 
+  % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
+  % Miksi MOOC resurssipohjainen eikä ws-* ?
+
+  Entäs MOOC Mobiili? % https://dev.twitter.com/docs/auth/mobile-sign-flow
+
+  % Käyttökokemus: http://benward.me/blog/oauth-flow
+  % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
 % section kertakirjautumisjärjestelmien_ (end)
 

@@ -1,3 +1,14 @@
+
+SAML Single Sign-On (SSO) Service for Google Apps
+http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html
+http://blog.rhysgoodwin.com/security/saml-websso-federation-made-easy/
+
+
+http://www.docstoc.com/docs/10874216/Web-Single-Sign-On-Authentication-using-SAMLInternational-Journal-of-Computer-Science-Issues-IJCSI-Volume-2-August-2009
+http://www.xml.com/pub/a/2005/01/12/saml2.html
+http://wiki.developerforce.com/page/Single_Sign-On_for_Desktop_and_Mobile_Applications_using_SAML_and_OAuth
+
+
 OAuth vs. SAML
 
 http://getsatisfaction.com/oauth/topics/how_is_oauth_different_from_using_saml_and_xacml

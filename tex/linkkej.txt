@@ -1,6 +1,30 @@
 
+JAtka tästä:
+
+http://fireeagle.yahoo.net/developer/documentation/web_auth
+http://www.sociallipstick.com/?p=239
+https://sites.google.com/site/oauthgoog/Overlap
+
+
+Lue ja kerää ajatukset:
+http://therealmccrea.com/2008/10/20/live-blogging-the-openidoauth-ux-summit/
+http://nullinfo.wordpress.com/oauth-yahoo/
+http://systoilet.wordpress.com/2010/09/29/i-hate-saml/
+
+
 OAuth-juttuja
 http://blog.apigee.com/taglist/OAuth
+http://blog.apigee.com/detail/video_and_slides_oauth_the_big_picture/
+http://blog.apigee.com/detail/when_to_use_oauth1/
+http://blog.apigee.com/detail/api_authentication_and_how_it_got_that_way_from_http_basic_to_oauth_2.0/
+http://wiki.developerforce.com/page/Single_Sign-On_for_Desktop_and_Mobile_Applications_using_SAML_and_OAuth
+http://www.internetsociety.org/articles/bringing-oauth-ietf
+
+http://www.quora.com/OAuth-2-0/How-does-OAuth-2-0-work
+
+
+Authenticating devices:
+https://developers.facebook.com/docs/authentication/devices/
 
 
 SAML-blogaaja
@@ -22,7 +46,20 @@ http://developers.soundcloud.com/docs/api/authentication
 
 https://developers.facebook.com/docs/authentication/
 
+http://developer.yahoo.com/oauth/guide/index.html
 
+http://www.flickr.com/services/api/auth.spec.html
+
+http://gowalla.com/api/docs/oauth
+
+https://developer.foursquare.com/overview/auth
+
+"Live Connect implements the OAuth 2.0"
+http://msdn.microsoft.com/en-us/library/hh243647.aspx
+
+Digging Deeper into OAuth 2.0 on Force.com
+http://wiki.developerforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com
+http://wiki.developerforce.com/page/Using_OAuth_to_Authorize_External_Applications
 
 Web Services
 

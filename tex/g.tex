@@ -113,7 +113,6 @@
 
   % subsection arkkitehtuurityyli_rest (end)
 
-
 % section web_ja_saas (end)
 
 
@@ -143,6 +142,44 @@
 
   Identity Management and Trust Services: Foundations for Cloud Computing
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
+
+  %%%%%%%%%%%%%%%%%%
+  ''Assertions are statements from a Verifier to an RP that contain information about a
+  Subscriber. Assertions are used when the RP and the Verifier are not collocated (i.e., they
+  are connected through a shared network). The RP uses the information in the assertion to
+  identify the Claimant and make authorization decisions about his or her access to
+  resources controlled by the RP. An assertion may include identification and
+  authentication statements regarding the Subscriber, and may additionally include attribute
+  statements that further characterize the Subscriber and support the authorization decision
+  at the RP.''
+  %
+  ''There are two basic models for assertion-based authentication. After successful
+  authentication with the Verifier, the Subscriber is issued an assertion or an assertion
+  reference, which the Subscriber uses to authenticate to the RP.''
+  %
+  ''an assertion contains a set of claims or statements about an
+  authenticated Subscriber. Based on the statements contained within it, an authentication
+  assertion will fall into one of two categories (and either category can be used in both
+  direct and indirect models): Holder-of-Key Assertions ja Bearer Assertions. (sivu 83.)''
+  %
+  Lisäksi Proxy-model, jossa käyttäjä <--> verifier/portal <--> relying party.
+  %
+  % ''Three types of assertion technologies will be discussed within this section: Web browser
+  %   cookies, SAML (Security Assertion Markup Language) assertions, and Kerberos tickets''
+  %
+  ''Cookies are effective as assertions for Internet single-sign-on where the RP and Verifier
+  are part of the same Internet domain, and when the cookie contains authentication status
+  for that domain. They are not usable in scenarios where the RP and the Verifier are part
+  of disparate domains.''
+  %
+  Cookies are also often used by the Claimant to re-authenticate to a server. This may be
+  considered to be a use of assertion technology. In this case, the server acts as a Verifier
+  when it sets the cookie in the Subscriber’s browser, and as an RP when it requests the
+  cookie from a Claimant who wishes to re-authenticate to it. Often, the cookie contains a
+  random number, and the assertion data that it represents does not leave the server.
+  % Kpl 9: Assertions
+  % NIST-Special-Publication-800-63-1-E-Authentication-Guidelines.pdf
+  % todo tähän myös Figure 4 ja Figure 5 samasta guidelinesta!
 
 
   \subsection{Haaste--Vastine-autentikaatio} % (fold)
@@ -198,6 +235,38 @@
 
   Mitä hyötyä MITM? Onko relevantti gradun kannalta?
 
+  %% NIST 800-63-1 kappale 4.3:
+  %
+  % The classic paradigm for authentication systems identifies three factors as the cornerstone
+  % of authentication:
+  % • Something you know (for example, a password)
+  % • Something you have (for example, an ID badge or a cryptographic key)
+  % • Something you are (for example, a fingerprint or other biometric data)
+  % Multi-factor authentication refers to the use of more than one of the factors listed above.
+  % The strength of authentication systems is largely determined by the number of factors
+  % incorporated by the system. Implementations that use two factors are considered to be
+  % stronger than those that use only one factor; systems that incorporate all three factors are
+  % stronger than systems that only incorporate two of the factors. (As discussed in Section
+  % 4.1, other types of information, such as location data or device identity, may be used by
+  % an RP or Verifier to reject or challenge a claimed identity, but they are not considered
+  % authentication factors.)
+  %
+  % In e-authentication, the base paradigm is slightly different: the Claimant possesses and
+  % controls a token that has been registered with the CSP and is used to prove the bearer’s
+  % identity. The token contains a secret the Claimant can use to prove that he or she is the
+  % Subscriber named in a particular credential.
+  % 7
+  %   In e-authentication, the Claimant
+  % authenticates to a system or application over a network by proving that he or she has
+  % possession and control of a token. The token provides an output called a token
+  % authenticator. This output is used in the authentication process to prove that the Claimant
+  % possesses and controls the token (refer to Section 6.1 for more details), demonstrating
+  % that the Claimant is the person to whom the token was issued.  Depending on the type of
+  % token, this authenticator may or may not be unique for individual authentication
+  % operations.
+  %
+  % The secrets contained in tokens are based on either public key pairs (asymmetric keys) or
+  % shared secrets.
 
   % Esimerkkejä laitteista ovat YubiKey (http://www.yubico.com/yubikey, hyvänä puolena edullinen \$25 hinta), RSA SecurID (http://www.rsa.com/node.aspx?id=1156, huono julkisuus SecurID tietomurto 03/2011)
   % Tectia Mobile ID: Kun käyttäjä kirjautuu palveluun, kännykkään lähetetään (flash-)tekstiviestinä viisinumeroinen koodi, joka pitää syöttää palveluun normaalin salasanan lisäksi.
@@ -421,6 +490,15 @@
 
   Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
   % http://developers.soundcloud.com/docs/api/authentication#user-credentials-flow
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
+    \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista \cite{NIST_SP800-63-1} }
+    \label{fig:yleiskuva}
+  \end{figure}
+  todo selitä kuva.
+
 
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
   \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
@@ -724,7 +802,7 @@
 % section yhteenveto (end)
 
 \bibliographystyle{tktl}
-\bibliography{lahteet}
+\bibliography{g}
 
 \lastpage
 

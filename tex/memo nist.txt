@@ -1,0 +1,13 @@
+
+
+9.  Assertions
+
+Kuvat!
+
+9.1.1. Cookies
+
+9.1.2. Security Assertion Markup Language (SAML) Assertions
+
+9.1.3. Kerberos Tickets
+
+9.2. Assertion Threats

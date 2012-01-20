@@ -14,7 +14,6 @@
 \begin{document}
 
 \title{Internet-skaalan identiteetti:
-    \\ ''Mitä eroa on OAuth 2.0 ja SAML 2.0 -standardeilla?''
     \\ ''Miksi OAuth 2.0 päihittää SAML 2.0:n pilvessä?''
     \\ ''Case-study kuinka OAuth 2.0 ja SAML 2.0 tukevat toisiaan SaaS-palvelun toteutuksessa''}
 
@@ -185,7 +184,7 @@
   \subsection{Haaste--Vastine-autentikaatio} % (fold)
   \label{sub:haaste_vastine_autentikaatio}
 
-  \emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63}.
+  \emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63-1}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63-1}.
 
   Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy käyttäjätunnusta ja salasanaa, johon toisen osapuolen on vastattava täsmälleen oikeanlaisella merkkijonoyhdsitelmällä.
 
@@ -224,33 +223,17 @@
   Perus-haaste-vastine-autentikoinnissa jos tietoliikenneyhteys (tai muu kommunikaatiokanava) ei ole turvallinen tai vastine muilla tavoin päätyy vääriin käsiin, salakuuntelija (eavesdropper) voi oppia jokaisen esitetyn haasteen vastineen, ja (väärin)käyttää vastinetta itse.
   Tällaisia mitm, troijalaiset, social engineering, olanylikatselu jne.
 
-  Kaksivaiheinen tuo autentikointiin toisen lisävaiheen. Haaste--vastineessa käyttäjän on annettava esitettyyn haasteeseen kelvollinen vastine eli osoitettava toiselle osapuolelle että hän \emph{tietää} jotain. Kaksivaiheisessa autentikoinnissa käyttäjän on lisäksi osoitettava, että hänellä \emph{on hallussaan} jotain \cite{NIST_SP800-63, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai vaatimalla merkkijonoa, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
+  Kaksivaiheisuus tuo autentikointiin lisävaiheen. Haaste--vastine-autentikoinnissa käyttäjän on annettava esitettyyn haasteeseen kelvollinen vastine eli osoitettava toiselle osapuolelle että hän \emph{tietää} jotain. Kaksivaiheisessa autentikoinnissa käyttäjän on lisäksi osoitettava, että hänellä \emph{on hallussaan} jotain \cite{NIST_SP800-63-1, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai kysymällä merkkijonoa, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
 
-  Internet-palveluissa yleisin tapa on hyödyntää käyttäjän matkapuhelinta. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussa ennalta tunnettua puhelinnumeroa (hyvänä puolena toimivuus kaikissa tekstareita tukevissa puhelimissa). Toinen keino on hyödyntää Googlen \emph{Authenticator}-älypuhelinsovellusta, jonka hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator on julkistettu avoimena lähdekoodina (todo lähdeviite http://code.google.com/p/google-authenticator/), minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös muihin kuin Googlen-palveluihin.
+  Internet-palveluissa yleisin kaksivaiheisuuden toteutustapa on käyttäjän matkapuhelimen hyödyntäminen. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussa ennalta tunnettua puhelinnumeroa (hyvänä puolena toimivuus kaikissa tekstareita tukevissa puhelimissa). Toinen yleinen keino on \emph{Google Authenticator} -älypuhelinsovelluksen hyödyntäminen. Älypuhelinsovelluksen hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator -projektin taustajärjestelmä (\emph{backend}) sekä iOS, Android ja Blackberry -mobiiliapplikaatiot on julkistettu avoimena lähdekoodina (todo lähdeviite http://code.google.com/p/google-authenticator/), minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös muihin kuin Googlen-palveluihin.
 
-  Internet-mittakaavassa ulkoisen laitteen edellyttäminen hankaloittaa autentikointitavan yleistymistä. Ulkoisista laitteista matkapuhelin on suosittu juuri yleistyneisyytensä vuoksi. On kuitenkin olemassa myös muita ulkoisia laitteita, jotka tarjoavat mahdollisuuden kaksivaiheistaa autentikointi -- näitä käytetään usein yritysverkoissa tai muissa keskitetysti hallituissa verkkoympäristöissä. Osa laitteista markkinoi itseänsä myös salasanan korvaajina: tällöin kyseessä on kuitenkin perinteinen yksivaiheinen haaste--vastine-autentikointi.
+  Internet-mittakaavassa ulkoisen laitteen edellyttäminen hankaloittaa autentikointitavan laajaa käyttöönottoa. Ulkoisista laitteista matkapuhelin on suosittu juuri yleistyneisyytensä vuoksi. On kuitenkin olemassa myös muita ulkoisia laitteita, jotka tarjoavat mahdollisuuden kaksivaiheistaa autentikointi -- näitä käytetään usein yritysverkoissa tai muissa keskitetysti hallituissa verkkoympäristöissä. Osa laitteista markkinoi itseänsä myös salasanan korvaajina: tällöin kyseessä on kuitenkin yksivaiheinen haaste--vastine-autentikointi ellei laitteen lisäksi vaadita mitään muuta tunnistetta.
 
-  Kaksivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}.
-  Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa käyttäjän matkapuhelimeen. Hän kuitenkin näkee käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma.
+  Kaksivaiheinen autentikointi on monivaiheisen autentikoinnin (\emph{multifactor authentication}) toteutus (todo termi, erikoistus?).
+  Vaiheiden \emph{jotain minkä tiedot} ja \emph{jotain minkä omistat} lisäksi voidaan vaatia \emph{jotain mitä olet} -- tällöin kyse on kolmivaiheisesta autentikoinnista. Vaiheeksi \emph{jotain mitä olet} sopii esimerkiksi sormenjälki, iiriksen skannaaminen tai muu biometrinen tunniste. Monivaiheinen autentikointi tarkoittaa vähintään kahden edellä mainitun vaiheen käyttöä asiakkaan (todo termi, \emph{claimant}) tunnistamiseksi \cite{NIST_SP800-63-1}. Monivaiheisen autentikoinnin toteutus on yleisesti käsitetty vahvemmaksi kuin vain yhtä vaihtetta käyttävä: kolmen vaiheen autentikointi on vahvempi kuin kuin kahta vaihteta käyttävä, ja kahden autentikointivaiheen kokonaisuus on vahvempi kuin yhden vaiheen vaiheen toteutus \cite{NIST_SP800-63-1}. Myös karttapaikannustietoa tai laitteen yksilöivää tunnistekoodia voidaan käyttää autentikointiprosessin tukena, mutta ne eivät kuitenkaan ole autentikointitapoja (\emph{authentication factors}) \cite{NIST_SP800-63-1}.
 
-  Mitä hyötyä MITM? Onko relevantti gradun kannalta?
+  Kokonaisturvallisuutta lisäävästä vaikutuksestaan huolimatta monivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}. Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa käyttäjän matkapuhelimeen. Hän kuitenkin näkee kaapatun tietoliikenneyhteyden kautta käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, käyttäjän huolimattomuuden, päätelaitteessa olevan troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma (todo viite security ignorance). Monivaiheisuus lisää kuitenkin hyökkäyksen vaatimaa työläyttä yksivaiheiseen autentikointiin verrattuna.
 
-  %% NIST 800-63-1 kappale 4.3:
-  %
-  % The classic paradigm for authentication systems identifies three factors as the cornerstone
-  % of authentication:
-  % • Something you know (for example, a password)
-  % • Something you have (for example, an ID badge or a cryptographic key)
-  % • Something you are (for example, a fingerprint or other biometric data)
-  % Multi-factor authentication refers to the use of more than one of the factors listed above.
-  % The strength of authentication systems is largely determined by the number of factors
-  % incorporated by the system. Implementations that use two factors are considered to be
-  % stronger than those that use only one factor; systems that incorporate all three factors are
-  % stronger than systems that only incorporate two of the factors. (As discussed in Section
-  % 4.1, other types of information, such as location data or device identity, may be used by
-  % an RP or Verifier to reject or challenge a claimed identity, but they are not considered
-  % authentication factors.)
-  %
   % In e-authentication, the base paradigm is slightly different: the Claimant possesses and
   % controls a token that has been registered with the CSP and is used to prove the bearer’s
   % identity. The token contains a secret the Claimant can use to prove that he or she is the
@@ -406,6 +389,8 @@
 
 \section{Identiteetti internetissä} % (fold)
 \label{sec:identiteetti_internetissä}
+  Tämä pääluku todennäköisesti putoaa kokonaan pois ja sen relevantit asiat käsitellään alalukuina kertakirjautumisluvussa.
+
   7 Laws of Identity.
   Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
   Miksei OpenID yleistynyt?

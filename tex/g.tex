@@ -450,20 +450,17 @@
   Historia, miksi keskitetty kertakirjautumissysteemi on ollut tarpeellinen.
   Milloin ja minkä toimijoiden aloitteesta SAML, OAuth, OpenID ovat syntyneet. Alunperin minkä ongelman ratkaisemiseksi?
 
-  Onko CAS relevantti?
-  Onko LDAP relevantti?
-  Onko SASL relevantti?
-  Onko Shibboleth relevantti? % https://wiki.shibboleth.net/confluence/display/SHIB2/UnderstandingShibboleth
-  Miten Shibboleth ja SAML eroavat toisistaan? % http://shibboleth.internet2.edu/Shibboleth-SAML-FAQ.html
-  Onko Information Cards relevantti?
-  Onko User Provisioning käsitteenä relevantti?
-  Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
-  Onko WS-Trust ja WS-Federation relevantteja?
+  % Onko CAS relevantti?
+  % Onko LDAP relevantti?
+  % Onko SASL relevantti?
+  % Onko Shibboleth relevantti? % https://wiki.shibboleth.net/confluence/display/SHIB2/UnderstandingShibboleth
+  % Miten Shibboleth ja SAML eroavat toisistaan? % http://shibboleth.internet2.edu/Shibboleth-SAML-FAQ.html
+  % Onko Information Cards relevantti?
+  % Onko User Provisioning käsitteenä relevantti?
+  % Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
+  % Onko WS-Trust ja WS-Federation relevantteja?
 
-  Mikä on ''Circle of Trust?'' Onko se federated identityn juttu?
-
-  Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
-  - OpenID aina http, SAMLissa muitakin. Entä OAuth?
+  Mikä on ''Circle of Trust?'' Onko se federated identityn juttu? Tarvitaanko sitä? Onko sama kuin PGP/GPG:ssä?
 
   Missä tilanteessa Microsoft Active Directory relevantti?
   - AD voi toimia SAML IdP:nä
@@ -474,6 +471,22 @@
   Cloud: Datan jakaminen rajapinnan kautta palvelujen kesken.
 
   Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
+
+
+  Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
+  - OpenID aina http, SAMLissa muitakin. Entä OAuth?
+
+  HTTP rules erityisesti silloin kun user-agenttina on selain. Miksi rules myös natiiviapplikaatioissa ja SOA:ssa?
+  Kun OAuth vie IdP:lle HTTP:llä, selain näyttää osoiterivillä idp:n domainin ja selainkontekstin turvallisuusilmoitukset (lukon kuva jne).
+  Jos kertakirjaútuminen tapahtuisi HTTP:n sijaan esim. Kerberoksella tai muulla, web-selain ei osaisi kommunikoida ellei pluginia tai toteutusta.
+  Tällöin kolmannen osapuolen palvelu joutuisi kysymään käyttäjän idp:n salasanaa suoraan ja hoitamaan autentikoinnin back-channelissa käyttäjältä näkymättömissä.
+  Kun HTTP on yhteinen protokolla, selainta voi käyttää kaikkeen.
+  Lisäksi Javascriptin yleistyminen: nykyisellään trendinä on selaimessa suoritettavan koodin runsastuminen (etsi Fat Clients -lähde).
+
+
+
+
+
   % http://developers.soundcloud.com/docs/api/authentication#user-credentials-flow
 
   \begin{figure}
@@ -735,8 +748,8 @@
 \section{Case MOOC: Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
 \label{sec:kertakirjautumisjärjestelmien_}
 
-  \subsubsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
-  \label{ssub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
+  \subsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
 
   Helsingin yliopistolla (HY) on virallinen hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun (todo tarvitaanko lähde?).
   Tietojenkäsittelytieteen laitoksella (TKTL) on oma AD-palvelu ja lisäksi lukuisa määrä erilaisia ja -tasoisia autentikointipalveluja.
@@ -744,9 +757,36 @@
 
   TKTL:n ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, josta käyttäjätiedot kopioidaan eräajona TKTL:n omien autentikointipalvelujen käytettäviin. Esimerkiksi laitoksen ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu eräajona HY:n ensisijaisesta käyttäjärekisteristä. LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatiis paljon työtä.
 
-  Autentikointinsa puolesta MOOC-järjestelmän ei kannata ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan mukisematta HY:n virallista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi.
+  Autentikointinsa puolesta MOOC-järjestelmän ei kannata ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan mukisematta HY:n virallista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi. Akateemisessa ympäristössä vapaus on perusarvo, minkä vuoksi järjestelmä tukee käyttäjäkeskeistä identiteettiä eli mahdollistaa vapaavalintaisen OpenID-identiteetintarjoajan käyttämisen. Käyttäjäystävällisyyden vuoksi tarjotaan myös kaksi esiasetettua identintarjoajaa: Google (OpenID) ja Facebook (OAuth).
 
-  % subsubsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
+  % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
+
+
+  \subsection{Autentikoituminen federoidulla identiteetillä Helsingin yliopiston käyttäjärekisteriin} % (fold)
+  \label{sub:autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin}
+
+  % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
+
+  \subsection{Autentikoituminen käyttäjäkeskeisen identiteetin OpenID-toteutuksella} % (fold)
+  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
+
+  % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
+
+  \subsection{Autentikoituminen esiasetetulla OpenID-identiteetintarjoajalla} % (fold)
+  \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
+
+  % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)
+
+  \subsection{Autentikoituminen OAuth-toteutuksella} % (fold)
+  \label{sub:autentikoituminen_oauth}
+
+  % subsection autentikoituminen_oauth (end)
+
+  \subsection{Opintosuoritusotteen noutamisen auktorisointi OAuth-toteutuksella} % (fold)
+  \label{sub:opintosuoritusotteen_noutamisen_auktorisointi_oauth_toteutuksella}
+
+  % subsection opintosuoritusotteen_noutamisen_auktorisointi_oauth_toteutuksella (end)
+
 
   Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
   + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.

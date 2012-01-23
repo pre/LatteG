@@ -544,6 +544,9 @@
 
   Määrittele SAML-assertio. Onko assertio Suomea?
 
+  SAML ja REST % http://saml.xml.org/news/how-to-use-saml-with-rest-web-services
+  ''Best practice is to conform to the SAML v2 Web Profile. But the problem there is that the Web Profile relies on sessions, typically managed by cookies. Sessions are a stateful artifact that are contrary to REST.'' -- puristien mielestä joo, mutta Fielding eri mieltä: sessio on sama käyttäjälle itselleen, jolloin saman käyttäjän peräkkäiset requestit on aina restin mukaisia (sama uri+parametrit antaa aina saman vastineen).
+  OAuth 2.0 sen sijaan (by design) hyödyntää HTTP-otsakkeita eikä vaadi sessiota.
 
   \subsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
   \label{sub:samlin_johdannaiset}
@@ -597,6 +600,8 @@
   Mitä eroa on OpenID Connect ja OAuth 2.0 ?
   OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
   Onko OpenID-C edelleen user-centric id?
+
+  OpenID idp ei ole lähtökohtaisesti luotettu -- idp:tä ei tarvitse tuntea etukäteen. Ainoastaan jos idp esivalittu, voidaan luottaa (esim google). Tällöin idp:n antaman tunnisteen oltava aina yksikäsitteinen (ei saa kierrättää tunnisteita), toteutuu esim yahoolla ja googlella (tulee #adskfj parametreja openid-urliin), mutta ei välttämättä kaikilla. Esivalinta täytyy tehdä huolellisesti eli mitä tahansa ei voida ottaa, jos halutaan \emph{luottamus}.
 
   Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
   % The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.

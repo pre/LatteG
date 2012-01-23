@@ -54,12 +54,24 @@ http://gowalla.com/api/docs/oauth
 
 https://developer.foursquare.com/overview/auth
 
+37signals
+http://groups.google.com/group/37signals-api/browse_thread/thread/86b0da52134c1b7e
+
 "Live Connect implements the OAuth 2.0"
 http://msdn.microsoft.com/en-us/library/hh243647.aspx
 
 Digging Deeper into OAuth 2.0 on Force.com
 http://wiki.developerforce.com/page/Digging_Deeper_into_OAuth_2.0_on_Force.com
 http://wiki.developerforce.com/page/Using_OAuth_to_Authorize_External_Applications
+
+Google:
+http://googlecode.blogspot.com/2011/11/oauth-20-playground-open-to-developers.html
+http://code.google.com/apis/accounts/docs/OpenID.html#oauth
+https://sites.google.com/site/oauthgoog/UXFedLogin
+https://code.google.com/oauthplayground/
+http://code.google.com/apis/accounts/docs/OAuth2.html
+http://code.google.com/apis/accounts/docs/OAuth2ForDevices.html
+
 
 Web Services
 

@@ -295,6 +295,8 @@
   whitepaper: ''Is your API naked ?''
   %http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
 
+  session fixation attack % http://www.readwriteweb.com/archives/how_the_oauth_security_battle_was_won_open_web_sty.php
+
 
   % subsection sessiopohjainen_autentikointi (end)
 
@@ -601,11 +603,18 @@
   OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
   Onko OpenID-C edelleen user-centric id?
 
-  OpenID idp ei ole lähtökohtaisesti luotettu -- idp:tä ei tarvitse tuntea etukäteen. Ainoastaan jos idp esivalittu, voidaan luottaa (esim google). Tällöin idp:n antaman tunnisteen oltava aina yksikäsitteinen (ei saa kierrättää tunnisteita), toteutuu esim yahoolla ja googlella (tulee #adskfj parametreja openid-urliin), mutta ei välttämättä kaikilla. Esivalinta täytyy tehdä huolellisesti eli mitä tahansa ei voida ottaa, jos halutaan \emph{luottamus}.
+  OpenID idp ei ole lähtökohtaisesti luotettu -- idp:tä ei tarvitse tuntea etukäteen. Ainoastaan jos idp esivalittu, voidaan luottaa (esim google). Tällöin idp:n antaman tunnisteen oltava aina yksikäsitteinen (ei saa kierrättää tunnisteita), toteutuu esim yahoolla ja googlella (tulee \#adskfj parametreja openid-urliin), mutta ei välttämättä kaikilla. Esivalinta täytyy tehdä huolellisesti eli mitä tahansa ei voida ottaa, jos halutaan \emph{luottamus}.
+
+  Määrittele termit speksistä: identifier, claimed identifier, verified identifier, identity provider.
+
+  ''How the End User authenticates to their Identity Provider is outside of the scope of OpenID Authenticaiton.'' (viite speksi)
 
   Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
   % The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
 
+  Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
+
+  % ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
   % subsection openid (end)
 
   \subsection{OpenID Connect} % (fold)
@@ -620,49 +629,58 @@
   \subsection{OAuth v2.0} % (fold)
   \label{sub:oauth}
 
-  OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja kysynyt palvelu kysyi suoraan käyttäjän Facebook-salasanaa. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen -- jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista palvelujen kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan datan omistavassa palvelussa eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen toteuttamaan palveluun. Tällöin esimerkiksi käyttäjän kuvia halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
+  \begin{quote}
+    ''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone. Regardless of the restrictions the valet key imposes, the idea is very clever. You give someone limited access to your car with a special key, while using another key to unlock everything else.''
+    todo viite http://hueniverse.com/2010/05/introducing-oauth-2-0/
+  \end{quote}
 
-  Tiivistetysti saitti S voi pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää S:ään. Käyttäjän täytyy vahvistaa tietojen pyytäminen, eli S ei saa P:n tietoja salaa ilman käyttäjän lupaa.
-  OAuth 2.0 tukee lisäksi myös autentikoitumista. OAuth 2.0 on vielä keskeneräinen draft. Facebook on vaikuttanut voimakkaasti draftin luomisprosessiin. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. 1.0:ssa ongelmia + Facebook Connect --> OAuth 2.0.
 
-  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (http://user:password@palvelu.com/osoite). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
 
-  Käyttäjälle muutos on kuitenkin suuri, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
+  OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen: jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista kolmannen osapuolen palvelun kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen palveluun. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
 
-  OAuth eriyttää toisistansa roolit resurssin omistajalle (käyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle sekä luo näiden väliin auktorisointikerroksen (\emph{authorization layer}). (todo viite http://tools.ietf.org/html/draft-ietf-oauth-v2-22). OAuth-protokollassa asiakas (\emph{client}, esim. kolmannen osapuolen palvelu) pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle asiakkaalle (kolmannen osapuolen palvelulle) itsenäisen valtakirjan. Yhden asiakkaan valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille asiakkaille myönnettyihin tai resurssin omistajan pääsyoikeuksiin. Tällaista valtakirjaa OAuth kutsuu pääsyoikeuspoletuksi (\emph{access token}, todo käännös).
+  Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa.
+  OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioiden kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1 -standardi ei millään riittänyt. OAuth 1.0 + Facebook Connect --> OAuth 2.0. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
+
+  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (\verb#GET http://tunnus:salasana@palvelu.com/osoite#). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+
+  Käyttäjälle muutos on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
+
+  OAuth eriyttää toisistansa roolit resurssin omistajalle (käyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle sekä luo näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}. OAuth-protokollassa asiakas (\emph{client}, esim. kolmannen osapuolen palvelu) pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle asiakkaalle (kolmannen osapuolen palvelulle) itsenäisen valtakirjan. Yhden asiakkaan valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille asiakkaille myönnettyihin tai resurssin omistajan pääsyoikeuksiin. Tällaista valtakirjaa OAuth kutsuu pääsyoikeuspoletuksi (\emph{access token}, todo käännös).
 
   Asiakas ei tunne resurssin omistajan salasanaa, vaan esittää pääsyoikeuspoletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Pääsyoikeuspoletti sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan. Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (todo lähdeviite https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
 
-  OAuth on suunniteltu toimimaan ainoastaan HTTP-protokollalla (todo viite http://tools.ietf.org/html/draft-ietf-oauth-v2-22).
-  OAuth-standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
+  OAuth on suunniteltu toimimaan ainoastaan HTTP-protokollalla~\cite{ietf_oauth2}.
+  Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
 
   Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/facebook_oauth_lupapyynto.jpg}
+    \caption{OAuth-käyttöoikeuspyyntö Facebookissa}
+    \label{fig:facebook_oauth_lupapyynto}
+  \end{figure}
 
-  Kuva siitä, miltä oikeuksien myöntäminen Soundcloudissa % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
+  Soundcloud OAuth authorization flow diagram % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
 
 
   Luvan kysyminen mobiilissa on vaikeaa.
 
-  Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
-  ks. Internet-Scale Identity Systems: An Overview and Comparison
-
   Onko OAuth federated identity vai saittikohtainen identity?
   Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
 
-  Kaaviokuva / sanallinen dialogi autentikaatiosta enne oauth1.0, oauth2.0, palvelin-palvelin sekä erilaiset relevantit oauth-flowt.
+  Kaaviokuva / sanallinen dialogi autentikaatiosta ennen oauth1.0, oauth2.0, palvelin-palvelin
   ks. Internet-Scale Identity Systems: An Overview and Comparison
 
   Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
   Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
   ''Before initiating the protocol, the client registers with the authorization server. The means through which the client registers with the authorization
-  server are beyond the scope of this specification, but typically involve end-user interaction with an HTML registration form.'' (viite: ''client registration'' oauth draft)
+  server are beyond the scope of this specification, but typically involve end-user interaction with an HTML registration form.'' (viite: ''client registration'' \cite{ietf_oauth2})
 
   Mahdollistaa ennakkoon rekisteröitymättömät asiakkaat: kpl 2.4 ''This specification does not exclude the use of unregistered clients. However, the use with
   such clients is beyond the scope of this specification,...''
   3.1.2.2 registration requirements:
     Public ja Confidential clients utilizing the implicit grant type MUST register prior to using the authorization endpoint.
 
-  OAuth flow't -- Facebook tukee monia eri flow'ta https://developers.facebook.com/docs/authentication/
 
   Facebook OAuth dialogs: https://developers.facebook.com/docs/reference/dialogs/oauth/
 
@@ -722,7 +740,21 @@
   ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
 
 
-  Erilaiset OAuth -tokenit
+  \subsubsection{OAuth-tokenit} % (fold)
+  \label{ssub:oauth_tokenit}
+
+  % subsubsection oauth_tokenit (end)
+
+  \subsubsection{OAuth-flowt} % (fold)
+  \label{ssub:oauth_flowt}
+  http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
+
+  https://developers.facebook.com/docs/authentication/
+
+
+  % subsubsection oauth_flowt (end)
+
+
   % http://fireeagle.yahoo.net/developer/documentation/using_oauth
   %
   % http://developers.soundcloud.com/docs/api/authentication#refreshing
@@ -739,6 +771,45 @@
   %   "scope": null,
   %   "refresh_token": "04u7h-r3fr35h-70k3n-2"
   % }
+
+  % Using a Refresh Token
+  % http://code.google.com/apis/accounts/docs/OAuth2ForDevices.html
+  %
+  % POST /o/oauth2/token HTTP/1.1
+  % Host: accounts.google.com
+  % Content-Type: application/x-www-form-urlencoded
+  %
+  % client_id=812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com&
+  % client_secret={clientSecret}&
+  % code=4/L9fTtLrhY96442SEuf1Rl3KLFg3y&
+  % grant_type=http://oauth.net/grant_type/device/1.0
+  %
+  % If the user has not yet approved the request, the response will appear as follows:
+  % {
+  %   "error" : "authorization_pending"
+  % }
+  % Your application should repeat these requests at the rate that does not exceed the value of interval field. If your application polls too quickly, then the response will appear as follows:
+  % {
+  %   "error" : "slow_down"
+  % }
+  % Once the user logs in and grants your application access to a Google API, the next polling request will result in an access and refresh token (shown below).
+  % {
+  %   "access_token" : "ya29.AHES6ZSuY8f6WFLswSv0HELP2J4cCvFSj-8GiZM0Pr6cgXU",
+  %   "token_type" : "Bearer",
+  %   "expires_in" : 3600,
+  %   "refresh_token" : "1/551G1yXUqgkDGnkfFk6ZbjMLMDIMxo3JFc8lY8CAR-Q"
+  % }
+  % Upon receipt of this response, your application may use the access token in Google API requests. Access tokens have a limited lifetime. If your application needs access to an API over a long period of time, then it can use the refresh token to obtain a new access token (see Using a refresh token). If your application needs this type of access, then it should store the refresh token for later use.
+  %
+  % Access tokens expire. An API will indicate that an access token has expired when it returns a 401 status code. To obtain a new access token, make a request to the token endpoint and include the client_id, client_secret, refresh_token, and grant_type parameters (shown below).
+  % POST /o/oauth2/token HTTP/1.1
+  % Host: accounts.google.com
+  % Content-Type: application/x-www-form-urlencoded
+  %
+  % client_id=812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com&
+  % client_secret={clientSecret}&
+  % refresh_token=1/551G1yXUqgkDGnkfFk6ZbjMLMDIMxo3JFc8lY8CAR-Q&
+  % grant_type=refresh_token
 
   % subsection oauth (end)
 
@@ -758,7 +829,17 @@
     % SAML2 has different bindings while the only binding OpenID has is HTTP
     %
     %
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/kertakirkautumistekniikat_venn.jpg}
+      \caption{Yleiskuva kertakirjautumistekniikoiden yhtenäisyyksistä}
+      \label{fig:yleiskuva}
+    \end{figure}
+
+
   % subsection tekniikoiden_yhtäläisyydet (end)
+
+
 % section Kertakirjautumisstandardit (end)
 
 
@@ -806,8 +887,62 @@
 
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
-  \subsection{Autentikoituminen esiasetetulla OpenID-identiteetintarjoajalla} % (fold)
+  \subsection{Autentikoituminen esiasetetulla Google OpenID -identiteetintarjoajalla} % (fold)
   \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
+    \caption{Sekvenssikaavio OpenID-autentikoinnista; Googlen suosittelema autentikointiprosessi (todo viite http://code.google.com/apis/accounts/docs/OpenID.html)}
+    \label{fig:sekvenssikaavio_google_openid}
+  \end{figure}
+
+  % Kuva:
+  % 1. The web application asks the end user to log in by offering a set of log-in options, including using their Google account.
+  % 2. The user selects the "Sign in with Google" option. See Designing a Login User Interface for more options.
+  % 3. The web application sends a "discovery" request to Google to get information on the Google login authentication endpoint.
+  % 4. Google returns an XRDS document, which contains the endpoint address.
+  % 5. The web application sends a login authentication request to the Google endpoint address.
+  % 6. This action redirects the user to a Google Federated Login page, either in the same browser window or in a popup window, and the user is asked to sign in.
+  % Once logged in, Google displays a confirmation page (redirect version / popup version) and notifies the user that a third-party application is requesting authentication. The page asks the user to confirm or reject linking their Google account login with the web application login. If the web application is using OpenID+OAuth, the user is then asked to approve access to a specified set of Google services. Both the login and user information sharing must be approved by the user for authentication to continue. The user does not have the option of approving one but not the other.
+  % Note: If the user is already logged into their Google account, or has previously approved automatic login for this web application, the login step or the approval step (or both) may be skipped.
+  %
+  % 7. If the user approves the authentication, Google returns the user to the URL specified in the openid.return_to parameter of the original request. A Google-supplied identifier, which has no relationship to the user's actual Google account name or password, is appended as the query parameter openid.claimed_id. If the request also included attribute exchange, additional user information may be appended. For OpenID+OAuth, an authorized OAuth request token is also returned.
+  %
+  % 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
+  % Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
+
+  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti \cite{google_openid_dev_docs}:
+
+  \begin{verbatim}
+    <Service priority="0">
+    <Type>http://specs.openid.net/auth/2.0/server</Type>
+    <URI>{Googlen OpenID-päätepisteen URL}</URI>
+    </Service>
+  \end{verbatim}
+
+  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä. Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa ennemmin suosia sähköpostiosoitetta (Googlen GMail -palvelua), ja autentikoituminen on Googlen mukaan käyttäjäystävällisempää Googlen logon kuin vapaavalintaisen syöttökentän kautta (viite).
+
+
+  % 23.1.2012
+  %
+  % GET https://www.google.com/accounts/o8/id HTTP/1.0
+  %
+  % <?xml version="1.0" encoding="UTF-8"?>
+  % <xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
+  %   <XRD>
+  %   <Service priority="0">
+  %   <Type>http://specs.openid.net/auth/2.0/server</Type>
+  %   <Type>http://openid.net/srv/ax/1.0</Type>
+  %   <Type>http://specs.openid.net/extensions/ui/1.0/mode/popup</Type>
+  %   <Type>http://specs.openid.net/extensions/ui/1.0/icon</Type>
+  %   <Type>http://specs.openid.net/extensions/pape/1.0</Type>
+  %   <URI>https://www.google.com/accounts/o8/ud</URI>
+  %   </Service>
+  %   </XRD>
+  % </xrds:XRDS>
+  %
+
 
   % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)
 
@@ -827,7 +962,16 @@
 
   On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia ja tarjoaa ulkoisen rajapinnan tietojen noutamiseksi. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
 
-  Auktorisointi: Facebook-profiilikuva.
+  Auktorisointi: Käyttäjän yhteystiedot, profiilikuva jne Facebookista.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/facebook_authorization_contact_info.png}
+    \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
+    \label{fig:yleiskuva}
+  \end{figure}
+
+
 
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
   % Miksi MOOC resurssipohjainen eikä ws-* ?

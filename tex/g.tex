@@ -106,10 +106,23 @@
     SOAP ja XML.
   % subsection arkkitehtuurityyli_ws_ (end)
 
+
   \subsection{Arkkitehtuurityyli: REST} % (fold)
   \label{sub:arkkitehtuurityyli_rest}
 
   % subsection arkkitehtuurityyli_rest (end)
+
+
+  \subsection{Arkkitehtuurityyli: SOA} % (fold)
+  \label{sub:arkkitehtuurityyli_soa}
+
+  Löyhästi kytketyt palvelut (loosely coupled).
+  Mahdollisuus uusien toimintojen lisäämiseen itsenäisinä \emph{palveluina}
+  Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
+  Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
+  Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
+
+  % subsection arkkitehtuurityyli_soa (end)
 
 % section web_ja_saas (end)
 
@@ -745,7 +758,24 @@
 
 
 \section{Case MOOC: Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
-\label{sec:kertakirjautumisjärjestelmien_}
+\label{sec:mooc_vertailu}
+
+  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa Massive Online Open Course (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. MOOC-järjestelmä tarvitsee kuitenkin luotettavan tavan käyttäjän tunnistamiseksi.
+
+  MOOC-palvelussa on tällä hetkellä oma tunnus ja salasana jokaiselle käyttäjälle. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. MOOC-palvelun nykyisestä toteutuksesta eli omasta tunnus/salasana-yhdistelmästä halutaan eroon. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti omaksi palvelukseen, vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) muun palvelun toteutukseen.
+
+  MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google -- muita merkittäviä vaihtoehtoja olisivat esimerkiksi Windows Live, Yahoo! ja VeriSign (todo viite http://openid.net/get-an-openid/). Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
+
+  Tässä tapauksessa OAuth luokittuu käyttäjäkeskeisen ja federoidun identiteetin välille. OAuth-protokolla ei itsessään toteuta käyttäjäkeskeisen identiteetin periaatetta, mutta OAuthilla voidaan tuoda MOOC-palveluun yksi identiteetintarjoaja lisää. Käyttäjän kannalta ei ole merkitystä protokollalla vaan mahdollisuudella itse valita oma identiteetintarjoajansa. Siksi MOOC-järjestelmään tuodaan kolmantena vaihtoehtona OAuth-autentikoituminen Facebook-palveluun.
+
+  MOOC-palvelun kannalta identiteetin myöntäneellä organisaatiolla ei ole merkitystä. Autentikoinnin vaatimuksena on varmistaa, että vain ja ainoastaan identiteetin oikea haltija pystyy osoittamaan identiteettiin liittyvän tunnisteen itselleen. Tunniste on OpenID:n tapauksessa OpenID URL, OAuthin tapauksessa XXX (johon \verb#acecss_token# kytketään) ja SAMLin tapauksessa XXX.
+
+  Yllä mainittujen lisäksi MOOC voisi myös itse toimia identiteetintarjoajana. Tämä toteutettaisiin SOA-arkkitehtuurimallin mukaisesti itsenäisenä palvelunaan käyttäen joko OpenID tai OAuth -standardia. Erona nykytilanteeseen olisi autentikoinnin erottaminen varsinaisesta ydinpalvelusta (loosely coupled -periaate), jolloin uusien toimintojen (esimerkiksi kurssien) lisääminen tulevaisuudessa ei edellytä muutoksia MOOC-järjestelmään vaan ne voidaan toteuttaa itsenäisinä palveluinaan. Järjestelmän teknisen ja hallinnollisen ylläpidon helpottamiseksi omaa MOOC-identiteetintarjoajaa ei kuitenkaan tässä yhteydessä toteuteta.
+
+  Tutkielma esittää toteutuksen, jossa kertakirjautuminen ei olisi mahdollinen pelkästään yhdellä yhteentoimivuuden standardilla. MOOC-palvelun toteutuksessa rinnakkaiset standardit -- OpenID, OAuth, ja SAML -- tukevat toinen toisiaan eivätkä varsinaisesti kilpaile keskenään.
+
+
+
 
   \subsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
   \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
@@ -786,26 +816,13 @@
 
   % subsection opintosuoritusotteen_noutamisen_auktorisointi_oauth_toteutuksella (end)
 
-
-  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
-  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
-  + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
-  + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
-
-
-  MOOCissa tällä hetkellä oma tunnus ja salasana. MOOC on Helsingin yliopiston omista järjestelmistä täysin irrallaan mm. tietoturvanäkökulmien vuoksi. Yliopiston ulkopuoliset käyttäjät (joilla ei allekirjoitettua käyttöehtosopimusta yliopiston kanssa) lähettävät omaa koodiaan suoritettavaksi. Parempi olla ulkona yliopiston verkosta. Nykyisellään Rackspace, joka Amerikassa. Tällainen ISP on erikoistunut suojaamaan verkkonsa ja järjestelmänsä, koska bisnes perustuu ulkopuolisen ja lähtökohtaisesti epäluotettavan koodin suorittamiseen.
-
-  MOOCin omasta tunnus/salasana-yhdistelmästä halutaan eroon. Se voitaisiin myös säilyttää vaihtoehtoisena tapana. Hyviä ja huonoja puolia? Suositus?
-
-  MOOC tarjoaa Google/Facebook/Windows Live -autentikointipalvelut julkiseen autentikointiin. Kuka tahansa voi rekisteröityä. Mikä näistä on OpenID ja mikä OAuth. Huom, ei ole muita laajasti levinneitä yhteiskäyttöön soveltuvia standardeja julkisessa pilvessä.
-
-  MOOC on yhteydessä Helsingin yliopiston omiin järjestelmiin. Tässä kyseessä laaja jo olemassa oleva verkkoympäristö. Uuden rajoitettuun tarpeeseen tehdyn tekniikan käyttöönotto ei ole helppoa. SAML on monipuolinen ja laaja, tarjoaa runsaasti erilaisia vaihtoehtoja. SAMLiin pohjautuvaa Shibbolethia käytetään HUPnet-verkossa.
-
+  \subsection{Jatkokehitysideoita: auktorisointi} % (fold)
+  \label{sub:jatkokehitysideoita_auktorisointi}
   MOOC tarjoaa mahdollisuuden antaa opintosuoritusote lukioon. MOOC hakee suoritusotteen Oodista. Auktorisointiin käytetään OAuthia: luvan antaminen edellyttää että käyttäjä itse sallii MOOC-järjestelmän pääsyn Oodissa oleviin käyttäjätietoihinsa.
 
-  Kaikki standardit voivat elää rinnan: OpenID Google, OAuth Facebook, SAML ja sisäverkko, OAuth ja auktorisointi (esim. Oodiin, profiilikuva FB:stä).
+  On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia ja tarjoaa ulkoisen rajapinnan tietojen noutamiseksi. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
 
-  On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
+  Auktorisointi: Facebook-profiilikuva.
 
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
   % Miksi MOOC resurssipohjainen eikä ws-* ?
@@ -814,6 +831,23 @@
 
   % Käyttökokemus: http://benward.me/blog/oauth-flow
   % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
+
+
+
+  % subsection jatkokehitysideoita_auktorisointi (end)
+
+
+  \subsection{Yhteenveto toteutuksesta} % (fold)
+  \label{sub:yhteenveto_toteutuksesta}
+
+  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
+  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
+  + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
+  + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
+
+  % subsection yhteenveto_toteutuksesta (end)
+
+
 
 
 % section kertakirjautumisjärjestelmien_ (end)

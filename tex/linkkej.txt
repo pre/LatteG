@@ -11,6 +11,7 @@ http://therealmccrea.com/2008/10/20/live-blogging-the-openidoauth-ux-summit/
 http://nullinfo.wordpress.com/oauth-yahoo/
 http://systoilet.wordpress.com/2010/09/29/i-hate-saml/
 
+http://wiki.openid.net/w/page/12995200/OpenID-Security-Best-Practices
 
 OAuth-juttuja
 http://blog.apigee.com/taglist/OAuth
@@ -77,3 +78,10 @@ Web Services
 
 WS-Security:
 http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=wss
+
+
+
+Kuvitusta
+http://www.flickr.com/photos/phill_dvsn/393952186/
+http://www.flickr.com/photos/webel
+ideoita http://www.slideshare.net/jreffell/oauth-openid-facebook-connect-authentication-design-best-practices

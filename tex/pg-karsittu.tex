@@ -430,7 +430,7 @@ MITM, väärän sertifikaatin hyväksyminen
           is originated from \emph{www.microsoft.com} instead of \emph{62.236.117.4}.
           Dhamija \emph{et al.} \cite{why_phishing_works_06} also found that ''legitimate organizations further confused our participants by hosting secure pages with third parties, where the domain name does not match the brand name.''
 
-              Security is often a secondary goal \cite{why_phishing_works_06}, even though security cannot be applied independently or afterwards \cite{schneier_secrets_and_lies_2000, lampson_distributed_1992}. Even if users have the knowledge described above and can detect visual deception described in chapter~\ref{sec:visual_deception}, they may still be deceived if they fail to notice security indicators or the absence of them \cite{why_phishing_works_06}. The Firefox browser shows several indicators for SSL protected pages, but there is no indicator for pages not protected by SSL. Many users do not notice the absence of an indicator and sometimes it is possible to insert a spoofed image of an indicator where one does not exist \cite{why_phishing_works_06}.
+              Security is often a secondary goal \cite{why_phishing_works_06}, even though security cannot be applied independently or afterwards \cite{schneier_secrets_and_lies_2000, lampson_distributed_1992}.
 
               Dhamija \emph{et al.} conclude \cite{why_phishing_works_06} that ''even in the best case scenario, when users expect spoofs to be present and are motivated to discover them, many users cannot distinguish a legitimate website from a spoofed website.'' Indicators whose sole purpose is to report on site's trustworthiness were not understood or noticed by many participants in the study \cite{why_phishing_works_06}. 23\% of the participants ignored all security indicators and cues in the browser's status bar and address bar. The study suggests that rather than trying to solve phishing related problems from a technical point of view, the user experience must be designed taking into account what humans do not do well. Dhamija \emph{et al.} point out that security indicators should alert users of an untrusted state -- in addition to have indicators appear under trusted conditions \cite{why_phishing_works_06}. Ironically their study had just demonstrated that most users would simply dismiss such alerts.
 
@@ -497,8 +497,6 @@ Kun kryptausavain ei koskaan ole taustajärjestelmän tiedossa, vääriin käsii
 
 \label{sec:openid_auth}
 
-OpenID:n lähtökohtana on tarjota mahdollisuus käyttää \emph{samaa} käyttäjätunnusta kaikkiin web-palveluihin.
-Palvelussa käyttäjän profiiliin kytketään ainoastaan OpenID-tunniste. Tunnistaakseen palveluun yrittävän asiakkaan, palvelu pyytää ainoastaan käyttäjätunnuksena toimivaa OpenID-tunnistetta. Käyttäjän identiteetin todentamiseksi OpenID-tunnisteen perusteella etsitään identiteetintarjoaja, joka autentikoi tunnistetta omakseen väittävän käyttäjän. Yksikään palveluista ei siis tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-tunniste on hänen hallinnassaan. Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
 
 OpenID authentication has four actors: the end-user, the relying party (RP) the claimed identifier (ID) and the identity provider (IDP) \cite{openid_2.0_platform_2009}. The relying party is the service which the end user wants to access, and the identity provider is the service whose responsibility is to ensure that a claimed identifier belongs to the user. The authentication flow is illustrated in figure~\ref{fig:basic_openid_flow} and described below.
 
@@ -506,12 +504,7 @@ In order to begin the authentication process, the relying party asks the user fo
 
 The principle of user-centric identity provides the user with a possibility of choosing an identity provider of his own. This is different from the principle of federated identity where a trusted third-party guarantees the person behind an identifier. A user-centric identity provider verifies only that only an authenticated user may prove the ownership for an identifier, that is, the person behind of an identifier is not necessarily guaranteed. This does not, however, usually pose a problem because a typical web service wants only to distinguish between different identifiers. Hence, it is enough to guarantee that there is only one owner behind a particular identifier.
 
-     \begin{figure}
-       \centering
-       \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
-       \caption{Basic OpenID Authentication Flow \cite{openid_2.0_platform_2009}}
-       \label{fig:basic_openid_flow}
-     \end{figure}
+
 
 
               % FIXME: Duplikaatti

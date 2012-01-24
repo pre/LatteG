@@ -299,9 +299,18 @@
 
   % subsection sertifikaatit_webissä (end)
 
+  \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
+  \label{sub:http_basic_auth_ja_http_digest_auth}
+  Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/uri!) ja mikä on http digest auth (haaste-vastine http headereissa).
+
+  % subsection http_basic_auth_ja_http_digest_auth (end)
+
+
   \subsection{Sessiopohjainen autentikointi} % (fold)
   \label{sub:sessiopohjainen_autentikointi}
-  Cookiet, user-agent, API. HTTP Basic Auth, HTTP Digest Auth.
+  Tässä kerrotaan, miten keksejä käytetään autentikoinnissa.
+
+  Cookiet, user-agent, API.
 
   Client-server, server-server. Application-Useragent-Server.
 
@@ -339,7 +348,7 @@
     \label{fig:facebook_reauth_ab}
   \end{figure}
 
-  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava. Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys ei ole turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
+  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava. Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
 
   \begin{figure}
     \centering
@@ -580,13 +589,16 @@
 
   \paragraph{Shibboleth} % (fold)
   \label{par:saml_vs_shibboleth}
+  Tässä kappaleessa kerrotaan, miksi gradussa käytetään SAMLia eikä Shibbolethia. Tai sitten perustellaan miksi käytetään Shibbolethia eikä SAMLia.
 
   % paragraph saml_vs_shibboleth (end)
 
   \paragraph{XACML} % (fold)
   \label{par:xacml}
+  Tässä kappaleessa kerrotaan, miksei XACML ole relevantti gradun kannalta. Liittyy auktorisointiin, jota gradu ei käsittele.
 
   % paragraph xacml (end)
+
   \paragraph{WS-Security} % (fold)
   \label{par:ws_security}
   WS-Security on OASIS-komitean standardi, joka määrittelee tavan varmistaa SOAP-viestien eheys (integrity) ja luottamuksellisuus (confidentiality) (viite saml exec overview).
@@ -608,8 +620,12 @@
 
   \subsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
   \label{sub:kertauloskirjautuminen}
+  Kerrotaan lyhyestä kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
 
+  Ei tehdä graduun, ei relevantti: jos kirjaudut ulos moocista, kirjaudut ulos Facebookista, Googlesta tai kaikista HY:n järjestlemistä; ei tarpeen.
   % subsection kerta (end)
+
+
   \subsection{OpenID v2.0} % (fold)
   \label{sub:openid}
   Mitä eroa on OpenID Connect ja OAuth 2.0 ?
@@ -628,6 +644,30 @@
   Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
 
   % ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
+
+  OpenID:n lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/yahoo_login.jpg}
+    \caption{Sisäänkirjautuminen Yahoo!-palveluun. Kaksi esivalittua identiteetintarjoajaa oman lisäksi.}
+    \label{fig:yahoo_login}
+  \end{figure}
+
+  Identiteetin kuluttajan palvelussa loppukäyttäjän profiiliin kytketään käyttäjän identiteetin yksilöivä OpenID-identiteetti. Yksikään identiteetin kuluttaja ei tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan.  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa käyttäjän syöttämän OpenID-päätepisteen (\emph{endpoint}) perusteella etsitään OpenID-tunnisteen identiteetintarjoaja. OpenID-päätepisteenä toimii joko OpenID-käyttäjätunnus tai identiteetintarjoajan kiinteä osoite.
+
+  Käyttäjäkeskeisen identiteetin toteutuksessa on tyypillistä etsiä OpenID-päätepiste käyttäjätunnuksen perusteella. OpenID-käyttäjätunnus on URL-osoite kuten esimerkiksi \verb!https://petrusrepo.myopenid.com!, \verb!https://myopenid.com/repo! tai \verb!https://petrusrepo.fi!. Tällöin etsintävaihe aloitetaan ottamalla yhteys käyttäjätunnuksen URL-osoitteeseen. Esivalittujen identiteetintarjoajien toteutuksessa on tyypillistä, että identiteetintarjoaja suosittelee oman logonsa asettamista sisäänkirjautumissivulle (esim. kuva~\ref{fig:yahoo_login}). Tällöin identiteetintarjoajan OpenID-päätepiste on tyypillisesti hankalasti ulkoamuistettava kuten Googlella (\verb!https://www.google.com/accounts/o8/id!) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
+
+  Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
+    \caption{OpenID-autentikoinnin vaiheet~\cite{openid_2.0_platform_2009}}
+    \label{fig:basic_openid_flow}
+  \end{figure}
+
+  \cite{openid_recordon_2009}
   % subsection openid (end)
 
   \subsection{OpenID Connect} % (fold)

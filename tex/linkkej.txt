@@ -3,7 +3,10 @@ JAtka tästä:
 
 http://fireeagle.yahoo.net/developer/documentation/web_auth
 http://www.sociallipstick.com/?p=239
+
+Ks. summary, selitetään eri tekniikat parilla lauseella:
 https://sites.google.com/site/oauthgoog/Overlap
+
 
 
 Lue ja kerää ajatukset:
@@ -69,6 +72,7 @@ Google:
 http://googlecode.blogspot.com/2011/11/oauth-20-playground-open-to-developers.html
 http://code.google.com/apis/accounts/docs/OpenID.html#oauth
 https://sites.google.com/site/oauthgoog/UXFedLogin
+presis UX-aiheesta https://docs.google.com/present/view?skipauth=true&id=ajkhp5hpp3tt_43hssxgp6g
 https://code.google.com/oauthplayground/
 http://code.google.com/apis/accounts/docs/OAuth2.html
 http://code.google.com/apis/accounts/docs/OAuth2ForDevices.html

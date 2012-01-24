@@ -163,42 +163,42 @@
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
 
   %%%%%%%%%%%%%%%%%%
-  ''Assertions are statements from a Verifier to an RP that contain information about a
-  Subscriber. Assertions are used when the RP and the Verifier are not collocated (i.e., they
-  are connected through a shared network). The RP uses the information in the assertion to
-  identify the Claimant and make authorization decisions about his or her access to
-  resources controlled by the RP. An assertion may include identification and
-  authentication statements regarding the Subscriber, and may additionally include attribute
-  statements that further characterize the Subscriber and support the authorization decision
-  at the RP.''
-  %
-  ''There are two basic models for assertion-based authentication. After successful
-  authentication with the Verifier, the Subscriber is issued an assertion or an assertion
-  reference, which the Subscriber uses to authenticate to the RP.''
-  %
-  ''an assertion contains a set of claims or statements about an
-  authenticated Subscriber. Based on the statements contained within it, an authentication
-  assertion will fall into one of two categories (and either category can be used in both
-  direct and indirect models): Holder-of-Key Assertions ja Bearer Assertions. (sivu 83.)''
-  %
-  Lisäksi Proxy-model, jossa käyttäjä <--> verifier/portal <--> relying party.
-  %
-  % ''Three types of assertion technologies will be discussed within this section: Web browser
-  %   cookies, SAML (Security Assertion Markup Language) assertions, and Kerberos tickets''
-  %
-  ''Cookies are effective as assertions for Internet single-sign-on where the RP and Verifier
-  are part of the same Internet domain, and when the cookie contains authentication status
-  for that domain. They are not usable in scenarios where the RP and the Verifier are part
-  of disparate domains.''
-  %
-  Cookies are also often used by the Claimant to re-authenticate to a server. This may be
-  considered to be a use of assertion technology. In this case, the server acts as a Verifier
-  when it sets the cookie in the Subscriber’s browser, and as an RP when it requests the
-  cookie from a Claimant who wishes to re-authenticate to it. Often, the cookie contains a
-  random number, and the assertion data that it represents does not leave the server.
-  % Kpl 9: Assertions
-  % NIST-Special-Publication-800-63-1-E-Authentication-Guidelines.pdf
-  % todo tähän myös Figure 4 ja Figure 5 samasta guidelinesta!
+  % ''Assertions are statements from a Verifier to an RP that contain information about a
+  % Subscriber. Assertions are used when the RP and the Verifier are not collocated (i.e., they
+  % are connected through a shared network). The RP uses the information in the assertion to
+  % identify the Claimant and make authorization decisions about his or her access to
+  % resources controlled by the RP. An assertion may include identification and
+  % authentication statements regarding the Subscriber, and may additionally include attribute
+  % statements that further characterize the Subscriber and support the authorization decision
+  % at the RP.''
+  % %
+  % ''There are two basic models for assertion-based authentication. After successful
+  % authentication with the Verifier, the Subscriber is issued an assertion or an assertion
+  % reference, which the Subscriber uses to authenticate to the RP.''
+  % %
+  % ''an assertion contains a set of claims or statements about an
+  % authenticated Subscriber. Based on the statements contained within it, an authentication
+  % assertion will fall into one of two categories (and either category can be used in both
+  % direct and indirect models): Holder-of-Key Assertions ja Bearer Assertions. (sivu 83.)''
+  % %
+  % Lisäksi Proxy-model, jossa käyttäjä <--> verifier/portal <--> relying party.
+  % %
+  % % ''Three types of assertion technologies will be discussed within this section: Web browser
+  % %   cookies, SAML (Security Assertion Markup Language) assertions, and Kerberos tickets''
+  % %
+  % ''Cookies are effective as assertions for Internet single-sign-on where the RP and Verifier
+  % are part of the same Internet domain, and when the cookie contains authentication status
+  % for that domain. They are not usable in scenarios where the RP and the Verifier are part
+  % of disparate domains.''
+  % %
+  % Cookies are also often used by the Claimant to re-authenticate to a server. This may be
+  % considered to be a use of assertion technology. In this case, the server acts as a Verifier
+  % when it sets the cookie in the Subscriber’s browser, and as an RP when it requests the
+  % cookie from a Claimant who wishes to re-authenticate to it. Often, the cookie contains a
+  % random number, and the assertion data that it represents does not leave the server.
+  % % Kpl 9: Assertions
+  % % NIST-Special-Publication-800-63-1-E-Authentication-Guidelines.pdf
+  % % todo tähän myös Figure 4 ja Figure 5 samasta guidelinesta!
 
 
   \subsection{Haaste--Vastine-autentikaatio} % (fold)
@@ -520,16 +520,35 @@
   Lisäksi Javascriptin yleistyminen: nykyisellään trendinä on selaimessa suoritettavan koodin runsastuminen (etsi Fat Clients -lähde).
 
 
+  % Historia:
+  % https://docs.google.com/document/pub?id=1O7jyQLb7dW6EnJrFsWZDyh0Yq0aFJU5UJ4i5QzYlTjU#h.fvyllnfjm3eo
+  % http://goo.gl/R8pMP
+  % The hack that makes Internet Identity possible
+  %
+  % Most of the people who will read this guide are computer scientists, and generally computer scientists like to think that account systems should be simple tools.  Unfortunately these systems are used by non-technical users who will not constrain themselves to our rules whether because they don’t understand them, or are hackers trying to break them.  Add in legal, privacy, and security issues, and you unavoidably end up with a complex set of requirements that are very hard to fulfill, and in many cases the requirements are conflicting.  Hopefully this guide will help you balance and meet those requirements.
+  % The most common computer science requirement of a User Account system is to provide a unique numeric ID for an account.  In a “simple” computer science world, there would be one global user account system, similar to DNS, where every person was assigned a single unique numerical ID at birth, and each person also had a perfect way to prove who they were.  Every website could then use those user IDs to store information associated with the person.
+  % Obviously that does not exist, and for decades every user account system issued its own IDs (and sometimes usernames) to users.  Such systems were “simple” to write, but painful for users.
+  % Then during the early 90s, a “hack” was found that created the foundation of most user account systems on the web.  That “hack” was the idea of logging into a website with your email address, and proving you were the owner of that email address by having the site send you an SMTP message with a hyperlink back to the site which contained a long code.  For the few of us who considered ourselves identity geeks at the time, this did not seem like an approach that would last a long time.  Even SMTP seemed like a fad when we already had high end systems like Lotus Notes relying on things like PKI, digital certifications, signing, encryption, etc.
+  % However twenty years later, that “hack” is still the most powerful technique that we rely on to build user account systems.  From a purist perspective, emails have some downsides as identifiers. Much of this guide will discuss those downsides, and how to handle them.  However nothing else, even phone numbers or social network IDs, has come even close to being as powerful an identifier.
+  % Two of the downsides are that users change email address over time, and that the same email address is sometimes assigned to different people at different time periods.  Because of those, and other complications, almost every website still maintains its own “local ID” system just as user accounts did before the 90s.  The one key addition is that those local IDs are then mapped to and from a user’s email address.
+  %
+  % Human -> Emails -> Local IDs -> Passwords
+  %
+  % So humans have a map of the emails they use, and websites map an email to a local ID.  Website’s user account systems also have a critical role of authenticating the owner of that email address.  Note we did not say authenticate the human, but rather that owner of the email address.  The difference is import, as well as powerful, but it also adds complexity.
+  % The simplest way to authenticate the owner of the email address is to use the “hack” of sending them a URL with a code every time they want to login.  However when that “hack” first became popular, email services had significant downtime, so websites did not want to be reliant on them.  So instead we relied on a scheme that had been used for user account systems that issued their own user IDs instead of relying on email address, and that scheme was passwords.
+  % Combining the “hack” with passwords seemed great.  The best part was that if the user forgot their password, the website could just use the “hack” again to verify the owner of that email address and let them pick a new password.
+  %
 
 
 
   % http://developers.soundcloud.com/docs/api/authentication#user-credentials-flow
 
+  Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
   \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
     \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista \cite{NIST_SP800-63-1} }
-    \label{fig:yleiskuva}
+    \label{fig:kertakirjautumisarkkitehtuurin_yleiskuva}
   \end{figure}
   todo selitä kuva.
 
@@ -546,6 +565,8 @@
   \label{sub:saml_v2_0}
   SAML ja SOAP.
 
+  SAML on monipuolisempi ja sitä kautta monimutkaisempi kuin OAuth ja OpenID. Viimeksimainitut toimivat lähtökohtaisesti HTTP:n avulla. SAML mahdollistaa myös muita tapoja \emph{bindings}.
+
   Havainto: SAML-papereissa ei puhuta mitään OAuthista tai RESTistä. Ainoastaan WS-*, Shibboleth, XACML, ID-FF (jne) mainitaan.
 
   SAML käyttää XML Encryption ja XML Signature -standardeja eheyden ja luotettavuuden saavuttamiseksi.
@@ -558,9 +579,9 @@
   %http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
 
 
-  For real, mitä eroa on OAuth ja SAML
-  https://www.pingidentity.com/resource-center/oauth-essentials.cfm
-  https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
+  % For real, mitä eroa on OAuth ja SAML
+  % https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+  % https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
 
   % subsection saml_v2_0 (end)
 
@@ -572,10 +593,9 @@
   ''Best practice is to conform to the SAML v2 Web Profile. But the problem there is that the Web Profile relies on sessions, typically managed by cookies. Sessions are a stateful artifact that are contrary to REST.'' -- puristien mielestä joo, mutta Fielding eri mieltä: sessio on sama käyttäjälle itselleen, jolloin saman käyttäjän peräkkäiset requestit on aina restin mukaisia (sama uri+parametrit antaa aina saman vastineen).
   OAuth 2.0 sen sijaan (by design) hyödyntää HTTP-otsakkeita eikä vaadi sessiota.
 
-  \subsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
-  \label{sub:samlin_johdannaiset}
+  \subsubsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
+  \label{ssub:samlin_johdannaiset}
 
-  % subsection samlin_johdannaiset (end)
 
   \paragraph{ID-FF} % (fold)
   \label{par:id_ff}
@@ -614,68 +634,92 @@
   % Jos transport layer security niin WSS:ä ei tarvita yhteyden suojaamiseen. Vähentää silloin myös overheadia jos ei WSS-kryptoa.
   % Saatetaan tarvita jos SAML vaikka HTTPS?
 
-
-
   % paragraph ws_security (end)
+  % subsection samlin_johdannaiset (end)
 
-  \subsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
-  \label{sub:kertauloskirjautuminen}
+  \subsubsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
+  \label{ssub:kertauloskirjautuminen}
   Kerrotaan lyhyestä kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
 
   Ei tehdä graduun, ei relevantti: jos kirjaudut ulos moocista, kirjaudut ulos Facebookista, Googlesta tai kaikista HY:n järjestlemistä; ei tarpeen.
-  % subsection kerta (end)
+  % subsubsection kerta (end)
 
 
   \subsection{OpenID v2.0} % (fold)
   \label{sub:openid}
-  Mitä eroa on OpenID Connect ja OAuth 2.0 ?
-  OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
-  Onko OpenID-C edelleen user-centric id?
 
-  OpenID idp ei ole lähtökohtaisesti luotettu -- idp:tä ei tarvitse tuntea etukäteen. Ainoastaan jos idp esivalittu, voidaan luottaa (esim google). Tällöin idp:n antaman tunnisteen oltava aina yksikäsitteinen (ei saa kierrättää tunnisteita), toteutuu esim yahoolla ja googlella (tulee \#adskfj parametreja openid-urliin), mutta ei välttämättä kaikilla. Esivalinta täytyy tehdä huolellisesti eli mitä tahansa ei voida ottaa, jos halutaan \emph{luottamus}.
+  OpenID:n lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
 
-  Määrittele termit speksistä: identifier, claimed identifier, verified identifier, identity provider.
-
-  ''How the End User authenticates to their Identity Provider is outside of the scope of OpenID Authenticaiton.'' (viite speksi)
-
-  Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
-  % The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
-
-  Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
-
-  % ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
-
-  OpenID:n lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
-
-  \begin{figure}
+  \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/yahoo_login.jpg}
+    \includegraphics[width=0.6\textwidth]{images/yahoo_login.jpg}
     \caption{Sisäänkirjautuminen Yahoo!-palveluun. Kaksi esivalittua identiteetintarjoajaa oman lisäksi.}
     \label{fig:yahoo_login}
   \end{figure}
 
-  Identiteetin kuluttajan palvelussa loppukäyttäjän profiiliin kytketään käyttäjän identiteetin yksilöivä OpenID-identiteetti. Yksikään identiteetin kuluttaja ei tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan.  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa käyttäjän syöttämän OpenID-päätepisteen (\emph{endpoint}) perusteella etsitään OpenID-tunnisteen identiteetintarjoaja. OpenID-päätepisteenä toimii joko OpenID-käyttäjätunnus tai identiteetintarjoajan kiinteä osoite.
+  Identiteetin kuluttajan palvelussa loppukäyttäjän profiiliin kytketään käyttäjän identiteetin yksilöivä OpenID-identiteetti. Yksikään identiteetin kuluttaja ei tunne käyttäjän salasanaa, vaan ne luottavat identiteetintarjoajan viestiin siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan.  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa käyttäjän syöttämän OpenID-päätepisteen (\emph{endpoint}) perusteella etsitään OpenID-tunnisteen identiteetintarjoaja. Käytännössä OpenID-päätepisteenä toimii joko OpenID-käyttäjätunnus tai identiteetintarjoajan kiinteä URL-osoite.
 
-  Käyttäjäkeskeisen identiteetin toteutuksessa on tyypillistä etsiä OpenID-päätepiste käyttäjätunnuksen perusteella. OpenID-käyttäjätunnus on URL-osoite kuten esimerkiksi \verb!https://petrusrepo.myopenid.com!, \verb!https://myopenid.com/repo! tai \verb!https://petrusrepo.fi!. Tällöin etsintävaihe aloitetaan ottamalla yhteys käyttäjätunnuksen URL-osoitteeseen. Esivalittujen identiteetintarjoajien toteutuksessa on tyypillistä, että identiteetintarjoaja suosittelee oman logonsa asettamista sisäänkirjautumissivulle (esim. kuva~\ref{fig:yahoo_login}). Tällöin identiteetintarjoajan OpenID-päätepiste on tyypillisesti hankalasti ulkoamuistettava kuten Googlella (\verb!https://www.google.com/accounts/o8/id!) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
+  Käyttäjäkeskeisen identiteetin toteutuksessa on tyypillistä etsiä OpenID-päätepiste käyttäjätunnuksen perusteella. OpenID-käyttäjätunnus on URL-osoite kuten esimerkiksi \verb!https://petrusrepo.myopenid.com!, \verb!https://myopenid.com/repo! tai
+  % todo tsekkaa rivitys
+  \\ \verb!https://petrusrepo.fi!. Tällöin identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen URL-osoitteeseen. Esivalittujen identiteetintarjoajien toteutuksessa on tyypillistä, että identiteetintarjoaja suosittelee oman logonsa asettamista identiteetin kuluttajan sisäänkirjautumissivulle (kuva~\ref{fig:yahoo_login}). Tällöin identiteetintarjoajan OpenID-päätepiste on tyypillisesti hankalasti ulkoamuistettava kuten Googlella
+  % todo tsekkaa rivitys
+  \\ (\verb!https://www.google.com/accounts/o8/id!) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
 
-  Autentikointitapahtuma on esitetty kuvassa~\ref{fig:basic_openid_flow}.
+  Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-etsintävaiheen ansiosta identiteetin kuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetin kuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa.
+
+   OpenID-identiteetin todentaminen osoittaa ainoastaan, että jokin OpenID-identiteetti on käyttäjän hallinnassa. OpenID-identiteetillä on yksilöivä tunniste, joka rekisteröidään käyttäjän profiiliin identiteetin kuluttajan palvelussa. Yksilöivä tunniste voi olla ulkoamuistettava URL, josta annettiin esimerkkejä edellisessä kappaleessa. Sen sijaan esimerkiksi Googlen yksilöivä OpenID-tunniste on muotoa
+  % todo tsekkaa rivitys
+  \\ \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#
+  Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa ennemmin suosia sähköpostiosoitetta~\cite{google_best_practices_authentication} ja Googlen lisäksi myös Yahoon mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}.
+
+
+  \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
+  \label{ssub:openid_autentikoinnin_vaiheet}
+
+  Tässä selitetään OpenID-autentikoinnin vaiheet (kuva~\ref{fig:basic_openid_flow}).
 
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{images/openid_flow_recordon06.jpg}
-    \caption{OpenID-autentikoinnin vaiheet~\cite{openid_2.0_platform_2009}}
+    \caption{OpenID-autentikoinnin vaiheet~\cite{openid_recordon_2009} (todo en pidä tästä kuvasta, piirrä parempi)}
     \label{fig:basic_openid_flow}
   \end{figure}
 
-  \cite{openid_recordon_2009}
+  Määrittele termit speksistä: identifier, claimed identifier, verified identifier, identity provider.
+  Puhutaanko aina identiteetin kuluttajasta vai pitäisikö käyttää myös termiä relying party?
+
+  ''How the End User authenticates to their Identity Provider is outside of the scope of OpenID Authenticaiton.'' (viite speksi)
+
+  % XRDS Discovery https://sites.google.com/site/oauthgoog/fedlogininterp/openiddiscovery
+
+
+  % subsubsection openid_autentikoinnin_vaiheet (end)
+
+  % Google:
+  % Guide to Running a User Account System
+  % http://goo.gl/R8pMP
+
   % subsection openid (end)
 
-  \subsection{OpenID Connect} % (fold)
-  \label{sub:openid_connect}
-  OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
-
-  http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
-
+  % \subsection{OpenID Connect} % (fold)
+  % \label{sub:openid_connect}
+  % OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
+  %
+  % http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
+  %
+  %
+  % Mitä eroa on OpenID Connect ja OAuth 2.0 ?
+  % OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
+  % Onko OpenID-C edelleen user-centric id?
+  %
+  % Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
+  %
+  % The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
+  %
+  % Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
+  %
+  % ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
+  %
   % subsection openid_connect (end)
 
 
@@ -694,31 +738,33 @@
   Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa.
   OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioiden kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1 -standardi ei millään riittänyt. OAuth 1.0 + Facebook Connect --> OAuth 2.0. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
 
-  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (\verb#GET http://tunnus:salasana@palvelu.com/osoite#). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä (todo footnote \verb#GET http://tunnus:salasana@palvelu.com/osoite#). OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
 
   Käyttäjälle muutos on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
 
   OAuth eriyttää toisistansa roolit resurssin omistajalle (käyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle sekä luo näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}. OAuth-protokollassa asiakas (\emph{client}, esim. kolmannen osapuolen palvelu) pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle asiakkaalle (kolmannen osapuolen palvelulle) itsenäisen valtakirjan. Yhden asiakkaan valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille asiakkaille myönnettyihin tai resurssin omistajan pääsyoikeuksiin. Tällaista valtakirjaa OAuth kutsuu pääsyoikeuspoletuksi (\emph{access token}, todo käännös).
 
-  Asiakas ei tunne resurssin omistajan salasanaa, vaan esittää pääsyoikeuspoletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Pääsyoikeuspoletti sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan. Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (todo lähdeviite https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
+  Asiakas ei tunne resurssin omistajan salasanaa, vaan esittää pääsyoikeuspoletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Pääsyoikeuspoletti sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan (todo kuva auktoroisoiduista sovelluksista). Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (todo lähdeviite https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
 
   OAuth on suunniteltu toimimaan ainoastaan HTTP-protokollalla~\cite{ietf_oauth2}.
   Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
 
-  Tähän kuva siitä, miltä oikeuksien myöntäminen OAuthilla näyttää facebookissa.
+
+  Selitä auki kuva~\ref{fig:facebook_oauth_lupapyynto}.
+
   \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{images/facebook_oauth_lupapyynto.jpg}
-    \caption{OAuth-käyttöoikeuspyyntö Facebookissa}
+    \caption{OAuth-käyttöoikeuspyyntö Facebookissa. Osoiterivillä dataa hallinnoivan palvelun URL ja selainkontekstin turvallisuusilmoitus.}
     \label{fig:facebook_oauth_lupapyynto}
   \end{figure}
 
   Soundcloud OAuth authorization flow diagram % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
 
+  Kerro miksi hueniverse on mainio lähde; blogia pitää yksi oauth-speksin kehittäjistä
 
-  Luvan kysyminen mobiilissa on vaikeaa.
+  auktorisointiluvan kysyminen mobiilissa.
 
-  Onko OAuth federated identity vai saittikohtainen identity?
   Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
 
   Kaaviokuva / sanallinen dialogi autentikaatiosta ennen oauth1.0, oauth2.0, palvelin-palvelin
@@ -782,11 +828,9 @@
 
   http://hueniverse.com/2010/05/introducing-oauth-2-0/
   ''OAuth is a security protocol that enables users to grant third-party access to their web resources without sharing their passwords.''
-  ''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone.''
   ''OAuth includes two main parts: obtaining a token by asking the user to grant access, and using tokens to access protected resources. The methods for obtaining an access token are called flows.''
   ''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
   ''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
-
 
   ''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
 
@@ -932,13 +976,11 @@
 
   \subsection{Autentikoituminen federoidulla identiteetillä Helsingin yliopiston käyttäjärekisteriin} % (fold)
   \label{sub:autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin}
+  Tässä kerrotaan periaatetasolla, kuinka MOOC käyttää SAMLia tunnistaakseen käyttäjän yliopiston AD-palvelulla.
+
+  Kiinnostaisi jättää tämä vähemmälle huomiolle ja keskittyä OpenID:n ja OAuthin selittämiseen.
 
   % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
-
-  \subsection{Autentikoituminen käyttäjäkeskeisen identiteetin OpenID-toteutuksella} % (fold)
-  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
-
-  % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
   \subsection{Autentikoituminen esiasetetulla Google OpenID -identiteetintarjoajalla} % (fold)
   \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
@@ -965,7 +1007,7 @@
   % 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
   % Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
 
-  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti \cite{google_openid_dev_docs}:
+  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti~\cite{google_openid_dev_docs}:
 
   \begin{verbatim}
     <Service priority="0">
@@ -974,8 +1016,9 @@
     </Service>
   \end{verbatim}
 
-  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä. Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa ennemmin suosia sähköpostiosoitetta (Googlen GMail -palvelua), ja autentikoituminen on Googlen mukaan käyttäjäystävällisempää Googlen logon kuin vapaavalintaisen syöttökentän kautta (viite).
+  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
 
+  % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
 
   % 23.1.2012
   %
@@ -999,18 +1042,26 @@
 
   % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)
 
+  \subsection{Autentikoituminen käyttäjäkeskeisen identiteetin OpenID-toteutuksella} % (fold)
+  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
+  Tässä kerrotaan periaatetasolla, kuinka tarjotaan mahdollisuus vapaavalintaisen identiteetintarjoajan käyttämiseksi. Tekninen selitys on sama kuin luvussa, jossa kerrotaan Googlen OpenID:n soveltamisesta.
+  % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
+
+
   \subsection{Autentikoituminen OAuth-toteutuksella} % (fold)
   \label{sub:autentikoituminen_oauth}
+  Tässä kerrotaan kuinka Facebook-autentikoinnilla pääsee MOOC-palveluun.
+
+  Päälähteenä Facebookin kehittäjädokumentaatio:
+  \\ \verb!https://developers.facebook.com/docs/authentication/!
 
   % subsection autentikoituminen_oauth (end)
 
-  \subsection{Opintosuoritusotteen noutamisen auktorisointi OAuth-toteutuksella} % (fold)
-  \label{sub:opintosuoritusotteen_noutamisen_auktorisointi_oauth_toteutuksella}
+  \subsection{Jatkokehitysideoita} % (fold)
+  \label{sub:jatkokehitysideoita}
 
-  % subsection opintosuoritusotteen_noutamisen_auktorisointi_oauth_toteutuksella (end)
-
-  \subsection{Jatkokehitysideoita: auktorisointi} % (fold)
-  \label{sub:jatkokehitysideoita_auktorisointi}
+  \subsubsection{Auktorisointi} % (fold)
+  \label{ssub:jatkokehitysideoita_auktorisointi}
   MOOC tarjoaa mahdollisuuden antaa opintosuoritusote lukioon. MOOC hakee suoritusotteen Oodista. Auktorisointiin käytetään OAuthia: luvan antaminen edellyttää että käyttäjä itse sallii MOOC-järjestelmän pääsyn Oodissa oleviin käyttäjätietoihinsa.
 
   On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia ja tarjoaa ulkoisen rajapinnan tietojen noutamiseksi. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
@@ -1034,9 +1085,25 @@
   % Käyttökokemus: http://benward.me/blog/oauth-flow
   % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
+  % subsubsection jatkokehitysideoita_auktorisointi (end)
 
+  \subsubsection{Yliopiston palvelut julkiseen pilveen} % (fold)
+  \label{ssub:yliopiston_sähköpostit_pilveen}
 
-  % subsection jatkokehitysideoita_auktorisointi (end)
+    \begin{figure}[h!]
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/google_saml_workflow_vertical.png}
+      \caption{Autentikoituminen Helsingin yliopiston käyttäjärekisterillä Googleen. Tällöin esim. yliopiston sähköpostipalvelu, kalenteri ja dokumentit voitaisiin ulkoistaa julkiseen pilveen. Tällöin Googlea voisi käyttää OpenID-proxynä eli autentikoitua Helsingin yliopiston käyttäjätunnuksella mihin tahansa verkkopalveluun, joka tukee OpenID:tä.}
+      \label{fig:hy_julkiseen_pilveen}
+    \end{figure}
+
+    Yliopiston palvelut julkiseen pilveen, ks kuva~\ref{fig:hy_julkiseen_pilveen}
+    todo viite \url{http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html}
+
+  % subsubsection yliopiston_sähköpostit_pilveen (end)
+
+  % subsection jatkokehitysideoita (end)
+
 
 
   \subsection{Yhteenveto toteutuksesta} % (fold)

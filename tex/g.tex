@@ -159,8 +159,16 @@
   % subsection käsitteet_uri_url_ja_urn (end)
   \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin (viite http://www.w3.org/TR/uri-clarification/) ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella (viite rfc2068).
 
-  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Tähän lisää määrittelyä, rfc 1738.
-  % url rfc1738
+  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen (viite rfc 1738).
+
+  URL:n koostumus on RFC 1738:n mukaan:
+  \\ \verb!<skeema>://<käyttäjätunnus>:<salasana>@<verkko-osoite>:<portti>/<url-polku>!
+
+  Tämän tutkielman URL voisi olla esimerkiksi
+  \\ \verb!http://www.cs.helsinki.fi/u/repo/gradu/g.pdf!
+
+  Tämän tutkielman puitteissa oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80 (rfc 1738) ja https-skeemassa 443 (rfc viite). URLin loppuosa (url-polku) koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkko-osoitteen asiayhteydessä. RFC 1738:n mukaan ensimmäinen kauttaviiva verkko-osoitteen (tai portin) jälkeen ei kuulu url-polkuun (viite rfc 1738). URL-käyttäjätunnuksesta lisää kappaleessa \emph{HTTP Basic Auth}.
+
 
   \verb!URN! sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta'' (viite rfc 2396). URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste! (viite rfc 2141). Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9! (viite http://www.w3.org/TR/uri-clarification/). Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä.
 
@@ -201,6 +209,9 @@
   \label{sub:arkkitehtuurityyli_rest}
 
   Määrittele resurssi (http rfc)
+
+  URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
+
 
   % subsection arkkitehtuurityyli_rest (end)
 

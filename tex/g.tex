@@ -83,6 +83,96 @@
 
 \section{Web ja SaaS ilmiöinä} % (fold)
 \label{sec:web_ja_saas}
+
+
+  \subsection{HTTP-protokolla} % (fold)
+  \label{sub:http_protokolla}
+
+  % rfc 2068, http/1.1
+  %
+  % Practical information systems require more functionality than simple
+  %    retrieval, including search, front-end update, and annotation. HTTP
+  %    allows an open-ended set of methods that indicate the purpose of a
+  %    request. It builds on the discipline of reference provided by the
+  %    Uniform Resource Identifier (URI) [3][20], as a location (URL) [4] or
+  %    name (URN) , for indicating the resource to which a method is to be
+  %    applied.
+  %
+  %    HTTP is also used as a generic protocol for communication between
+  %      user agents and proxies/gateways to other Internet systems, including
+  %      those supported by the SMTP [16], NNTP [13], FTP [18], Gopher [2],
+  %      and WAIS [10] protocols. In this way, HTTP allows basic hypermedia
+  %      access to resources available from diverse applications.
+  %
+  % HTTP on request/response-protokolla. Tilaton.
+  %
+  % URIs in HTTP can be represented in absolute form or relative to some
+  %    known base URI, depending upon the context of their use. The two
+  %    forms are differentiated by the fact that absolute URIs always begin
+  %    with a scheme name followed by a colon.
+  %
+  % RFC kpl 1.4
+  %
+  % HTTP 1.1 -pyyntö:
+  % \begin{verbatim}
+  %   GET /resurssi HTTP/1.1
+  %   Host: verkkotunnus.com
+  % \end{verbatim}
+  %
+  % Tässä  /resurssi kuvastaa suhteellista request-URI:a ja GET on verbi.
+  %
+  % The absoluteURI form is required when the request is being made to a proxy. The proxy is requested to forward the request or service it from a valid cache, and return the response.
+  % GET http://www.w3.org/pub/WWW/TheProject.html HTTP/1.1
+  %
+  % The most common form of Request-URI is that used to identify a
+  %    resource on an origin server or gateway. In this case the absolute
+  %    path of the URI MUST be transmitted (see section 3.2.1, abs_path) as
+  %    the Request-URI, and the network location of the URI (net_loc) MUST
+  %    be transmitted in a Host header field.
+  %
+  %    For example, a client wishing
+  %       to retrieve the resource above directly from the origin server would
+  %       create a TCP connection to port 80 of the host "www.w3.org" and send
+  %       the lines:
+  % GET /pub/WWW/TheProject.html HTTP/1.1
+  % Host: www.w3.org
+  %
+  % followed by the remainder of the Request. Note that the absolute path
+  %    cannot be empty; if none is present in the original URI, it MUST be
+  %    given as "/" (the server root).
+  %
+  %
+  %
+  %      http://ftp.ics.uci.edu/pub/ietf/http/rfc2068.txt
+  %
+  %      For definitive information on URL syntax and semantics, see RFC 1738
+  %         [4] and RFC 1808 [11].
+  %
+  %
+  % The use of IP addresses in URL's SHOULD be avoided whenever possible (see RFC 1900 [24])
+  %
+  % If the abs_path is not present in the URL, it MUST be given as "/" when used as a Request-URI for a resource (section 5.1.2).
+
+  \subsection{Käsitteet URI, URL ja URN} % (fold)
+  \label{sub:käsitteet_uri_url_ja_urn}
+
+  % subsection käsitteet_uri_url_ja_urn (end)
+  \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin (viite http://www.w3.org/TR/uri-clarification/) ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella (viite rfc2068).
+
+  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Tähän lisää määrittelyä, rfc 1738.
+  % url rfc1738
+
+  \verb!URN! sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta'' (viite rfc 2396). URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste! (viite rfc 2141). Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9! (viite http://www.w3.org/TR/uri-clarification/). Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
+    \caption{Käsitteet URI, URL ja URN}
+    \label{fig:uri_url_urn}
+  \end{figure}
+
+  % subsection http_protokolla (end)
+
   \subsection{Rajapinnat ja web} % (fold)
   \label{sub:rajapinnat_ja_web}
 
@@ -109,6 +199,8 @@
 
   \subsection{Arkkitehtuurityyli: REST} % (fold)
   \label{sub:arkkitehtuurityyli_rest}
+
+  Määrittele resurssi (http rfc)
 
   % subsection arkkitehtuurityyli_rest (end)
 
@@ -302,6 +394,14 @@
   \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
   \label{sub:http_basic_auth_ja_http_digest_auth}
   Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/uri!) ja mikä on http digest auth (haaste-vastine http headereissa).
+
+  % It is clearly unwise to use a URL that contains a password which is
+  % intended to be secret. In particular, the use of a password within
+  % the 'userinfo' component of a URL is strongly disrecommended except
+  % in those rare cases where the 'password' parameter is intended to be
+  % public.
+  % rfc 2396
+
 
   % subsection http_basic_auth_ja_http_digest_auth (end)
 
@@ -661,9 +761,9 @@
 
   Käyttäjäkeskeisen identiteetin toteutuksessa on tyypillistä etsiä OpenID-päätepiste käyttäjätunnuksen perusteella. OpenID-käyttäjätunnus on URL-osoite kuten esimerkiksi \verb!https://petrusrepo.myopenid.com!, \verb!https://myopenid.com/repo! tai
   % todo tsekkaa rivitys
-  \\ \verb!https://petrusrepo.fi!. Tällöin identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen URL-osoitteeseen. Esivalittujen identiteetintarjoajien toteutuksessa on tyypillistä, että identiteetintarjoaja suosittelee oman logonsa asettamista identiteetin kuluttajan sisäänkirjautumissivulle (kuva~\ref{fig:yahoo_login}). Tällöin identiteetintarjoajan OpenID-päätepiste on tyypillisesti hankalasti ulkoamuistettava kuten Googlella
+  \\ \url{https://petrus.repo.fi}. Tällöin identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen URL-osoitteeseen. Esivalittujen identiteetintarjoajien toteutuksessa on tyypillistä, että identiteetintarjoaja suosittelee oman logonsa asettamista identiteetin kuluttajan sisäänkirjautumissivulle (kuva~\ref{fig:yahoo_login}). Tällöin identiteetintarjoajan OpenID-päätepiste on tyypillisesti hankalasti ulkoamuistettava kuten Googlella
   % todo tsekkaa rivitys
-  \\ (\verb!https://www.google.com/accounts/o8/id!) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
+  \\ (\url{https://www.google.com/accounts/o8/id}) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
 
   Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-etsintävaiheen ansiosta identiteetin kuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetin kuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa.
 
@@ -672,6 +772,7 @@
   \\ \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#
   Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa ennemmin suosia sähköpostiosoitetta~\cite{google_best_practices_authentication} ja Googlen lisäksi myös Yahoon mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}.
 
+  Käyttäjäkeskeisen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää hallinnassaan vaikka sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
   \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
   \label{ssub:openid_autentikoinnin_vaiheet}
@@ -694,6 +795,29 @@
 
 
   % subsubsection openid_autentikoinnin_vaiheet (end)
+
+  \subsubsection{Identiteetin delegointi} % (fold)
+  \label{ssub:identiteetin_delegointi}
+
+  Selitetään mahdollisuus kytkeä oma verkkotunnus kolmannen osapuolen identitarjoaan delegoimalla identiteetti.
+
+  Käyttäjä --identiteetti--> verkkotunnus --delegointi--> idp jossa login
+
+  \begin{verbatim}
+    <head>
+    <link rel="openid2.provider"
+      href="https://openid.stackexchange.com/openid/provider">
+    <link rel="openid2.local_id"
+      href="https://openid.stackexchange.com/user/a0cd3405-f76e-429e-b935">
+    </head>
+
+    todo viite http://blog.stackoverflow.com/2009/01/using-your-own-url-as-your-openid/
+  \end{verbatim}
+
+  Oman verkkotunnuksen hosting pitää olla turvallinen. Delegointia voi muuttaa jos pääsee käsiksi verkkotunnuksen tarjoamaan delegoinnin web-sivuun.
+  Google ei tästä syystä tue delegointia.
+  % subsubsection identiteetin_delegointi (end)
+
 
   % Google:
   % Guide to Running a User Account System

@@ -159,13 +159,8 @@
   % subsection käsitteet_uri_url_ja_urn (end)
   \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}.
 
-  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}.
-
-  URL:n koostumus on seuraava~\cite{ietf_rfc_urls}:
+  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}. Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. Siitä, mitkä voisivat olla tähän URL:iin liittyvät resurssit, kerrotaan tarkemmin kappaleessa~\ref{sub:arkkitehtuurityyli_rest}. URL:n yleinen koostumus on ~\cite{ietf_rfc_urls}:
   \\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
-
-  Tämän tutkielman URL voisi olla esimerkiksi
-  \\ \verb!http://www.cs.helsinki.fi/u/repo/gradu/g.pdf!
 
   Tämän tutkielman puitteissa oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää kappaleessa \emph{HTTP Basic Auth}.
 

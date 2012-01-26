@@ -14,7 +14,7 @@
 \begin{document}
 
 \title{Internet-skaalan identiteetti:
-    \\ ''Case-study kuinka OpenID 2.0, OAuth 2.0 ja SAML 2.0 tukevat toisiaan SaaS-palvelun toteutuksessa.''}
+    \\ ''Case-study kertakirjautumisesta virtuaalikurssille.''}
 
 \author{Petrus Repo}
 \date{\today}
@@ -84,10 +84,43 @@
 \section{Web ja SaaS ilmiöinä} % (fold)
 \label{sec:web_ja_saas}
 
+  % ''Palvelusi kuolee eikä saa käyttäjiä, ellei siinä ole julkista API:a.'' (todo etsi lainaus)
 
-  \subsection{HTTP-protokolla} % (fold)
-  \label{sub:http_protokolla}
+  loose coupling
+  orkestrointi vs koreografia
 
+  \begin{quote}
+    ''It is not the strongest of the species that survive, nor the most intelligent, but the ones most responsive to change.'' --- Darwin (todo viite)
+  \end{quote}
+
+  Pullonkaula. Jos mooc skaalataan täytyy myös idp:n skaalata. identiteetin hallinta omatoimisesti omalla idp:llä teettää omaa työtä. Lähtökohtaisesti houkuttelevampaa ulkoistaa idp:n hommat kolmannelle osapuolelle (kuten HY, Google, FB). MOOC on \emph{massive}. HY:llä noin 35.000 opiskelijaa eli 35.000 käyttäjätunnusta. Facebookilla ja Googlella yhteensä yli 1,1 miljardia käyttäjätunnusta (todo viite). Niiden kautta siis isolle prosenttiosuudelle MOOC-palvelun käyttäjistä saataisiin autentikointi.
+  %  http://en.wikipedia.org/wiki/Gmail 350M,
+  % https://www.facebook.com/press/info.php?statistics  800M
+
+  Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä. Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \% Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
+
+  Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palveluntuottajasta riippumattomien ohjelmistokehittäjien välillä. Rajapinta helpottaa pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta. Tällöin myös palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon avaaminen rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
+
+  Ohjelmistoon kohdistuvat vaatimukset tyypillisesti elävät (muuttuvat) sekä kehityksen että ylläpitovaiheen aikana. Darwinin lainauksen mukaisesti muutoskykyisyys on edellytys selviämiselle. Palveluorientoitunut arkkitehtuuri (\emph{Service Oriented Architecture, SOA}) on voimakas tapa valmistautua muuttuviin vaatimuksiin. SOA-periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa. Tavoitteena on palvelujen välinen löyhä kytkentä (\emph{loose coupling}), jolloin muutokset yhdessä palvelussa eivät vaikuta muihin palveluihin. Palveluorientoituneessa arkkitehtuurissa palvelut keskustelevat keskenään rajapintojen kautta.
+
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
+    \caption{MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
+    \label{fig:mooc-arkkitehtuuri}
+  \end{figure}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/mooc-autentikointirajapinnat.jpg}
+    \caption{MOOC-palveluun toteutettavat autentikointirajapinnat}
+    \label{fig:mooc-autentikointirajapinnat}
+  \end{figure}
+
+  % \subsection{HTTP-protokolla} % (fold)
+  % \label{sub:http_protokolla}
+  %
   % rfc 2068, http/1.1
   %
   % Practical information systems require more functionality than simple
@@ -152,11 +185,12 @@
   % The use of IP addresses in URL's SHOULD be avoided whenever possible (see RFC 1900 [24])
   %
   % If the abs_path is not present in the URL, it MUST be given as "/" when used as a Request-URI for a resource (section 5.1.2).
+  %
+  % subsection http_protokolla (end)
 
   \subsection{Käsitteet URI, URL ja URN} % (fold)
   \label{sub:käsitteet_uri_url_ja_urn}
 
-  % subsection käsitteet_uri_url_ja_urn (end)
   \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}.
 
   \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}. Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. Siitä, mitkä voisivat olla tähän URL:iin liittyvät resurssit, kerrotaan tarkemmin kappaleessa~\ref{sub:arkkitehtuurityyli_rest}. URL:n yleinen koostumus on ~\cite{ietf_rfc_urls}:
@@ -174,23 +208,8 @@
     \label{fig:uri_url_urn}
   \end{figure}
 
-  % subsection http_protokolla (end)
+  % subsection käsitteet_uri_url_ja_urn (end)
 
-  \subsection{Rajapinnat ja web} % (fold)
-  \label{sub:rajapinnat_ja_web}
-
-  ''Palvelusi kuolee eikä saa käyttäjiä, ellei siinä ole julkista API:a.'' (todo etsi lainaus)
-
-  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
-  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
-
-  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
-
-  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
-
-  restapi security vs soap-api ja WS-Security
-
-  % subsection rajapinnat_ja_web (end)
 
   \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
   \label{sub:arkkitehtuurityyli_ws_}
@@ -206,6 +225,10 @@
   Määrittele resurssi (http rfc)
 
   URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
+
+  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
+  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
+
 
 
   % subsection arkkitehtuurityyli_rest (end)
@@ -411,6 +434,15 @@
 
   % subsection http_basic_auth_ja_http_digest_auth (end)
 
+  \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)
+  \label{sub:rajapintakutsun_pääsyoikeudet}
+  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
+
+  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
+
+  restapi security vs soap-api ja WS-Security
+
+  % subsection rajapintakutsun_pääsyoikeudet (end)
 
   \subsection{Sessiopohjainen autentikointi} % (fold)
   \label{sub:sessiopohjainen_autentikointi}

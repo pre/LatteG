@@ -101,11 +101,11 @@
   \subsection{Web ja rajapinnat} % (fold)
   \label{sub:web_ja_rajapinnat}
 
-  Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä. Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \% Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
+  Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä. Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
 
   Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palveluntuottajasta riippumattomien ohjelmistokehittäjien välillä. Rajapinta helpottaa pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta. Tällöin myös palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon avaaminen rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
 
-  Ohjelmistoon kohdistuvat vaatimukset tyypillisesti elävät (muuttuvat) sekä kehityksen että ylläpitovaiheen aikana. Darwinin lainauksen mukaisesti muutoskykyisyys on edellytys selviämiselle. Palveluorientoitunut arkkitehtuuri (\emph{Service Oriented Architecture, SOA}) on voimakas tapa valmistautua muuttuviin vaatimuksiin. SOA-periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa. Tavoitteena on palvelujen välinen löyhä kytkentä (\emph{loose coupling}), jolloin muutokset yhdessä palvelussa eivät vaikuta muihin palveluihin. Palveluorientoituneessa arkkitehtuurissa palvelut keskustelevat keskenään rajapintojen kautta.
+  Ohjelmistoon kohdistuvat vaatimukset tyypillisesti elävät (muuttuvat) sekä kehityksen että ylläpitovaiheen aikana. Darwinin lainauksen mukaisesti muutoskykyisyys on edellytys selviämiselle. Palveluorientoitunut arkkitehtuuri (\emph{Service Oriented Architecture, SOA}) on voimakas tapa varautua muuttuviin vaatimuksiin. SOA-periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa. Tavoitteena on palvelujen välinen löyhä kytkentä (\emph{loose coupling}), jolloin muutokset yhdessä palvelussa eivät vaikuta muihin palveluihin. Palveluorientoituneessa arkkitehtuurissa palvelut keskustelevat keskenään rajapintojen kautta.
 
 
   \begin{figure}
@@ -129,12 +129,13 @@
 
   Ihmisellä monta erilaista profiilia internetissä. Työpaikan-, vapaa-ajan- ja opiskelun profiili. Jokainen profiili luo omanlaisensa identiteetin (tarkenna). On tyypillistä hyväksyä LinkedIn-yhteisöpalveluun työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-kavereiksi sen sijaan ei yleensä haluta pomoa tai kaukaisempia työkavereita, koska vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon tavanomaisesti kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella.
 
-  Käyttäjällä pitää olla mahdollisuus valita, minkä identiteetin/käyttäjäprofiilin hän kytkee web-palveluun. Ei ole samantekevää, kirjaudutaanko uuteen palveluun ainoastaan Facebook-tunnuksilla. Käyttäjäkeskeisen identiteetin periaatteet tähän.
+  Käyttäjällä pitää olla mahdollisuus valita, minkä identiteetin/käyttäjäprofiilin hän kytkee web-palveluun. Ei ole samantekevää, kirjaudutaanko uuteen palveluun ainoastaan Facebook-tunnuksilla. Käyttäjäkeskeisen identiteetin periaatteet tähän. % todo
+
   % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
   % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
 
 
-  Federoitu identiteetti on toinen periaate. Siitä toinen tekstikappale tähän.
+  Federoitu identiteetti on toinen periaate. Siitä toinen tekstikappale tähän. % todo
 
   Tarviiko federated identityssä idp:n luottaa id consumeriin? Idp:n täytyy (tyypillisesti?) tuntea id consumer. Millainen luottamussuhde se on?
   Luottamussuhteet ja vaatimukset, OpenID vs. OAuth vs. SAML.
@@ -150,7 +151,7 @@
 
   OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
 
-  Tointne single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen.
+  Toinen single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen.
 
     7 Laws of Identity.
     % Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
@@ -242,15 +243,15 @@
   \subsection{Käsitteet URI, URL ja URN} % (fold)
   \label{sub:käsitteet_uri_url_ja_urn}
 
-  \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}.
+  \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä -- kuten \verb!XRI! -- joten jokainen webissä esiintyvä URI ei ole URL. XRI:stä lisää OpenID-kappaleessa. (todo viite)
 
-  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}. Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. Siitä, mitkä voisivat olla tähän URL:iin liittyvät resurssit, kerrotaan tarkemmin kappaleessa~\ref{sub:arkkitehtuurityyli_rest}. URL:n yleinen koostumus on ~\cite{ietf_rfc_urls}:
+  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}. Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. Siitä, mitkä voisivat olla tähän URL:iin liittyvät resurssit, kerrotaan tarkemmin kappaleessa~\ref{sub:arkkitehtuurityyli_rest}. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
   \\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
 
-  Tämän tutkielman puitteissa oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää kappaleessa \emph{HTTP Basic Auth}.
+  Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää kappaleessa \emph{HTTP Basic Auth} (todo viite).
 
 
-  \verb!URN! sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä.
+  \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
 
   \begin{figure}
     \centering
@@ -273,7 +274,7 @@
   \subsection{Arkkitehtuurityyli: REST} % (fold)
   \label{sub:arkkitehtuurityyli_rest}
 
-  Määrittele resurssi (http rfc)
+  Määrittele resurssi (http rfc, fielding-väitöskirja)
 
   URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
 
@@ -378,9 +379,9 @@
 
   \emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine) \cite{NIST_SP800-63-1}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset \cite{NIST_SP800-63-1}.
 
-  Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy käyttäjätunnusta ja salasanaa, johon toisen osapuolen on vastattava täsmälleen oikeanlaisella merkkijonoyhdsitelmällä.
+  Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy haasteena käyttäjätunnusta ja salasanaa, ja toisen osapuolen on tarjottava siihen vastineena täsmälleen oikeanlaiset merkkijonot.
 
-  1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi, koska tuohon aikaan laajan dokumentin kopioiminen oli työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä. Tämän tutkielman kirjoittaja vietti ala-asteikäisenä monta iltaa kopioidessaan kynällä ja paperilla tällaisia koodikirjoja itselleen.
+  1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi. Tuohon aikaan laajan dokumentin kopioiminen oli varsin työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä. Tämän tutkielman kirjoittaja vietti ala-asteikäisenä joskus iltaa kopioimalla kynällä ja paperilla tällaisia koodikirjoja itselleen.
 
   Haasteeseen voi olla myös julkisesti tunnettu vastine. Spämmibottien torjumiseksi kehitetty CAPTCHA-testi (\emph{Completely Automated Public Turing test to tell Computers and Humans Apart}) kysyy kysymyksen (esittää haasteen), johon ihmisen on helppo vastata (tarjota vastine), mutta johon tietokone ei pysty luotettavasti tuottamaan oikeaa vastausta. CAPTCHA-haaste voi olla esimerkiksi yksinkertainen matemaattinen laskutoimitus, bittikarttakuvaan upotettu ihmissilmällä erottuva sana tai yksiselitteinen suomenkielinen kysymys, johon on yksiselitteinen ja yleisesti tunnettu vastaus.
 
@@ -653,7 +654,7 @@
 
 
   Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
-  - OpenID aina http, SAMLissa muitakin. Entä OAuth?
+  - OpenID ja OAuth käytännössä aina http (protokolla ei ota kantaa muihin), SAMLissa muitakin.
 
   HTTP rules erityisesti silloin kun user-agenttina on selain. Miksi rules myös natiiviapplikaatioissa ja SOA:ssa?
   Kun OAuth vie IdP:lle HTTP:llä, selain näyttää osoiterivillä idp:n domainin ja selainkontekstin turvallisuusilmoitukset (lukon kuva jne).
@@ -698,7 +699,7 @@
 
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
   \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
-  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle. Google on edelleen OpenID, mutta sitä käytetään kuvakkeen kautta eikä omaa openid-urlia edes ole tarkoitus muistaa ulkoa (anna esimerkki). Sen sijaan Yahoo!:n ja flickrin openid-tunnuksen url on suoraan yahoo.com ja flick.com.
+  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
 
   % subsection tarve_yhteiskäyttöiselle_autentikointistandardille (end)
 
@@ -782,9 +783,13 @@
 
   \subsubsection{Kertauloskirjautuminen (Single-Sign Off)} % (fold)
   \label{ssub:kertauloskirjautuminen}
-  Kerrotaan lyhyestä kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
+  Kerrotaan lyhyesti kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
 
   Ei tehdä graduun, ei relevantti: jos kirjaudut ulos moocista, kirjaudut ulos Facebookista, Googlesta tai kaikista HY:n järjestlemistä; ei tarpeen.
+
+  Toisaalta webissä on palveluja joihin kirjaudutaan ainoastaan fb-tunnareilla. Tällaisesta palvelusta logout kirjaa käyttäjän ulos myös facebookista. uloskirjautuminen voi tulla yllätyksenä (minulle tuli kun kokeilin, urheilusaitti se jonka nimeä en koskaan muista).
+
+  Kertauloskirjautuminen voi siis olla relevantti? Jos palvelusta logout, niin logout myös idp:ltä. Koska jos käyttää julkiselta koneelta, niin muuten jäisi huomaamatta sessio auki idp:hen!
   % subsubsection kerta (end)
 
 
@@ -793,8 +798,9 @@
 
   todo: OpenID käyttää termeinä relying party (rp) ja identity provider (idp). Tässä tutkielmassa käytetään johdonmukaisesti aina identiteetinkuluttaja (= rp) ja identiteetintarjoaja.
 
-  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation (viite \url{http://openid.net/foundation/}) -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä kuten Google, Microsoft, Symantec ja Yahoo! (viite \url{http://openid.net/foundation/sponsoring-members/}). Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä ansiosta OpenID-käyttäjäkunnalla on suuri kasvupotentiaali.
+  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation (viite \url{http://openid.net/foundation/}) -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä kuten Google, Microsoft, Symantec ja Yahoo! (viite \url{http://openid.net/foundation/sponsoring-members/}). Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä ansiosta OpenID-käyttäjäkunnalla on suuri kasvupotentiaali.
 
+  % todo korvaa XXX
   OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
 
   \begin{figure}[h!]
@@ -812,23 +818,23 @@
   % todo tsekkaa rivitys
   \\ (\url{https://www.google.com/accounts/o8/id}) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
 
-  Tässä kerrotaan mikä on Directed Identity -periaate. Yhteiskäyttöisen idposoitteen käyttäminen verkkotunnuksena, kuten Yahoolla ja Googlella. Tämän hyvänä puolena myös anonymiteetti: openid-tunnisteesta ei suoraan käy ilmi mitään tunnistetietoja, koska openid-päätepiste on kaikille sama ja yksilöivä tunniste on satunnainen merkkijono. Tämän ansiosta käyttäjän identiteettiä ei voida päätellä tai jäljittää openid-tunnisteesta ilman idp:n apua.
+  % todo
+  Tässä kerrotaan mikä on Directed Identity -periaate. Yhteiskäyttöisen idp-osoitteen käyttäminen päätepisteenä, kuten Yahoolla ja Googlella. Tämän hyvänä puolena myös anonymiteetti: openid-tunnisteesta ei suoraan käy ilmi mitään tunnistetietoja, koska openid-päätepiste on kaikille sama ja yksilöivä tunniste on satunnainen merkkijono. Tämän ansiosta käyttäjän identiteettiä ei voida päätellä tai jäljittää openid-tunnisteesta ilman idp:n apua.
   Viite OpenID Identity Discovery with XRI and XRDS~\cite{openid_discovery_recordon_2008}.
 
-  Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-etsintävaiheen ansiosta identiteetin kuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetin kuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa.
+  Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetinkuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa.
 
    OpenID-identiteetin todentaminen osoittaa ainoastaan, että jokin OpenID-identiteetti on käyttäjän hallinnassa. OpenID-identiteetillä on yksilöivä tunniste, joka rekisteröidään käyttäjän profiiliin identiteetin kuluttajan palvelussa. Yksilöivä tunniste voi olla ulkoamuistettava URL, josta annettiin esimerkkejä edellisessä kappaleessa. Sen sijaan esimerkiksi Googlen yksilöivä OpenID-tunniste on muotoa
   % todo tsekkaa rivitys
   \\ \verb#https://www.google.com/accounts/o8/id?id=<uniikki satunnaismerkkijono>#
 
+  % todo pitäisikö poistaa maininnat sähköpostiosoitteesta koska ei liity varsinaisesti openid:hen
   Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa URL:n sijasta suosia ennemmin sähköpostiosoitetta~\cite{google_best_practices_authentication}, jonka perusteella identiteetintarjoaja päätellään. Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}.
 
-  Käyttäjäkeskeisen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää hallinnassaan vaikka sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
+  Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää hallinnassaan vaikka sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
   \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
   \label{ssub:openid_autentikoinnin_vaiheet}
-
-  Tässä selitetään OpenID-autentikoinnin vaiheet (kuva~\ref{fig:basic_openid_flow}).
 
   \begin{figure}
     \centering
@@ -841,7 +847,7 @@
 
   todo listaelementti
 
-  1. Käyttäjä käynnistää autentikointiprosessin esittämälle identiteetinkuluttajalle OpenID-päätepisteen. OpenID-päätepisteenä toimii joko käyttäjän yksilöivä OpenID-tunniste (\{https://petrus.repo.fi}) tai identiteetintarjoajan kaikille käyttäjille yhteinen URI (\url{https://yahoo.com}).
+  1. Käyttäjä käynnistää autentikointiprosessin esittämälle identiteetinkuluttajalle OpenID-päätepisteen. OpenID-päätepisteenä toimii joko käyttäjän yksilöivä OpenID-tunniste (\url{https://petrus.repo.fi}) tai identiteetintarjoajan kaikille käyttäjille yhteinen URI (\url{https://yahoo.com}).
 
   2. Identiteetinkuluttaja (relying party) suorittaa etsintäprosessin (discovery process). Etsinnän lopputuloksena on OpenID-päätepisteeseen kytketty OpenID-identiteetintarjoaja. Todo selvitä miten tässä yhteydessä diffie-hellman ja back-channel, voiko idp ja idc jutella keskenään tämän jälkeen taustalla.
 
@@ -878,6 +884,9 @@
   % support in current browsers to resolve XRI and there is not
   % a standard way to get a HTML document from them.
   % -- A survey on OpenID identiﬁers
+  %
+  %
+  % XRI on yhdentyyppinen URI
 
 
   %  The premise of OpenID 1.x was that users would share one
@@ -1380,6 +1389,8 @@
   Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
 
   Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
+
+  Kertauloskirjautuminen: jos logout palvelusta niin logout myös idp:stä. Muuten jää huomaamatta sessio auki! (esim julkinen työasema)
   % XRDS service links are all related to the OpenID protocol, despite XRDS
   % supports discovery of other types of services. Beyond authentication, OpenID
   % Simple Registration Extension and OpenID Attribute Exchange are popular

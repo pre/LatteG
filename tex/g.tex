@@ -143,6 +143,14 @@
 
   Käyttäjäkeskeisessä idc:n ei tarvitse tuntea idp:tä etukäteen. Kuka tahansa voi olla idp.
   Jos palvelu ei luota idp:hen mutta autentikoi käyttäjän idp:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
+  OAuth- tai OpenID-speksi ei ota kantaa siihen, kuinka käyttäjä autentikoidaan. On mahdollista tehdä idp joka ei autentikoi lainkaan, vaan hyväksyy minkä tahansa tunnisteen. Tästä syystä voi olla tarpeellista rajoittaa hyväksyttyjen identiteetintarjoajien lukumäärää, esim tarjoamalla vain esivalitut idp:t.
+
+  Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
+  HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta.
+
+  OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
+
+  Tointne single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen.
 
     7 Laws of Identity.
     % Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
@@ -779,7 +787,9 @@
   \subsection{OpenID v2.0} % (fold)
   \label{sub:openid}
 
-  OpenID:n lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
+  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka lähtökohtana on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikkissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation (viite \url{http://openid.net/foundation/}) -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä kuten Google, Microsoft, Symantec ja Yahoo! (viite \url{http://openid.net/foundation/sponsoring-members/}). Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä ansiosta OpenID-käyttäjäkunnalla on suuri kasvupotentiaali.
+
+  OpenID-protokolla on suunniteltu siten, ettei identiteetin kuluttajan (palvelu) tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa käyttäjäkeskeisen identiteetin periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Käytännössä tilanne on kuitenkin toinen: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. Yleisin tapa julkisen webin kertakirjautumiseen on hyväksyä vain palvelun taustalla olevan yrityksen oma identiteetintarjoaja tai suppea lista esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}). Tällöin käyttäjä ei myöskään näe, millä tekniikalla autentikoiminen tapahtuu.
 
   \begin{figure}[h!]
     \centering
@@ -796,12 +806,16 @@
   % todo tsekkaa rivitys
   \\ (\url{https://www.google.com/accounts/o8/id}) tai suoraan identiteetintarjoajan pääsivu kuten Yahoolla (\verb!https://yahoo.com! tai \verb!https://flickr.com!).
 
+  Tässä kerrotaan mikä on Directed Identity -periaate. Yhteiskäyttöisen idposoitteen käyttäminen verkkotunnuksena, kuten Yahoolla ja Googlella. Tämän hyvänä puolena myös anonymiteetti: openid-tunnisteesta ei suoraan käy ilmi mitään tunnistetietoja, koska openid-päätepiste on kaikille sama ja yksilöivä tunniste on satunnainen merkkijono. Tämän ansiosta käyttäjän identiteettiä ei voida päätellä tai jäljittää openid-tunnisteesta ilman idp:n apua.
+  Viite OpenID Identity Discovery with XRI and XRDS~\cite{openid_discovery_recordon_2008}.
+
   Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-etsintävaiheen ansiosta identiteetin kuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetin kuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa.
 
    OpenID-identiteetin todentaminen osoittaa ainoastaan, että jokin OpenID-identiteetti on käyttäjän hallinnassa. OpenID-identiteetillä on yksilöivä tunniste, joka rekisteröidään käyttäjän profiiliin identiteetin kuluttajan palvelussa. Yksilöivä tunniste voi olla ulkoamuistettava URL, josta annettiin esimerkkejä edellisessä kappaleessa. Sen sijaan esimerkiksi Googlen yksilöivä OpenID-tunniste on muotoa
   % todo tsekkaa rivitys
-  \\ \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#
-  Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa ennemmin suosia sähköpostiosoitetta~\cite{google_best_practices_authentication} ja Googlen lisäksi myös Yahoon mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}.
+  \\ \verb#https://www.google.com/accounts/o8/id?id=<uniikki satunnaismerkkijono>#
+
+  Google on tarkoituksellisesti halunnut häivyttää URL:n käyttämisen OpenID-tunnuksena taustalle tarjoamalla työläästi ulkoamuistettavan päätepiste- ja tunnisteosoitteen. Googlen näkemyksen mukaan käyttäjätunnuksena kannattaa URL:n sijasta suosia ennemmin sähköpostiosoitetta~\cite{google_best_practices_authentication}, jonka perusteella identiteetintarjoaja päätellään. Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}.
 
   Käyttäjäkeskeisen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää hallinnassaan vaikka sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
@@ -822,8 +836,50 @@
 
   ''How the End User authenticates to their Identity Provider is outside of the scope of OpenID Authenticaiton.'' (viite speksi)
 
+  Erään tutkimuksen mukaan OpenID-tunnisteista 98~\% on http ja vain 2~\% https~\cite{openid_identifier_survey_2011}.
+  Koska user-agenttia uudelleenohjataan identiteetinkuluttajan ja identiteetintarjoajan välillä, suojaamaton yhteys on haavoittuvainen DNS- ja man-in-the-middle -hyökkäyksille.
+  % lue ja viittaa myös http://wiki.openid.net/w/page/12995200/OpenID%20Security%20Best%20Practices
+
   % XRDS Discovery https://sites.google.com/site/oauthgoog/fedlogininterp/openiddiscovery
 
+
+  % \subsubsection{XRI ja Directed Identity} % (fold)
+  % \label{ssub:xri_ja_directed_identity}
+  %
+  % Current speciﬁcation of OpenID [1] states that an OpenID
+  % identiﬁer is either a ”http” or ”https” URI [...] , or an XRI.
+  % We classiﬁed only http and https identiﬁers, ignoring XRI.
+  % The reasons are that almost nobody uses XRI, there is not
+  % support in current browsers to resolve XRI and there is not
+  % a standard way to get a HTML document from them.
+  % -- A survey on OpenID identiﬁers
+
+
+  %  The premise of OpenID 1.x was that users would share one
+    % globally unique URL (or one of a presumably small set of URLs)
+    % with RPs. This stood in stark contrast to other Internet identity
+    % frameworks such as Liberty Alliance ID-WSF and Information
+    % Cards, which go to great lengths to use pairwise identifiers so
+    % they introduce no new correlation handles at the protocol level.
+    %     OpenID Authentication 2.0 addressed this issue by adding support
+    % for “directed identity”—a term for the use of pairwise-unique
+    % identifiers coined by Microsoft Chief Identity Architect Kim
+    % Cameron [23]. This was accomplished by adding the new service
+    % endpoint type “http://specs.openid.net/auth/2.0/identifier_select”.
+    % When a user enters an OpenID identifier resolving to a service
+    % endpoint of this type (typically by entering the URL or i-name of
+    % their OpenID provider, rather than their own OpenID identifier),
+    % the RP knows it must ask the OP for the user’s identifier. The OP
+    % can then offer the user the choice of using one of their existing
+    % OpenID identifiers, or having the OP generate a pairwise-unique
+    % identifier for this specific relationship. In fact the user need not
+    % know or remember this identifier as the OP can store and
+    % automatically use it in future logins to the same RP.
+    %     This directed identity feature  works with both URLs and XRIs,
+    % however by assigning XRI i-numbers in the OP’s own XRI
+    % delegation space, OPs can take advantage of their persistence and
+    % security features discussed above.
+  % subsubsection xri_ja_directed_identity (end)
 
   % subsubsection openid_autentikoinnin_vaiheet (end)
 
@@ -1297,6 +1353,17 @@
   Kuinka luotettavia tunnisteet ovat? Federoitu vs käyttäjäkeskeinen.
 
   Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
+
+  Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
+  % XRDS service links are all related to the OpenID protocol, despite XRDS
+  % supports discovery of other types of services. Beyond authentication, OpenID
+  % Simple Registration Extension and OpenID Attribute Exchange are popular
+  % OpenID extensions supported by collected identiﬁers. They are followed by
+  % provider policy authentication extensions (PAPE), which assert policies
+  % applied by identity providers in order to assure end user authentication.
+  % The most popular is phishing-resistant policies. The rest of services are
+  % less common. \cite{openid_identifier_survey_2011}
+
 
   % subsection yhteenveto_toteutuksesta (end)
 

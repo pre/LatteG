@@ -636,6 +636,8 @@
 
   Mikä on ''Circle of Trust?'' Onko se federated identityn juttu? Tarvitaanko sitä? Onko sama kuin PGP/GPG:ssä?
 
+  Sisäänkirjautuminen voi alkuvahvistusten jälkeen tapahtua ''suoraan'' ilman että käyttäjältä kysytään yhtään mitään, kun käyttäjä sisäänkirjautunut valmiiksi facebookiin. Esimerkiksi painaa pelkästään ''login''-nappia, palvelu käy salamannopeasti facebookissa (jossa voimassa oleva sessio) eikä käyttäjä huomaa mitään vaan on jo sisäänkirjautunut identiteetinkuluttajan palveluun.
+
   Missä tilanteessa Microsoft Active Directory relevantti?
   - AD voi toimia SAML IdP:nä
   - Windows Live voi toimia OpenID IdP:nä
@@ -920,6 +922,18 @@
     \caption{OAuth-käyttöoikeuspyyntö Facebookissa. Osoiterivillä dataa hallinnoivan palvelun URL ja selainkontekstin turvallisuusilmoitus.}
     \label{fig:facebook_oauth_lupapyynto}
   \end{figure}
+
+
+
+  Selitä auki kuva~\ref{fig:facebook_popup_login}.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/facebook_popup_login.jpg}
+    \caption{OAuth-sisäänkirjautuminen Facebook-tunnuksilla kolmannen osapuolen palveuun. Identiteetintarjoajan osoite sekä turvallista yhteyttä kuvaava lukko ovat näkyvissä selainkontekstissa.}
+    \label{fig:facebook_oauth_login}
+  \end{figure}
+
 
   Soundcloud OAuth authorization flow diagram % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
 

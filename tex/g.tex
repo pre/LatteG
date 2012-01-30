@@ -86,12 +86,25 @@
 
   % ''Palvelusi kuolee eikä saa käyttäjiä, ellei siinä ole julkista API:a.'' (todo etsi lainaus)
 
-  loose coupling
-  orkestrointi vs koreografia
-
   \begin{quote}
-    ''It is not the strongest of the species that survive, nor the most intelligent, but the ones most responsive to change.'' --- Darwin (todo viite)
+    ''The future is already here -- it's just not very evenly distributed.''
+    \\ --- William Gibson, 1993
+    % http://en.wikiquote.org/wiki/William_Gibson
   \end{quote}
+
+  \emph{Web 2.0} oli yleinen muotisana vuosina 2005--2008. Perinteinen web, ''versio 1.0'' oli staattinen, yksisuuntainen ja täysin palvelinpään hallinnassa. Versionumerolla \emph{2.0} kuvastettiin uutta ajatusmaailmaa, jossa sivuston sisältö ei enää olisi suljettu, vaan tietoa pystyisi tuomaan järjestelmään käyttäjän selaimesta -- parhaimmillaan ilman, että koko web-sivua tarvitsi ladata uudelleen. Trendin keskeisin piirre oli kuitenkin selainpohjaisuus: sisällön lukemiseksi ja tuottamiseksi ei selaimen lisäksi tarvitsisi asentaa muuta erillistä natiivisovellusta.
+
+  % web = web 2.0 + saas + cloud
+  2010-luvulla Web 2.0:n ovat syrjäyttäneet trendikkäämmät termit kuten \emph{SaaS} (\emph{Software-as-a-Service}) ja \emph{pilvi} (\emph{cloud}). Termit eivät suoranaisesti korvaa Web 2.0:aa, mutta niillä on paljon yhteistä. Pilvi on käsitteenä häilyvä ja voi tarkoittaa eri yhteyksissä erilaisia asioita. Pilven keskeisin teesi on kuitenkin \emph{kapasiteetiltaan rajattoman laitteiston käyttö palveluna}. Perinteisesti laitteiston virtualisointi on kytketty ennalta määritettyyn kapasiteettiin, joka vuokrataan ennalta määrätyksi ajaksi, esimerkiksi kuukaudeksi tai vuodeksi kerrallaan. Pilvessä kapasiteettia voidaan kuitenkin ottaa käyttöön dynaamisesti, jolloin lisäkapasiteettia tarvitsee parhaimmillaan vuokrata vain kuormituspiikin ajaksi. Esimerkiksi laskentaintensiiviset tai eräajona suoritettavat ohjelmistot on houkuttelevaa hajauttaa pilveen: kustannus ajaa yhtä konetta 1000 tuntia voi olla sama kuin ajaa 1000:a konetta yksi tunti -- mutta jälkimmäisellä tavalla tulos valmistuu nopeammin.
+
+  % IaaS ja PaaS: Ei käsitellä tässä tutkielmassa.
+  SaaS on pilven kulma, jonka teesinä on ohjelmiston tarjoaminen palveluna loppukäyttäjälle. Web 2.0:aa edeltävänä aikana oli tyypillistä asennuttaa ohjelmisto natiivisovelluksena työasemalle. Koska ohjelmisto on SaaS-ajatusmallissa palvelu, sen käyttämiseksi riittää \emph{käyttäjäagentti} (\emph{user-agent}) (todo termi), joka tyypillisesti on web-selain tai natiivi mobiilisovellus. Merkittävänä hyötynä on ylläpidon vaatiman työmäärän pieneneminen: palveluntuottajan riittää varmistaa yhteensopivuus eri käyttäjäagenttien kesken ja asentaa ohjelmistopäivitykset ainoastaan itsensä hallinnoimaan ohjelmistoympäristöön. Käyttäjäagentin -- kuten web-selaimen -- päivittäminen on loppukäyttäjän vastuulla. 2010-luvulla ''web'' on edelleen ajankohtainen termi, mutta sen merkitys on aiempaa monipuolisempi.
+
+  % Ihanteellisesti SaaS-ajatusmaailmassa palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille. Palvelun kustannukset per asiakas saadaan sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Taloudellisuus on edellytys palvelun skaalautumiseksi laajalle käyttäjäjoukolle. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua. % multitenanttius
+
+  Palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta relevanttien ongelmien ratkaisemiseen itse ja ostaa kaiken muun palveluna. Ohjelmistokehitys- ja ylläpitotyön lisäksi palveuntuottajan ei varsinkaan tarvitse ylläpitää palvelinlaitteistoa -- fyysistä tai virtualisoituakaan. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta niihin emme tässä tutkielmassa pureudu tätä syvemmälle.
+
+
 
   Pullonkaula. Jos mooc skaalataan täytyy myös idp:n skaalata. identiteetin hallinta omatoimisesti omalla idp:llä teettää omaa työtä. Lähtökohtaisesti houkuttelevampaa ulkoistaa idp:n hommat kolmannelle osapuolelle (kuten HY, Google, FB). MOOC on \emph{massive}. Helsingin yliopistolla on noin 40.000 käyttäjätunnusta (todo viite). Facebookilla ja Googlella yhteensä yli 1,1 miljardia käyttäjätunnusta (todo viite). Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi avoin kaikille.
   %  http://en.wikipedia.org/wiki/Gmail 350M,
@@ -100,6 +113,14 @@
 
   \subsection{Web ja rajapinnat} % (fold)
   \label{sub:web_ja_rajapinnat}
+
+  \begin{quote}
+    ''It is not the strongest of the species that survive, nor the most intelligent, but the ones most responsive to change.'' --- Darwin (todo viite) (kräp, lainaus ei oikeasti darwin)
+    % ei oikeasti darwin,
+    % The earliest known appearance of this basic statement is a paraphrase of Darwin in the writings of Leon C. Megginson, a management sociologist at Louisiana State University.
+  \end{quote}
+
+  orkestrointi vs koreografia
 
   Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä. Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
 
@@ -1391,6 +1412,17 @@
   Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
 
   Kertauloskirjautuminen: jos logout palvelusta niin logout myös idp:stä. Muuten jää huomaamatta sessio auki! (esim julkinen työasema)
+
+  Käyttäjän nähtävillä selainkonteksti, ei kysytä salasanaa mooc-palvelussa. tarviiko käyttäjän ymmärtää? jos käyttäjä lähtökohtaisesti on valmis syöttämään salasanansa sinne, missä ikinä kysytäänkin.
+
+  Haasteena yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa tietoja ei saa säilyttää kotimaan rajojen ulkopuolella, joskus tietoja saa säilyttää ainoastaan oman organisaation omistamassa verkkoympäristössä.
+
+  Monesti haasteet ovat mahdollisuuksia valepuvussa.
+
+  Ylläpito- ja kehitystyötä säästyy ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Ei lisää omaa softaa ylläpidettäväksi (idp) eikä varsinkaan omaa laitteistoa (idp:n oma palvelin) fyysisenä tai virtualisoituna.
+
+  Rage toimii apurahalla. Apuraha opetuksen, ei ohjelmistojen kehittämiseen.
+
   % XRDS service links are all related to the OpenID protocol, despite XRDS
   % supports discovery of other types of services. Beyond authentication, OpenID
   % Simple Registration Extension and OpenID Attribute Exchange are popular

@@ -71,12 +71,38 @@
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
+  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. MOOC-järjestelmä tarvitsee kuitenkin luotettavan tavan käyttäjän identiteetin varmistamiseksi eli \emph{autentikoimiseksi}.
+
+  MOOC-palvelun nykyisessä toteutuksessa on jokaiselle käyttäjälle oma käyttäjätunnus ja salasana. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. MOOC-palvelun nykyisestä toteutuksesta eli omasta tunnus/salasana-yhdistelmästä halutaan eroon, koska käyttäjätunnusten hallinta aiheuttaa liikaa ylläpitotyötä ja ylläpitotyön määrä lisääntyy opiskelijamäärän kasvaessa. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti itsenäiseksi palveluksi (kuva~\ref{fig:mooc-arkkitehtuuri}), vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) palvelun muuhun toteutukseen. Itsenäinen autentikointipalvelu olisi yksi toteutusvaihtoehto -- mutta se ei varsinaisesti vähennä ylläpitotyön kokonaismäärää vaan pikemminkin tuottaa sitä lisää.
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
+    \caption{MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
+    \label{fig:mooc-arkkitehtuuri}
+  \end{figure}
+
+
+  Kuva~\ref{fig:yleiskuva_termien_suhteista} esittelee tutkielmaan liittyvien autentikoinnin toimijoiden välisiä suhteita. Ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi GMail-palveluun. GMail-palvelu on identiteetinkuluttja (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}) -- vaan ei varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, joka vahvistetaan yhteentoimivuuden standardin avulla identiteetintarjoajan (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, johon tutkielmassa ei oteta kantaa. Yleisiä toteutuksia siihen ovat esimerkiksi Kerberos-tiketit ja salasanan tiivisteen tallettaminen tietokantaan tai LDAP-palveluun.
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/auth_yleiskuva.jpg}
+    \caption{Tutkielman liittyvien termien väliset suhteet}
+    \label{fig:yleiskuva_termien_suhteista}
+  \end{figure}
+
+
+  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielma ei ota kantaa järjestelmien sisäiseen toteutukseen, mutta kuvailee yksityiskohtaisesti standardien arkkitehtuuria relevantein osin. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
+
+
   \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{images/auth_yleiskuva.jpg}
-    \caption{Yleiskuva asioiden välisestä suhteesta}
-    \label{fig:yleiskuva}
+    \includegraphics[width=0.8\textwidth]{images/mooc-autentikointirajapinnat.jpg}
+    \caption{MOOC-palveluun toteutettavat autentikointirajapinnat}
+    \label{fig:mooc-autentikointirajapinnat}
   \end{figure}
+
 
 % section johdanto (end)
 
@@ -127,21 +153,6 @@
   Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palveluntuottajasta riippumattomien ohjelmistokehittäjien välillä. Rajapinta helpottaa pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta. Tällöin myös palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon avaaminen rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
 
   Ohjelmistoon kohdistuvat vaatimukset tyypillisesti elävät (muuttuvat) sekä kehityksen että ylläpitovaiheen aikana. Darwinin lainauksen mukaisesti muutoskykyisyys on edellytys selviämiselle. Palveluorientoitunut arkkitehtuuri (\emph{Service Oriented Architecture, SOA}) on voimakas tapa varautua muuttuviin vaatimuksiin. SOA-periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa. Tavoitteena on palvelujen välinen löyhä kytkentä (\emph{loose coupling}), jolloin muutokset yhdessä palvelussa eivät vaikuta muihin palveluihin. Palveluorientoituneessa arkkitehtuurissa palvelut keskustelevat keskenään rajapintojen kautta.
-
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
-    \caption{MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
-    \label{fig:mooc-arkkitehtuuri}
-  \end{figure}
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/mooc-autentikointirajapinnat.jpg}
-    \caption{MOOC-palveluun toteutettavat autentikointirajapinnat}
-    \label{fig:mooc-autentikointirajapinnat}
-  \end{figure}
 
   % subsection web_ja_rajapinnat (end)
 
@@ -328,7 +339,7 @@
     \centering
     \includegraphics[width=0.9\textwidth]{images/usnavy_authentication.jpg}
     \caption{Yhdysvaltain ilmasotajoukkojen toisen maailmansodan ajan koulutusmateriaalia~\cite{usnavy_authentication}}
-    \label{fig:yleiskuva}
+    \label{fig:autentikointi_suojaa_viholliselta}
   \end{figure}
 
 
@@ -410,7 +421,7 @@
     \centering
     \includegraphics[width=0.9\textwidth]{images/Facebook_captcha_filled.jpg}
     \caption{Esimerkki CAPTCHA:n käytöstä Facebookissa}
-    \label{fig:yleiskuva}
+    \label{fig:captcha_facebook}
   \end{figure}
 
   % subsection haaste_vastine_autentikaatio (end)
@@ -651,6 +662,25 @@
   Historia, miksi keskitetty kertakirjautumissysteemi on ollut tarpeellinen.
   Milloin ja minkä toimijoiden aloitteesta SAML, OAuth, OpenID ovat syntyneet. Alunperin minkä ongelman ratkaisemiseksi?
 
+  Tässä kerrotaan, miksi AD, LDAP, Kerberos ja CAS eivät ole tutkielman kannalta relevantteja. Syynä se, että ne eivät ole internet-skaalan standardeja. Niitä voidaan kuitenkin käyttää palvelun sisäisessä toteutuksessa (ks johdannon yleiskuva). Esimerkiksi Kerberos edellyttää että kaikki clientit ovat samassa kellonajassa kuin server, koska timestamp leivotaan kerberos-tiketin sisään (miten eroaa client-server-server jutussa). Rajapintana jokin muu kuin http. Autentikointipalvelu järkevä pitää piilossa julkisesta internetistä ja tarjota väliin abstraktiokerros. Tämä abstraktiokerros on OpenID, OAuth, SAML tms -- ja sitä käytetään HTTP:llä. Tällöin sisäisen toteutuksen voi vaihtaa, mutta ulkoinen rajapinta ei muutu.
+
+  HTTP rules erityisesti silloin kun user-agenttina on selain. Miksi rules myös natiiviapplikaatioissa ja SOA:ssa?
+  Kun OAuth vie IdP:lle HTTP:llä, selain näyttää osoiterivillä idp:n domainin ja selainkontekstin turvallisuusilmoitukset (lukon kuva jne). Jos kertakirjaútuminen tapahtuisi HTTP:n sijaan esim. Kerberoksella tai muulla, web-selain ei osaisi kommunikoida ellei pluginia tai toteutusta. Tällöin kolmannen osapuolen palvelu joutuisi kysymään käyttäjän idp:n salasanaa suoraan ja hoitamaan autentikoinnin back-channelissa käyttäjältä näkymättömissä.
+  Kun HTTP on yhteinen protokolla, selainta voi käyttää kaikkeen. Lisäksi Javascriptin yleistyminen: nykyisellään trendinä on selaimessa suoritettavan koodin runsastuminen (etsi Fat Clients -lähde).
+
+  Sisäänkirjautuminen voi alkuvahvistusten jälkeen tapahtua ''suoraan'' ilman että käyttäjältä kysytään yhtään mitään, kun käyttäjä sisäänkirjautunut valmiiksi facebookiin. Esimerkiksi painaa pelkästään ''login''-nappia, palvelu käy salamannopeasti facebookissa (jossa voimassa oleva sessio) eikä käyttäjä huomaa mitään vaan on jo sisäänkirjautunut identiteetinkuluttajan palveluun.
+
+  Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
+
+  Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
+    \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista \cite{NIST_SP800-63-1} (todo selitä kuva) }
+    \label{fig:kertakirjautumisarkkitehtuurin_yleiskuva}
+  \end{figure}
+
+
   % Onko CAS relevantti?
   % Onko LDAP relevantti?
   % Onko SASL relevantti?
@@ -660,29 +690,17 @@
   % Onko User Provisioning käsitteenä relevantti?
   % Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
   % Onko WS-Trust ja WS-Federation relevantteja?
+  % Mikä on ''Circle of Trust?'' Onko se federated identityn juttu? Tarvitaanko sitä? Onko sama kuin PGP/GPG:ssä?
 
-  Mikä on ''Circle of Trust?'' Onko se federated identityn juttu? Tarvitaanko sitä? Onko sama kuin PGP/GPG:ssä?
+  % Missä tilanteessa Microsoft Active Directory relevantti?
+  % - AD voi toimia SAML IdP:nä
+  % - Windows Live voi toimia OpenID IdP:nä
+  % - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
+  %   % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
 
-  Sisäänkirjautuminen voi alkuvahvistusten jälkeen tapahtua ''suoraan'' ilman että käyttäjältä kysytään yhtään mitään, kun käyttäjä sisäänkirjautunut valmiiksi facebookiin. Esimerkiksi painaa pelkästään ''login''-nappia, palvelu käy salamannopeasti facebookissa (jossa voimassa oleva sessio) eikä käyttäjä huomaa mitään vaan on jo sisäänkirjautunut identiteetinkuluttajan palveluun.
+  % Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
+  % - OpenID ja OAuth käytännössä aina http (protokolla ei ota kantaa muihin), SAMLissa muitakin.
 
-  Missä tilanteessa Microsoft Active Directory relevantti?
-  - AD voi toimia SAML IdP:nä
-  - Windows Live voi toimia OpenID IdP:nä
-  - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
-    % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
-
-  Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
-
-
-  Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
-  - OpenID ja OAuth käytännössä aina http (protokolla ei ota kantaa muihin), SAMLissa muitakin.
-
-  HTTP rules erityisesti silloin kun user-agenttina on selain. Miksi rules myös natiiviapplikaatioissa ja SOA:ssa?
-  Kun OAuth vie IdP:lle HTTP:llä, selain näyttää osoiterivillä idp:n domainin ja selainkontekstin turvallisuusilmoitukset (lukon kuva jne).
-  Jos kertakirjaútuminen tapahtuisi HTTP:n sijaan esim. Kerberoksella tai muulla, web-selain ei osaisi kommunikoida ellei pluginia tai toteutusta.
-  Tällöin kolmannen osapuolen palvelu joutuisi kysymään käyttäjän idp:n salasanaa suoraan ja hoitamaan autentikoinnin back-channelissa käyttäjältä näkymättömissä.
-  Kun HTTP on yhteinen protokolla, selainta voi käyttää kaikkeen.
-  Lisäksi Javascriptin yleistyminen: nykyisellään trendinä on selaimessa suoritettavan koodin runsastuminen (etsi Fat Clients -lähde).
 
 
   % Historia:
@@ -708,14 +726,7 @@
 
   % http://developers.soundcloud.com/docs/api/authentication#user-credentials-flow
 
-  Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
-  \begin{figure}
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
-    \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista \cite{NIST_SP800-63-1} }
-    \label{fig:kertakirjautumisarkkitehtuurin_yleiskuva}
-  \end{figure}
-  todo selitä kuva.
+
 
 
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
@@ -1208,7 +1219,7 @@
       \centering
       \includegraphics[width=0.9\textwidth]{images/kertakirkautumistekniikat_venn.jpg}
       \caption{Yleiskuva kertakirjautumistekniikoiden yhtenäisyyksistä. todo kuva piirrettävä selkeämmäksi tai poistettava}
-      \label{fig:yleiskuva}
+      \label{fig:yleiskuva_sso_yhtenaisyyksista}
     \end{figure}
 
 
@@ -1220,10 +1231,6 @@
 
 \section{Case MOOC: Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
 \label{sec:mooc_vertailu}
-
-  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa Massive Online Open Course (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. MOOC-järjestelmä tarvitsee kuitenkin luotettavan tavan käyttäjän tunnistamiseksi.
-
-  MOOC-palvelussa on tällä hetkellä oma tunnus ja salasana jokaiselle käyttäjälle. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. MOOC-palvelun nykyisestä toteutuksesta eli omasta tunnus/salasana-yhdistelmästä halutaan eroon. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti omaksi palvelukseen, vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) muun palvelun toteutukseen.
 
   MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google -- muita merkittäviä vaihtoehtoja olisivat esimerkiksi Windows Live, Yahoo! ja VeriSign (todo viite http://openid.net/get-an-openid/). Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
 
@@ -1357,7 +1364,7 @@
     \centering
     \includegraphics[width=0.9\textwidth]{images/facebook_authorization_contact_info.png}
     \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
-    \label{fig:yleiskuva}
+    \label{fig:luvan_kysyminen_oauth_fb}
   \end{figure}
 
 

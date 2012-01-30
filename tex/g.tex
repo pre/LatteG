@@ -130,12 +130,12 @@
 
   Palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta relevanttien ongelmien ratkaisemiseen itse ja ostaa kaiken muun palveluna. Ohjelmistokehitys- ja ylläpitotyön lisäksi palveuntuottajan ei varsinkaan tarvitse ylläpitää palvelinlaitteistoa -- fyysistä tai virtualisoituakaan. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta niihin emme tässä tutkielmassa pureudu tätä syvemmälle.
 
-
-
-  Pullonkaula. Jos mooc skaalataan täytyy myös idp:n skaalata. identiteetin hallinta omatoimisesti omalla idp:llä teettää omaa työtä. Lähtökohtaisesti houkuttelevampaa ulkoistaa idp:n hommat kolmannelle osapuolelle (kuten HY, Google, FB). MOOC on \emph{massive}. Helsingin yliopistolla on noin 40.000 käyttäjätunnusta (todo viite). Facebookilla ja Googlella yhteensä yli 1,1 miljardia käyttäjätunnusta (todo viite). Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi avoin kaikille.
+  MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos virtuaalikurssi muodostuu suosituksi täytyy kuormitukseen liittyvät pullonkaulat tunnistaa. Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa. Valtavuuden vuoksi on houkuttelevaa ulkoistaa identiteetintarjoajan vastuualue täysin kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle tai Facebookille. Helsingin yliopistolla on noin 40.000 käyttäjätunnusta (todo viite). Facebookilla ja Googlella yhteensä yli 1,1 miljardia käyttäjätunnusta (todo viite). Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi on avoin kaikille.
   %  http://en.wikipedia.org/wiki/Gmail 350M,
   % https://www.facebook.com/press/info.php?statistics  800M
   % http://www.helsinki.fi/lyhyesti/ 35000 opisk, 4000 hlökunnan jäsentä
+
+
 
   \subsection{Web ja rajapinnat} % (fold)
   \label{sub:web_ja_rajapinnat}
@@ -326,6 +326,12 @@
   Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
   Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
   Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
+
+  SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
+
+  Design by Contract: rajapintakutsun esi- ja jälkiehdot. SOA-formalismi OWL-S.
+  % B. Meyer. Applying Design By Contract.Computer, No. 25, Vol. 10, 1992
+
 
   % subsection arkkitehtuurityyli_soa (end)
 

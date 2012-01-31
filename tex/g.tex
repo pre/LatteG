@@ -272,7 +272,7 @@
   %
   % subsection http_protokolla (end)
 
-  \subsection{Käsitteet URI, URL ja URN} % (fold)
+  \subsection{Internet-resurssien tunnisteet (URI, URL, URN ..ja XRI)} % (fold)
   \label{sub:käsitteet_uri_url_ja_urn}
 
   \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä -- kuten \verb!XRI! -- joten jokainen webissä esiintyvä URI ei ole URL. XRI:stä lisää OpenID-kappaleessa. (todo viite)
@@ -285,6 +285,9 @@
 
   \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
 
+  % todo
+  Tässä leikitellään idealla, jos URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Syrjäyttikö sen googlen näkemys sähköpostiosoitteesta id:nä?
+
   \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
@@ -295,30 +298,34 @@
   % subsection käsitteet_uri_url_ja_urn (end)
 
 
-  \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
-  \label{sub:arkkitehtuurityyli_ws_}
-    Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
+  % TODO / POIS:
+  %
+  % \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
+  % \label{sub:arkkitehtuurityyli_ws_}
+  %   Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
+  %
+  %   SOAP ja XML.
+  % % subsection arkkitehtuurityyli_ws_ (end)
 
-    SOAP ja XML.
-  % subsection arkkitehtuurityyli_ws_ (end)
 
-
-  \subsection{Arkkitehtuurityyli: REST} % (fold)
-  \label{sub:arkkitehtuurityyli_rest}
-
-  Määrittele resurssi (http rfc, fielding-väitöskirja)
-
-  URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
-
-  Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
-  Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
+  % TODO / POIS:
+  %
+  % \subsection{Arkkitehtuurityyli: REST} % (fold)
+  % \label{sub:arkkitehtuurityyli_rest}
+  %
+  % Määrittele resurssi (http rfc, fielding-väitöskirja)
+  %
+  % URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
+  %
+  % Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
+  % Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
 
 
 
   % subsection arkkitehtuurityyli_rest (end)
 
 
-  \subsection{Arkkitehtuurityyli: SOA} % (fold)
+  \subsection{Palveluorientoitunut arkkitehtuuri (SOA)} % (fold)
   \label{sub:arkkitehtuurityyli_soa}
 
   Löyhästi kytketyt palvelut (loosely coupled).
@@ -657,7 +664,7 @@
 
 
 
-\section{Kertakirjautuminen internetissä (Single-Sign On, SSO)} % (fold)
+\section{Kertakirjautuminen internetissä (Single-Sign On)} % (fold)
 \label{sec:Kertakirjautumisstandardit}
   \begin{quote}
       ''The fool saith, 'Put not all thy eggs in one basket' ...
@@ -738,6 +745,19 @@
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
   \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
   Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
+
+  Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
+
+
+  Selitä kuva~\ref{fig:mooc_login_luonnos}.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/mooc_login_sketch.jpg}
+    \caption{Luonnos MOOC-järjestelmän sisäänkirjautumissivusta. Missä tunnuksen luominen tapahtuu?}
+    \label{fig:mooc_login_luonnos}
+  \end{figure}
+
 
   % subsection tarve_yhteiskäyttöiselle_autentikointistandardille (end)
 
@@ -830,7 +850,31 @@
   Kertauloskirjautuminen voi siis olla relevantti? Jos palvelusta logout, niin logout myös idp:ltä. Koska jos käyttää julkiselta koneelta, niin muuten jäisi huomaamatta sessio auki idp:hen!
   % subsubsection kerta (end)
 
+  \subsubsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
 
+  Helsingin yliopistolla (HY) on virallinen hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun (todo tarvitaanko lähde?).
+  Tietojenkäsittelytieteen laitoksella (TKTL) on oma AD-palvelu ja lisäksi lukuisa määrä erilaisia ja -tasoisia autentikointipalveluja.
+  Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
+
+  TKTL:n ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, josta käyttäjätiedot kopioidaan eräajona TKTL:n omien autentikointipalvelujen käytettäviin. Esimerkiksi laitoksen ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu eräajona HY:n ensisijaisesta käyttäjärekisteristä. LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatiis paljon työtä.
+
+  Autentikointinsa puolesta MOOC-järjestelmän ei kannata ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan HY:n virallista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi. Akateemisessa ympäristössä vapaus on perusarvo, minkä vuoksi järjestelmä tukee käyttäjäkeskeistä identiteettiä eli mahdollistaa vapaavalintaisen OpenID-identiteetintarjoajan käyttämisen. Käyttäjäystävällisyyden vuoksi tarjotaan myös kaksi esiasetettua identintarjoajaa: Google (OpenID) ja Facebook (OAuth).
+
+  % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
+
+
+  \subsubsection{Autentikoituminen Helsingin yliopiston identiteetillä} % (fold)
+  \label{sub:autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin}
+  Tässä kerrotaan periaatetasolla, kuinka MOOC käyttää SAMLia tunnistaakseen käyttäjän yliopiston AD-palvelulla.
+
+  Kiinnostaisi jättää tämä vähemmälle huomiolle ja keskittyä OpenID:n ja OAuthin selittämiseen.
+
+  % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
+
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \subsection{OpenID v2.0} % (fold)
   \label{sub:openid}
 
@@ -927,6 +971,18 @@
   % XRI on yhdentyyppinen URI
 
 
+
+  % XRDS service links are all related to the OpenID protocol, despite XRDS
+  % supports discovery of other types of services. Beyond authentication, OpenID
+  % Simple Registration Extension and OpenID Attribute Exchange are popular
+  % OpenID extensions supported by collected identiﬁers. They are followed by
+  % provider policy authentication extensions (PAPE), which assert policies
+  % applied by identity providers in order to assure end user authentication.
+  % The most popular is phishing-resistant policies. The rest of services are
+  % less common. \cite{openid_identifier_survey_2011}
+
+
+
   %  The premise of OpenID 1.x was that users would share one
     % globally unique URL (or one of a presumably small set of URLs)
     % with RPs. This stood in stark contrast to other Internet identity
@@ -1004,6 +1060,72 @@
   % ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
   %
   % subsection openid_connect (end)
+
+
+  \subsubsection{Autentikoituminen Googlen identiteetillä} % (fold)
+  \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
+    \caption{Sekvenssikaavio OpenID-autentikoinnista; Googlen suosittelema autentikointiprosessi (todo viite http://code.google.com/apis/accounts/docs/OpenID.html)}
+    \label{fig:sekvenssikaavio_google_openid}
+  \end{figure}
+
+  % Kuva:
+  % 1. The web application asks the end user to log in by offering a set of log-in options, including using their Google account.
+  % 2. The user selects the "Sign in with Google" option. See Designing a Login User Interface for more options.
+  % 3. The web application sends a "discovery" request to Google to get information on the Google login authentication endpoint.
+  % 4. Google returns an XRDS document, which contains the endpoint address.
+  % 5. The web application sends a login authentication request to the Google endpoint address.
+  % 6. This action redirects the user to a Google Federated Login page, either in the same browser window or in a popup window, and the user is asked to sign in.
+  % Once logged in, Google displays a confirmation page (redirect version / popup version) and notifies the user that a third-party application is requesting authentication. The page asks the user to confirm or reject linking their Google account login with the web application login. If the web application is using OpenID+OAuth, the user is then asked to approve access to a specified set of Google services. Both the login and user information sharing must be approved by the user for authentication to continue. The user does not have the option of approving one but not the other.
+  % Note: If the user is already logged into their Google account, or has previously approved automatic login for this web application, the login step or the approval step (or both) may be skipped.
+  %
+  % 7. If the user approves the authentication, Google returns the user to the URL specified in the openid.return_to parameter of the original request. A Google-supplied identifier, which has no relationship to the user's actual Google account name or password, is appended as the query parameter openid.claimed_id. If the request also included attribute exchange, additional user information may be appended. For OpenID+OAuth, an authorized OAuth request token is also returned.
+  %
+  % 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
+  % Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
+
+  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti~\cite{google_openid_dev_docs}:
+
+  \begin{verbatim}
+    <Service priority="0">
+    <Type>http://specs.openid.net/auth/2.0/server</Type>
+    <URI>{Googlen OpenID-päätepisteen URL}</URI>
+    </Service>
+  \end{verbatim}
+
+  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
+
+  % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
+
+  % 23.1.2012
+  %
+  % GET https://www.google.com/accounts/o8/id HTTP/1.0
+  %
+  % <?xml version="1.0" encoding="UTF-8"?>
+  % <xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
+  %   <XRD>
+  %   <Service priority="0">
+  %   <Type>http://specs.openid.net/auth/2.0/server</Type>
+  %   <Type>http://openid.net/srv/ax/1.0</Type>
+  %   <Type>http://specs.openid.net/extensions/ui/1.0/mode/popup</Type>
+  %   <Type>http://specs.openid.net/extensions/ui/1.0/icon</Type>
+  %   <Type>http://specs.openid.net/extensions/pape/1.0</Type>
+  %   <URI>https://www.google.com/accounts/o8/ud</URI>
+  %   </Service>
+  %   </XRD>
+  % </xrds:XRDS>
+  %
+
+
+  % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)
+
+  \subsubsection{Autentikoituminen käyttäjäkeskeisen identiteetin toteutuksella} % (fold)
+  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
+  Tässä kerrotaan periaatetasolla, kuinka tarjotaan mahdollisuus vapaavalintaisen identiteetintarjoajan käyttämiseksi. Tekninen selitys on sama kuin luvussa, jossa kerrotaan Googlen OpenID:n soveltamisesta.
+  % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
 
   \subsection{OAuth v2.0} % (fold)
@@ -1205,6 +1327,16 @@
 
   % subsection oauth (end)
 
+  \subsubsection{Autentikoituminen Facebook-identiteetillä} % (fold)
+  \label{sub:autentikoituminen_oauth}
+  Tässä kerrotaan kuinka Facebook-autentikoinnilla pääsee MOOC-palveluun.
+
+  Päälähteenä Facebookin kehittäjädokumentaatio:
+  \\ \verb!https://developers.facebook.com/docs/authentication/!
+
+  % subsection autentikoituminen_oauth (end)
+
+
 
   \subsection{Tekniikoiden yhtäläisyydet} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}
@@ -1228,15 +1360,15 @@
       \label{fig:yleiskuva_sso_yhtenaisyyksista}
     \end{figure}
 
+    Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
+    + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
+    + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
+    + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
 
   % subsection tekniikoiden_yhtäläisyydet (end)
 
-
-% section Kertakirjautumisstandardit (end)
-
-
-\section{Case MOOC: Vertailu kertakirjautumisjärjestelmien soveltuvuusalueista} % (fold)
-\label{sec:mooc_vertailu}
+  \subsection{Yhteenveto autentikoinnin toteutukesta} % (fold)
+  \label{sub:yhteenveto_autentikoinnin_toteutukesta}
 
   MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google -- muita merkittäviä vaihtoehtoja olisivat esimerkiksi Windows Live, Yahoo! ja VeriSign (todo viite http://openid.net/get-an-openid/). Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
 
@@ -1248,112 +1380,43 @@
 
   Tutkielma esittää toteutuksen, jossa kertakirjautuminen ei olisi mahdollinen pelkästään yhdellä yhteentoimivuuden standardilla. MOOC-palvelun toteutuksessa rinnakkaiset standardit -- OpenID, OAuth, ja SAML -- tukevat toinen toisiaan eivätkä varsinaisesti kilpaile keskenään.
 
+  % subsection yhteenveto_autentikoinnin_toteutukesta (end)
 
-  Selitä kuva~\ref{fig:mooc_login_luonnos}.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/mooc_login_sketch.jpg}
-    \caption{Luonnos MOOC-järjestelmän sisäänkirjautumissivusta. Missä tunnuksen luominen tapahtuu?}
-    \label{fig:mooc_login_luonnos}
-  \end{figure}
-
-  \subsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
-  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
-
-  Helsingin yliopistolla (HY) on virallinen hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun (todo tarvitaanko lähde?).
-  Tietojenkäsittelytieteen laitoksella (TKTL) on oma AD-palvelu ja lisäksi lukuisa määrä erilaisia ja -tasoisia autentikointipalveluja.
-  Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
-
-  TKTL:n ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, josta käyttäjätiedot kopioidaan eräajona TKTL:n omien autentikointipalvelujen käytettäviin. Esimerkiksi laitoksen ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu eräajona HY:n ensisijaisesta käyttäjärekisteristä. LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatiis paljon työtä.
-
-  Autentikointinsa puolesta MOOC-järjestelmän ei kannata ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan HY:n virallista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi. Akateemisessa ympäristössä vapaus on perusarvo, minkä vuoksi järjestelmä tukee käyttäjäkeskeistä identiteettiä eli mahdollistaa vapaavalintaisen OpenID-identiteetintarjoajan käyttämisen. Käyttäjäystävällisyyden vuoksi tarjotaan myös kaksi esiasetettua identintarjoajaa: Google (OpenID) ja Facebook (OAuth).
-
-  % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
+% section Kertakirjautumisstandardit (end)
 
 
-  \subsection{Autentikoituminen federoidulla identiteetillä Helsingin yliopiston käyttäjärekisteriin} % (fold)
-  \label{sub:autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin}
-  Tässä kerrotaan periaatetasolla, kuinka MOOC käyttää SAMLia tunnistaakseen käyttäjän yliopiston AD-palvelulla.
+  \section{Yhteenveto} % (fold)
+  \label{sec:yhteenveto}
 
-  Kiinnostaisi jättää tämä vähemmälle huomiolle ja keskittyä OpenID:n ja OAuthin selittämiseen.
+    Gradun tavoite on täyttynyt, jos koodinimi ''Tienaria'' edustava Luukkainen pystyy kertomaan, mitä eroa ja yhteisiä piiretitä on SAMLilla, OAuthilla ja OpenID:llä.
 
-  % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
+    Vastataan alkukappaleessa esitettyihin kysymyksiin.
 
-  \subsection{Autentikoituminen esiasetetulla Google OpenID \\-identiteetintarjoajalla} % (fold)
-  \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
+    Yksityisyys? % http://www.google.com/policies/
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
-    \caption{Sekvenssikaavio OpenID-autentikoinnista; Googlen suosittelema autentikointiprosessi (todo viite http://code.google.com/apis/accounts/docs/OpenID.html)}
-    \label{fig:sekvenssikaavio_google_openid}
-  \end{figure}
+    Kuka varastoi mitäkin? Entistä suurempi käyttäjäkunta vähemmällä ylläpidolla.
 
-  % Kuva:
-  % 1. The web application asks the end user to log in by offering a set of log-in options, including using their Google account.
-  % 2. The user selects the "Sign in with Google" option. See Designing a Login User Interface for more options.
-  % 3. The web application sends a "discovery" request to Google to get information on the Google login authentication endpoint.
-  % 4. Google returns an XRDS document, which contains the endpoint address.
-  % 5. The web application sends a login authentication request to the Google endpoint address.
-  % 6. This action redirects the user to a Google Federated Login page, either in the same browser window or in a popup window, and the user is asked to sign in.
-  % Once logged in, Google displays a confirmation page (redirect version / popup version) and notifies the user that a third-party application is requesting authentication. The page asks the user to confirm or reject linking their Google account login with the web application login. If the web application is using OpenID+OAuth, the user is then asked to approve access to a specified set of Google services. Both the login and user information sharing must be approved by the user for authentication to continue. The user does not have the option of approving one but not the other.
-  % Note: If the user is already logged into their Google account, or has previously approved automatic login for this web application, the login step or the approval step (or both) may be skipped.
-  %
-  % 7. If the user approves the authentication, Google returns the user to the URL specified in the openid.return_to parameter of the original request. A Google-supplied identifier, which has no relationship to the user's actual Google account name or password, is appended as the query parameter openid.claimed_id. If the request also included attribute exchange, additional user information may be appended. For OpenID+OAuth, an authorized OAuth request token is also returned.
-  %
-  % 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
-  % Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
+    Skaalautuuko, mitkä ovat uudet pullonkaulat?
 
-  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti~\cite{google_openid_dev_docs}:
+    Kuinka luotettavia tunnisteet ovat? Federoitu vs käyttäjäkeskeinen. Keskitetty + user centric = monta sso-identiteettiä.
 
-  \begin{verbatim}
-    <Service priority="0">
-    <Type>http://specs.openid.net/auth/2.0/server</Type>
-    <URI>{Googlen OpenID-päätepisteen URL}</URI>
-    </Service>
-  \end{verbatim}
+    Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
 
-  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
+    Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
 
-  % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
+    Kertauloskirjautuminen: jos logout palvelusta niin logout myös idp:stä. Muuten jää huomaamatta sessio auki! (esim julkinen työasema)
 
-  % 23.1.2012
-  %
-  % GET https://www.google.com/accounts/o8/id HTTP/1.0
-  %
-  % <?xml version="1.0" encoding="UTF-8"?>
-  % <xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
-  %   <XRD>
-  %   <Service priority="0">
-  %   <Type>http://specs.openid.net/auth/2.0/server</Type>
-  %   <Type>http://openid.net/srv/ax/1.0</Type>
-  %   <Type>http://specs.openid.net/extensions/ui/1.0/mode/popup</Type>
-  %   <Type>http://specs.openid.net/extensions/ui/1.0/icon</Type>
-  %   <Type>http://specs.openid.net/extensions/pape/1.0</Type>
-  %   <URI>https://www.google.com/accounts/o8/ud</URI>
-  %   </Service>
-  %   </XRD>
-  % </xrds:XRDS>
-  %
+    Käyttäjän nähtävillä selainkonteksti, ei kysytä salasanaa mooc-palvelussa. tarviiko käyttäjän ymmärtää? jos käyttäjä lähtökohtaisesti on valmis syöttämään salasanansa sinne, missä ikinä kysytäänkin.
 
+    Haasteena yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa tietoja ei saa säilyttää kotimaan rajojen ulkopuolella, joskus tietoja saa säilyttää ainoastaan oman organisaation omistamassa verkkoympäristössä.
 
-  % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)
+    Monesti haasteet ovat mahdollisuuksia valepuvussa.
 
-  \subsection{Autentikoituminen käyttäjäkeskeisen identiteetin OpenID-toteutuksella} % (fold)
-  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
-  Tässä kerrotaan periaatetasolla, kuinka tarjotaan mahdollisuus vapaavalintaisen identiteetintarjoajan käyttämiseksi. Tekninen selitys on sama kuin luvussa, jossa kerrotaan Googlen OpenID:n soveltamisesta.
-  % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
+    Keskitetty vs. munat samassa korissa. Painotetaan: Jos MOOC haksoroidaan, salasanat eivät päädy vääriin käsiin. Google/FB panostavat käyttäjien tietoturvaan (eri asia kuin tietosuoja), kosak niiden bisnes edellyttää luottamusta turvallisuuteen. Moocin ylläpito ei pysty samaan, todennäköisempää että jokin tietoturvareikä jää paikkaamatta MOOCissa kuin Googlessa. Verrataan uudelleen Gawker-tietomurto vs twitter-salasanojen väärinkäyttöaalto.
 
+    Ylläpito- ja kehitystyötä säästyy ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Ei lisää omaa softaa ylläpidettäväksi (idp) eikä varsinkaan omaa laitteistoa (idp:n oma palvelin) fyysisenä tai virtualisoituna.
 
-  \subsection{Autentikoituminen OAuth-toteutuksella} % (fold)
-  \label{sub:autentikoituminen_oauth}
-  Tässä kerrotaan kuinka Facebook-autentikoinnilla pääsee MOOC-palveluun.
-
-  Päälähteenä Facebookin kehittäjädokumentaatio:
-  \\ \verb!https://developers.facebook.com/docs/authentication/!
-
-  % subsection autentikoituminen_oauth (end)
+    Rage toimii apurahalla. Apuraha opetuksen, ei ohjelmistojen kehittämiseen.
 
   \subsection{Jatkokehitysideoita} % (fold)
   \label{sub:jatkokehitysideoita}
@@ -1402,63 +1465,8 @@
 
   % subsection jatkokehitysideoita (end)
 
-
-
-  \subsection{Yhteenveto toteutuksesta} % (fold)
-  \label{sub:yhteenveto_toteutuksesta}
-
-  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
-  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
-  + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
-  + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
-
-  Yksityisyys? % http://www.google.com/policies/
-
-  Kuka varastoi mitäkin? Entistä suurempi käyttäjäkunta vähemmällä ylläpidolla.
-
-  Skaalautuuko, mitkä ovat uudet pullonkaulat?
-
-  Kuinka luotettavia tunnisteet ovat? Federoitu vs käyttäjäkeskeinen.
-
-  Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
-
-  Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
-
-  Kertauloskirjautuminen: jos logout palvelusta niin logout myös idp:stä. Muuten jää huomaamatta sessio auki! (esim julkinen työasema)
-
-  Käyttäjän nähtävillä selainkonteksti, ei kysytä salasanaa mooc-palvelussa. tarviiko käyttäjän ymmärtää? jos käyttäjä lähtökohtaisesti on valmis syöttämään salasanansa sinne, missä ikinä kysytäänkin.
-
-  Haasteena yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa tietoja ei saa säilyttää kotimaan rajojen ulkopuolella, joskus tietoja saa säilyttää ainoastaan oman organisaation omistamassa verkkoympäristössä.
-
-  Monesti haasteet ovat mahdollisuuksia valepuvussa.
-
-  Ylläpito- ja kehitystyötä säästyy ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Ei lisää omaa softaa ylläpidettäväksi (idp) eikä varsinkaan omaa laitteistoa (idp:n oma palvelin) fyysisenä tai virtualisoituna.
-
-  Rage toimii apurahalla. Apuraha opetuksen, ei ohjelmistojen kehittämiseen.
-
-  % XRDS service links are all related to the OpenID protocol, despite XRDS
-  % supports discovery of other types of services. Beyond authentication, OpenID
-  % Simple Registration Extension and OpenID Attribute Exchange are popular
-  % OpenID extensions supported by collected identiﬁers. They are followed by
-  % provider policy authentication extensions (PAPE), which assert policies
-  % applied by identity providers in order to assure end user authentication.
-  % The most popular is phishing-resistant policies. The rest of services are
-  % less common. \cite{openid_identifier_survey_2011}
-
-
-  % subsection yhteenveto_toteutuksesta (end)
-
-
-
-
-% section kertakirjautumisjärjestelmien_ (end)
-
-\section{Yhteenveto} % (fold)
-\label{sec:yhteenveto}
-
-  Gradun tavoite on täyttynyt, jos koodinimi ''Tienaria'' edustava Luukkainen pystyy kertomaan, mitä eroa ja yhteisiä piiretitä on SAMLilla, OAuthilla ja OpenID:llä.
-
 % section yhteenveto (end)
+
 
 \bibliographystyle{tktl}
 \bibliography{g}

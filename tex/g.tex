@@ -754,6 +754,8 @@
   \end{figure}
 
 
+  Mitään tässä tutkielmassa esiteltävää protokollaa ei ole suositeltavaa implementoida omatoimisesti ilman painavaa syytä. Protokollan toteutuksen turvallisuus tai toimintavarmuus saattaa vaarantua pienestäkin virheestä. Jokaiselle tutkielmassa käsiteltävälle protokollalle on olemassa runsas joukko laajasti käytössä olevia kirjastoja, jotka ovat testattuja, ylläpidettyjä ja lisäksi myös jatkuvasti paremmaksi kehittyviä.
+
   % subsection tarve_yhteiskäyttöiselle_autentikointistandardille (end)
 
   % paragraph yleisnäkymä_ilmakuva_overview (end)
@@ -1055,6 +1057,13 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{Autentikoituminen Googlen identiteetillä} % (fold)
   \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
 
+  Google tarjoaa OpenID 2.0 + OAuth -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
+  % http://code.google.com/apis/accounts/docs/OAuth2.html
+
+
+
+  OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea.
+
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
@@ -1126,6 +1135,62 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     todo viite http://hueniverse.com/2010/05/introducing-oauth-2-0/
   \end{quote}
 
+  % oauth_callback: url johon idp ohjaa käyttäjän autentikoinnin/auktorisoinnin jälkeen
+  % out of band: ei url callbackia, mutta oauth_verifier haaste
+  % requestToken: poletti joka myönnetään kysyjälle. uudelleenkäytetään auktorisointivaiheessa.
+  % accessToken: poletti joka myönnetään auktorisointisyklin lopuksi. Toimii käyttäjän myöntämänä valtakirjana: valtakirjaa vastaan annetaan käyttöoikeus käyttäjän resursseihin.
+  % authorize: Poletin vastaanottamisen jälkeen idp esittää auktorisointisivun jossa käyttäjä sallii/hylkää pääsyoikeuspyynnön
+  % token secret: merkkijono joka palautetaan requestToken ja accessToken vaiheiden jälkeen, käytetään yhdessä consumer secretin kanssa kun pyyntö allekirjoitetaan
+  % comsumer key: idc:n api-avain
+  % consumer secert: idc:n api-salaisuus, jolla kaikki pyynnöt allekirjoitetaan
+  % oauth_nonce: satunnaismerkkijono, uniikki joka pyynnöllä
+  % oauth_timestamp: epoch time sekunteina, max synkronisointiero 5? minuuttia idc:n kelloon?
+  % oauth_token: riippuu kontekstista: joko request token tai access token
+  % oauth_verifier: idp palauttaa idc:lle oauth_callbackin kutsun yhteydessä, tai käyttäjä syöttää käsin out-of-band flowssa.
+  %
+  % kuinka request token rakennetaan? http method, request uri, oauth_callback, oauth_consumer_key, oauth_nonce, oauth_signature_method, oauth_timestamp, oauth_version
+  % rakennetaan url, urlescape parametrit
+  % lisätään url http authorization headeriin
+  % lähetetään endpointtiin
+  % jos onnistuu, tulee takaisin url encoodattu vastaus, jossa oauth_token, token_secret ja callback_confirmed=true:
+  %    oauth-token on request token ja token_secretillä allekirjoitetaan pyyntö access_tokenista
+  %     callback_confirmed -- vapaaehtoinen vai pakollinen? sanoo vain että ok
+  %     säilytä oauth_token ja token_secret kunness access_token vaihe on valmis.
+  % -- tämän jälkeen idc:llä on request token ja rakennetaan url auktorisointia varten.
+  %  auktorisointi url endpoint on idp:llä, queryparametriksi oauth_token, jonka arvo on saatu edellisessä vaiheessa.
+  % timestamp --> käyttäjän täytyy saapua <=5minuutissa ensimmäisen tokenin myöntämisen jälkeen. idp:llä on jo oauth_callback --> sitä ei enää tartte tässä syöttää.
+  %
+  % prepare your signing secret:
+  % riippumatta käyttääkö callback vai out-of-band: idc:llä on request token, oauth_token_secret ja oauth_verifier. Request token vaihdetaan access_tokeniin, joka esittää valtakirjaa jolla idc saa (valtakirjan mukaiessti) toimia käyttäjän puolesta idp:n myöntämissä resursseissa.
+  % signing key format: url_escape(consumer_secret)&url_escape(oauth_token_secret)
+  % ---> rakenna url, lähetä authorisointitiedot http headereissa:
+  %    oauth_signature, _nonce, _callback, _signature_method, _timestamp, _consumer_key, _token, _verifier, _version
+  % ---> idp vastaa oauth_token ja oauth_token_secret, idc:n täytyy säilöä molemmat niin kauan aikaa kuin se käyttää valtakirjaa. Käyttäjä voi määritellä myös ajan kauanko valtakirja on voimassa. Käyttäjä voi myös poistaa valtakirjan (revoke token) milloin vain idp:n palvelussa. Myös idc voi omatoimisesti invalidoida tokeninsa.
+  % Lähde:   http://www.slideshare.net/episod/linkedin-oauth-zero-to-hero
+
+  % Jos käyttäjä painaa auktorisointipyyntöön cancel, voidaan palauttaa "integration urliin". Jos tätä ei määritetty, palautus callback_urliin. Tällöin idp ei välitä tokenia tai salaisuutta. Callback urliin lähetetään oauth_problem jonka arvona "user_refused".
+
+  % Your servers making requests must be within 5 minutes of our system clock. Timestamps in OAuth are always represented in epoch time in seconds. In any error response LinkedIn sends you, the current timestamp on our servers is included in an XML body of the response. However, at this time the timestamp we send you is in milliseconds, not seconds. It's quite easy to do the math to convert milliseconds to seconds.
+
+  % linkedin oauth 1.0a flow: https://developer.linkedin.com/documents/oauth-overview
+  % twitter oauth 1.0a: https://dev.twitter.com/docs/auth/authorizing-request
+  % https://dev.twitter.com/docs/auth/implementing-sign-twitter
+  % twitter tokenit
+
+  Better ux: app logo secure url: oauth pyynnön käyttäjälle näytettävällä sivulla voidaan esittää idc:n logo.
+
+  OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
+  1) The current member is logged into LinkedIn.
+  2) The current member has already granted an access token to your application.
+  3) The access token has not expired.
+
+  Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
+  % https://developer.linkedin.com/documents/linkedins-oauth-details
+
+  *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
+
+  *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
+    % https://dev.twitter.com/docs/auth/pin-based-authorization
 
 
   OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen: jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista kolmannen osapuolen palvelun kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen palveluun. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
@@ -1133,7 +1198,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa.
   OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioiden kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1 -standardi ei millään riittänyt. OAuth 1.0 + Facebook Connect --> OAuth 2.0. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
 
-  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!http://tunnus:salasana@palvelu.com/polku!)}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!http://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa. Kehittäjäyhteistä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa identiteetinkuluttaja kysyy käyttäjän salasanaa\footnote{xAuth on OAuth ilman \emph{request\_token} ja \emph{authorization} -vaiheita: identiteetintarjoaja antaa pääsyoikeuspoletin identiteetinkuluttajan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuth tarjoaa OAuthia rajoitetumman pääsyn käyttäjän profiiliin, ja sen käyttämiseksi täytyy anoa Twitteriltä erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}.
 
   Käyttäjälle muutos on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
 
@@ -1143,7 +1208,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
   Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
-
 
   Selitä auki kuva~\ref{fig:facebook_oauth_lupapyynto}.
 
@@ -1166,13 +1230,26 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \end{figure}
 
 
+  \subsubsection{OAuth käytännössä} % (fold)
+  \label{ssub:oauth_käytännössä}
+
+  OAuth 2.0 on suhteellisen yksinkertainen protokolla. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin tarjoajan rajapintaan.
+
+
+
+  % subsubsection oauth_käytännössä (end)
+
+
   Soundcloud OAuth authorization flow diagram % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
+
+  Twitter OAuth flow diagram
+  % https://dev.twitter.com/docs/auth/oauth
 
   Kerro miksi hueniverse on mainio lähde; blogia pitää yksi oauth-speksin kehittäjistä
 
-  auktorisointiluvan kysyminen mobiilissa.
-
-  Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
+  % auktorisointiluvan kysyminen mobiilissa.
+  %
+  % Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
 
   Kaaviokuva / sanallinen dialogi autentikaatiosta ennen oauth1.0, oauth2.0, palvelin-palvelin
   ks. Internet-Scale Identity Systems: An Overview and Comparison
@@ -1327,6 +1404,19 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % subsection autentikoituminen_oauth (end)
 
 
+  \subsection{Uuden käyttäjän rekisteröityminen} % (fold)
+  \label{sub:uuden_käyttäjän_rekisteröityminen}
+
+  Edellä käsiteltiin ainoastaan sisäänkirjautumista. Samoin kuin induktiossa tarvitaan alkuaskel, identiteetti täytyy rekisteröidä ennen kuin sitä vastaavaa käyttäjätunnusta voidaan käyttää sisäänkirjautumiseen.
+
+  Määritteleekö OAuth registration callbackin vai onko se Facebookin kirjaston oma juttu?
+
+  Miten Google?
+
+  Käyttääkö uudet Google-tunnukset OpenID:tä vai OAuthia?
+
+  % subsection uuden_käyttäjän_rekisteröityminen (end)
+
 
   \subsection{Tekniikoiden yhtäläisyydet} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}
@@ -1386,6 +1476,9 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
     Kuka varastoi mitäkin? Entistä suurempi käyttäjäkunta vähemmällä ylläpidolla.
 
+    Onko OAuth1:n salaisuuden talletusongelmat edelleen relevantteja OAuth2:n desktop/mobiilikäytössä?
+    Salaisuuden varastointi on desktop/mobiiliympäristössä. Web-palvelussa salaisuus voidaan varastoida esim. tietokantaan. Mutta työpöytäkäytössä yhden tallettaman salaisuuden voi pölliä toinen ohjelma: tällöin jälkimmäinen voi käyttää palvelua edelliselle myönnetyillä oikeuksilla. Tässä tutkielmassa rajaudutaan web-palveluihin. Twitter ja Yammer ratkaisseet ongelman kysymällä käyttäjältä pin-koodia oikeuksien myöntämisen yhteydessä (miten toimii, onko kertakäyttöinen?) % http://stackoverflow.com/questions/1934187/oauth-secrets-in-mobile-apps
+
     Skaalautuuko, mitkä ovat uudet pullonkaulat?
 
     Kuinka luotettavia tunnisteet ovat? Federoitu vs käyttäjäkeskeinen. Keskitetty + user centric = monta sso-identiteettiä.
@@ -1405,6 +1498,8 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     Keskitetty vs. munat samassa korissa. Painotetaan: Jos MOOC haksoroidaan, salasanat eivät päädy vääriin käsiin. Google/FB panostavat käyttäjien tietoturvaan (eri asia kuin tietosuoja), kosak niiden bisnes edellyttää luottamusta turvallisuuteen. Moocin ylläpito ei pysty samaan, todennäköisempää että jokin tietoturvareikä jää paikkaamatta MOOCissa kuin Googlessa. Verrataan uudelleen Gawker-tietomurto vs twitter-salasanojen väärinkäyttöaalto.
 
     Ylläpito- ja kehitystyötä säästyy ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Ei lisää omaa softaa ylläpidettäväksi (idp) eikä varsinkaan omaa laitteistoa (idp:n oma palvelin) fyysisenä tai virtualisoituna.
+
+    Tietomurrosta toipuminen: mitä credentiaaleja/tokeneita eri tekniikoissa pitää vaihtaa jotta väärä pääsy estyy?
 
     Rage toimii apurahalla. Apuraha opetuksen, ei ohjelmistojen kehittämiseen.
 

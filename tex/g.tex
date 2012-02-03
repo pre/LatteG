@@ -281,7 +281,7 @@
   \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
 
   % todo
-  Tässä leikitellään idealla, jos URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Syrjäyttikö sen googlen näkemys sähköpostiosoitteesta id:nä?
+  Tässä leikitellään idealla, jos URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla.
 
   \begin{figure}
     \centering
@@ -907,6 +907,16 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
+  OpenID:tä voi käyttää myös palveluperustaisen arkkitehtuurin sisäisenä autentikointiratkaisuna. Esimerkiksi Amazon käyttää OpenID:tä laajan palvelujoukkonsa autentikointimentelmänä. Amazon hyväksyy ainoastaan oman identiteetintarjoajansa, mutta sadat Amazonin sisäiset palvelut voivat käyttää Amazonin omaa sisäistä OpenID-autentikointipalvelua. Kuvassa~\ref{fig:amazon_openid} OpenID-parametrit ovat nähtävillä Amazonin AWS-sisäänkirjautumissivulla.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/amazon_openid.jpg}
+    \caption{Amazon käyttää sisäisesti OpenID:tä autentikoidakseen käyttäjän palveluihinsa. Amazon on hyväksynyt  OpenID-identiteetintarjoajaksi ainoastaan itsensä.}
+    \label{fig:amazon_openid}
+  \end{figure}
+
+
   \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
   \label{ssub:openid_autentikoinnin_vaiheet}
 
@@ -1057,7 +1067,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{Autentikoituminen Googlen identiteetillä} % (fold)
   \label{sub:autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla}
 
-  Google tarjoaa OpenID 2.0 + OAuth -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
+  Google tarjoaa OpenID 2.0 + OAuth 1.0 -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
   % http://code.google.com/apis/accounts/docs/OAuth2.html
 
 
@@ -1233,8 +1243,26 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
-  OAuth 2.0 on suhteellisen yksinkertainen protokolla. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin tarjoajan rajapintaan.
+  OAuth 2.0 on suhteellisen yksinkertainen protokolla. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan.
 
+  Vaiheet:
+  % http://code.google.com/apis/accounts/docs/OAuth2.html
+
+  1. \textbf{Rekisteröinti} Kuluttajapalvelu rekisteröidään tarjoajan palveluun. Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
+
+  2. \textbf{Pääsyoikeuspoletin hankkiminen}
+  Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Poletti voi toteuttaa pelkän sisäänkirjautumisen tai sillä voidaan lisäksi myöntää valtakirja käyttäjän hallinnoimiin resursseihin. Valtakirjan laajuus määräytyy poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Yksi pyyntö voi sisältää monta scope-näkyvyysalueparametria.
+
+  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen tarjoaja esittää kuluttajapalvelun pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). todo selitä paremmin
+
+  Pääsyoikeuspoletin hankkimistapoja on erilaisia -- valittava tapa riippuu kuluttajapalvelun luonteesta.
+  Tämän tutkielman puitteissa esitellään tarkemmin web-palvelun kannalta kiinnostava flow.
+
+  3. \textbf{Pääsyoikeuspoletin esittäminen}
+  Hankkimisvaiheen jälkeen kuluttajapalvelu voi käyttää pääsyoikeuspolettia valtakirjana käyttäjän hallinnoimiin resursseihin tarjoajan palvelussa. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin kuluttajapalvelu pyysi valtuuksia hankkimisvaiheessa. Poletti lähetetään joko HTTP Authorization -otsakkeen tai URL:n \emph{query string} -parametrina.
+
+  4. \textbf{Virkistyspoletti}
+  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. todo: selitä tarkemmin.
 
 
   % subsubsection oauth_käytännössä (end)
@@ -1414,6 +1442,11 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Miten Google?
 
   Käyttääkö uudet Google-tunnukset OpenID:tä vai OAuthia?
+
+  Selitä tähän Facebookin site registration flow
+  % https://developers.facebook.com/docs/user_registration/flows/
+
+
 
   % subsection uuden_käyttäjän_rekisteröityminen (end)
 

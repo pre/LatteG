@@ -141,8 +141,6 @@
     % The earliest known appearance of this basic statement is a paraphrase of Darwin in the writings of Leon C. Megginson, a management sociologist at Louisiana State University.
   \end{quote}
 
-  orkestrointi vs koreografia
-
   Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä. Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
 
   Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palveluntuottajasta riippumattomien ohjelmistokehittäjien välillä. Rajapinta helpottaa pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta. Tällöin myös palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon avaaminen rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
@@ -328,6 +326,7 @@
   Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
   Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
   Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
+  orkestrointi vs koreografia
 
   SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
 
@@ -867,6 +866,32 @@
 
   Kiinnostaisi jättää tämä vähemmälle huomiolle ja keskittyä OpenID:n ja OAuthin selittämiseen.
 
+  Yliopistolla pitäis olla oma idp, jolla on ainoa SAML-yhteys AD:hen. Tällöin AD:hen ei tartte puhkaista reikiä, vaan yliopiston idp tarjoaa siihen OAuth ja \emph{tarvittaessa} SAML-rajapinnan. Ylioipston oma idp voi tukea myös OpenID:tä, jolloin yliopiston tunnus toimisi OpenID:nä maailmalle.
+
+  % * Helsingin yliopistolla on Active Directoryssä 40.000 käyttäjää.
+  % Kaikki hlökunta + opiskelijat.
+  %
+  % * HY:llä perustaa oman julkisen identiteetintarjoajapalvelun (idp).
+  %
+  % * Tämä HY:n idp on ****AINOA**** palvelu, joka juttelee suoraan Active
+  % Directoryn kanssa.
+  %
+  % * IDP tarjoaa OAuth (ja lisäksi vaikka esim OpenID ja SAML)
+  % -rajapinnan, jolla Kurhilan kurssipalvelu tai Luukkaisen MOOC-kurssi,
+  % TKTL:n ilmo jne voivat autentikoitua Helsingin ylioipston
+  % käyttäjärekisteriin.
+  %
+  % * Tällöin arkaluontoista Active Directoryä ei tartte koskaan pistää
+  % julkiseksi, vaan välissä on yksi abstraktiokerros, jonka avulla Uuden
+  % Internetin Ihanalla OAuthilla pystyy autentikoimaan Helsingin
+  % yliopiston käyttäjärekisteriin.
+  %
+  % OAuth tukee SAML-assertioita, eli ehkä(?????) sillä vois myös
+  % autentikoitua suoraan Active Directoryyn SAMLilla, ei kyllä tästä
+  % mitään hajua.
+
+
+
   % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
 
 
@@ -1096,16 +1121,16 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
   % Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
 
-  Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti~\cite{google_openid_dev_docs}:
+  % Googlen OpenID-päätepiste (\emph{endpoint}) löytyy lähettämällä HTTP \verb#GET# tai \verb#HEAD# -pyyntö osoitteeseen \verb#https://www.google.com/accounts/o8/id#. Tämä discovery-pyyntö (todo termi) palauttaa \verb#XRDS#-dokumentin, joka sisältää Googlen OpenID-identiteetintarjoajan päätepisteen URL:n. Identiteetintarjoajan URL ilmaistaan vastauksessa seuraavasti~\cite{google_openid_dev_docs}:
+  %
+  % \begin{verbatim}
+  %   <Service priority="0">
+  %   <Type>http://specs.openid.net/auth/2.0/server</Type>
+  %   <URI>{Googlen OpenID-päätepisteen URL}</URI>
+  %   </Service>
+  % \end{verbatim}
 
-  \begin{verbatim}
-    <Service priority="0">
-    <Type>http://specs.openid.net/auth/2.0/server</Type>
-    <URI>{Googlen OpenID-päätepisteen URL}</URI>
-    </Service>
-  \end{verbatim}
-
-  Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
+  % Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
 
   % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
 
@@ -1208,7 +1233,10 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa.
   OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioiden kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1 -standardi ei millään riittänyt. OAuth 1.0 + Facebook Connect --> OAuth 2.0. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
 
-  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!http://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa. Kehittäjäyhteistä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa identiteetinkuluttaja kysyy käyttäjän salasanaa\footnote{xAuth on OAuth ilman \emph{request\_token} ja \emph{authorization} -vaiheita: identiteetintarjoaja antaa pääsyoikeuspoletin identiteetinkuluttajan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuth tarjoaa OAuthia rajoitetumman pääsyn käyttäjän profiiliin, ja sen käyttämiseksi täytyy anoa Twitteriltä erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}.
+  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!http://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa. Kehittäjäyhteistä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa identiteetinkuluttaja kysyy käyttäjän salasanaa\footnote{xAuth on OAuth ilman \emph{request\_token} ja \emph{authorization} -vaiheita: identiteetintarjoaja antaa pääsyoikeuspoletin identiteetinkuluttajan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuth tarjoaa OAuthia rajoitetumman pääsyn käyttäjän profiiliin, ja sen käyttämiseksi täytyy anoa Twitteriltä erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}. OAuth 2.0 tuo mukanaan käyttäjätunnus ja salasana -flow:n, jolla xAuth voidaan tulevaisuudesa korvata, kun standardi valmistuu nykyisestä luonnosvaiheestaan.
+  % taustaa:
+  %      http://hueniverse.com/2009/02/beyond-the-oauth-web-redirection-flow/
+  %      http://hueniverse.com/2010/05/introducing-oauth-2-0/
 
   Käyttäjälle muutos on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
 
@@ -1243,7 +1271,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
-  OAuth 2.0 on suhteellisen yksinkertainen protokolla. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan.
+  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan.
 
   Vaiheet:
   % http://code.google.com/apis/accounts/docs/OAuth2.html
@@ -1262,7 +1290,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Hankkimisvaiheen jälkeen kuluttajapalvelu voi käyttää pääsyoikeuspolettia valtakirjana käyttäjän hallinnoimiin resursseihin tarjoajan palvelussa. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin kuluttajapalvelu pyysi valtuuksia hankkimisvaiheessa. Poletti lähetetään joko HTTP Authorization -otsakkeen tai URL:n \emph{query string} -parametrina.
 
   4. \textbf{Virkistyspoletti}
-  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. todo: selitä tarkemmin.
+  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. Tarkoituksena on tarjota lyhytikäinen poletti, mutta pitkäikäinen auktorisointi. Kuluttajapalvelu voi hakea uuden virkistyspoletin samalle pääsyoikeuspoletille, jolloin käyttäjää ei tarvitse vaivata auktorisointipyynnön kanssa. Käyttäjä voi evätä pääsyoikeuspoletin, jolloin sitä vastaan ei enää myönnetä uusia virkistyspoletteja.    todo: selitä tarkemmin, miksei ennemmin vain käytä aina pääsyoikeuspolettia.
 
 
   % subsubsection oauth_käytännössä (end)
@@ -1356,6 +1384,25 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   \subsubsection{OAuth-flowt} % (fold)
   \label{ssub:oauth_flowt}
+
+  1. User-Agent Flow: Käyttäjäagentilla asioiville asiakkaille (webselaimet)
+
+  2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
+
+  3. Device Flow: Rajoitettujen päätelaitteiden asiakkaille, kun loppukäyttäjällä on sovelluksesta riippumaton pääsy web-selaimeen toisella päätelaitteella tai tietokoneella.
+
+  4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
+
+  Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
+
+  5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
+
+  6. Assertion Flow: Asiakas esittää assertion (kuten SAML-assertio), jota vastaan auktorisointipalvelin tarjoaa pääsyoikeuspoletin.
+
+  Lähde: http://hueniverse.com/2010/05/introducing-oauth-2-0/
+
+
+
   http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
 
   https://developers.facebook.com/docs/authentication/

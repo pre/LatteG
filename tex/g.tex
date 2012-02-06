@@ -754,6 +754,33 @@
 
   Mitään tässä tutkielmassa esiteltävää protokollaa ei ole suositeltavaa implementoida omatoimisesti ilman painavaa syytä. Protokollan toteutuksen turvallisuus tai toimintavarmuus saattaa vaarantua pienestäkin virheestä. Jokaiselle tutkielmassa käsiteltävälle protokollalle on olemassa runsas joukko laajasti käytössä olevia kirjastoja, jotka ovat testattuja, ylläpidettyjä ja lisäksi myös jatkuvasti paremmaksi kehittyviä.
 
+  Tässä kerrotaan mikä on federoitu identiteetti ja mikä delegoitu identiteetti.
+  Jos käyttäjällä ei mahdollisuutta valita omaa identiteetintarjoajaansa, OpenID, OAuth tai SAML on vain sisäisen toteutuksen yksityiskohta. Jos idc-palvelulla merkittävä API-riippuvuus tiettyyn palveluntarjoajaan, OpenID ei tarjoa mitään, mitä OAuthilla ei voisi saada. Esimerkiksi Twitter-sidonnainen sovellus tarvitsee pääsyn nimenomaan Twitter-käyttäjätiliin. Tällöin on sovelluksesta johtuen täysin järkevää hyväksyä sisäänkirjautuminen vain Twitter-käyttäjätunnuksella. Vastaavasti käyttäjän sosiaalista verkostoa hyödyntävä Sofanatics (kuva~\ref{fig:facebook_oauth_login}) hyväksyy pelkän Facebook-tunnuksen, koska palvelun tärkeimpiä ominaisuuksia on kerätä ja välittää tietoa ottelutapahtumista Facebookiin.
+
+  % http://hueniverse.com/2009/04/introducing-sign-in-with-twitter-oauth-style-connect/
+  %
+  % OpenID is often described as a single-sign-on solution, or “the last username and password you will ever need”. OpenID is a federated authentication protocol – a protocol where users can use credentials from any compatible provider who can “speak” the OpenID protocol. But in this case, not any account will do. Twitter applications need Twitter accounts.
+  %
+  % It is important to understand that there are two different kind of single-sign-on solutions: delegated and federated. All the recent comparisons between OpenID and Facebook Connect failed to appreciate this fundamental difference. Facebook Connect is a delegated authentication service, while OpenID is a federated authentication service. They might offer very similar features, but they are very different.
+  %
+  % A delegated solution means that one site is simply outsourcing its authentication needs to another pre-selected site. If your site uses Facebook Connect, you are delegating your authentication facilities to Facebook. Visitors to your site cannot use any other accounts, only accounts from the vendors you have pre-selected.
+  %
+  % A federated solution means that visitors to your site can use any account they have, as long as it is compatible. It makes no difference to the site which account is being used, as long as it can interoperate. At its core, OpenID is a federated solution because its most important feature is the ability to use any OpenID account with any OpenID-enabled service.
+  %
+  %A good example is stores accepting credit cards. A store that accepts any Visa card is using federated payments – payments from any account that “speaks Visa”. But a store that accepts only credit cards issued by a specific vendor, for example, a department store branded card, use delegated payments. The reason why you no longer see many stores accepting only their own credit cards, is because it is bad for business.
+  %
+  % But not every OpenID implementation is federated, and this is the big dilemma OpenID has to resolve.
+  %   -- linkki http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/
+  %
+  % The question is, can users use any account they want? If a site uses the Yahoo! OpenID service by using the Yahoo! button: xx
+  %   but does not offer the ability to use other vendors, it is really just another delegated solution, even if it is powered by OpenID under the hood. In this case, OpenID becomes just a technical detail of the implementation, not part of its design.
+  %
+  % Much of the recent discussion about OpenID usability centers around using brands as a way to make the service more usable. But the problem with this approach is that is takes away most of the federated value out of OpenID, leaving it simply as a common protocol to implement proprietary delegated services. When implemented this way, OpenID adds no real value to services with an OAuth API.
+  %
+  % The question which solution to use for sign-in, OpenID or OAuth, is very much application specific. If you are building a brand new site that needs accounts, and want to leverage existing accounts from services such as Google, Yahoo!, and Microsoft, OpenID is a great option that will give your users a lot of flexibility. But if you are extending an existing service, implementing a specific API and building a site that has great dependencies on another service, OAuth gives you everything you need, for very little extra work.
+
+
+
   % subsection tarve_yhteiskäyttöiselle_autentikointistandardille (end)
 
   % paragraph yleisnäkymä_ilmakuva_overview (end)
@@ -1137,28 +1164,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   %   </Service>
   % \end{verbatim}
 
-  % Googlen OpenID-päätepiste (\verb#https://www.google.com/accounts/o8/id#) on yhteinen jokaiselle Googlen OpenID-tunnukselle, joten se ei toimi käyttäjän yksilöivänä OpenID-tunnisteena. Yksilöivä Google OpenID -tunniste on muotoa \verb#https://www.google.com/accounts/o8/id?id=<satunnaismerkkijono>#, jota käyttäjän ei ole tarkoitus edes nähdä.
-
   % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
-
-  % 23.1.2012
-  %
-  % GET https://www.google.com/accounts/o8/id HTTP/1.0
-  %
-  % <?xml version="1.0" encoding="UTF-8"?>
-  % <xrds:XRDS xmlns:xrds="xri://$xrds" xmlns="xri://$xrd*($v*2.0)">
-  %   <XRD>
-  %   <Service priority="0">
-  %   <Type>http://specs.openid.net/auth/2.0/server</Type>
-  %   <Type>http://openid.net/srv/ax/1.0</Type>
-  %   <Type>http://specs.openid.net/extensions/ui/1.0/mode/popup</Type>
-  %   <Type>http://specs.openid.net/extensions/ui/1.0/icon</Type>
-  %   <Type>http://specs.openid.net/extensions/pape/1.0</Type>
-  %   <URI>https://www.google.com/accounts/o8/ud</URI>
-  %   </Service>
-  %   </XRD>
-  % </xrds:XRDS>
-  %
 
 
   % subsection autentikoituminen_esiasetetulla_openid_identiteetintarjoajalla (end)

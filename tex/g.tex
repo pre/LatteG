@@ -701,7 +701,6 @@
 
   % Missä tilanteessa Microsoft Active Directory relevantti?
   % - AD voi toimia SAML IdP:nä
-  % - Windows Live voi toimia OpenID IdP:nä
   % - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
   %   % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
 
@@ -738,7 +737,7 @@
 
   \subsection{Tarve yhteiskäyttöiselle autentikointistandardille} % (fold)
   \label{sub:tarve_yhteiskäyttöiselle_autentikointistandardille}
-  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter ehkä windows live -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
+  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
 
   Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
 
@@ -907,32 +906,7 @@
   % todo korvaa XXX
   OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voisi käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa. Käytännössä palveluntuottaja kuitenkin edelleen valitsee identiteetintarjoajan: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. On yleistä, että palveluntuottaja hyväksyy ainoastaan oman organisaationsa identiteetintarjoajana tai suppean listan esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}).
 
-  OpenID 2.0 toteuttaa lisäksi myös \emph{suunnatun identiteetin} (\emph{directed identity}) periaatteen~\cite{openid_discovery_recordon_2008}. Suunnatun identiteetin tarjoajalla on  kaikille asiakkaillensa yhteinen OpenID-päätepiste. Suunnatun identiteetin hyvänä puolena anonymiteetti: OpenID-tunnisteesta ei suoraan käy ilmi käyttäjän henkilöllisyyteen liittyviä tunnistetietoja, koska yksilöivä tunniste on tyypillisesti satunnainen merkkijono. Tämän ansiosta käyttäjän identiteettiä ei voida päätellä tai jäljittää OpenID-tunnisteesta ilman identiteetintarjoajan apua -- toisin kuin jos käyttäjätunnuksena olisi henkilökohtainen verkkotunnus tai sähköpostiosoite.
-
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/yahoo_login.jpg}
-    \caption{Sisäänkirjautuminen Yahoo!-palveluun. Kaksi esivalittua identiteetintarjoajaa oman lisäksi.}
-    \label{fig:yahoo_login}
-  \end{figure}
-
-  Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. Identiteetinkuluttaja luottaa ainoastaan OpenID-identiteetintarjoajan sanomaan siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan. Identiteetinkuluttaja ei siis tunne käyttäjän salasanaa eikä identiteetintarjoajaa, vaan ainoastaan käyttäjän yksilöivän OpenID-käyttäjätunnuksen. Yksilöivä OpenID-käyttäjätunnus on yleensä muistettavissa oleva URL-osoite kuten esimerkiksi \url!https://petrusrepo.myopenid.com!, \url!https://myopenid.com/repo! tai \url{https://petrus.repo.fi}. Sen sijaan esimerkiksi Googlen myöntämä yksilöivä OpenID-tunniste on muotoa
-  \\ \verb#https://www.google.com/accounts/o8/id?id=<uniikki satunnaismerkkijono>#.
-  % todo tsekkaa rivitys
-
-    Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}. Tällöin OpenID-etsintävaihe käynnistyy tyypillisesti klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen
-    asiakkaille\footnote{Suunnatun identiteetin OpenID-päätepiste on Yahoolla \url!https://yahoo.com! ja
-                      \\ Googlella \url!https://www.google.com/accounts/o8/id!}.
-Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa.
-  %   Identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen tai suunnatun identiteetin URL-osoitteeseen.
-
-  OpenID-identiteetin todentaminen osoittaa ainoastaan, että jokin OpenID-identiteetti on käyttäjän hallinnassa. OpenID-protokolla ei ota kantaa identiteetintarjoajan suorittaman autentikoinnin tasoon. On täysin mahdollista toteuttaa identiteetintarjoaja, joka vastaa kaikkiin identiteettikyselyihin hyväksyvästi eikä siten takaa mikäänlaista käyttäjän tunnistetietojen varmentamista. Sen vuoksi identiteetinkuluttajan kannalta voi olla järkevää hyväksyä vain yksi tai useampi ennalta valittu identiteetintarjoaja, jolla on vakaa ja luotettava maine.
-
-    Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa käyttäjän syöttämän OpenID-päätepisteen (\emph{endpoint}) perusteella identiteetinkuluttaja etsii OpenID-tunnisteen identiteetintarjoajan. Käytännössä OpenID-päätepisteenä toimii joko OpenID-käyttäjätunnus (yksilöivä tunniste) tai identiteetintarjoajan kaikille asiakkaille yhteinen URL-osoite (suunnattu identiteetti). OpenID-etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetinkuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä esimerkiksi pelkästään Google, Facebook ja Windows Live identiteetintarjoajiksi saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa (todo onko näin binääristä).
-
-  Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps, Windows Live ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
-
-  OpenID:tä voi käyttää myös palveluperustaisen arkkitehtuurin sisäisenä autentikointiratkaisuna. Esimerkiksi Amazon käyttää OpenID:tä laajan palvelujoukkonsa autentikointimentelmänä. Amazon hyväksyy ainoastaan oman identiteetintarjoajansa, mutta sadat Amazonin sisäiset palvelut voivat käyttää Amazonin omaa sisäistä OpenID-autentikointipalvelua. Kuvassa~\ref{fig:amazon_openid} OpenID-parametrit ovat nähtävillä Amazonin AWS-sisäänkirjautumissivulla.
+  OpenID:tä voi käyttää myös palveluperustaisen arkkitehtuurin sisäisenä autentikointiratkaisuna. Esimerkiksi Amazon käyttää OpenID:tä laajan palvelujoukkonsa autentikointimentelmänä. Amazon hyväksyy ainoastaan oman identiteetintarjoajansa, mutta lukemattomat Amazonin omat palvelut voivat käyttää Amazonin OpenID-autentikointipalvelua käyttäjän tunnistamiseksi. Kuvassa~\ref{fig:amazon_openid} OpenID-parametrit ovat nähtävillä Amazonin AWS-sisäänkirjautumissivulla -- muita jälkiä OpenID:n käytöstä ei peruskäyttäjälle näy.
 
   \begin{figure}
     \centering
@@ -942,8 +916,36 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \end{figure}
 
 
+  OpenID 2.0:ssa on kaksi flow'ta (todo termi) identiteetin etsimiseksi: \emph{suunnattu identiteetti}  (\emph{directed identity}) ja \emph{väitetty identiteetti} (\emph{claimed identity}) (todo viite \url{http://hueniverse.com/2009/07/users-vs-identity-providers-in-openid/}). Suunnatun identiteetin flow'ssa käyttäjä kertoo identiteetinkuluttajalle identiteetintarjoajan kaikille asiakkaillensa yhteisen OpenID-päätepisteen~\cite{openid_discovery_recordon_2008}. Tämä voi tapahtua klikkaamalla esivalitun identiteetin logoa tai syöttämällä identiteetintarjoajan URI OpenID-sisäänkirjautumiskenttään. Suunnatun identiteetin hyvänä puolena anonymiteetti: OpenID-tunnisteesta ei suoraan käy ilmi käyttäjän henkilöllisyyteen liittyviä tunnistetietoja, koska yksilöivä tunniste on tyypillisesti satunnainen merkkijono. Tämän ansiosta käyttäjän identiteettiä ei voida päätellä tai jäljittää OpenID-tunnisteesta ilman identiteetintarjoajan apua -- toisin kuin jos käyttäjätunnuksena olisi henkilökohtainen verkkotunnus tai sähköpostiosoite.
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/yahoo_login.jpg}
+    \caption{Sisäänkirjautuminen Yahoo!-palveluun. Kaksi esivalittua identiteetintarjoajaa oman lisäksi.}
+    \label{fig:yahoo_login}
+  \end{figure}
+
+  Väitetyn identiteetin flow'ssa identiteetinkuluttaja etsii käyttäjän OpenID-tunnisteen perusteella siihen kytketyn identiteetintarjoajan. Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. Identiteetinkuluttaja luottaa ainoastaan OpenID-identiteetintarjoajan sanomaan siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan. Identiteetinkuluttaja ei siis tunne käyttäjän salasanaa eikä identiteetintarjoajaa, vaan ainoastaan käyttäjän yksilöivän OpenID-käyttäjätunnuksen. Väitetyn identiteetin OpenID-käyttäjätunnus on yleensä muistettavissa oleva URL-osoite kuten esimerkiksi \url!https://petrusrepo.myopenid.com!, \url!https://myopenid.com/repo! tai \url{https://petrus.repo.fi}. Sen sijaan esimerkiksi Googlen myöntämä suunnatun identiteetin OpenID-tunniste on muotoa
+  \\ \verb#https://www.google.com/accounts/o8/id?id=<uniikki satunnaismerkkijono>#.
+  % todo tsekkaa rivitys
+
+    Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}. Tällöin OpenID-etsintävaihe käynnistyy tyypillisesti klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen
+    asiakkaille\footnote{Suunnatun identiteetin OpenID-päätepiste on Yahoolla \url!https://yahoo.com! ja
+                      \\ Googlella \url!https://www.google.com/accounts/o8/id!}.
+Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa.
+  %   Identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen tai suunnatun identiteetin URL-osoitteeseen.
+
+  Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Suunnatun identiteetin kritiikkinä on esitetty, että kun käyttäjän ei tarvitse tuntea omaa OpenID-tunnistettaan vaan ainoastaan sitä hallinnoivan yrityksen logo, mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan (todo viite \url{http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/})? Toistaiseksi on ollut suurten yritysten intresseissä tukea avoimia standardeja kuten OAuth ja OpenID. Silti esimerkiksi Microsoftin Windows Live -palvelu vuonna 2008 aloitti kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsfot Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008 \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}}, mutta myöhemmin tämä tuki lopetettiin\footnote{Windows Liven kehittäjäverkostosta ei löydy yhtään artikkelia hakusanalla ''openid'' tammikuussa 2012 \url{http://windowsteamblog.com/search/searchresults.aspx?q=openid}}.
+
+  % Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
+
   \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
   \label{ssub:openid_autentikoinnin_vaiheet}
+
+  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa käyttäjän syöttämän OpenID-päätepisteen (\emph{endpoint}) perusteella identiteetinkuluttaja etsii OpenID-tunnisteen identiteetintarjoajan. Käytännössä OpenID-päätepisteenä toimii joko OpenID-käyttäjätunnus (yksilöivä tunniste) tai identiteetintarjoajan kaikille asiakkaille yhteinen URL-osoite (suunnattu identiteetti). OpenID-etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Identiteetinkuluttaja voi myös hyväksyä ainoastaan yhden esivalitun identiteetintarjoajan tai listan sellaisista. Hyväksymällä identiteetintarjoajiksi Google ja Facebook saavutetaan XX \% internetin käyttäjistä (todo luku ja viite). Hyväksymällä ainoastaan yksi identiteetintarjoaja kyseessä on federoitu identiteetti, koska käyttäjällä ei ole enää mahdollisuutta itse valita identiteetintarjoajaansa (todo onko näin binääristä).
+
+  OpenID-identiteetin todentaminen osoittaa ainoastaan, että jokin OpenID-identiteetti on käyttäjän hallinnassa. OpenID-protokolla ei ota kantaa identiteetintarjoajan suorittaman autentikoinnin tasoon. On täysin mahdollista toteuttaa identiteetintarjoaja, joka vastaa kaikkiin identiteettikyselyihin hyväksyvästi eikä siten takaa mikäänlaista käyttäjän tunnistetietojen varmentamista. Sen vuoksi identiteetinkuluttajan kannalta voi olla järkevää hyväksyä vain yksi tai useampi ennalta valittu identiteetintarjoaja, jolla on vakaa ja luotettava maine.
+
 
   \begin{figure}
     \centering
@@ -981,6 +983,11 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % lue ja viittaa myös http://wiki.openid.net/w/page/12995200/OpenID%20Security%20Best%20Practices
 
   % XRDS Discovery https://sites.google.com/site/oauthgoog/fedlogininterp/openiddiscovery
+
+  % email address discovery: http://hueniverse.com/2009/10/email-addresses-as-openids/
+
+  % openid nascar problem (haluaa nähdä vain googlen logon):
+  % http://factoryjoe.com/blog/2009/04/06/does-openid-need-to-be-hard/
 
 
   % \subsubsection{XRI ja Directed Identity} % (fold)
@@ -1484,13 +1491,21 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Edellä käsiteltiin ainoastaan sisäänkirjautumista. Samoin kuin induktiossa tarvitaan alkuaskel, identiteetti täytyy rekisteröidä ennen kuin sitä vastaavaa käyttäjätunnusta voidaan käyttää sisäänkirjautumiseen.
 
-  Määritteleekö OAuth registration callbackin vai onko se Facebookin kirjaston oma juttu?
+  Kuka määrittelee facebookille idc:n ''registration url:n'':n ? Voitaisiin myös ottaa vain facebook uid ja tehdä auktorisointipyyntö käyttäjän facebook-tietoihin. Koska monta idp-vaihtoehtoa, suoritetaan idp-rekisteröinnin jälkeen oma rekisteröinti.
 
   Miten Google?
 
   Käyttääkö uudet Google-tunnukset OpenID:tä vai OAuthia?
 
-  Selitä tähän Facebookin site registration flow
+  Selitä tähän kuva~\ref{fig:registration_with_facebook} Facebookin site registration flow \url{https://developers.facebook.com/docs/user_registration/flows/}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/facebook_user_registretion.png}
+    \caption{Uuden käyttäjän rekisteröityminen MOOC-palveluun. TODO: piirrä tän pohjalta uusi kuva, jossa facebookin tilalla idp (hy/google/fb) ja jossa site-specific credentials poistettu. viite }
+    \label{fig:registration_with_facebook}
+  \end{figure}
+
   % https://developers.facebook.com/docs/user_registration/flows/
 
 
@@ -1513,12 +1528,16 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     % SAML2 has different bindings while the only binding OpenID has is HTTP
     %
     %
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/kertakirkautumistekniikat_venn.jpg}
-      \caption{Yleiskuva kertakirjautumistekniikoiden yhtenäisyyksistä. todo kuva piirrettävä selkeämmäksi tai poistettava}
-      \label{fig:yleiskuva_sso_yhtenaisyyksista}
-    \end{figure}
+
+
+    % TODO: Tää on huono kuva.
+    %
+    % \begin{figure}
+    %   \centering
+    %   \includegraphics[width=0.9\textwidth]{images/kertakirkautumistekniikat_venn.jpg}
+    %   \caption{Yleiskuva kertakirjautumistekniikoiden yhtenäisyyksistä. todo kuva piirrettävä selkeämmäksi tai poistettava}
+    %   \label{fig:yleiskuva_sso_yhtenaisyyksista}
+    % \end{figure}
 
     Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
     + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
@@ -1530,7 +1549,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsection{Yhteenveto autentikoinnin toteutukesta} % (fold)
   \label{sub:yhteenveto_autentikoinnin_toteutukesta}
 
-  MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google -- muita merkittäviä vaihtoehtoja olisivat esimerkiksi Windows Live, Yahoo! ja VeriSign (todo viite http://openid.net/get-an-openid/). Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
+  MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google. Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
 
   Tässä tapauksessa OAuth luokittuu käyttäjäkeskeisen ja federoidun identiteetin välille. OAuth-protokolla ei itsessään toteuta käyttäjäkeskeisen identiteetin periaatetta, mutta OAuthilla voidaan tuoda MOOC-palveluun yksi identiteetintarjoaja lisää. Käyttäjän kannalta ei ole merkitystä protokollalla vaan mahdollisuudella itse valita oma identiteetintarjoajansa. Siksi MOOC-järjestelmään tuodaan kolmantena vaihtoehtona OAuth-autentikoituminen Facebook-palveluun.
 
@@ -1600,6 +1619,13 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
     \label{fig:luvan_kysyminen_oauth_fb}
   \end{figure}
+
+  Kun aloitin tekstin kirjoittamisen, Googlen tuki OAuth 2.0 :lle oli ''experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä valmis. % 6.2.2012
+
+  OpenID Conncet on samankaltainen kuin OAuth 2.0, ''based on the OAuth 2.0''
+  OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
+  % http://openid.net/connect/
+  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
 
 
 

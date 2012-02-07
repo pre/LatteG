@@ -159,6 +159,17 @@
   % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
   % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
 
+  Identiteetinkuluttajalla voi olla käyttäjilleen itsenäinen tunniste, joka yhdistetään identiteetintarjoajan tunnisteeseen~\cite{id_delegation_2005}. Tällöin eri identiteetintarjoajien tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa. Käyttäjälle voidaan myös antaa vapaus valita oma käyttäjätunnuksensa ja sitä kautta muodostaa oma MOOC-identiteetti, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa. MOOC-palvelun käyttäjän identiteetintarjoaja voidaan pitää vain MOOC-palvelun tiedossa eli olla näyttämättä sitä muille käyttäjille. Tällöin käyttäjä voi halutessaan säilyttää yksityisyytensä, vaikka hän käyttäisi sisäänkirjautumisessa Facebook-tunnustansa.   Selitä kuva~\ref{fig:uid_mapping}.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/uid_mapping.jpg}
+    \caption{Identiteetinkuluttajalla (idc) on itsenäiset käyttäjätunnisteet, joihin identiteetintarjoajien (idp) käyttäjätunnisteet kytketään.}
+    \label{fig:uid_mapping}
+  \end{figure}
+
+
+  \cite{id_in_federation_systems_2005}
 
   Federoitu identiteetti on toinen periaate. Siitä toinen tekstikappale tähän. % todo
 
@@ -504,12 +515,15 @@
   \label{sub:sertifikaatit_webissä}
   Julkisen avaimen infrastruktuutri.
   Diffie-Hellman.
-  Sertifikaatit, luotettava kolmas osapuoli.
   HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS.
-  Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
-  WebID-draft.
+  % Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
+
+  Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}. Kaupalliset palveluntarjoajat kuten Thwate ja Verisign toimivat luotettuna kolmantena osapuolena eli sertifikaattiauktoriteettina (\emph{CA, certificate authority}), joiden oma juurivarmenne (\emph{root certificate}) on käyttäjäagentin (selaimen) ennalta tuntemien ja luotettavaksi merkittyjen sertifikaattien listalla. Sertifikaattiauktoriteetti todentaa juurisertifikaattinsa luottamusketjun avulla, että sen jollekin yritykselle myöntämä julkinen varmenne kuuluu sitä esittävälle web-palvelulle. Web-kontekstissa sertifikaatti kytketään URL:n verkko-osoitteeseen, jonka täytyy täsmätä sertifikaattiin kytketyn nimitiedon kanssa.
+
+  Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on liian monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}.
 
   % subsection sertifikaatit_webissä (end)
+
 
   \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
   \label{sub:http_basic_auth_ja_http_digest_auth}
@@ -527,6 +541,9 @@
 
   \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)
   \label{sub:rajapintakutsun_pääsyoikeudet}
+
+  Auktorisointi ei ole tutkielman fokuksessa. Kerrotaan siitä minimiminimi.
+
   Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
 
   api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
@@ -741,6 +758,22 @@
 
   Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
 
+  XYZ TÄSSÄ XYZ
+
+  With the advent of distributed computing models such as web services, there are increased inter-dependencies among such
+  SP’s. As a result, the current trend [10, 9] is to focus on inter-organization and interdependent management of identity
+  information [17] rather than identity management solutions for internal use. This is referred to as federated identity
+  management. Federated identity is a distributed computing construct that recognizes the fact that individuals move between
+  corporate boundaries at an increasingly frequent rate. Practical applications of federated identities are represented by
+  large multinational companies which have to manage several heterogeneous systems at the same time [17]. An effort in this
+  sense is represented by the notion of Single Sign-On (SSO) [20], which enables a user to login to multiple organizations or
+  SP’s by using the same username and password. This approach increases usability and adds security by reducing the number of
+  passwords that need to be managed.
+  17 E. Norlin and A. Durand. Whitepaper on towards federated
+  identity management. In Ping Identity Corporation, 2002.
+
+
+
 
   Selitä kuva~\ref{fig:mooc_login_luonnos}.
 
@@ -757,6 +790,7 @@
   Tässä kerrotaan mikä on federoitu identiteetti ja mikä delegoitu identiteetti.
   Jos käyttäjällä ei mahdollisuutta valita omaa identiteetintarjoajaansa, OpenID, OAuth tai SAML on vain sisäisen toteutuksen yksityiskohta. Jos idc-palvelulla merkittävä API-riippuvuus tiettyyn palveluntarjoajaan, OpenID ei tarjoa mitään, mitä OAuthilla ei voisi saada. Esimerkiksi Twitter-sidonnainen sovellus tarvitsee pääsyn nimenomaan Twitter-käyttäjätiliin. Tällöin on sovelluksesta johtuen täysin järkevää hyväksyä sisäänkirjautuminen vain Twitter-käyttäjätunnuksella. Vastaavasti käyttäjän sosiaalista verkostoa hyödyntävä Sofanatics (kuva~\ref{fig:facebook_oauth_login}) hyväksyy pelkän Facebook-tunnuksen, koska palvelun tärkeimpiä ominaisuuksia on kerätä ja välittää tietoa ottelutapahtumista Facebookiin.
 
+  SAML ja OpenID -vertailu \cite{venn_of_identity_2008}
   % http://hueniverse.com/2009/04/introducing-sign-in-with-twitter-oauth-style-connect/
   %
   % OpenID is often described as a single-sign-on solution, or “the last username and password you will ever need”. OpenID is a federated authentication protocol – a protocol where users can use credentials from any compatible provider who can “speak” the OpenID protocol. But in this case, not any account will do. Twitter applications need Twitter accounts.
@@ -1611,7 +1645,19 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsection{Jatkokehitysideoita} % (fold)
   \label{sub:jatkokehitysideoita}
 
-  \subsubsection{Auktorisointi} % (fold)
+  \subsubsection{Pääsyoikeuksien myöntäminen ohjelmakoodin palauttamiseksi} % (fold)
+  \label{ssub:pääsyoikeuksien_myöntäminen_ohjelmakoodin_palauttamiseksi}
+
+  Kurssisuoritus edellyttää tehtävien hyväksyttyä suorittamista. Tehtävien tarkistaminen tarkistaminen on automatisoitu. Ohjelmointitehtävistä annetaan opiskelijoille yksikkötestit, joiden täytyy suorittua hyväksytysti, jotta opiskelijan ohjelmointitehtävä hyväksytään. Opiskelijalla on yksikkötestit käytettävissä omassa kehitysympäristössänsä. Opiskelijan IDE-kehitysohjelmaan on toteutettu erillinen lisäosa (plugin), joka lähettää opiskelijan ohjelmointitehtävien ratkaisut HTTP-rajapinnan kautta MOOC-palveluun. Sen jälkeen MOOC-palvelu suorittaa taustalla yksikkötestit ja kirjaa tehtävät hyväksytyiksi, jos testit menevät läpi.
+
+  Tehtäväpalautusten rajapinta tarvitse pääsyoikeudet. Nykyinen toteutus on HTTP Basic Authilla, jossa opiskelija antaa käyttäjätunnuksensa ja salasanansa IDE-ohjelmistoon. Tämä ei hyvä, koska salasana monessa eri paikassa. Yksinkertainen ratkaisu: MOOC-palvelu luo käyttäjälle API-keyn joka syötetään IDE:hen. Parempi ratkaisu: Sopiva OAuth-flow, jolla auktorisoidaan työpöytäsovellus.
+
+  Tämän tutkielman fokus on käyttäjän autentikoimisessa, joten pääsyoikeuksien myöntäminen jää jatkokehitysideaksi.
+
+
+  % subsubsection pääsyoikeuksien_myöntäminen_ohjelmakoodin_palauttamiseksi (end)
+
+  \subsubsection{Pääsyoikeuksien myöntäminen ulkopuoliselle palvelulle} % (fold)
   \label{ssub:jatkokehitysideoita_auktorisointi}
   MOOC tarjoaa mahdollisuuden antaa opintosuoritusote lukioon. MOOC hakee suoritusotteen Oodista. Auktorisointiin käytetään OAuthia: luvan antaminen edellyttää että käyttäjä itse sallii MOOC-järjestelmän pääsyn Oodissa oleviin käyttäjätietoihinsa.
 

@@ -1,3 +1,25 @@
+% Sisäänkirjautumisen historia:
+% https://docs.google.com/document/pub?id=1O7jyQLb7dW6EnJrFsWZDyh0Yq0aFJU5UJ4i5QzYlTjU#h.fvyllnfjm3eo
+% http://goo.gl/R8pMP
+% The hack that makes Internet Identity possible
+%
+% In a “simple” computer science world, there would be one global user account system, similar to DNS, where every person was assigned a single unique numerical ID at birth, and each person also had a perfect way to prove who they were.  Every website could then use those user IDs to store information associated with the person.
+% Obviously that does not exist, and for decades every user account system issued its own IDs (and sometimes usernames) to users.  Such systems were “simple” to write, but painful for users.
+% Then during the early 90s, a “hack” was found that created the foundation of most user account systems on the web.  That “hack” was the idea of logging into a website with your email address, and proving you were the owner of that email address by having the site send you an SMTP message with a hyperlink back to the site which contained a long code.  For the few of us who considered ourselves identity geeks at the time, this did not seem like an approach that would last a long time.  Even SMTP seemed like a fad when we already had high end systems like Lotus Notes relying on things like PKI, digital certifications, signing, encryption, etc.
+% However twenty years later, that “hack” is still the most powerful technique that we rely on to build user account systems.  From a purist perspective, emails have some downsides as identifiers. Much of this guide will discuss those downsides, and how to handle them.  However nothing else, even phone numbers or social network IDs, has come even close to being as powerful an identifier.
+% Two of the downsides are that users change email address over time, and that the same email address is sometimes assigned to different people at different time periods.  Because of those, and other complications, almost every website still maintains its own “local ID” system just as user accounts did before the 90s.  The one key addition is that those local IDs are then mapped to and from a user’s email address.
+%
+% Human -> Emails -> Local IDs -> Passwords
+%
+% So humans have a map of the emails they use, and websites map an email to a local ID.  Website’s user account systems also have a critical role of authenticating the owner of that email address.  Note we did not say authenticate the human, but rather that owner of the email address.  The difference is import, as well as powerful, but it also adds complexity.
+% The simplest way to authenticate the owner of the email address is to use the “hack” of sending them a URL with a code every time they want to login.  However when that “hack” first became popular, email services had significant downtime, so websites did not want to be reliant on them.  So instead we relied on a scheme that had been used for user account systems that issued their own user IDs instead of relying on email address, and that scheme was passwords.
+% Combining the “hack” with passwords seemed great.  The best part was that if the user forgot their password, the website could just use the “hack” again to verify the owner of that email address and let them pick a new password.
+%
+
+
+
+
+
 7 Laws of Identity:
 
 A comparison between the bricks-and-mortar world and the online world is illustrative: In the

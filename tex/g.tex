@@ -149,17 +149,20 @@
 
   % subsection web_ja_rajapinnat (end)
 
+
+
   \subsection{Identiteetti internetissä} % (fold)
   \label{sub:identiteetti_internetissä}
 
   Ihmisellä monta erilaista profiilia internetissä. Työpaikan-, vapaa-ajan- ja opiskelun profiili. Jokainen profiili luo omanlaisensa identiteetin (tarkenna). On tyypillistä hyväksyä LinkedIn-yhteisöpalveluun työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-kavereiksi sen sijaan ei yleensä haluta pomoa tai kaukaisempia työkavereita, koska vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon tavanomaisesti kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella.
 
-  Käyttäjällä pitää olla mahdollisuus valita, minkä identiteetin/käyttäjäprofiilin hän kytkee web-palveluun. Ei ole samantekevää, kirjaudutaanko uuteen palveluun ainoastaan Facebook-tunnuksilla. Käyttäjäkeskeisen identiteetin periaatteet tähän. % todo
+  Käyttäjäkeskeisen identiteetin periaatteen mukaan käyttäjällä täytyy olla mahdollisuus valita, minkä identiteeteistänsä hän yhdistää johonkin web-palveluun~\cite{openid_recordon_2009}. Toteutuakseen käytännössä periaate tarkoittaa, että web-palvelun on mahdollistettava sisäänkirjautuminen monen eri identiteetintarjoan avulla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas.
 
-  % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
-  % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
+  Federoitu identiteetti on toinen periaate, joka ei kuitenkaan ole poissulkeva käyttäjäkeskeisyyden suhteen. Federaatioksi kutsutaan joukkoa toimijoita, jotka luottavat toisiltansa saaman tietynlaisen tiedon olevan oikeellista (todo termi, valid)~\cite{id_in_federation_systems_2005}. Käyttäjän tunnistamisen osalta tunnistamista pyytänyt identiteetinkuluttaja (federaation jäsen) luottaa identiteetintarjoajan viestiin siitä, että käyttäjä vahvistanut hallitsevansa esittämäänsä käyttäjätunnusta. Identiteetinkuluttaja on siten valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan käyttäjälle federoidun identiteetin.
 
-  Identiteetinkuluttajalla voi olla käyttäjilleen itsenäinen tunniste, joka yhdistetään identiteetintarjoajan tunnisteeseen~\cite{id_delegation_2005}. Tällöin eri identiteetintarjoajien tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa. Käyttäjälle voidaan myös antaa vapaus valita oma käyttäjätunnuksensa ja sitä kautta muodostaa oma MOOC-identiteetti, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa. MOOC-palvelun käyttäjän identiteetintarjoaja voidaan pitää vain MOOC-palvelun tiedossa eli olla näyttämättä sitä muille käyttäjille. Tällöin käyttäjä voi halutessaan säilyttää yksityisyytensä, vaikka hän käyttäisi sisäänkirjautumisessa Facebook-tunnustansa.   Selitä kuva~\ref{fig:uid_mapping}.
+  Palvelujen välisen luottamussuhteen laatu riippuu tapauksesta -- lähtökohtaisesti luottamus on mahdollisimman vähäinen tietoturvariskien minimoimiseksi. Vaikka identiteetinkuluttaja luottaa identiteetintarjoajan autentikointiviestiin, kuluttaja voi turvallisuuden lisäämiseksi soveltaa monivaiheista autentikointia esimerkiksi kysymällä lisäksi omaa palvelukohtaista salasanaa. OAuth- tai OpenID-spesifikaatio ei ota kantaa siihen, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. Tästä syystä OpenID-identiteetinkuluttajan ja -tarjoajan ei lähtökohtaisesti ole minkäänlaista luottamusta, jolloin luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
+
+  Identiteetinkuluttajalla voi olla käyttäjilleen paikallinen tunniste, joka yhdistetään identiteetintarjoajan federoidun identiteetin tunnisteeseen~\cite{id_delegation_2005}. Tällöin eri identiteetintarjoajien tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa. Käyttäjälle voidaan myös antaa vapaus valita oma paikallinen käyttäjätunnuksensa ja sitä kautta muodostaa oma MOOC-identiteetti, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa. MOOC-palvelun käyttäjän identiteetintarjoaja voidaan pitää vain MOOC-palvelun tiedossa eli olla näyttämättä sitä muille käyttäjille. Tällöin käyttäjä voi halutessaan säilyttää yksityisyytensä, vaikka hän käyttäisi sisäänkirjautumisessa Facebook-tunnustansa. Kuvassa~\ref{fig:uid_mapping} on esitetty identiteetinkuluttajan paikallisen käyttäjätunnisteen kytkeminen federoidun identiteetin tunnisteeseen identiteetintarjoajan päässä.
 
   \begin{figure}
     \centering
@@ -168,34 +171,16 @@
     \label{fig:uid_mapping}
   \end{figure}
 
-
-  \cite{id_in_federation_systems_2005}
-
-  Federoitu identiteetti on toinen periaate. Siitä toinen tekstikappale tähän. % todo
-
-  Tarviiko federated identityssä idp:n luottaa id consumeriin? Idp:n täytyy (tyypillisesti?) tuntea id consumer. Millainen luottamussuhde se on?
-  Luottamussuhteet ja vaatimukset, OpenID vs. OAuth vs. SAML.
-
   Eri järjestelmien pitää toimia keskenään yhteen, jotta sama identiteetti voidaan jakaa toisistaan riippumattomien palvelujen kesken. Tarve yhteiskäyttöiselle standardille.
 
-  Käyttäjäkeskeisessä idc:n ei tarvitse tuntea idp:tä etukäteen. Kuka tahansa voi olla idp.
-  Jos palvelu ei luota idp:hen mutta autentikoi käyttäjän idp:llä, palvelu voi lisäksi kysyä omaa salasanaa (tai käyttää 2-factor).
-  OAuth- tai OpenID-speksi ei ota kantaa siihen, kuinka käyttäjä autentikoidaan. On mahdollista tehdä idp joka ei autentikoi lainkaan, vaan hyväksyy minkä tahansa tunnisteen. Tästä syystä voi olla tarpeellista rajoittaa hyväksyttyjen identiteetintarjoajien lukumäärää, esim tarjoamalla vain esivalitut idp:t.
 
-  Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
-  HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta.
-
-  OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
-
-  Toinen single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen.
-
-    7 Laws of Identity.
-    % Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
-    Miksei OpenID yleistynyt?
-    Miksi Facebook koetaan uhkana? (vrt 2500 sivua dataa keskivertokansalaisesta vs kgb/cia vs eu-lait)
-    Miksei Facebook-tunnusta voi käyttää kaikkialla?
-
-    Fyysisen laitteen vaativat tekniikat, niiden ongelmat. (HST-kortti, SIM-kortti)
+    % 7 Laws of Identity.
+    % % Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
+    % Miksei OpenID yleistynyt?
+    % Miksi Facebook koetaan uhkana? (vrt 2500 sivua dataa keskivertokansalaisesta vs kgb/cia vs eu-lait)
+    % Miksei Facebook-tunnusta voi käyttää kaikkialla?
+    %
+    % Fyysisen laitteen vaativat tekniikat, niiden ongelmat. (HST-kortti, SIM-kortti)
 
     % Hyllytetyt aiheet:
     % Directed Identity
@@ -341,7 +326,7 @@
 
   SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
 
-  Design by Contract: rajapintakutsun esi- ja jälkiehdot. SOA-formalismi OWL-S.
+  Design by Contract: rajapintakutsun esi- ja jälkiehdot.
   % B. Meyer. Applying Design By Contract.Computer, No. 25, Vol. 10, 1992
 
 
@@ -360,29 +345,22 @@
     \label{fig:autentikointi_suojaa_viholliselta}
   \end{figure}
 
+  Tässä selitetään autentikointi ja auktorisointi. Tutkimuksen fokuksena on autentikointi.
 
-  Pitäisikö otsikon olla ''salasanat ja web'' ja myöhemmin ''autentikoituminen ja web'' ?
-
-  Paradigma: Web, SaaS, HTTP, user-agent/web-browser.
-  Mikä on web-palvelu?
-  Mikä on sisäinen palvelu?
-
-  Selitä auki tutkimuksen fokus:
-  Miksei active directory, kerberos, cas, ldap ole relevantti?
-  Voiko niitä kuitenkin hyödyntää (esim. SaaS-palvelu - Google Apps - Active Directory)
-  Miksi HTTP suosituin protokolla?
-
-  Mitä tarkoittaa autentikointi?
-  Mitä tarkoittaa auktorisointi (authorization)?
-
-  Rajataanko aihe SaaS-palveluihin, jotka julkisesti internetissä?
-  - ei oteta kantaa sisäisiin palveluihin?
-
-  Identiteetti: Kuka teki pyynnön?
-  Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
-  Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
-
-  Identity Management and Trust Services: Foundations for Cloud Computing
+  % Paradigma: Web, SaaS, HTTP, user-agent/web-browser.
+  % Mikä on web-palvelu?
+  % Mikä on sisäinen palvelu?
+  %
+  % Selitä auki tutkimuksen fokus:
+  % Miksei active directory, kerberos, cas, ldap ole relevantti?
+  % Voiko niitä kuitenkin hyödyntää (esim. SaaS-palvelu - Google Apps - Active Directory)
+  % Miksi HTTP suosituin protokolla?
+  %
+  % Identiteetti: Kuka teki pyynnön?
+  % Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
+  % Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
+  %
+  % Identity Management and Trust Services: Foundations for Cloud Computing
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
 
   %%%%%%%%%%%%%%%%%%
@@ -470,9 +448,19 @@
   Salasana on jaetun salaisuuden toteutus, ja salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
   Salasanan turvallisuus riippuu salasanan uniikkiuden (ei käytössä muissa palveluissa) lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Turvattomin vaihtoehto on, että käyttäjällä on lyhyt ja helppo salasana kaikissa käyttämissänsä palveluissa.
 
-  Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista 1.958 kappaletta oli ''password'' \cite{forbes_gawker_12_2010}.
+  Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}.
 
   % GAWKER salasanat, kuva http://blogs.wsj.com/digits/2010/12/13/the-top-50-gawker-media-passwords/?mod=e2tw
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/gawker_top20_passwords.jpg}
+    \caption{Gawker-tietomurron yhteydessä paljastuneet 20 yleisintä salasanaa~\cite{wsj_gawker_12_2010}.}
+    \label{fig:gawker_top20_passwords}
+  \end{figure}
+
+
+
 
   % Rational rejection of security advice by users
   % http://research.microsoft.com/en-us/um/people/cormac/papers/2009/SoLongAndNoThanks.pdf
@@ -511,7 +499,7 @@
   % subsection kaksivaiheinen_autentikointi (end)
 
 
-  \subsection{Sertifikaatit webissä} % (fold)
+  \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä} % (fold)
   \label{sub:sertifikaatit_webissä}
   Julkisen avaimen infrastruktuutri.
   Diffie-Hellman.
@@ -521,6 +509,9 @@
   Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}. Kaupalliset palveluntarjoajat kuten Thwate ja Verisign toimivat luotettuna kolmantena osapuolena eli sertifikaattiauktoriteettina (\emph{CA, certificate authority}), joiden oma juurivarmenne (\emph{root certificate}) on käyttäjäagentin (selaimen) ennalta tuntemien ja luotettavaksi merkittyjen sertifikaattien listalla. Sertifikaattiauktoriteetti todentaa juurisertifikaattinsa luottamusketjun avulla, että sen jollekin yritykselle myöntämä julkinen varmenne kuuluu sitä esittävälle web-palvelulle. Web-kontekstissa sertifikaatti kytketään URL:n verkko-osoitteeseen, jonka täytyy täsmätä sertifikaattiin kytketyn nimitiedon kanssa.
 
   Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on liian monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}.
+
+  Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
+  HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta.
 
   % subsection sertifikaatit_webissä (end)
 
@@ -705,45 +696,16 @@
   \end{figure}
 
 
-  % Onko CAS relevantti?
-  % Onko LDAP relevantti?
-  % Onko SASL relevantti?
   % Onko Shibboleth relevantti? % https://wiki.shibboleth.net/confluence/display/SHIB2/UnderstandingShibboleth
   % Miten Shibboleth ja SAML eroavat toisistaan? % http://shibboleth.internet2.edu/Shibboleth-SAML-FAQ.html
   % Onko Information Cards relevantti?
   % Onko User Provisioning käsitteenä relevantti?
-  % Vaikuttaako REST / SOAP siihen, mitä kannattaa käyttää?
   % Onko WS-Trust ja WS-Federation relevantteja?
   % Mikä on ''Circle of Trust?'' Onko se federated identityn juttu? Tarvitaanko sitä? Onko sama kuin PGP/GPG:ssä?
 
-  % Missä tilanteessa Microsoft Active Directory relevantti?
-  % - AD voi toimia SAML IdP:nä
   % - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
   %   % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
 
-  % Onko kaikissa relevanteissa protokollissa aina HTTP-rajapinta?
-  % - OpenID ja OAuth käytännössä aina http (protokolla ei ota kantaa muihin), SAMLissa muitakin.
-
-
-
-  % Historia:
-  % https://docs.google.com/document/pub?id=1O7jyQLb7dW6EnJrFsWZDyh0Yq0aFJU5UJ4i5QzYlTjU#h.fvyllnfjm3eo
-  % http://goo.gl/R8pMP
-  % The hack that makes Internet Identity possible
-  %
-  % Most of the people who will read this guide are computer scientists, and generally computer scientists like to think that account systems should be simple tools.  Unfortunately these systems are used by non-technical users who will not constrain themselves to our rules whether because they don’t understand them, or are hackers trying to break them.  Add in legal, privacy, and security issues, and you unavoidably end up with a complex set of requirements that are very hard to fulfill, and in many cases the requirements are conflicting.  Hopefully this guide will help you balance and meet those requirements.
-  % The most common computer science requirement of a User Account system is to provide a unique numeric ID for an account.  In a “simple” computer science world, there would be one global user account system, similar to DNS, where every person was assigned a single unique numerical ID at birth, and each person also had a perfect way to prove who they were.  Every website could then use those user IDs to store information associated with the person.
-  % Obviously that does not exist, and for decades every user account system issued its own IDs (and sometimes usernames) to users.  Such systems were “simple” to write, but painful for users.
-  % Then during the early 90s, a “hack” was found that created the foundation of most user account systems on the web.  That “hack” was the idea of logging into a website with your email address, and proving you were the owner of that email address by having the site send you an SMTP message with a hyperlink back to the site which contained a long code.  For the few of us who considered ourselves identity geeks at the time, this did not seem like an approach that would last a long time.  Even SMTP seemed like a fad when we already had high end systems like Lotus Notes relying on things like PKI, digital certifications, signing, encryption, etc.
-  % However twenty years later, that “hack” is still the most powerful technique that we rely on to build user account systems.  From a purist perspective, emails have some downsides as identifiers. Much of this guide will discuss those downsides, and how to handle them.  However nothing else, even phone numbers or social network IDs, has come even close to being as powerful an identifier.
-  % Two of the downsides are that users change email address over time, and that the same email address is sometimes assigned to different people at different time periods.  Because of those, and other complications, almost every website still maintains its own “local ID” system just as user accounts did before the 90s.  The one key addition is that those local IDs are then mapped to and from a user’s email address.
-  %
-  % Human -> Emails -> Local IDs -> Passwords
-  %
-  % So humans have a map of the emails they use, and websites map an email to a local ID.  Website’s user account systems also have a critical role of authenticating the owner of that email address.  Note we did not say authenticate the human, but rather that owner of the email address.  The difference is import, as well as powerful, but it also adds complexity.
-  % The simplest way to authenticate the owner of the email address is to use the “hack” of sending them a URL with a code every time they want to login.  However when that “hack” first became popular, email services had significant downtime, so websites did not want to be reliant on them.  So instead we relied on a scheme that had been used for user account systems that issued their own user IDs instead of relying on email address, and that scheme was passwords.
-  % Combining the “hack” with passwords seemed great.  The best part was that if the user forgot their password, the website could just use the “hack” again to verify the owner of that email address and let them pick a new password.
-  %
 
 
 
@@ -759,16 +721,19 @@
   Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
 
   XYZ TÄSSÄ XYZ
+  Jatka federoinnista, luku 2.1 selaimessa
 
-  With the advent of distributed computing models such as web services, there are increased inter-dependencies among such
-  SP’s. As a result, the current trend [10, 9] is to focus on inter-organization and interdependent management of identity
-  information [17] rather than identity management solutions for internal use. This is referred to as federated identity
-  management. Federated identity is a distributed computing construct that recognizes the fact that individuals move between
-  corporate boundaries at an increasingly frequent rate. Practical applications of federated identities are represented by
-  large multinational companies which have to manage several heterogeneous systems at the same time [17]. An effort in this
-  sense is represented by the notion of Single Sign-On (SSO) [20], which enables a user to login to multiple organizations or
-  SP’s by using the same username and password. This approach increases usability and adds security by reducing the number of
-  passwords that need to be managed.
+  With the advent of distributed computing models such as web services, there are increased
+  inter-dependencies among such SP’s. As a result, the current trend [10, 9] is to focus on
+  inter-organization and interdependent management of identity information [17] rather than identity
+  management solutions for internal use. This is referred to as federated identity management. Federated
+  identity is a distributed computing construct that recognizes the fact that individuals move between
+  corporate boundaries at an increasingly frequent rate. Practical applications of federated identities are
+  represented by large multinational companies which have to manage several heterogeneous systems at the
+  same time [17]. An effort in this sense is represented by the notion of Single Sign-On (SSO) [20], which
+  enables a user to login to multiple organizations or SP’s by using the same username and password. This
+  approach increases usability and adds security by reducing the number of passwords that need to be
+  managed.
   17 E. Norlin and A. Durand. Whitepaper on towards federated
   identity management. In Ping Identity Corporation, 2002.
 
@@ -990,7 +955,7 @@
   \\ \verb#https://www.google.com/accounts/o8/id?id=<uniikki satunnaismerkkijono>#.
   % todo tsekkaa rivitys
 
-    Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008a}. Tällöin OpenID-etsintävaihe käynnistyy tyypillisesti klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen
+    Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Yritysten omien tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008}. Tällöin OpenID-etsintävaihe käynnistyy tyypillisesti klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen
     asiakkaille\footnote{Suunnatun identiteetin OpenID-päätepiste on Yahoolla \url!https://yahoo.com! ja
                       \\ Googlella \url!https://www.google.com/accounts/o8/id!}.
 Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa.
@@ -1206,6 +1171,12 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{Autentikoituminen käyttäjäkeskeisen identiteetin toteutuksella} % (fold)
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
   Tässä kerrotaan periaatetasolla, kuinka tarjotaan mahdollisuus vapaavalintaisen identiteetintarjoajan käyttämiseksi. Tekninen selitys on sama kuin luvussa, jossa kerrotaan Googlen OpenID:n soveltamisesta.
+
+  OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
+
+  Toinen single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen.
+
+
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
 
@@ -1522,6 +1493,11 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Päälähteenä Facebookin kehittäjädokumentaatio:
   \\ \verb!https://developers.facebook.com/docs/authentication/!
+
+
+  % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
+  % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
+
 
   % subsection autentikoituminen_oauth (end)
 

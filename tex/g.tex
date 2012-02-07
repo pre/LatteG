@@ -9,6 +9,13 @@
 %   Teksti etenee kuin haluaisi hyvän oppikirjan etenevän.
 %   Käsitteet määritellään.
 %   Kun käsite ekaa kertaa: italics.
+%
+% TODO:
+%   Kiitokset!
+%    - ESO
+%    - TKTL, CSP-TiViT
+%    - Fratello hyvä kahvi
+%
 
 
 \begin{document}
@@ -448,9 +455,11 @@
   Salasana on jaetun salaisuuden toteutus, ja salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
   Salasanan turvallisuus riippuu salasanan uniikkiuden (ei käytössä muissa palveluissa) lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Turvattomin vaihtoehto on, että käyttäjällä on lyhyt ja helppo salasana kaikissa käyttämissänsä palveluissa.
 
-  Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista salasanoista lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}.
+  Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista 188.279 salasanasta lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}.
 
-  % GAWKER salasanat, kuva http://blogs.wsj.com/digits/2010/12/13/the-top-50-gawker-media-passwords/?mod=e2tw
+  % salasanatriviaa: http://www.lukew.com/ff/entry.asp?1487
+
+
 
   \begin{figure}
     \centering
@@ -484,7 +493,7 @@
   Kaksivaiheinen autentikointi on monivaiheisen autentikoinnin (\emph{multifactor authentication}) toteutus (todo termi, erikoistus?).
   Vaiheiden \emph{jotain minkä tiedot} ja \emph{jotain minkä omistat} lisäksi voidaan vaatia \emph{jotain mitä olet} -- tällöin kyse on kolmivaiheisesta autentikoinnista. Vaiheeksi \emph{jotain mitä olet} sopii esimerkiksi sormenjälki, iiriksen skannaaminen tai muu biometrinen tunniste. Monivaiheinen autentikointi tarkoittaa vähintään kahden edellä mainitun vaiheen käyttöä asiakkaan (todo termi, \emph{claimant}) tunnistamiseksi \cite{NIST_SP800-63-1}. Monivaiheisen autentikoinnin toteutus on yleisesti käsitetty vahvemmaksi kuin vain yhtä vaihtetta käyttävä: kolmen vaiheen autentikointi on vahvempi kuin kuin kahta vaihteta käyttävä, ja kahden autentikointivaiheen kokonaisuus on vahvempi kuin yhden vaiheen vaiheen toteutus \cite{NIST_SP800-63-1}. Myös karttapaikannustietoa tai laitteen yksilöivää tunnistekoodia voidaan käyttää autentikointiprosessin tukena, mutta ne eivät kuitenkaan ole autentikointitapoja (\emph{authentication factors}) \cite{NIST_SP800-63-1}.
 
-  Kokonaisturvallisuutta lisäävästä vaikutuksestaan huolimatta monivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa \cite{schneier_2factor_2005}. Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa käyttäjän matkapuhelimeen. Hän kuitenkin näkee kaapatun tietoliikenneyhteyden kautta käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, käyttäjän huolimattomuuden, päätelaitteessa olevan troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma (todo viite security ignorance). Monivaiheisuus lisää kuitenkin hyökkäyksen vaatimaa työläyttä yksivaiheiseen autentikointiin verrattuna.
+  Kokonaisturvallisuutta lisäävästä vaikutuksestaan huolimatta monivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa tai suojaa trojalaisilta \cite{schneier_2factor_2005}. Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa esimerkiksi käyttäjän matkapuhelimeen. Hän kuitenkin näkee kaapatun tietoliikenneyhteyden kautta käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, käyttäjän huolimattomuuden, päätelaitteessa olevan troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma~\cite{schneier_2factor_2012} (todo viite security ignorance). Monivaiheisuus lisää kuitenkin hyökkäyksen vaatimaa työläyttä yksivaiheiseen autentikointiin verrattuna, muun muassa koska hyökkäys täytyy kohdistaa tarkemmin tiettyä palveluntarjoajaa vastaan.
 
 
   % Esimerkkejä laitteista ovat YubiKey (http://www.yubico.com/yubikey, hyvänä puolena edullinen \$25 hinta), RSA SecurID (http://www.rsa.com/node.aspx?id=1156, huono julkisuus SecurID tietomurto 03/2011)

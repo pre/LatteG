@@ -17,6 +17,24 @@
 %
 
 
+id_in_federation_systems_2005
+With the advent of distributed computing models such as web services, there are increased
+inter-dependencies among such SP’s. As a result,
+the current trend [10, 9] is to focus on
+inter-organization and interdependent management of identity information [17] rather than identity
+management solutions for internal use.  This is referred to as federated identity management.
+
+Federated identity is a distributed computing construct that recognizes the fact that individuals move between
+corporate boundaries at an increasingly frequent rate. Practical applications of federated identities are
+represented by large multinational companies which have to manage several heterogeneous systems at the
+same time [17]. An effort in this sense is represented by the notion of Single Sign-On (SSO) [20], which
+enables a user to login to multiple organizations or SP’s by using the same username and password. This
+approach increases usability and adds security by reducing the number of passwords that need to be
+managed.
+17 E. Norlin and A. Durand. Whitepaper on towards federated
+identity management. In Ping Identity Corporation, 2002.
+
+
 
 
 

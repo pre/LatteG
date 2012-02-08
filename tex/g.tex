@@ -354,6 +354,9 @@
 
   Tässä selitetään autentikointi ja auktorisointi. Tutkimuksen fokuksena on autentikointi.
 
+  % autentikoinnista lampson ja id_in_federation_systems_2005 kpl 2.1
+
+
   % Paradigma: Web, SaaS, HTTP, user-agent/web-browser.
   % Mikä on web-palvelu?
   % Mikä on sisäinen palvelu?
@@ -684,7 +687,6 @@
   \end{quote}
 
   Historia, miksi keskitetty kertakirjautumissysteemi on ollut tarpeellinen.
-  Milloin ja minkä toimijoiden aloitteesta SAML, OAuth, OpenID ovat syntyneet. Alunperin minkä ongelman ratkaisemiseksi?
 
   Tässä kerrotaan, miksi AD, LDAP, Kerberos ja CAS eivät ole tutkielman kannalta relevantteja. Syynä se, että ne eivät ole internet-skaalan standardeja. Niitä voidaan kuitenkin käyttää palvelun sisäisessä toteutuksessa (ks johdannon yleiskuva). Esimerkiksi Kerberos edellyttää että kaikki clientit ovat samassa kellonajassa kuin server, koska timestamp leivotaan kerberos-tiketin sisään (miten eroaa client-server-server jutussa). Rajapintana jokin muu kuin http. Autentikointipalvelu järkevä pitää piilossa julkisesta internetistä ja tarjota väliin abstraktiokerros. Tämä abstraktiokerros on OpenID, OAuth, SAML tms -- ja sitä käytetään HTTP:llä. Tällöin sisäisen toteutuksen voi vaihtaa, mutta ulkoinen rajapinta ei muutu.
 
@@ -695,6 +697,8 @@
   Sisäänkirjautuminen voi alkuvahvistusten jälkeen tapahtua ''suoraan'' ilman että käyttäjältä kysytään yhtään mitään, kun käyttäjä sisäänkirjautunut valmiiksi facebookiin. Esimerkiksi painaa pelkästään ''login''-nappia, palvelu käy salamannopeasti facebookissa (jossa voimassa oleva sessio) eikä käyttäjä huomaa mitään vaan on jo sisäänkirjautunut identiteetinkuluttajan palveluun.
 
   Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
+
+  Ulkoistamalla autentikoinnin identiteetintarjoajalle, MOOC-palvelun ei tarvitse luoda, ylläpitää ja turvata käyttäjätunnusten ja salasanojen tietokantaa.
 
   Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
   \begin{figure}
@@ -729,22 +733,6 @@
 
   Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
 
-  XYZ TÄSSÄ XYZ
-  Jatka federoinnista, luku 2.1 selaimessa
-
-  With the advent of distributed computing models such as web services, there are increased
-  inter-dependencies among such SP’s. As a result, the current trend [10, 9] is to focus on
-  inter-organization and interdependent management of identity information [17] rather than identity
-  management solutions for internal use. This is referred to as federated identity management. Federated
-  identity is a distributed computing construct that recognizes the fact that individuals move between
-  corporate boundaries at an increasingly frequent rate. Practical applications of federated identities are
-  represented by large multinational companies which have to manage several heterogeneous systems at the
-  same time [17]. An effort in this sense is represented by the notion of Single Sign-On (SSO) [20], which
-  enables a user to login to multiple organizations or SP’s by using the same username and password. This
-  approach increases usability and adds security by reducing the number of passwords that need to be
-  managed.
-  17 E. Norlin and A. Durand. Whitepaper on towards federated
-  identity management. In Ping Identity Corporation, 2002.
 
 
 
@@ -824,6 +812,16 @@
   SAML ja REST % http://saml.xml.org/news/how-to-use-saml-with-rest-web-services
   ''Best practice is to conform to the SAML v2 Web Profile. But the problem there is that the Web Profile relies on sessions, typically managed by cookies. Sessions are a stateful artifact that are contrary to REST.'' -- puristien mielestä joo, mutta Fielding eri mieltä: sessio on sama käyttäjälle itselleen, jolloin saman käyttäjän peräkkäiset requestit on aina restin mukaisia (sama uri+parametrit antaa aina saman vastineen).
   OAuth 2.0 sen sijaan (by design) hyödyntää HTTP-otsakkeita eikä vaadi sessiota.
+
+  Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Vaikka vertailu on laadittu vuonna 2010, nuoremman sukupolven OAuth ei ole mukana.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/federoidun_id_standardien_kehitys.jpg}
+    \caption{Federoidun identiteetin standardien kehitys~\cite{ping_identity_primer_federated_id_2010}.}
+    \label{fig:federoidun_id_standardien_kehitys}
+  \end{figure}
+
 
   \subsubsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
   \label{ssub:samlin_johdannaiset}
@@ -1197,6 +1195,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     todo viite http://hueniverse.com/2010/05/introducing-oauth-2-0/
   \end{quote}
 
+  % oauth 1.0a:
   % oauth_callback: url johon idp ohjaa käyttäjän autentikoinnin/auktorisoinnin jälkeen
   % out of band: ei url callbackia, mutta oauth_verifier haaste
   % requestToken: poletti joka myönnetään kysyjälle. uudelleenkäytetään auktorisointivaiheessa.
@@ -1303,12 +1302,12 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Vaiheet:
   % http://code.google.com/apis/accounts/docs/OAuth2.html
 
-  1. \textbf{Rekisteröinti} Kuluttajapalvelu rekisteröidään tarjoajan palveluun. Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
+  1. \textbf{Kuluttajapalvelun rekisteröinti} Kuluttajapalvelu rekisteröidään tarjoajan palveluun. Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
 
   2. \textbf{Pääsyoikeuspoletin hankkiminen}
   Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Poletti voi toteuttaa pelkän sisäänkirjautumisen tai sillä voidaan lisäksi myöntää valtakirja käyttäjän hallinnoimiin resursseihin. Valtakirjan laajuus määräytyy poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Yksi pyyntö voi sisältää monta scope-näkyvyysalueparametria.
 
-  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen tarjoaja esittää kuluttajapalvelun pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). todo selitä paremmin
+  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen identiteetintarjoaja esittää identiteetinkuluttajan pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}, kuva~\ref{google_user_consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). Kun identiteetinkuluttaja on saanut pääsyoikeuspoletin, sen ei tarvitse enää kysyä seuraaviin pyyntöihin käyttäjän suostumusta niin kauan kuin poletti on voimassa. todo selitä tämä paremmin
 
   Pääsyoikeuspoletin hankkimistapoja on erilaisia -- valittava tapa riippuu kuluttajapalvelun luonteesta.
   Tämän tutkielman puitteissa esitellään tarkemmin web-palvelun kannalta kiinnostava flow.
@@ -1319,6 +1318,14 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   4. \textbf{Virkistyspoletti}
   Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. Tarkoituksena on tarjota lyhytikäinen poletti, mutta pitkäikäinen auktorisointi. Kuluttajapalvelu voi hakea uuden virkistyspoletin samalle pääsyoikeuspoletille, jolloin käyttäjää ei tarvitse vaivata auktorisointipyynnön kanssa. Käyttäjä voi evätä pääsyoikeuspoletin, jolloin sitä vastaan ei enää myönnetä uusia virkistyspoletteja.    todo: selitä tarkemmin, miksei ennemmin vain käytä aina pääsyoikeuspolettia.
 
+
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/google_user_consent.jpg}
+    \caption{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla.}
+    \label{fig:registration_with_facebook}
+  \end{figure}
 
   % subsubsection oauth_käytännössä (end)
 
@@ -1406,6 +1413,14 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   \subsubsection{OAuth-tokenit} % (fold)
   \label{ssub:oauth_tokenit}
+
+  Tässä selitetään kansantajuisesti, mikä on refresh token ja access token.
+  Ja mikä on bearer token type, miten online/offline access erotellaan.
+
+  selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
+
+  offline access edellyttää on refresh-tokenin, jolla saa rajattomasti lisää uusia tokeneita. access token edellyttää että käyttäjä on läsnä, eli että user consent voi toteutua. access token vain jonkin aikaa voimassa, refresh tokenilla saa uuden access tokenin jos ensimmäinen access token vielä voimassa (eli käyttäjä ei ole evännyt pääsyä). jos ei offline niin silloin ei refresh tokeniakaan.
+
 
   % subsubsection oauth_tokenit (end)
 

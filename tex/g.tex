@@ -1297,7 +1297,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
-  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan.
+  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan. OAuth 2.0 -identiteetintarjoajan on tunnettava identiteetinkuluttaja etukäteen. OAuth-spesifikaatio ei kuitenkaan sulje pois ennalta tuntemattomia kuluttajia: tällainen laajennos voi myöhemmin syntyä OAuthiin (todo tähän oli varhaisessa vaiheessa oleva draft, viite).
 
   Vaiheet:
   % http://code.google.com/apis/accounts/docs/OAuth2.html
@@ -1307,7 +1307,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   2. \textbf{Pääsyoikeuspoletin hankkiminen}
   Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Poletti voi toteuttaa pelkän sisäänkirjautumisen tai sillä voidaan lisäksi myöntää valtakirja käyttäjän hallinnoimiin resursseihin. Valtakirjan laajuus määräytyy poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Yksi pyyntö voi sisältää monta scope-näkyvyysalueparametria.
 
-  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen identiteetintarjoaja esittää identiteetinkuluttajan pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}, kuva~\ref{google_user_consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). Kun identiteetinkuluttaja on saanut pääsyoikeuspoletin, sen ei tarvitse enää kysyä seuraaviin pyyntöihin käyttäjän suostumusta niin kauan kuin poletti on voimassa. todo selitä tämä paremmin
+  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen identiteetintarjoaja esittää identiteetinkuluttajan pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}, kuva~\ref{google_id_and_user_consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). Kun identiteetinkuluttaja on saanut pääsyoikeuspoletin, sen ei tarvitse enää kysyä seuraaviin pyyntöihin käyttäjän suostumusta niin kauan kuin poletti on voimassa. todo selitä tämä paremmin
 
   Pääsyoikeuspoletin hankkimistapoja on erilaisia -- valittava tapa riippuu kuluttajapalvelun luonteesta.
   Tämän tutkielman puitteissa esitellään tarkemmin web-palvelun kannalta kiinnostava flow.
@@ -1322,9 +1322,9 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{images/google_user_consent.jpg}
-    \caption{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla.}
-    \label{fig:registration_with_facebook}
+    \includegraphics[width=0.9\textwidth]{images/google_id_and_user_consent.jpg}
+    \caption{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla. Käyttäjäagentilla on sessio voimassa kummallekin identiteetille, joten Google ei kysy lainkaan salasanaa vaan antaa loppukäyttäjän valita, kummalta identiteetiltä pääsyoikeuslupa kysytään.}
+    \label{fig:google_id_and_user_consent}
   \end{figure}
 
   % subsubsection oauth_käytännössä (end)
@@ -1509,10 +1509,32 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % refresh_token=1/551G1yXUqgkDGnkfFk6ZbjMLMDIMxo3JFc8lY8CAR-Q&
   % grant_type=refresh_token
 
-  % subsection oauth (end)
+  \subsubsection{Autentikoituminen OAuth-protokollalla} % (fold)
+  \label{ssub:autentikoituminen_oauth_protokollalla}
+
+  Identiteetinkuluttaja on rekisteröitynyt etukäteen identiteetintarjoajan asiakkaaksi~\cite{google_oauth2_doc, facebook_oauth2_doc}. Rekisteröintiprosessissa kuluttajalle on määritetty tunnisteena \verb!client_id!, salaisuutena \verb!client_secret! sekä yksi tai useampi loppukäyttäjän takaisin kuluttajapalveluun palauttava \verb!redirect_uri!. Kuluttajapalvelun tavoitteena on saada tarjoajapalvelulta \verb!access_token!, jonka tarjoaja myöntää, jos se hyväksyy loppukäyttäjän autentikoitumisen.
+
+  Prosessi alkaa, kun kuluttaja uudelleenohjaa käyttäjäagentin tarjoajapalvelun URL-osoitteeseen, jonka parametreiksi kuluttaja liittää tunnistetietonsa. Tarjoajapalvelu ottaa käyttäjäagentin vastaan ja suorittaa käyttäjän tunnistamisen. OAuth ei ota kantaa autentikoinnin yksityikohtiin~\cite{ietf_oauth2}, joten tarjoaja voi esimerkiksi soveltaa kaksivaiheista autentikointia ja antaa käyttäjän valita, minkä identiteettinsä hän haluaa ottaa käyttöön ennen käyttäjän suostumisvaihetta (kuva~\ref{fig:google_id_and_user_consent}).
+
+  Identiteetintarjoajalle autentikoitumisen jälkeen tarjoaja kysyy käyttäjän suostumuksen kuluttajapalvelun pyytämien tietojen välittämiseksi eteenpäin. Jos käyttäjä suostuu, tarjoaja lyö leimansa vastaukseen, jonka käyttäjäagentti välittää \verb!redirect_uri!:n kautta kuluttajapalveluun. Kun identiteetinkuluttaja on palvelinpään sovellus, tarjoajan vastaus on auktorisointikoodi (\emph{authorization code}). Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit.
+
+  Kuluttaja tarvitsee auktorisointikoodia ainoastaan silloin, kun käyttäjältä kysytään suostumusta. Käyttäjän suostumus tarvitaan silloin, kun kuluttajalla ei ole \verb!access_token!-valtakirjaa tai kun aiemmin myönnetty \verb!access_token! on vanhentunut. \verb!Access_token! on aina rajallisen ajan voimassa ja edellyttää käyttäjän läsnäoloa (todo selitä paremmin) ollakseen käyttökelpoinen. Jos kuluttaja tarvitsee käyttäjästä riippumattoman pääsyn tarjoajan resursseihin, kuluttajan on pyydettävä käyttäjän suostumusvaiheessa \verb!offline access!-lupaa. Tällöin tarjoaja antaa auktorisointikoodin lunastamisen yhteydessä \verb!acces_token!-poletin lisäksi myös \verb!refresh_token!-poletin.
+
+  Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
+
+
+
+
+  todo tarkenna että tässä vain webserver flow koska mooc
+  todo bookmarkit
+  todo kuva multifactor auth jossa google login + authenticator sovellus
+
+  Multi-session (facebook Not you?, Googlella radiobutton)
+
+  % subsubsection autentikoituminen_oauth_protokollalla (end)
 
   \subsubsection{Autentikoituminen Facebook-identiteetillä} % (fold)
-  \label{sub:autentikoituminen_oauth}
+  \label{sub:autentikoituminen_facebook}
   Tässä kerrotaan kuinka Facebook-autentikoinnilla pääsee MOOC-palveluun.
 
   Päälähteenä Facebookin kehittäjädokumentaatio:
@@ -1523,7 +1545,10 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
 
 
-  % subsection autentikoituminen_oauth (end)
+  % subsection autentikoituminen_facebook (end)
+
+  % subsection oauth (end)
+
 
 
   \subsection{Uuden käyttäjän rekisteröityminen} % (fold)
@@ -1535,7 +1560,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Miten Google?
 
-  Käyttääkö uudet Google-tunnukset OpenID:tä vai OAuthia?
+  Google tarjoaa sekä OpenID että OAuth -sisäänkirjautumisen. Kumpaa käytetään?
 
   Selitä tähän kuva~\ref{fig:registration_with_facebook} Facebookin site registration flow \url{https://developers.facebook.com/docs/user_registration/flows/}
 

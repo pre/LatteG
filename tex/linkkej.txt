@@ -89,3 +89,11 @@ Kuvitusta
 http://www.flickr.com/photos/phill_dvsn/393952186/
 http://www.flickr.com/photos/webel
 ideoita http://www.slideshare.net/jreffell/oauth-openid-facebook-connect-authentication-design-best-practices
+
+
+whitepaper: ''Is your API naked ?''
+%http://blog.apigee.com/detail/more_api_security_choices_oauth_ssl_saml_and_rolling_your_own/
+
+session fixation attack % http://www.readwriteweb.com/archives/how_the_oauth_security_battle_was_won_open_web_sty.php
+
+

@@ -37,7 +37,7 @@
 \subject{Tietojenkäsittelytiede}
 \numberofpagesinformation{\numberofpages\ sivua}
 
-\keywords{OpenID, OAuth, SAML, internet, autentikointi, auktorisointi}
+\keywords{OpenID, OAuth, SAML, internet, autentikointi, identiteetti}
 
 \begin{abstract}
 
@@ -657,7 +657,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % % section uhat_turvalliselle_autentikoitumiselle (end)
 
 
-
+% section kakkosluku (end)
 
 
 \section{Yhteiskäyttöiset kertakirjautumisen autentikointistandardit} % (fold)
@@ -857,7 +857,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   todo: OpenID käyttää termeinä relying party (rp) ja identity provider (idp). Tässä tutkielmassa käytetään johdonmukaisesti aina identiteetinkuluttaja (= rp) ja identiteetintarjoaja.
 
-  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation (viite \url{http://openid.net/foundation/}) -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä kuten Google, Microsoft, Symantec ja Yahoo! (viite \url{http://openid.net/foundation/sponsoring-members/}). Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä ansiosta OpenID-käyttäjäkunnalla on suuri kasvupotentiaali.
+  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä ansiosta OpenID-käyttäjäkunnalla on suuri kasvupotentiaali.
 
   % todo korvaa XXX
   OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voisi käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa. Käytännössä palveluntuottaja kuitenkin edelleen valitsee identiteetintarjoajan: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan. On yleistä, että palveluntuottaja hyväksyy ainoastaan oman organisaationsa identiteetintarjoajana tai suppean listan esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}).

@@ -416,12 +416,12 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
     \label{fig:trust_context_mobile_fb}
   \end{figure}
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
-    \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
-    \label{fig:trust_context_mobile_unknown_secure}
-  \end{figure}
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
+  %   \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
+  %   \label{fig:trust_context_mobile_unknown_secure}
+  % \end{figure}
 
   % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
@@ -436,7 +436,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 \section{Sisäänkirjautuminen web-palveluissa} % (fold)
 \label{sec:autentikoituminen_ja_web}
 
-  \begin{figure}
+  \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/usnavy_authentication.jpg}
     \caption{Yhdysvaltain ilmasotajoukkojen toisen maailmansodan ajan koulutusmateriaalia~\cite{usnavy_authentication}}
@@ -575,6 +575,13 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   Kaksivaiheisuus tuo autentikointiin lisävaiheen. Haaste--vastine-autentikoinnissa käyttäjän on annettava esitettyyn haasteeseen kelvollinen vastine eli osoitettava toiselle osapuolelle että hän \emph{tietää} jotain. Kaksivaiheisessa autentikoinnissa käyttäjän on lisäksi osoitettava, että hänellä \emph{on hallussaan} jotain \cite{NIST_SP800-63-1, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai kysymällä merkkijonoa, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
 
   Internet-palveluissa yleisin kaksivaiheisuuden toteutustapa on käyttäjän matkapuhelimen hyödyntäminen. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussa ennalta tunnettua puhelinnumeroa (hyvänä puolena toimivuus kaikissa tekstareita tukevissa puhelimissa). Toinen yleinen keino on \emph{Google Authenticator} -älypuhelinsovelluksen hyödyntäminen. Google Authenticator -mobiilisovellus tarjoaa rajoitetun ajan voimassa olevan numerosarjan, jota autentikoiva palvelin kysyy onnistuneen salasana-autentikoinnin jälkeen. Älypuhelinsovelluksen hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator -projektin taustajärjestelmä (\emph{backend}) sekä iOS, Android ja Blackberry -mobiilisovellukset on julkistettu avoimena lähdekoodina (todo lähdeviite http://code.google.com/p/google-authenticator/), minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös Googlesta täysin riippumattomiin palveluihin.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/google_authenticator.jpg}
+    \caption{Googlen kaksivaiheinen sisäänkirjautuminen kysyy onnistuneen salasana-autentikoitumisen jälkeen koodia, jonka käyttäjä lukee mobiililaitteen Google Authenticator -sovelluksesta. Yksi koodi on voimassa 60 sekuntia.}
+    \label{fig:google_authenticator}
+  \end{figure}
 
   Internet-mittakaavassa ulkoisen laitteen edellyttäminen hankaloittaa autentikointitavan laajaa käyttöönottoa. Ulkoisista laitteista matkapuhelin on suosittu juuri yleistyneisyytensä vuoksi. On kuitenkin olemassa myös muita ulkoisia laitteita, jotka tarjoavat mahdollisuuden kaksivaiheistaa autentikointi -- näitä käytetään usein yritysverkoissa tai muissa keskitetysti hallituissa verkkoympäristöissä. Osa laitteista markkinoi itseänsä myös salasanan korvaajina ja jotkut palvelut kuten verkkopankit jakavat etukäteen käyttäjilleen listan kertakäyttöisistä salasanoista. Tällöin kyseessä on kuitenkin yksivaiheinen haaste--vastine-autentikointi ellei laitteen tai kertakäyttösalasanalistan lisäksi vaadita mitään muuta tunnistetta.
 

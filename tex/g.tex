@@ -78,17 +78,7 @@
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
-  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. MOOC-järjestelmä tarvitsee kuitenkin luotettavan tavan käyttäjän identiteetin varmistamiseksi eli \emph{autentikoimiseksi}.
-
-  MOOC-palvelun nykyisessä toteutuksessa on jokaiselle käyttäjälle oma käyttäjätunnus ja salasana. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. MOOC-palvelun nykyisestä toteutuksesta eli omasta tunnus/salasana-yhdistelmästä halutaan eroon, koska käyttäjätunnusten hallinta aiheuttaa liikaa ylläpitotyötä ja ylläpitotyön määrä lisääntyy opiskelijamäärän kasvaessa. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti itsenäiseksi palveluksi (kuva~\ref{fig:mooc-arkkitehtuuri}), vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) palvelun muuhun toteutukseen. Itsenäinen autentikointipalvelu olisi yksi toteutusvaihtoehto -- mutta se ei varsinaisesti vähennä ylläpitotyön kokonaismäärää vaan pikemminkin tuottaa sitä lisää.
-
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
-    \caption{MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
-    \label{fig:mooc-arkkitehtuuri}
-  \end{figure}
-
+  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
   Kuva~\ref{fig:yleiskuva_termien_suhteista} esittelee tutkielmaan liittyvien autentikoinnin toimijoiden välisiä suhteita. Ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi GMail-palveluun. GMail-palvelu on identiteetinkuluttja (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}) -- vaan ei varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, joka vahvistetaan yhteentoimivuuden standardin avulla identiteetintarjoajan (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, johon tutkielmassa ei oteta kantaa. Yleisiä toteutuksia siihen ovat esimerkiksi Kerberos-tiketit ja salasanan tiivisteen tallettaminen tietokantaan tai LDAP-palveluun.
 
@@ -100,7 +90,7 @@
   \end{figure}
 
 
-  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielma ei ota kantaa järjestelmien sisäiseen toteutukseen, mutta kuvailee yksityiskohtaisesti standardien arkkitehtuuria relevantein osin. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
+  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielma ei ota kantaa järjestelmien sisäiseen toteutukseen, mutta kuvailee  standardien arkkitehtuuria relevantein osin. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
 
   \begin{figure}
@@ -1509,9 +1499,16 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     even if they are running different software on different platforms.''~\cite{cameron_id_arch_2006}
   \end{quote}
 
-MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google. Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
+  Tietojenkäsittelytieteen laitoksen nykyisessä MOOC-palvelun toteutuksessa on jokaiselle käyttäjälle oma käyttäjätunnus ja salasana. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. Käyttäjien autentikointi halutaan ulkoistaa MOOC-järjestelmän ulkopuolelle, koska käyttäjätunnusten hallinnan aiheuttaman ylläpitotyön määrä lisääntyy merkittävästi kurssien opiskelijamäärän kasvaessa. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti itsenäiseksi palveluksi (kuva~\ref{fig:mooc-arkkitehtuuri}), vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) palvelun muuhun toteutukseen. MOOC-palvelun oma, SOA-arkkitehtuurin mukainen autentikointipalvelu olisi yksi toteutusvaihtoehto, mutta se ei varsinaisesti vähentäisi ylläpitotyön kokonaismäärää vaan pikemminkin tuottaisi sitä lisää.
 
-Tässä tapauksessa OAuth luokittuu käyttäjäkeskeisen ja federoidun identiteetin välille. OAuth-protokolla ei itsessään toteuta käyttäjäkeskeisen identiteetin periaatetta, mutta OAuthilla voidaan tuoda MOOC-palveluun yksi identiteetintarjoaja lisää. Käyttäjän kannalta ei ole merkitystä protokollalla vaan mahdollisuudella itse valita oma identiteetintarjoajansa. Siksi MOOC-järjestelmään tuodaan kolmantena vaihtoehtona OAuth-autentikoituminen Facebook-palveluun.
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
+    \caption{Tietojenkäsittelytieteen laitoksen MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
+    \label{fig:mooc-arkkitehtuuri}
+  \end{figure}
+
+  MOOC-palvelun autentikointiratkaisun suunnitelmassa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutuu tarjoamalla tunnistautumisvaihtoehdoiksi OpenID vapaavalintaisella identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä palveluun eikä käyttäjän ole välttämätöntä olla Facebookin tai Googlen asiakas eikä Helsingin yliopiston opiskelija. Federoitu identiteetti toteutetaan OAuth-standardilla käyttäen Facebookin ja Googlen autentikointirajapintaa -- tällöin rekisteröitymiskynnys pysyy matalana, jos OpenID ja identiteetintarjoajan valitseminen eivät ole käyttäjälle ennestään tuttuja. Lisäksi esitetään suunnitelma Helsingin yliopiston omasta identiteetintarjoajasta, joka tarjoaisi kolmannen osapuolen toteuttamille järjestelmille mahdollisuuden käyttää Helsingin yliopiston käyttäjätunnusta autentikoitumisessa palveluun.
 
 MOOC-palvelun kannalta identiteetin myöntäneellä organisaatiolla ei ole merkitystä. Autentikoinnin vaatimuksena on varmistaa, että vain ja ainoastaan identiteetin oikea haltija pystyy osoittamaan identiteettiin liittyvän tunnisteen itselleen. Tunniste on OpenID:n tapauksessa OpenID URL, OAuthin tapauksessa XXX (johon \verb#acecss_token# kytketään) ja SAMLin tapauksessa XXX.
 

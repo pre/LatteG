@@ -187,6 +187,15 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
 
     % 7 Laws of Identity.
+    %
+    % The Laws of Identity [The Laws of Identity. Microsoft Whitepaper, May 2005.] are intended to codify a set of fundamental principles to which a universally adopted,
+    % sustainable identity architecture must conform. The Laws were proposed, debated, and refined through a longrunning, open, and
+    % continuing dialogue on the Internet [http://www.identityblog.com/]
+    %
+    % Ks. tiivistelmä appendix 1: http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
+    %
+
+
     % % Microsoftin visio identiteetistä. Miksi .NET Passport epäonnistui?
     % Miksei OpenID yleistynyt?
     % Miksi Facebook koetaan uhkana? (vrt 2500 sivua dataa keskivertokansalaisesta vs kgb/cia vs eu-lait)
@@ -445,6 +454,8 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Tässä selitetään autentikointi ja auktorisointi. Tutkimuksen fokuksena on autentikointi.
 
+  % Autentikoinnista, authorisoinnista ja identiteetistä: https://merlot.tools.ietf.org/html/rfc4513#appendix-A
+  %
   % autentikoinnista lampson ja id_in_federation_systems_2005 kpl 2.1
 
   Web-palvelun asiakas (todo termi) autentikoituu todistamalla, että hänellä on hallussaan ja hallinnassaan \emph{poletti} (\emph{token}). Poletti on rekisteröity ennakkoon web-palvelun käyttämälle identiteetintarjoajalle, ja sitä vastaan web-palvelu (identiteetin kuluttaja) voi varmistua poletin \emph{kantajan} (\emph{bearer}). Poletin kantajana toimivaa asiakasta kutsutaan \emph{väittäjäksi} (\emph{claimant}), koska asiakkaan identiteetti perustuu yksipuoliseen väittämään, kunnes autentikointitapahtuma on suoritettu ja väittäjä todistanut identiteettinsä. Polettiin liittyy salaisuus (\emph{secret}), jolla väittäjä osoittaa, että hän on poletin rekisteröimisen yhteydessä palveluun määritetty toimija (\emph{subscriber})~\cite{NIST_SP800-63-1}. Salaisuus perustuu joko julkiseen avainpariin (asymmetrisiin avaimiin, \emph{asymmetric keys}) tai \emph{jaettuun salaisuuteen} (\emph{shared secret}).
@@ -677,6 +688,36 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Historia, miksi keskitetty kertakirjautumissysteemi on tarpeellinen.
 
+  Ulkoistamalla autentikoinnin identiteetintarjoajalle, MOOC-palvelun ei tarvitse luoda, ylläpitää ja turvata käyttäjätunnusten ja salasanojen tietokantaa.
+
+  loose coupling vastly increases the scale of deployable systems
+
+  local scale solution vs internet scale solution
+  latency, reliability, trust, security
+  local on suhteellinen käsite. voi tarkoittaa saman applikaation sisäistä tietoa, saman fyysisen tietokoneen sisäistä tietoa, yrityksen oman sisäisen verkkoympäristön tietoa, suomen rajojen sisällä pysyvää verkkoympäristöä, eurooppalaista verkkoympäristöä tai kaikilla mantereilla toimivaa Amazon AWS -verkkoympäristöä. Local on se mitä on asiayhteydestä riippuen ''lähellä'' ja global on kaikki muu.
+  %
+  % Before 1982, the networking world was
+  % fragmented.  If you wanted to write a networkenabled application you had to choose what network to write it for:  Ethernet, Token Ring, ArcNet, X.25, etc.  The invention of a Network Metasystem,  the Internet Protocol (IP), changed all
+  % that.  It made it possible to write networking applications that worked across networks without
+  % knowing the particulars of each network.  It even
+  % enabled those applications to work with new
+  % networks that hadn't been invented yet, such as
+  % 802.11 wireless networks
+  % Digital identity is similarly fragmented today.  If you want to write an identity-enabled application, you have to choose which identity system to write it for, such as  Kerberos, SAML,
+  % X.509, Liberty, custom username/password systems, etc.  The Identity Metasystem is intended
+  % change all that, just as IP did for networking.  It
+  % will make it possible to write identity-enabled
+  % applications that can work across multiple identity systems and can even use new identity systems
+  % as they are invented and connected to the Identity
+  % Metasystem.
+  % This analogy holds true in another way.  IP
+  % didn’t compete with or replace the individual
+  % networks such as Ethernet — it used them.  Similarly, the  Identity Metasystem doesn’t compete
+  % with or replace individual identity technologies
+  % such as Kerberos, Liberty, X.509, SAML, etc. —
+  % it uses them.
+  % http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
+
   Tarve perustuu siihen, että keksiä ei voi jakaa domainien kesken. Kerrotaan, miten keksejä käytetään autentikoinnissa. Keksiin talletetaan sessiotieto yhden palvelun tai tieton domainin kontekstissa. Selaimen tietoturvamalli estää keksien jakamisen domainien kesken. On mahdollista
 jakaa *.domain.com. Keksin käyttäminen integraatiopisteenä ei ole suositeltavaa. Vertaa SOA:
 ennemmin rajapinta palvelujen välille, jolloin jokainen palvelu voi itse ylläpitää omaa tilaansa.
@@ -684,7 +725,7 @@ ennemmin rajapinta palvelujen välille, jolloin jokainen palvelu voi itse ylläp
 myös muihin palveluihin.) Client-server, server-server. Application-Useragent-Server.
 
 
-  Tässä kerrotaan, miksi AD, LDAP, Kerberos ja CAS eivät ole tutkielman kannalta relevantteja. Syynä se, että ne eivät ole internet-skaalan standardeja. Niitä voidaan kuitenkin käyttää palvelun sisäisessä toteutuksessa (ks johdannon yleiskuva). Esimerkiksi Kerberos edellyttää että kaikki clientit ovat samassa kellonajassa kuin server, koska timestamp leivotaan kerberos-tiketin sisään (miten eroaa client-server-server jutussa). Rajapintana jokin muu kuin http. Autentikointipalvelu järkevä pitää piilossa julkisesta internetistä ja tarjota väliin abstraktiokerros. Tämä abstraktiokerros on OpenID, OAuth, SAML tms -- ja sitä käytetään HTTP:llä. Tällöin sisäisen toteutuksen voi vaihtaa, mutta ulkoinen rajapinta ei muutu.
+  Tässä kerrotaan, miksi AD, LDAP, Kerberos ja CAS eivät ole tutkielman kannalta relevantteja. Syynä se, että ne eivät ole internet-skaalan standardeja identiteetin toteuttamista varten, koska yleisin useragent on http-protokollaa hyödyntävä web-selain. Niitä voidaan kuitenkin käyttää palvelun sisäisessä toteutuksessa (ks johdannon yleiskuva). Esimerkiksi Kerberos edellyttää että kaikki clientit ovat samassa kellonajassa kuin server, koska timestamp leivotaan kerberos-tiketin sisään (miten eroaa client-server-server jutussa). Rajapintana jokin muu kuin http. Autentikointipalvelu järkevä pitää piilossa julkisesta internetistä ja tarjota väliin abstraktiokerros. Tämä abstraktiokerros on OpenID, OAuth, SAML tms -- ja sitä käytetään HTTP:llä. Tällöin sisäisen toteutuksen voi vaihtaa, mutta ulkoinen rajapinta ei muutu.
 
   HTTP rules erityisesti silloin kun user-agenttina on selain. Miksi rules myös natiiviapplikaatioissa ja SOA:ssa?
   Kun OAuth vie IdP:lle HTTP:llä, selain näyttää osoiterivillä idp:n domainin ja selainkontekstin turvallisuusilmoitukset (lukon kuva jne). Jos kertakirjaútuminen tapahtuisi HTTP:n sijaan esim. Kerberoksella tai muulla, web-selain ei osaisi kommunikoida ellei pluginia tai toteutusta. Tällöin kolmannen osapuolen palvelu joutuisi kysymään käyttäjän idp:n salasanaa suoraan ja hoitamaan autentikoinnin back-channelissa käyttäjältä näkymättömissä.
@@ -694,7 +735,6 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
 
-  Ulkoistamalla autentikoinnin identiteetintarjoajalle, MOOC-palvelun ei tarvitse luoda, ylläpitää ja turvata käyttäjätunnusten ja salasanojen tietokantaa.
 
   Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
   \begin{figure}
@@ -1461,6 +1501,14 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 \section{MOOC-palvelun autentikointiratkaisun arkkitehtuuri} % (fold)
 \label{sec:mooc_palvelun_autentikointiratkaisun_arkkitehtuuri}
 
+  \begin{quote}
+    ''Identity systems are about identifying yourself (and your things) in environments that are not yours.
+    For this to be possible, both your systems and the systems that are not yours
+    % – those where you need to digitally identity yourself –
+    must be able to speak the same digital identity protocols,
+    even if they are running different software on different platforms.''~\cite{cameron_id_arch_2006}
+  \end{quote}
+
 MOOC-järjestelmän toteutuksessa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutetaan tarjoamalla tunnistautumisvaihtoehdoiksi OpenID sekä vapaavalintaisella että esivalitulla identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä. Esivalittuna identiteetintarjoajana toteutetaan yksinkertaisuuden vuoksi ainoastaan Google. Federoitu identiteetti toteutuu Helsingin yliopiston opiskelijoille mahdollisuutena autentikoitua Helsingin yliopiston käyttäjätunnuksella käyttäen SAML-standardia.
 
 Tässä tapauksessa OAuth luokittuu käyttäjäkeskeisen ja federoidun identiteetin välille. OAuth-protokolla ei itsessään toteuta käyttäjäkeskeisen identiteetin periaatetta, mutta OAuthilla voidaan tuoda MOOC-palveluun yksi identiteetintarjoaja lisää. Käyttäjän kannalta ei ole merkitystä protokollalla vaan mahdollisuudella itse valita oma identiteetintarjoajansa. Siksi MOOC-järjestelmään tuodaan kolmantena vaihtoehtona OAuth-autentikoituminen Facebook-palveluun.
@@ -1469,7 +1517,17 @@ MOOC-palvelun kannalta identiteetin myöntäneellä organisaatiolla ei ole merki
 
 Yllä mainittujen lisäksi MOOC voisi myös itse toimia identiteetintarjoajana. Tämä toteutettaisiin SOA-arkkitehtuurimallin mukaisesti itsenäisenä palvelunaan käyttäen joko OpenID tai OAuth -standardia. Erona nykytilanteeseen olisi identiteetintarjoajan erottaminen MOOC-ydinpalvelusta (loosely coupled -periaate). Ratkaisun positiivisena puolena olisi, että käyttäjille voitaisiin tarjota sisäänkirjautuminen ilman, että käyttäjältä edellytetään esiasetettujen identiteetintarjoajien tarjoamaa tiliä. Tällöin käyttäjä voisi rekisteröityä suoraan MOOC-palvelussa, kun nyt Helsingin yliopiston ulkopuolisen käyttän on ensin luotava tili OpenID-palveluntarjoajalle tai Facebookiin. Oma MOOC-identiteetintarjoaja tuottaisi kuitenkin lisätyötä ylläpidon ja hallinnon muodossa riippumatta siitä, ylläpidetäänkö käyttäjätietokantaa itse vai delegoidaanko se Helsingin yliopiston käyttäjärekisteriin. Ratkaisun yksinkertaistamiseksi omaa MOOC-identiteetintarjoajaa ei tämän tutkielman puitteissa käsitellä.
 
-Tutkielma esittää suunnitelman, jossa kertakirjautuminen ei olisi mahdollinen pelkästään yhdellä yhteentoimivuuden standardilla. MOOC-palvelun toteutuksessa rinnakkaiset standardit -- OpenID, OAuth, ja SAML -- tukevat toinen toisiaan eivätkä varsinaisesti kilpaile keskenään.
+Tutkielma esittää suunnitelman, jossa kertakirjautuminen ei olisi mahdollinen pelkästään yhdellä yhteentoimivuuden standardilla. MOOC-palvelun toteutuksessa rinnakkaiset standardit -- OpenID, OAuth, ja SAML -- tukevat toinen toisiaan eivätkä varsinaisesti kilpaile keskenään. Perustellaan SOA-mallin kautta, miksi SAML jää pois ja miksi suositellaan HY:n oman IDP:n perustamista.
+
+Kuva~\ref{fig:mooc_hy_idp}: HY:lla oma idp, johon OAuth-rajapinta. Selitetään miksi vain OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Kun HY:lla oma idp niin HY:n käyttäjärekisterin ulkoinen rajapinta ei koskaan muutu vaikka sisäinen toteutus vaihdettaisiin. Lisäksi saman rajapinnan (idp:n) kautta voidaan läpinäkyvästi autentikoida mihin tahansa käyttäjälähteeseen kuten tktl:n ldappiin tai Eläinmuseon xyz:aan.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
+    \caption{MOOC-järjestelmän autentikointirajapinnat. Helsingin yliopistolla on kolmansien osapuolten toteuttamia palveluja -- kuten MOOC -- varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.)}
+    \label{fig:mooc_hy_idp}
+  \end{figure}
+
 
   \subsection{Autentikointi Helsingin yliopiston identiteetillä} % (fold)
   \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
@@ -1647,6 +1705,15 @@ Tutkielma esittää suunnitelman, jossa kertakirjautuminen ei olisi mahdollinen 
 
   Rage toimii apurahalla. Apuraha opetuksen, ei ohjelmistojen kehittämiseen.
 
+  users must be in control of their identity interactions (see Laws 1 \& 2, cameron). Among other things, this means that users must be given the choice of which identities to use at which services, they must know what information (which claims) will be disclosed to those services if they use them, and they must be informed how those services will use the information disclosed
+  Part of being in control that’s all too often overlooked is that to be in control, you must be able to understand the choices you’re presented with (see Laws 6 \& 7).
+
+  Many identity attacks succeed because the user was fooled by something presented on the screen, not because of insecure  communication technologies. Monet identiteettihuijaukset/-hyökkäykset onnistuvat, koska käyttäjä meni lankaan johonkin hänelle näytettyyn huijaukseen (phishing). Tiedonsiirtoon käytetty protokolla, väylä, laite jne voi olla täysin turvallinen mutta phishing silti onnistuu. Autentikointi on kaksisuuntaista: idp:n ja idc:n täytyy kyetä tunnistautumaan käyttäjälle päin käyttäjän ymmärtämässä muodossa.
+
+  One key to securing the whole system is presenting an easy-to-learn, predictable user interface that looks and works the same no matter which underlying identity technologies are employed.
+  % http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
+
+  Väite != Luottamus. Mooc-suoritusten perusteella voidaan myöntää opinto-oikeuus TKTL:lle. Käyttäjä täytyy siis kyetä tunnistamaan luotettavasti eli väite käyttäjän identiteetistä täytyy vahvistaa. Vahvistaminen jätetään korkeammalle abstraktiotasolle eli esim yliopiston kansliaan. Google/Facebook mahdollistaa kenen tahansa rekisteröitymisen, eli jotenkin käyttäjän on osoitettava että tietty tunniste kuuluu hänelle ja sen jälkeen vahvistaa tämä registration authoritylle esim näyttämällä henkilökorttia livenä kansliassa. Kaikille avoin openid idp joka hyväksyy minkä tahansa autentikoinnin --> periaatteessa sama juttu paitsi että miksi käyttäjä olisi tehnyt tällaisen -- käyttäjä voi myös jakaa tarkoitusta varten luomansa facebook-tunnukesnsa salasanan kaverilleen joka tekee tehtävät hänen puolestansa.
   % subsection suunnitelman_arviointi (end)
 
   \subsection{Jatkokehitysideoita} % (fold)
@@ -1724,6 +1791,9 @@ Tutkielma esittää suunnitelman, jossa kertakirjautuminen ei olisi mahdollinen 
     Gradun tavoite on täyttynyt, jos koodinimi ''Tienaria'' edustava Luukkainen pystyy kertomaan, mitä eroa ja yhteisiä piiretitä on SAMLilla, OAuthilla ja OpenID:llä.
 
     OpenID:n käytäjäkeskeisyyden perimmäinen idea toteutuisi, jos sitä voisi käyttää kuten iki.fi:n sähköpostiohjausta. Nyt näyttää siltä että OpenID:stä yleistyy ainoastaan hajautettu autentikointi ilman käyttäjäkeskeisyyttä. Tällöin etuja OAuthiin vähden on vaikea sanoa, koska OAuth tarjoaa myös auktorisoinnin. Toivottavasti tuleva OpenID Connect tarjoaa jotain merkittävästi parempaa tai OAuth syrjäyttää OpenID:n kokonaan. Käytännössä: NYt google tarjoaa sekä openid2.0+oauth1.0 että oauth 2.0, jatkossa vain oauth2.0 jos openid syrjäytyy.
+
+ Microsoft InfoCardsin tavoitteena olla internet-skaalan identiteetin meta-framework. Kuitenkaan ei ole saanut riittävästi jalansijaa ja vaikuttaa kuolevan pois. OpenID + InfoCards toimivat yhteen. Ongelma on, että muille kuin Microsoft Windowsille ei ole kunnollista InfoCards-clienttiä. Kenen intresseissä sellaisen rakentaminen olisi? Entä mobiilissa? Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
+ %http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
 
 % section yhteenveto (end)
 

@@ -1499,24 +1499,39 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     even if they are running different software on different platforms.''~\cite{cameron_id_arch_2006}
   \end{quote}
 
-  Tietojenkäsittelytieteen laitoksen nykyisessä MOOC-palvelun toteutuksessa on jokaiselle käyttäjälle oma käyttäjätunnus ja salasana. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. Käyttäjien autentikointi halutaan ulkoistaa MOOC-järjestelmän ulkopuolelle, koska käyttäjätunnusten hallinnan aiheuttaman ylläpitotyön määrä lisääntyy merkittävästi kurssien opiskelijamäärän kasvaessa. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti itsenäiseksi palveluksi (kuva~\ref{fig:mooc-arkkitehtuuri}), vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) palvelun muuhun toteutukseen. MOOC-palvelun oma, SOA-arkkitehtuurin mukainen autentikointipalvelu olisi yksi toteutusvaihtoehto, mutta se ei varsinaisesti vähentäisi ylläpitotyön kokonaismäärää vaan pikemminkin tuottaisi sitä lisää.
+  Tietojenkäsittelytieteen laitoksen nykyisessä MOOC-palvelun toteutuksessa on jokaiselle käyttäjälle oma käyttäjätunnus ja salasana. Käyttäjätunnus on MOOC-palvelun sisäisen toteutus, jota ei ole kytketty muihin järjestelmiin. Käyttäjien autentikointi halutaan ulkoistaa MOOC-järjestelmän ulkopuolelle, koska käyttäjätunnusten hallinnan aiheuttaman ylläpitotyön määrä lisääntyy merkittävästi kurssien opiskelijamäärän kasvaessa. Nykyisellään autentikointia ei ole erotettu SOA-arkkitehtuurimallin mukaisesti itsenäiseksi palveluksi (kuva~\ref{fig:mooc-arkkitehtuuri}), vaan autentikoinnin toteutus on kytketty tiukasti (\emph{tightly coupled}) palvelun muuhun toteutukseen.
+
+  MOOC-palvelun muista toimista itsenäinen, löyhästi kytketty (\emph{loosely coupled}) SOA-arkkitehtuurin mukainen autentikointipalvelu olisi yksi toteutusvaihtoehto. Tällöin MOOC toimisi itse omana identiteetintarjoajanaan ja voisi käyttää autentikointiin sisäisesti joko OpenID- tai OAuth-protokollaa kuten Amazon kuvassa~\ref{fig:amazon_openid}. Ratkaisun hyötynä olisi, että käyttäjille voitaisiin tarjota sisäänkirjautuminen ilman, että käyttäjältä edellytetään tiliä jonkin ennalta valitun identiteetintarjoajan palvelussa. Tällöin käyttäjä voisi rekisteröityä suoraan MOOC-palvelussa, kun nyt Helsingin yliopiston ulkopuolisen opiskelijan on ensin luotava tili OpenID-palveluntarjoajalle, Googleen tai Facebookiin. Tämä ratkaisu ei kuitenkaan ulkoistaisi käyttäjätietokantaan liittyviä ylläpitotyötä, vaan käyttäjähallinta tuottaisi edelleen tehtävää MOOC-palvelun henkilöstölle. Siksi tämä toteutusvaihtoehto rajataan pois suunnitelmasta.
 
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/mooc-arkkitehtuuri.jpg}
-    \caption{Tietojenkäsittelytieteen laitoksen MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri}
+    \caption{Tietojenkäsittelytieteen laitoksen MOOC-palvelun nykyinen ja SOA-mallin mukainen arkkitehtuuri.}
     \label{fig:mooc-arkkitehtuuri}
   \end{figure}
 
-  MOOC-palvelun autentikointiratkaisun suunnitelmassa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutuu tarjoamalla tunnistautumisvaihtoehdoiksi OpenID vapaavalintaisella identiteetintarjoajalla. OpenID:n vapaavalintaisen identiteetintarjoajan ansiosta avulla kuka tahansa voi rekisteröityä palveluun eikä käyttäjän ole välttämätöntä olla Facebookin tai Googlen asiakas eikä Helsingin yliopiston opiskelija. Federoitu identiteetti toteutetaan OAuth-standardilla käyttäen Facebookin ja Googlen autentikointirajapintaa -- tällöin rekisteröitymiskynnys pysyy matalana, jos OpenID ja identiteetintarjoajan valitseminen eivät ole käyttäjälle ennestään tuttuja. Lisäksi esitetään suunnitelma Helsingin yliopiston omasta identiteetintarjoajasta, joka tarjoaisi kolmannen osapuolen toteuttamille järjestelmille mahdollisuuden käyttää Helsingin yliopiston käyttäjätunnusta autentikoitumisessa palveluun.
+  MOOC-palvelun ulkoistetun autentikoinnin suunnitelmassa sovelletaan sekä käyttäjäkeskeisen että federoidun identiteetin periaatetta. Käyttäjäkeskeinen identiteetti toteutuu tarjoamalla tunnistautumisvaihtoehdoiksi OpenID vapaavalintaisella identiteetintarjoajalla. Tällöin kuka tahansa voi rekisteröityä MOOC-palveluun eikä käyttäjän ole välttämätöntä olla Facebookin tai Googlen asiakas eikä Helsingin yliopiston opiskelija.
 
-MOOC-palvelun kannalta identiteetin myöntäneellä organisaatiolla ei ole merkitystä. Autentikoinnin vaatimuksena on varmistaa, että vain ja ainoastaan identiteetin oikea haltija pystyy osoittamaan identiteettiin liittyvän tunnisteen itselleen. Tunniste on OpenID:n tapauksessa OpenID URL, OAuthin tapauksessa XXX (johon \verb#acecss_token# kytketään) ja SAMLin tapauksessa XXX.
+  Federoitu identiteetti toteutetaan OAuth-standardilla käyttäen Facebookin ja Googlen julkista autentikointirajapintaa. Tällöin uuden opiskelijan rekisteröitymiskynnys saadaan pidettyä matalana, vaikka OpenID ja identiteetintarjoajan valitseminen olisivat uudelle käyttäjälle täysin vieraita käsitteitä. MOOC-palvelun kannalta identiteetin myöntäneellä organisaatiolla ei ole merkitystä, kunhan tietty identiteetti on ainoastaan sen rekisteröineen opiskelijan hallinnassa. Autentikoinnin vaatimuksena on siten varmistaa, että vain ja ainoastaan identiteetin oikea haltija pystyy osoittamaan identiteettiin liittyvän tunnisteen itselleen. Tunniste on OpenID:n tapauksessa yksilöivä OpenID URL ja OAuthin tapauksessa XXX (johon \verb#access_token# kytketään, todo).
 
-Yllä mainittujen lisäksi MOOC voisi myös itse toimia identiteetintarjoajana. Tämä toteutettaisiin SOA-arkkitehtuurimallin mukaisesti itsenäisenä palvelunaan käyttäen joko OpenID tai OAuth -standardia. Erona nykytilanteeseen olisi identiteetintarjoajan erottaminen MOOC-ydinpalvelusta (loosely coupled -periaate). Ratkaisun positiivisena puolena olisi, että käyttäjille voitaisiin tarjota sisäänkirjautuminen ilman, että käyttäjältä edellytetään esiasetettujen identiteetintarjoajien tarjoamaa tiliä. Tällöin käyttäjä voisi rekisteröityä suoraan MOOC-palvelussa, kun nyt Helsingin yliopiston ulkopuolisen käyttän on ensin luotava tili OpenID-palveluntarjoajalle tai Facebookiin. Oma MOOC-identiteetintarjoaja tuottaisi kuitenkin lisätyötä ylläpidon ja hallinnon muodossa riippumatta siitä, ylläpidetäänkö käyttäjätietokantaa itse vai delegoidaanko se Helsingin yliopiston käyttäjärekisteriin. Ratkaisun yksinkertaistamiseksi omaa MOOC-identiteetintarjoajaa ei tämän tutkielman puitteissa käsitellä.
+  OAuth- ja OpenID-vaihtoehtojen lisäksi esitetään suunnitelma Helsingin yliopiston omasta identiteetintarjoajasta, joka tarjoaisi kolmannen osapuolen toteuttamille järjestelmille julkisen rajapinnan Helsingin yliopiston käyttäjärekisteriin. Yliopiston oma identiteetintarjoajapalvelu toimisi abstraktiokerroksena käyttäjärekisterin sisäisen toteutuksen ja kolmansien osapuolten toteuttamien identiteetinkuluttajien välillä. Tällöin käyttäjärekisterin sisäistä toteutusta on mahdollista vaihtaa ilman, että julkinen rajapinta muuttuu.
 
-Tutkielma esittää suunnitelman, jossa kertakirjautuminen ei olisi mahdollinen pelkästään yhdellä yhteentoimivuuden standardilla. MOOC-palvelun toteutuksessa rinnakkaiset standardit -- OpenID, OAuth, ja SAML -- tukevat toinen toisiaan eivätkä varsinaisesti kilpaile keskenään. Perustellaan SOA-mallin kautta, miksi SAML jää pois ja miksi suositellaan HY:n oman IDP:n perustamista.
+  % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
 
-Kuva~\ref{fig:mooc_hy_idp}: HY:lla oma idp, johon OAuth-rajapinta. Selitetään miksi vain OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Kun HY:lla oma idp niin HY:n käyttäjärekisterin ulkoinen rajapinta ei koskaan muutu vaikka sisäinen toteutus vaihdettaisiin. Lisäksi saman rajapinnan (idp:n) kautta voidaan läpinäkyvästi autentikoida mihin tahansa käyttäjälähteeseen kuten tktl:n ldappiin tai Eläinmuseon xyz:aan.
+
+  \subsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
+
+  Helsingin yliopistolla (HY) on hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun\footnote{Lähde: Keskustelu Tietojenkäsittelytieteen laitoksen tietotekniikka-asiantuntija XXX:n kanssa 26.1.2012, todo kysy lupa käyttää nimeä}. Vaikka Tietojenkäsittelytieteen laitoksen ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, historiallisista syistä johtuen Tietojenkäsittelytieteen laitoksella (TKTL) on lukuisa määrä omia erilaisia autentikointipalveluja.
+
+  Tietojenkäsittelytieteen laitoksen palvelujen käyttäjätiedot pidetään synkronissa kopioimalla tiedot säännöllisin väliajoin eräajona Helsingin yliopiston käyttäjärekisteristä. Esimerkiksi Tietojenkäsittelytieteen laitoksen kurssi-ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu yliopiston Active Directory -palvelun käyttäjärekisteristä. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatisi paljon työtä. Käytännössä Tietojenkäsittelytieteen laitoksen käyttäjätunnukset ovat siis itsenäiset ja erillään Helsingin yliopiston ensisijaisen käyttäjärekisterin toteutuksesta.
+
+  Autentikointinsa puolesta MOOC-järjestelmän ei ole suotavaa ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan Helsingin yliopiston hallinnollista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi.
+
+  \subsection{Autentikointi Helsingin yliopiston identiteetillä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_identiteetillä}
+
+  Tutkielma suosittele, että Helsingin yliopisto perustaisi identiteetintarjoajapalvelun, joka toimisi abstraktiokerroksena yliopiston käyttäjärekisterin ja kolmannen osapuolten toteuttamien palvelujen välillä.  Kuva~\ref{fig:mooc_hy_idp} esittelee identiteetintarjoajan, johon kolmannen osapuolen toteuttama identiteetinkuluttaja saa käyttöönsä ulkoisen OAuth-rajapinnan. Autentikoinnin sisäisenä rajapintana toimii SAML, jolla identiteetintarjoaja yhdistää Helsingin yliopiston Active Directoryssä olevaan käyttäjärekisteriin. Kuvassa kuluttajana toimii MOOC-palvelu, mutta sen lisäksi mikä tahansa muukin palvelu olisi mahdollista rekisteröidä identiteetinkuluttajaksi.
 
   \begin{figure}
     \centering
@@ -1525,50 +1540,18 @@ Kuva~\ref{fig:mooc_hy_idp}: HY:lla oma idp, johon OAuth-rajapinta. Selitetään 
     \label{fig:mooc_hy_idp}
   \end{figure}
 
+  Vaikka kuluttajapalveluja olisi useita, identiteetintarjoajan sisäinen SAML-rajapinta käyttäjärekisteriin ei koskaan ole suoraan kuluttajapalvelun saatavilla. Tämän ansiosta sisäinen rajapinta on tarvittaessa mahdollista vaihtaa ilman, että yhteenkään kuluttajapalveluun tarvitsee sen vuoksi tehdä muutoksia. Lisäksi identiteetintarjoajan sisäisen rajapinnan yhdistämää käyttäjärekisteriä on mahdollista vaihtaa myös väliaikaisesti, koska ulkoinen OAuth-rajapinta ei välitä käyttäjärekisterin autentikoinnin sisäisestä toteutuksesta. Tämän ansiosta käyttäjä voisi valita identiteetiksi Helsingin yliopiston käyttäjätunnuksen sijasta myös Tietojenkäsittelytieteen laitoksen tai Tietotekniikan tutkimuslaitoksen (HIIT) käyttäjätunnuksella -- samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
 
-  \subsection{Autentikointi Helsingin yliopiston identiteetillä} % (fold)
-  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
+  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielma kuitenkin suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 850 miljoonan käyttäjän\footnote{todo: linkki pörssilistautumissivulle jossa 850M} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
-  Helsingin yliopistolla (HY) on virallinen hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun (todo tarvitaanko lähde?).
-  Tietojenkäsittelytieteen laitoksella (TKTL) on oma AD-palvelu ja lisäksi lukuisa määrä erilaisia ja -tasoisia autentikointipalveluja.
-  Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
+  todo Selitä miksi vain OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
 
-  TKTL:n ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, josta käyttäjätiedot kopioidaan eräajona TKTL:n omien autentikointipalvelujen käytettäviin. Esimerkiksi laitoksen ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu eräajona HY:n ensisijaisesta käyttäjärekisteristä. LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatiis paljon työtä.
-
-  Autentikointinsa puolesta MOOC-järjestelmän ei kannata ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan HY:n virallista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi. Akateemisessa ympäristössä vapaus on perusarvo, minkä vuoksi järjestelmä tukee käyttäjäkeskeistä identiteettiä eli mahdollistaa vapaavalintaisen OpenID-identiteetintarjoajan käyttämisen. Käyttäjäystävällisyyden vuoksi tarjotaan myös kaksi esiasetettua identintarjoajaa: Google (OpenID) ja Facebook (OAuth).
-
-  Esitellään arkkitehtuuritasolla suunnitelma, että yliopistolla on oma idp, jolla on ainoa SAML-yhteys AD:hen. Tällöin AD:hen ei tartte puhkaista reikiä, vaan yliopiston idp tarjoaa siihen OAuth (ja \emph{tarvittaessa} SAML-rajapinnan). Ylioipston oma idp voi tukea myös OpenID:tä, jolloin yliopiston tunnus toimisi OpenID:nä maailmalle. Tällöin Kurhilan kurssipalautejärjestelmät sun muut (kymmenet eri) yliopiston palvelut eivät koskaan yhdistä suoraan käyttäjärekisteriin. Tällöin käyttäjäreskiterin toteutus voidaan vaihtaa taustalla ilman että rajapinta muuttuu. Ohtuprojektit ja muut pottikset eivät myöskään saa suoraa yhteyttä käyttäjärekisterin palveluun mikä on plussaa. OAuth toimii facebookin mittakaavassa (eikä idp:n tarvi luottaa idc:hen) joten pitäisi esittää erittäin hyvät syyt, miksei hy-oauth-idp:tä voisi tehdä ja tarjota siihen avointa rajapintaa (verrattuna nykytilanteeseen jossa omat käyttäjälähteet ja palvelut käsittelee salasanoja itse).
-
-  % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
+  % Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
+  % LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan.
 
 
-  \subsection{Autentikoituminen Helsingin yliopiston identiteetillä} % (fold)
-  \label{sub:autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin}
-  % * Helsingin yliopistolla on Active Directoryssä 40.000 käyttäjää.
-  % Kaikki hlökunta + opiskelijat.
-  %
-  % * HY:llä perustaa oman julkisen identiteetintarjoajapalvelun (idp).
-  %
-  % * Tämä HY:n idp on ****AINOA**** palvelu, joka juttelee suoraan Active
-  % Directoryn kanssa.
-  %
-  % * IDP tarjoaa OAuth (ja lisäksi vaikka esim OpenID ja SAML)
-  % -rajapinnan, jolla Kurhilan kurssipalvelu tai Luukkaisen MOOC-kurssi,
-  % TKTL:n ilmo jne voivat autentikoitua Helsingin ylioipston
-  % käyttäjärekisteriin.
-  %
-  % * Tällöin arkaluontoista Active Directoryä ei tartte koskaan pistää
-  % julkiseksi, vaan välissä on yksi abstraktiokerros, jonka avulla Uuden
-  % Internetin Ihanalla OAuthilla pystyy autentikoimaan Helsingin
-  % yliopiston käyttäjärekisteriin.
-  %
-  % OAuth tukee SAML-assertioita, eli ehkä(?????) sillä vois myös
-  % autentikoitua suoraan Active Directoryyn SAMLilla, ei kyllä tästä
-  % mitään hajua.
 
-  % subsection autentikoituminen_helsingin_yliopiston_käyttäjärekisteriin (end)
-
-
+  % subsection autentikointi_helsingin_yliopiston_identiteetillä (end)
 
   \subsection{Autentikoituminen Google- ja Facebook-identiteetillä} % (fold)
   \label{sub:autentikoituminen_facebook}
@@ -1685,6 +1668,8 @@ Kuva~\ref{fig:mooc_hy_idp}: HY:lla oma idp, johon OAuth-rajapinta. Selitetään 
   Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
 
   Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
+
+  vastaa johdantotekstissä olevaan ''Autentikoinnin vaatimuksena on siten varmistaa ..''
 
   Kertauloskirjautuminen: jos logout palvelusta niin logout myös idp:stä. Muuten jää huomaamatta sessio auki! (esim julkinen työasema)
 

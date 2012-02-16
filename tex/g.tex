@@ -886,6 +886,20 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   % paragraph ws_security (end)
   % subsection samlin_johdannaiset (end)
 
+  \subsubsection{SAML-autentikoinnin vaiheet} % (fold)
+  \label{ssub:saml_autentikoinnin_vaiheet}
+
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.9\textwidth]{images/google_saml_workflow_vertical.png}
+      \caption{SAML-autentikoinnin vaiheet: Identiteetinkuluttaja (\emph{service provider}) laatii SAML-pyynnön, jonka käyttäjäagentti välittää identiteetintarjoajalle. todo piirrä auki mooc-kontekstiin.}
+      \label{fig:saml_auth_vaiheet}
+    \end{figure}
+
+  %   Yliopiston palvelut julkiseen pilveen, ks kuva~\ref{fig:hy_julkiseen_pilveen}
+  %   todo viite \url{http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html}
+
+  % subsubsection saml_autentikoinnin_vaiheet (end)
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1152,37 +1166,49 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % https://dev.twitter.com/docs/auth/implementing-sign-twitter
   % twitter tokenit
 
-  Better ux: app logo secure url: oauth pyynnön käyttäjälle näytettävällä sivulla voidaan esittää idc:n logo.
+  % Better ux: app logo secure url: oauth pyynnön käyttäjälle näytettävällä sivulla voidaan esittää idc:n logo.
 
-  OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
-  1) The current member is logged into LinkedIn.
-  2) The current member has already granted an access token to your application.
-  3) The access token has not expired.
+  % OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
+  % 1) The current member is logged into LinkedIn.
+  % 2) The current member has already granted an access token to your application.
+  % 3) The access token has not expired.
+  %
+  % Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
+  % % https://developer.linkedin.com/documents/linkedins-oauth-details
 
-  Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
-  % https://developer.linkedin.com/documents/linkedins-oauth-details
-
-  *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
-
-  *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
-    % https://dev.twitter.com/docs/auth/pin-based-authorization
+  % *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
+  %
+  % *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
+  %   % https://dev.twitter.com/docs/auth/pin-based-authorization
 
 
   OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen: jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista kolmannen osapuolen palvelun kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen palveluun. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
 
-  Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa.
-  OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioiden kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1 -standardi ei millään riittänyt. OAuth 1.0 + Facebook Connect --> OAuth 2.0. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
+  Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa. Kolmannen osapuolen palvelua kutsutaan OAuth-protokollassa asiakkaaksi (\emph{client}), mutta yhdenmukaisuuden vuoksi tässä tutkielmassa käytetään käytetään aina nimeä identiteetinkuluttaja.
+  OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa (draft 22, todo tsekkaa uusin), mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
+  % OAuth 1.0 + Facebook Connect --> OAuth 2.0.
 
-  OAuth 1.0 tuotti vastutusta kehittäjien keskuudessa. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!http://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja, erityisesti, koska tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa. Kehittäjäyhteistä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa identiteetinkuluttaja kysyy käyttäjän salasanaa\footnote{xAuth on OAuth ilman \emph{request\_token} ja \emph{authorization} -vaiheita: identiteetintarjoaja antaa pääsyoikeuspoletin identiteetinkuluttajan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuth tarjoaa OAuthia rajoitetumman pääsyn käyttäjän profiiliin, ja sen käyttämiseksi täytyy anoa Twitteriltä erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}. OAuth 2.0 tuo mukanaan käyttäjätunnus ja salasana -flow:n, jolla xAuth voidaan tulevaisuudesa korvata, kun standardi valmistuu nykyisestä luonnosvaiheestaan.
+  OAuth 1.0 synnytti runsaasti vastutusta kehittäjien keskuudessa~\cite{developers_like_hypermedia_but_2010}. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!https://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja erityisesti sen vuoksi, että tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+
+  Kehittäjäyhteisöstä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa identiteetinkuluttaja kysyy käyttäjän salasanaa\footnote{xAuth on OAuth ilman \emph{request\_token} ja \emph{authorization} -vaiheita: identiteetintarjoaja antaa pääsyoikeuspoletin identiteetinkuluttajan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuth tarjoaa OAuthia rajoitetumman pääsyn käyttäjän profiiliin, ja sen käyttämiseksi täytyy anoa Twitteriltä erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}. OAuth 2.0 tuo mukanaan käyttäjätunnus ja salasana -flow:n, jolla xAuth voidaan tulevaisuudesa korvata, kun standardi valmistuu nykyisestä luonnosvaiheestaan.
   % taustaa:
   %      http://hueniverse.com/2009/02/beyond-the-oauth-web-redirection-flow/
   %      http://hueniverse.com/2010/05/introducing-oauth-2-0/
 
-  Käyttäjälle muutos on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Jakammalla oman salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa näiden resurssien kaiken datan, joka on suojattu kyseisellä salasana. Seurauksena ainoa tapa poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
+  Käyttäjälle muutos autentikoinnin siirtymisestä luotettuun käyttäjäagenttiin on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Luottamuksen kannalta on täysin eri asia, syöttääkö käyttäjä esimerkiksi Facebook-salasanansa Facebook-yhtiön mobiiliapplikaatioon vai kolmannen osapuolen applikaatioon, joka käyttää Facebookia autentikointiinsa. Jakammalla salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa kaikkien niiden resurssien datan, joka on suojattu kyseisellä salasanalla. Tällöin käyttäjän ainoa keino poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on oman salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
 
-  OAuth eriyttää toisistansa roolit resurssin omistajalle (käyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle sekä luo näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}. OAuth-protokollassa asiakas (\emph{client}, esim. kolmannen osapuolen palvelu) pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle asiakkaalle (kolmannen osapuolen palvelulle) itsenäisen valtakirjan. Yhden asiakkaan valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille asiakkaille myönnettyihin tai resurssin omistajan pääsyoikeuksiin. Tällaista valtakirjaa OAuth kutsuu pääsyoikeuspoletuksi (\emph{access token}, todo käännös).
+  OAuth eriyttää toisistansa roolit resurssin omistajalle (loppukäyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle (identiteetinkuluttajalle). OAuth toteuttaa näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}: kolmannen osapuolen palvelu pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle kolmannen osapuolen palvelulle oman valtakirjan. Yhden valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille osapuolille myönnettyihin valtakirjoihin tai resurssin omistajan omiin pääsyoikeuksiin.
 
-  Asiakas ei tunne resurssin omistajan salasanaa, vaan esittää pääsyoikeuspoletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Pääsyoikeuspoletti sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan (todo kuva auktoroisoiduista sovelluksista). Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko (todo lähdeviite https://developers.facebook.com/docs/authentication/). Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
+  Valtakirjan käyttäminen edellyttää, että identiteetinkuluttajalla on hallussaan tietynlainen poletti.   Identiteetinkuluttaja ei tunne resurssin omistajan salasanaa, vaan esittää poletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Polettiin kytketty valtakirja sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan ja kenelle mikäkin lupa on myönnetty. Kuvassa~\ref{fig:facebook_app_acl} on esitetty kolmannen osapuolen sovellukselle myönnetty valtakirja Facebook-käyttäjän tietoihin. Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja kolmas osapuoli pyytää käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko~\cite{facebook_oauth2_doc}. Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/fb_app_acl.jpg}
+    \caption{Kolmannen osapuolen sovellukselle myönnetty valtakirja Facebook-resursseihin ja loki tietojen käytöstä. Sovellus ei voi käyttää muita tietoja kuin mitkä sille on valtakirjassa määritetty, ja käyttäjä voi milloin tahansa poistaa sovelluksen pääsyoikeudet.}
+    \label{fig:facebook_app_acl}
+  \end{figure}
+
+  OAuthissa poletteja on kahdentyyppisiä: \emph{pääsyoikeus-} (\emph{access token}) ja \emph{virkistyspoletteja} (\emph{refresh token}).
 
   OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
   Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
@@ -1192,9 +1218,10 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{images/facebook_oauth_lupapyynto.jpg}
-    \caption{OAuth-käyttöoikeuspyyntö Facebookissa. Osoiterivillä dataa hallinnoivan palvelun URL ja selainkontekstin turvallisuusilmoitus.}
+    \caption{OAuth-käyttöoikeuspyyntö Facebookissa. Osoiterivillä dataa hallinnoivan palvelun URL ja selainkontekstin turvallisuusilmoitus. todo pitäiskö yhdistää valtakirjan kuvaan, tekis vaiheistetun eli ensin käyttöoikeuspyynnön kuva ja sit valtakirjan ja lokin kuvat}
     \label{fig:facebook_oauth_lupapyynto}
   \end{figure}
+
 
 
 
@@ -1230,7 +1257,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Hankkimisvaiheen jälkeen kuluttajapalvelu voi käyttää pääsyoikeuspolettia valtakirjana käyttäjän hallinnoimiin resursseihin tarjoajan palvelussa. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin kuluttajapalvelu pyysi valtuuksia hankkimisvaiheessa. Poletti lähetetään joko HTTP Authorization -otsakkeen tai URL:n \emph{query string} -parametrina.
 
   4. \textbf{Virkistyspoletti}
-  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. Tarkoituksena on tarjota lyhytikäinen poletti, mutta pitkäikäinen auktorisointi. Kuluttajapalvelu voi hakea uuden virkistyspoletin samalle pääsyoikeuspoletille, jolloin käyttäjää ei tarvitse vaivata auktorisointipyynnön kanssa. Käyttäjä voi evätä pääsyoikeuspoletin, jolloin sitä vastaan ei enää myönnetä uusia virkistyspoletteja.    todo: selitä tarkemmin, miksei ennemmin vain käytä aina pääsyoikeuspolettia.
+  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. Tarkoituksena on tarjota lyhytikäinen poletti, mutta pitkäikäinen auktorisointi. Kuluttajapalvelu voi hakea uuden virkistyspoletin samalle pääsyoikeuspoletille, jolloin käyttäjää ei tarvitse vaivata auktorisointipyynnön kanssa. Käyttäjä voi evätä pääsyoikeuspoletin, jolloin sitä vastaan ei enää myönnetä uusia virkistyspoletteja.    todo: selitä tarkemmin, miksei ennemmin vain käytä aina pääsyoikeuspolettia. % todo muotoilu: "vaivata" vs. ei tartte user-consent
 
 
 
@@ -1436,8 +1463,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
 
-  todo bookmarkit
-  todo kuva multifactor auth jossa google login + authenticator sovellus
 
   % subsubsection autentikoituminen_oauth_protokollalla (end)
 
@@ -1474,10 +1499,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     %   \label{fig:yleiskuva_sso_yhtenaisyyksista}
     % \end{figure}
 
-    Sen jälkeen kun eri tekniikat on selitetty, yhteenvetokappaleeseen taulukko jossa parilla lauseella selitetään jokainen.
-    + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
-    + Trust Model: RP/SP initiated; IDP initieated; (esim definition of trust: A reasonable expectation of confidence in an actor’s behavior)
-    + Registration / Discovery (Discovery is similar to a Web search for an identity.; Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.)
 
   % subsection tekniikoiden_yhtäläisyydet (end)
 
@@ -1569,6 +1590,14 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea.
 
+
+  % subsection autentikoituminen_facebook (end)
+
+  \subsection{Autentikoituminen käyttäjäkeskeisellä identiteetillä} % (fold)
+  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
+
+  Tässä esitellään OpenID-toteutus.
+
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
@@ -1601,13 +1630,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % \end{verbatim}
 
   % lue http://code.google.com/googleapps/domain/sso/openid_reference_implementation.html
-
-  % subsection autentikoituminen_facebook (end)
-
-  \subsection{Autentikoituminen käyttäjäkeskeisellä identiteetillä} % (fold)
-  \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
-
-  Tässä esitellään OpenID-toteutus.
 
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
@@ -1740,27 +1762,13 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
   % Miksi MOOC resurssipohjainen eikä ws-* ?
 
-  Entäs MOOC Mobiili? % https://dev.twitter.com/docs/auth/mobile-sign-flow
+  % Entäs MOOC Mobiili? % https://dev.twitter.com/docs/auth/mobile-sign-flow
 
   % Käyttökokemus: http://benward.me/blog/oauth-flow
   % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
   % subsubsection jatkokehitysideoita_auktorisointi (end)
 
-  \subsubsection{Yliopiston oma identiteetintarjoajapalvelu} % (fold)
-  \label{ssub:yliopiston_sähköpostit_pilveen}
-
-    \begin{figure}[h!]
-      \centering
-      \includegraphics[width=0.9\textwidth]{images/google_saml_workflow_vertical.png}
-      \caption{Autentikoituminen Helsingin yliopiston käyttäjärekisterillä Googleen. Tällöin esim. yliopiston sähköpostipalvelu, kalenteri ja dokumentit voitaisiin ulkoistaa julkiseen pilveen. Tällöin Googlea voisi käyttää OpenID-proxynä eli autentikoitua Helsingin yliopiston käyttäjätunnuksella mihin tahansa verkkopalveluun, joka tukee OpenID:tä.}
-      \label{fig:hy_julkiseen_pilveen}
-    \end{figure}
-
-    Yliopiston palvelut julkiseen pilveen, ks kuva~\ref{fig:hy_julkiseen_pilveen}
-    todo viite \url{http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html}
-
-  % subsubsection yliopiston_sähköpostit_pilveen (end)
 
   % subsection jatkokehitysideoita (end)
 

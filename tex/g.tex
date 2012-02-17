@@ -17,6 +17,10 @@
 %    - Fratello hyvä kahvi
 %
 
+% Termistö, yhdenmukaista:
+%  - identiteetinkuluttaja, yhdyssanana
+%  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
+
 
 \begin{document}
 
@@ -448,6 +452,12 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   %
   % autentikoinnista lampson ja id_in_federation_systems_2005 kpl 2.1
 
+  \emph{Autentikoituminen} on identiteetin määrittämistä. Jotta käyttäjän pääsyoikeus pyydettyyn resurssiin on mahdollista määrittää, täytyy käyttäjän esittämä identiteetti ensin varmistaa. Jos \emph{s} on väite, niin autentikointi vastaa kysymykseen ''Kuka sanoi \emph{s}?''. Jos \emph{o} on väitteen kohde, auktorisointi (\emph{authorization}) vastaa kysymykseen ''Kenellä on pääsy kohteeseen \emph{o}?'' \cite{lampson_distributed_1992}.
+
+  % Identiteetti: Kuka teki pyynnön?
+  % Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
+  % Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
+
   Web-palvelun asiakas (todo termi) autentikoituu todistamalla, että hänellä on hallussaan ja hallinnassaan \emph{poletti} (\emph{token}). Poletti on rekisteröity ennakkoon web-palvelun käyttämälle identiteetintarjoajalle, ja sitä vastaan web-palvelu (identiteetin kuluttaja) voi varmistua poletin \emph{kantajan} (\emph{bearer}). Poletin kantajana toimivaa asiakasta kutsutaan \emph{väittäjäksi} (\emph{claimant}), koska asiakkaan identiteetti perustuu yksipuoliseen väittämään, kunnes autentikointitapahtuma on suoritettu ja väittäjä todistanut identiteettinsä. Polettiin liittyy salaisuus (\emph{secret}), jolla väittäjä osoittaa, että hän on poletin rekisteröimisen yhteydessä palveluun määritetty toimija (\emph{subscriber})~\cite{NIST_SP800-63-1}. Salaisuus perustuu joko julkiseen avainpariin (asymmetrisiin avaimiin, \emph{asymmetric keys}) tai \emph{jaettuun salaisuuteen} (\emph{shared secret}).
 
   \emph{Julkinen avain} ja sitä vastaava \emph{yksityinen avain} muodostavat \emph{julkisen avainparin} (\emph{public key pair})~\cite{NIST_SP800-63-1}.
@@ -456,61 +466,10 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   \emph{Jaettu salaisuus} voi olla joko \emph{symmetrinen avain} (\emph{symmetric key}) tai salasana~\cite{NIST_SP800-63-1}. Näitä kahta voidaan käyttää samankaltaisissa autentikointiprotokollissa, mutta merkittävnä erona on niiden näkyminen käyttäjälle. Symmetrinen avain on tyypillisesti kytketty johnonkin käyttäjän hallinnoimaan laitteeseen tai ohjelmistoon, mutta salasana täytyy muistaa ulkoa. Muistettavuuden vuoksi salasanat ovat kryptografista avainta pituudeltaan lyhyempiä merkkijonoja, joten salasanalla on vähemmän erilaisia mahdollisia arvoja kuin avaimella. Symmetristä avainta ja salasanaa käytetätään sen vuoksi eri käyttötarkoituksiin.
 
-  todo kuva; miksi puhutaan poletista. Hashed passwords --> palveluntarjoaja ei talleta salasanaa vaan hashin, eli palveluntarjoajallakin on poletti.
-
-  % Paradigma: Web, SaaS, HTTP, user-agent/web-browser.
-  % Mikä on web-palvelu?
-  % Mikä on sisäinen palvelu?
-  %
-  % Selitä auki tutkimuksen fokus:
-  % Miksei active directory, kerberos, cas, ldap ole relevantti?
-  % Voiko niitä kuitenkin hyödyntää (esim. SaaS-palvelu - Google Apps - Active Directory)
-  % Miksi HTTP suosituin protokolla?
-  %
-  % Identiteetti: Kuka teki pyynnön?
-  % Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
-  % Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
+  % todo kuva; miksi puhutaan poletista. Hashed passwords --> palveluntarjoaja ei talleta salasanaa vaan hashin, eli palveluntarjoajallakin on poletti.
   %
   % Identity Management and Trust Services: Foundations for Cloud Computing
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
-
-  %%%%%%%%%%%%%%%%%%
-  % ''Assertions are statements from a Verifier to an RP that contain information about a
-  % Subscriber. Assertions are used when the RP and the Verifier are not collocated (i.e., they
-  % are connected through a shared network). The RP uses the information in the assertion to
-  % identify the Claimant and make authorization decisions about his or her access to
-  % resources controlled by the RP. An assertion may include identification and
-  % authentication statements regarding the Subscriber, and may additionally include attribute
-  % statements that further characterize the Subscriber and support the authorization decision
-  % at the RP.''
-  % %
-  % ''There are two basic models for assertion-based authentication. After successful
-  % authentication with the Verifier, the Subscriber is issued an assertion or an assertion
-  % reference, which the Subscriber uses to authenticate to the RP.''
-  % %
-  % ''an assertion contains a set of claims or statements about an
-  % authenticated Subscriber. Based on the statements contained within it, an authentication
-  % assertion will fall into one of two categories (and either category can be used in both
-  % direct and indirect models): Holder-of-Key Assertions ja Bearer Assertions. (sivu 83.)''
-  % %
-  % Lisäksi Proxy-model, jossa käyttäjä <--> verifier/portal <--> relying party.
-  % %
-  % % ''Three types of assertion technologies will be discussed within this section: Web browser
-  % %   cookies, SAML (Security Assertion Markup Language) assertions, and Kerberos tickets''
-  % %
-  % ''Cookies are effective as assertions for Internet single-sign-on where the RP and Verifier
-  % are part of the same Internet domain, and when the cookie contains authentication status
-  % for that domain. They are not usable in scenarios where the RP and the Verifier are part
-  % of disparate domains.''
-  % %
-  % Cookies are also often used by the Claimant to re-authenticate to a server. This may be
-  % considered to be a use of assertion technology. In this case, the server acts as a Verifier
-  % when it sets the cookie in the Subscriber’s browser, and as an RP when it requests the
-  % cookie from a Claimant who wishes to re-authenticate to it. Often, the cookie contains a
-  % random number, and the assertion data that it represents does not leave the server.
-  % % Kpl 9: Assertions
-  % % NIST-Special-Publication-800-63-1-E-Authentication-Guidelines.pdf
-  % % todo tähän myös Figure 4 ja Figure 5 samasta guidelinesta!
 
 
   \subsection{Haaste--vastine-autentikaatio} % (fold)
@@ -536,40 +495,45 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   \subsection{Salasanat ovat vallitseva käytäntö} % (fold)
   \label{sub:salasanat}
-  Salasanojen vahvuus, ihmisten tapa käyttää salasanoja, salasanat kustannustehokas ratkaisu.
-  Ihmiset eivät muista salasanoja. Sama salasana monessa paikassa. Ongelma.
 
-  Yhdistä tähän kappaleet Salasanat ja Salasanat ovat vallitseva käytäntö
+  \begin{quote}
+    ''Jopa ihmiset, joiden pitäisi tietää paremmin, kuten minä, käyttävät samoja salasanoja liian pitkään'', huokaisee Tatu Ylönen\footnote{Tietoturvayhtiö SSH Communications Securityn perustaja Tatu Ylönen Taloussanomien haastattelussa 28.11.2011}.
+  \end{quote}
 
-  Salasana on jaetun salaisuuden toteutus, ja salasanat ovat yleisin tapa tunnistautua palveluihin internetissä \cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}.
-  Salasanan turvallisuus riippuu salasanan uniikkiuden (ei käytössä muissa palveluissa) lisäksi siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat myös vaikeampia muistaa kuin lyhyet ja helpot, loppukäyttäjät päätyvät usein käyttämään samaa salasanaa monessa eri palvelussa \cite{study_of_passwords_07}. Turvattomin vaihtoehto on, että käyttäjällä on lyhyt ja helppo salasana kaikissa käyttämissänsä palveluissa.
+  Salasana on jaetun salaisuuden toteutus, ja salasanat ovat yleisin tapa tunnistautua palveluihin internetissä~\cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}. Salasana on palveluntarjoajan kannalta kustannustehokas tunnistamisväline, ja siksi salasana-autentikointi on pysynyt vallitsevana tunnistamistapana vuosikymmenten ajan~\cite{pw_auth_system_perspective_08}.
 
-  Saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska moni käyttäjä käytti samaa salasanaa myös muissa palvelussa. Tämän seurauksena esimerkiksi Twitterissä havaittiin käyttäjätunnuksia valloittanut spämmiaalto. Lisäksi mielenkiintoista oli, että vuodetuista 188.279 salasanasta lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}.
+  Keskiverrolla internet-käyttäjillä on 6,5 eri salasanaa, joista jokainen on jaettu keskimäärin 3,9 eri palvelun kesken~\cite{study_of_passwords_07}. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin käyttäjä kirjoittaa keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä salasana sopii juuri tiettyyn palveluun, ja moni kokeilee vuorotellen kaikkia salasanojansa, kunnes oikea löytyy~\cite{study_of_passwords_07}. Lisäksi salasanojen jakaminen, yksinkertaisuus, unohtaminen, vaihtumattomuus ja arvattavuus on hyvin yleistä~\cite{password_management_strategies_06, pw_auth_system_perspective_08, passpet_06}.
 
-  % salasanatriviaa: http://www.lukew.com/ff/entry.asp?1487
+  Yksittäisen salasanan turvallisuus riippuu siitä, kuinka työläs se on arvata joko väkisin tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat vaikeampia muistaa kuin lyhyet ja helpot, käyttäjällä on usein sama salasana monessa eri palvelussa~\cite{study_of_passwords_07}. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun on epätoivoinen taakka ihmisille~\cite{password_management_strategies_06, passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
 
+  Salasanan vahvuudesta riippumatta saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi \cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska monella käyttäjällä oli sama salasana myös muissa palvelussa. Gawker-tietomurron seurauksena muun muassa GMail-, LinkedIn- ja Twitter-palveluissa havaittiinkin käyttäjätunnuksia valloittanut spämmiaalto (todo tarviiko tähän lähteen).
 
+  % gawker-lähteitä:
+  % http://news.cnet.com/8301-1009_3-20025424-83.html?tag=mncol;txt
+  % http://news.cnet.com/8301-27080_3-20025688-245.html
+  % http://news.yahoo.com/blogs/cutline/leaked-gawker-passwords-cause-problems-twitter-gmail-20101213-130428-283.html
+   Gawkerin vuodetuista 188.279 salasanasta lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista Gawker-salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}. Yksinkertaiset salasanat yllättivät myös helmikuussa 2012, kun Syyrian sisällissodan alla valtiohallinnon sähköpostijärjestelmän salasanat vuodettiin tietomurron jälkeen julkisiksi\footnote{Syyrian valtionhallinnon vuodetut salasanat ovat julkisesti saatavilla mm. osoitteesta \url{http://pastebin.com/uaYDfCz0}. Salasanojen julkistaminen johti noloihin paljastuksiin, koska niiden myötä myös Syyrian presidentin sisällissodan alla käymä sähköpostikirjeenvaihto julkistettiin.}. Esimerkiksi Syyrian presidentin ja 33 muun valtionhallinnon henkilön salasanana oli ''12345'' tai ''123456''.
 
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{images/gawker_top20_passwords.jpg}
-    \caption{Gawker-tietomurron yhteydessä paljastuneet 20 yleisintä salasanaa~\cite{wsj_gawker_12_2010}.}
+    \caption{Gawker-tietomurron yhteydessä paljastuneet 20 yleisintä salasanaa~\cite{wsj_gawker_12_2010}. Gawkerin vuoden 2010 yleisimmistä salasanoista ''12345'' ja ''123456'' olivat myös Syyrian valtiohallinnon yleisimmät salasanat helmikuussa 2012.}
     \label{fig:gawker_top20_passwords}
   \end{figure}
 
+  Eräiden asiantuntijoiden mielestä vahvan salasanan kirjoittaminen osittain tai kokonaan muistiin lompakossa säilytettävälle paperilapulle on turvallista, kun samaan yhteyteen ei kirjoiteta käyttäjätunnusta tai palvelun nimeä~\cite{fsecure_passwords_on_postit_09, microsoft_guru_write_your_password_05, schneier_changing_passwords_10, schneier_choosing_passwords_07, schneier_write_down_your_password_05}. Salasanojen lukumäärän kasvaessa käyttäjän on kuitenkin vaikeaa muistaa, mihin palveluun mikäkin salasanoista sopii \cite{study_of_passwords_07}. Salasanan vahvuuden kannalta on siten tarpeellista vähentää ulkoamuistettavien salasanojen kappalemäärää, koska silloin vähäisestä määrästä salasanoja voisi tehdä mahdollisimman vahvoja. Tämä kuitenkin edellyttää, että samaa salasanaa voi käyttää turvallisesti monessa eri palvelussa. On siten ilmeistä, että internetissä on tarve yhteiskäyttöiselle kertakirjautumisstandardille, joita tutkielmassa käsitellään luvussa~\ref{sec:Kertakirjautumisstandardit}.
 
-
-
-  % Rational rejection of security advice by users
+  % salasanatriviaa: http://www.lukew.com/ff/entry.asp?1487
+  %
+  % Rational rejection of security advice by users:
   % http://research.microsoft.com/en-us/um/people/cormac/papers/2009/SoLongAndNoThanks.pdf
-
-  Turvallinen salasana edellyttää hankalaa arvattavuutta ja uniikkiutta. Florêncio ja Herley \cite{study_of_passwords_07} tutkivat ihmisten salasanatapoja kolmen kuukauden ajan 500.000 käyttäjän aineistolla. He havaitsivat, että keskimääräisellä käyttäjällä on 6,5 salasanaa, joista jokainen on jaettu 3,9 eri palvelun kesken. Jokaisella käyttäjällä on keskimäärin 25 salasanaa vaativaa käyttäjätunnusta ja päivittäin kirjoitetaan keskimäärin 8 salasanaa. Käyttäjän ongelmana on siksi usein muistaa, mikä kuudesta eri salasanasta sopii juuri tiettyyn palveluun. Moni käyttäjä kokeilee palveluun vuorotellen kaikkia salasanojansa, kunnes oikea löytyy \cite{study_of_passwords_07}. Tämä on väärinkäytösten osalta ongelmallista, jos palvelu tallettaa kokeillut salasanat luettavassa muodossa jonnekin.
 
   % subsection salasanat (end)
 
   \subsection{Kaksi- ja monivaiheinen autentikointi} % (fold)
   \label{sub:kaksivaiheinen_autentikointi}
 
+  todo kerro miten liittyy keskitettyyn kertakirjautumiseen.
   Perus-haaste-vastine-autentikoinnissa jos tietoliikenneyhteys (tai muu kommunikaatiokanava) ei ole turvallinen tai vastine muilla tavoin päätyy vääriin käsiin, salakuuntelija (eavesdropper) voi oppia jokaisen esitetyn haasteen vastineen, ja (väärin)käyttää vastinetta itse.
   Tällaisia mitm, troijalaiset, social engineering, olanylikatselu jne.
 
@@ -592,7 +556,6 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   Kokonaisturvallisuutta lisäävästä vaikutuksestaan huolimatta monivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa tai suojaa trojalaisilta \cite{schneier_2factor_2005}. Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa esimerkiksi käyttäjän matkapuhelimeen. Hän kuitenkin näkee kaapatun tietoliikenneyhteyden kautta käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, käyttäjän huolimattomuuden, päätelaitteessa olevan troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma~\cite{schneier_2factor_2012} (todo viite security ignorance). Monivaiheisuus lisää kuitenkin hyökkäyksen vaatimaa työläyttä yksivaiheiseen autentikointiin verrattuna, muun muassa koska hyökkäys täytyy kohdistaa tarkemmin tiettyä palveluntarjoajaa vastaan.
 
 
-  % Esimerkkejä laitteista ovat YubiKey (http://www.yubico.com/yubikey, hyvänä puolena edullinen \$25 hinta), RSA SecurID (http://www.rsa.com/node.aspx?id=1156, huono julkisuus SecurID tietomurto 03/2011)
   % Tectia Mobile ID: Kun käyttäjä kirjautuu palveluun, kännykkään lähetetään (flash-)tekstiviestinä viisinumeroinen koodi, joka pitää syöttää palveluun normaalin salasanan lisäksi.
   % Amazon AWS Multi Factor http://aws.amazon.com/mfa/
   % RSA Murto tapahtui Phishingillä: http://blogs.rsa.com/rivner/anatomy-of-an-attack/
@@ -615,6 +578,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on liian monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}.
 
+  todo
   Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
   HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta;
   HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
@@ -627,7 +591,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
   \label{sub:http_basic_auth_ja_http_digest_auth}
-  Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/uri!) ja mikä on http digest auth (haaste-vastine http headereissa).
+  Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/polku!) ja mikä on http digest auth (haaste-vastine http headereissa).
 
   % It is clearly unwise to use a URL that contains a password which is
   % intended to be secret. In particular, the use of a password within
@@ -753,19 +717,9 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
 
 
-  Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
-
-  Tässä esitellään relevantein osin case MOOC, ja millainen tarve siinä on kertakirjautumiselle.
+  % Julkinen palvelu pilvessä vs. yksityinen palvelu organisaation sisäverkossa. Erilaiset tarpeet. Miljoona erilaista toteutusta. Julkisessa pilvessä niin paljon toimijoita, että ei voi olla montaa rinnakkaista standardia, vain muutama voi levitä yhtäaikaa laajalle. Historia: Ennen oli monta sisäänkirjautumiskuvaketta (esim 20 kuvaketta tai vapaa openid-url-kenttä). Nykyisellään käytännössä vain facebook, google, twitter -kuvakkeet. OpenID on olemassa mutta idea käyttäjäkeskeisyydestä on painunut taustalle.
 
 
-  Selitä kuva~\ref{fig:mooc_login_luonnos}.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/mooc_login_sketch.jpg}
-    \caption{Luonnos MOOC-järjestelmän sisäänkirjautumissivusta. Missä tunnuksen luominen tapahtuu?}
-    \label{fig:mooc_login_luonnos}
-  \end{figure}
 
 
   Mitään tässä tutkielmassa esiteltävää protokollaa ei ole suositeltavaa implementoida omatoimisesti ilman painavaa syytä. Protokollan toteutuksen turvallisuus tai toimintavarmuus saattaa vaarantua pienestäkin virheestä. Jokaiselle tutkielmassa käsiteltävälle protokollalle on olemassa runsas joukko laajasti käytössä olevia kirjastoja, jotka ovat testattuja, ylläpidettyjä ja lisäksi myös jatkuvasti paremmaksi kehittyviä.
@@ -1119,47 +1073,8 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \label{sub:oauth}
 
   \begin{quote}
-    ''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone. Regardless of the restrictions the valet key imposes, the idea is very clever. You give someone limited access to your car with a special key, while using another key to unlock everything else.''
-    todo viite http://hueniverse.com/2010/05/introducing-oauth-2-0/
+    ''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone. Regardless of the restrictions the valet key imposes, the idea is very clever. You give someone limited access to your car with a special key, while using another key to unlock everything else.''~\cite{hueniverse_oauth_intro}
   \end{quote}
-
-  % oauth 1.0a:
-  % oauth_callback: url johon idp ohjaa käyttäjän autentikoinnin/auktorisoinnin jälkeen
-  % out of band: ei url callbackia, mutta oauth_verifier haaste
-  % requestToken: poletti joka myönnetään kysyjälle. uudelleenkäytetään auktorisointivaiheessa.
-  % accessToken: poletti joka myönnetään auktorisointisyklin lopuksi. Toimii käyttäjän myöntämänä valtakirjana: valtakirjaa vastaan annetaan käyttöoikeus käyttäjän resursseihin.
-  % authorize: Poletin vastaanottamisen jälkeen idp esittää auktorisointisivun jossa käyttäjä sallii/hylkää pääsyoikeuspyynnön
-  % token secret: merkkijono joka palautetaan requestToken ja accessToken vaiheiden jälkeen, käytetään yhdessä consumer secretin kanssa kun pyyntö allekirjoitetaan
-  % comsumer key: idc:n api-avain
-  % consumer secert: idc:n api-salaisuus, jolla kaikki pyynnöt allekirjoitetaan
-  % oauth_nonce: satunnaismerkkijono, uniikki joka pyynnöllä
-  % oauth_timestamp: epoch time sekunteina, max synkronisointiero 5? minuuttia idc:n kelloon?
-  % oauth_token: riippuu kontekstista: joko request token tai access token
-  % oauth_verifier: idp palauttaa idc:lle oauth_callbackin kutsun yhteydessä, tai käyttäjä syöttää käsin out-of-band flowssa.
-  %
-  % kuinka request token rakennetaan? http method, request uri, oauth_callback, oauth_consumer_key, oauth_nonce, oauth_signature_method, oauth_timestamp, oauth_version
-  % rakennetaan url, urlescape parametrit
-  % lisätään url http authorization headeriin
-  % lähetetään endpointtiin
-  % jos onnistuu, tulee takaisin url encoodattu vastaus, jossa oauth_token, token_secret ja callback_confirmed=true:
-  %    oauth-token on request token ja token_secretillä allekirjoitetaan pyyntö access_tokenista
-  %     callback_confirmed -- vapaaehtoinen vai pakollinen? sanoo vain että ok
-  %     säilytä oauth_token ja token_secret kunness access_token vaihe on valmis.
-  % -- tämän jälkeen idc:llä on request token ja rakennetaan url auktorisointia varten.
-  %  auktorisointi url endpoint on idp:llä, queryparametriksi oauth_token, jonka arvo on saatu edellisessä vaiheessa.
-  % timestamp --> käyttäjän täytyy saapua <=5minuutissa ensimmäisen tokenin myöntämisen jälkeen. idp:llä on jo oauth_callback --> sitä ei enää tartte tässä syöttää.
-  %
-  % prepare your signing secret:
-  % riippumatta käyttääkö callback vai out-of-band: idc:llä on request token, oauth_token_secret ja oauth_verifier. Request token vaihdetaan access_tokeniin, joka esittää valtakirjaa jolla idc saa (valtakirjan mukaiessti) toimia käyttäjän puolesta idp:n myöntämissä resursseissa.
-  % signing key format: url_escape(consumer_secret)&url_escape(oauth_token_secret)
-  % ---> rakenna url, lähetä authorisointitiedot http headereissa:
-  %    oauth_signature, _nonce, _callback, _signature_method, _timestamp, _consumer_key, _token, _verifier, _version
-  % ---> idp vastaa oauth_token ja oauth_token_secret, idc:n täytyy säilöä molemmat niin kauan aikaa kuin se käyttää valtakirjaa. Käyttäjä voi määritellä myös ajan kauanko valtakirja on voimassa. Käyttäjä voi myös poistaa valtakirjan (revoke token) milloin vain idp:n palvelussa. Myös idc voi omatoimisesti invalidoida tokeninsa.
-  % Lähde:   http://www.slideshare.net/episod/linkedin-oauth-zero-to-hero
-
-  % Jos käyttäjä painaa auktorisointipyyntöön cancel, voidaan palauttaa "integration urliin". Jos tätä ei määritetty, palautus callback_urliin. Tällöin idp ei välitä tokenia tai salaisuutta. Callback urliin lähetetään oauth_problem jonka arvona "user_refused".
-
-  % Your servers making requests must be within 5 minutes of our system clock. Timestamps in OAuth are always represented in epoch time in seconds. In any error response LinkedIn sends you, the current timestamp on our servers is included in an XML body of the response. However, at this time the timestamp we send you is in milliseconds, not seconds. It's quite easy to do the math to convert milliseconds to seconds.
 
   % linkedin oauth 1.0a flow: https://developer.linkedin.com/documents/oauth-overview
   % twitter oauth 1.0a: https://dev.twitter.com/docs/auth/authorizing-request
@@ -1197,7 +1112,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Käyttäjälle muutos autentikoinnin siirtymisestä luotettuun käyttäjäagenttiin on kuitenkin positiivinen, koska kohdepalvelun salasanaa ei tarvitse jakaa kolmannelle osapuolelle. Luottamuksen kannalta on täysin eri asia, syöttääkö käyttäjä esimerkiksi Facebook-salasanansa Facebook-yhtiön mobiiliapplikaatioon vai kolmannen osapuolen applikaatioon, joka käyttää Facebookia autentikointiinsa. Jakammalla salasanansa kolmannen osapuolen palveluun, käyttäjä samalla antaa tälle palvelulle täydet oikeudet salasanansa suojaamiin resursseihin. Tällöin minkä tahansa kolmannen osapuolen tietomurto vaarantaa kaikkien niiden resurssien datan, joka on suojattu kyseisellä salasanalla. Tällöin käyttäjän ainoa keino poistaa kolmannen osapuolen pääsyoikeus jälkikäteen on oman salasanan vaihtaminen. Tällöin kuitenkin pääsy estyy \emph{kaikilta} palveluilta, jotka ottavat resurssiin yhteyttä kyseisellä salasanalla.
 
-  OAuth eriyttää toisistansa roolit resurssin omistajalle (loppukäyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle (identiteetinkuluttajalle). OAuth toteuttaa näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}: kolmannen osapuolen palvelu pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi (todo: hosting suomeksi?) resurssin palvelin. Resurssin palvelimen käyttämä OAuth-auktorisointipalvelu (\emph{authorization server} luo resurssin omistajan hyväksynnällä jokaiselle kolmannen osapuolen palvelulle oman valtakirjan. Yhden valtakirjan (pääsyoikeuksien) evääminen ei vaikuta muille osapuolille myönnettyihin valtakirjoihin tai resurssin omistajan omiin pääsyoikeuksiin.
+  OAuth eriyttää toisistansa roolit resurssin omistajalle (loppukäyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle (identiteetinkuluttajalle). OAuth toteuttaa näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}: kolmannen osapuolen palvelu pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi resurssin palvelin. Resurssia isännöivä palvelin voi SOA-arkkitehtuurin mukaisesti olla täysin itsenäinen pääsyoikeuksia valvovasta auktorisointipalvelusta. Auktorisointipalvelu hyväksyttää resurssin omistajalla kolmannen osapuolen sovelluksen pääsyoikeuspyynnön ja luo hyväksytylle pyynnölle valtakirjan. Resurssin isäntä vastaavasti tarkistaa, että käyttöoikeutta pyytävällä osapuolella on auktorisointipalvelimella voimassa oleva valtakirja pyydettyyn resurssiin. Yhden valtakirjan (käyttöoikeuksien) evääminen ei vaikuta muille osapuolille myönnettyihin tai resurssin omistajan omiin pääsyoikeuksiin.
 
   Valtakirjan käyttäminen edellyttää, että identiteetinkuluttajalla on hallussaan tietynlainen poletti.   Identiteetinkuluttaja ei tunne resurssin omistajan salasanaa, vaan esittää poletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Polettiin kytketty valtakirja sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan ja kenelle mikäkin lupa on myönnetty. Kuvassa~\ref{fig:facebook_app_acl} on esitetty kolmannen osapuolen sovellukselle myönnetty valtakirja Facebook-käyttäjän tietoihin. Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja kolmas osapuoli pyytää käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko~\cite{facebook_oauth2_doc}. Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä vain.
 
@@ -1208,10 +1123,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     \label{fig:facebook_app_acl}
   \end{figure}
 
-  OAuthissa poletteja on kahdentyyppisiä: \emph{pääsyoikeus-} (\emph{access token}) ja \emph{virkistyspoletteja} (\emph{refresh token}).
-
-  OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
-  Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
 
   Selitä auki kuva~\ref{fig:facebook_oauth_lupapyynto}.
 
@@ -1234,18 +1145,59 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     \label{fig:facebook_oauth_login}
   \end{figure}
 
+  \subsubsection{OAuth-tokenit} % (fold)
+  \label{ssub:oauth_tokenit}
+
+  Tässä selitetään kansantajuisesti, mikä on refresh token ja access token.
+
+  Resurssin omistajan salasanan (todo credentials) sijaan resurssin asiakas (identiteetinkuluttaja) hankkii käyttöönsä pääsyoikeuspoletin. Pääsyoikeuspoletti on merkkijono, joka asiakkaan täytyy esittää saadakseen pääsyn valtakirjansa oikeuttamiin resursseihin. Pääsyoikeuspoletit myöntää auktorisointipalvelin resurssin omistajan hyväksyntää vastaan~\cite{ietf_oauth2}.
+
+  Mikä on bearer token type, miten online/offline access erotellaan.
+  - onko bearer token kattotermi access/refresh tokenille?
+  % "This
+  %   specification describes how to make protected resource requests when
+  %   the OAuth access token is a bearer token."
+  % http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-16
+  % While designed for use with
+     % access tokens resulting from OAuth 2.0 Authorization
+     % [I-D.ietf-oauth-v2] flows to access OAuth protected resources, this
+     % specification actually defines a general HTTP authorization method
+     % that can be used with bearer tokens from any source to access any
+     % resources protected by those bearer tokens.
+  % tls välttämätön
+  selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
+
+  offline access edellyttää on refresh-tokenin, jolla saa rajattomasti lisää uusia tokeneita. access token edellyttää että käyttäjä on läsnä, eli että user consent voi toteutua. access token vain jonkin aikaa voimassa, refresh tokenilla saa uuden access tokenin jos ensimmäinen access token vielä voimassa (eli käyttäjä ei ole evännyt pääsyä). jos ei offline niin silloin ei refresh tokeniakaan.
+
+
+  % subsubsection oauth_tokenit (end)
 
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
-  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan. OAuth 2.0 -identiteetintarjoajan on tunnettava identiteetinkuluttaja etukäteen. OAuth-spesifikaatio ei kuitenkaan sulje pois ennalta tuntemattomia kuluttajia: tällainen laajennos voi myöhemmin syntyä OAuthiin (todo tähän oli varhaisessa vaiheessa oleva draft, viite).
+  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan. OAuth 2.0 -identiteetintarjoajan on tunnettava identiteetinkuluttaja etukäteen. OAuth-spesifikaatio ei kuitenkaan sulje pois ennalta tuntemattomia kuluttajia: dynaaminen rekisteröityminen voi standardin vakiinnuttua olla mahdollista esimerkiksi laajennoksena~\cite{ietf_oauth2_unregistered_clients}.
+
+  % Eran Hammer was the lead author and editor of the OAuth specifications
+  OAuthissa on kaksi päävaihetta: poletin hankkiminen identiteetintarjoajalta ja poletin esittäminen pääsylippuna suojattuihin resursseihin. OAuthin eri tapoja poletin hankkimiseksi kutsutaan \emph{virtauksiksi} (\emph{flow}).
+  \cite{hueniverse_oauth_intro}
+
+  %OAuthissa poletteja on kahdentyyppisiä: \emph{pääsyoikeus-} (\emph{access token}) ja \emph{virkistyspoletteja} (\emph{refresh token}).
+
+  OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
+  Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
+  OAuthin turvallisuus perustuu pitkälti HTTPS:n käyttämiseen.
+
+
+  ''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
+  ''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
 
   Vaiheet:
   % http://code.google.com/apis/accounts/docs/OAuth2.html
 
-  1. \textbf{Kuluttajapalvelun rekisteröinti} Kuluttajapalvelu rekisteröidään tarjoajan palveluun. Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
+  1. \textbf{Kuluttajapalvelun rekisteröinti} OAuth-identiteetintarjoajan täytyy tuntea identiteetinkuluttaja etukäteen. Kuluttajapalvelu rekisteröidään tarjoajan palveluun ja rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
 
   2. \textbf{Pääsyoikeuspoletin hankkiminen}
+  todo kirjoita tämä uusiksi: poletti on kyketty valtakirjaan, ei toisinpäin!
   Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Poletti voi toteuttaa pelkän sisäänkirjautumisen tai sillä voidaan lisäksi myöntää valtakirja käyttäjän hallinnoimiin resursseihin. Valtakirjan laajuus määräytyy poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Yksi pyyntö voi sisältää monta scope-näkyvyysalueparametria.
 
   Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen identiteetintarjoaja esittää identiteetinkuluttajan pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}, kuva~\ref{google_id_and_user_consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). Kun identiteetinkuluttaja on saanut pääsyoikeuspoletin, sen ei tarvitse enää kysyä seuraaviin pyyntöihin käyttäjän suostumusta niin kauan kuin poletti on voimassa. todo selitä tämä paremmin
@@ -1271,99 +1223,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % subsubsection oauth_käytännössä (end)
 
 
-  Soundcloud OAuth authorization flow diagram % http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
 
-  Twitter OAuth flow diagram
-  % https://dev.twitter.com/docs/auth/oauth
-
-  Kerro miksi hueniverse on mainio lähde; blogia pitää yksi oauth-speksin kehittäjistä
-
-  % auktorisointiluvan kysyminen mobiilissa.
-  %
-  % Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
-
-  Kaaviokuva / sanallinen dialogi autentikaatiosta ennen oauth1.0, oauth2.0, palvelin-palvelin
-  ks. Internet-Scale Identity Systems: An Overview and Comparison
-
-  Oauth-identiteetti on tiukasti kytketty tiettyyn palveluntarjoajaan (esim. Facebook).
-  Ei ole käyttäjäkeskeinen: Käytettävän palvelun (identity consumer) on tuettava tiettyä palvelua esim tarjoamalla siihen liittyvä kuvake.
-  ''Before initiating the protocol, the client registers with the authorization server. The means through which the client registers with the authorization
-  server are beyond the scope of this specification, but typically involve end-user interaction with an HTML registration form.'' (viite: ''client registration'' \cite{ietf_oauth2})
-
-  Mahdollistaa ennakkoon rekisteröitymättömät asiakkaat: kpl 2.4 ''This specification does not exclude the use of unregistered clients. However, the use with
-  such clients is beyond the scope of this specification,...''
-  3.1.2.2 registration requirements:
-    Public ja Confidential clients utilizing the implicit grant type MUST register prior to using the authorization endpoint.
-  On olemassa ietf-draft (work in progress), joka mahdollistaisi automaattisen discoveryn eli rekisteröitymättömät clientit (draft-hardjono-oauth-dynreg-01) % http://tools.ietf.org/html/draft-hardjono-oauth-dynreg-01
-
-  Facebook OAuth dialogs: https://developers.facebook.com/docs/reference/dialogs/oauth/
-
-  OAuth mahdollistaa http basic autentikoinnin (kpl 2.3.1) ennen auktorisointia.
-  Draft vaatii HTTPS:n ja brute-force suojauksen:
-    ''The authorization server MUST require the use of a transport-layer
-     security mechanism when sending requests to the token endpoint, as
-     requests using this authentication method result in the transmission
-     of clear-text credentials.
-
-     Since this client authentication method involves a password, the
-     authorization server MUST protect any endpoint utilizing it against
-     brute force attacks.''
-
-  Vaatii aina autentikoitumisen (3.2.1. Client Authentication) tietyissä tapauksissa.
-
-  Tietomurrosta toipuminen (3.2.1):
-  ''Changing a single set of client credentials is significantly faster than revoking an entire set of refresh tokens.''
-  ''Rotation of an entire set of refresh tokens can be challenging, while rotation of a single set of client credentials is significantly easier.''
-
-  9. Native Authentication:
-  ''When choosing between an external or embedded user-agent, developers should consider: [..]''
-
-  10. Client Authentication
-  Hyvä kappale eri tietoturvanäkökulmista ja uhkakuvista.
-  OAuth ja MITM:
-  - 10.6.  Authorization Code Redirection URI Manipulation
-  - 10.9.  Endpoints Authenticity
-  - 10.11.  Phishing Attacks
-
-
-  OAuth draft kpl 2.1:
-  OAuth Client Types: confindential/public
-  OAuth Client Profiles: Web Application, user-agent-based application, native application
-
-  Endpointit: kpl3.1
-   The authorization endpoint is used to interact with the resource
-      owner and obtain an authorization grant.  The authorization server
-      MUST first verify the identity of the resource owner.
-   Autentikointimenetelmään ei ota kantaa.
-   Edellytetään HTTPS:ää (''The authorization server MUST support TLS 1.0 ([RFC2246]), SHOULD support TLS 1.2 ([RFC5246]) and its future'')
-   ks. myös 3.1.2.1 HTTPS
-  http://tools.ietf.org/html/draft-ietf-oauth-v2-22
-
-  http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01
-
-  http://hueniverse.com/2010/05/introducing-oauth-2-0/
-  ''OAuth is a security protocol that enables users to grant third-party access to their web resources without sharing their passwords.''
-  ''OAuth includes two main parts: obtaining a token by asking the user to grant access, and using tokens to access protected resources. The methods for obtaining an access token are called flows.''
-  ''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
-  ''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
-
-  ''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
-
-  ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
-
-
-  \subsubsection{OAuth-tokenit} % (fold)
-  \label{ssub:oauth_tokenit}
-
-  Tässä selitetään kansantajuisesti, mikä on refresh token ja access token.
-  Ja mikä on bearer token type, miten online/offline access erotellaan.
-
-  selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
-
-  offline access edellyttää on refresh-tokenin, jolla saa rajattomasti lisää uusia tokeneita. access token edellyttää että käyttäjä on läsnä, eli että user consent voi toteutua. access token vain jonkin aikaa voimassa, refresh tokenilla saa uuden access tokenin jos ensimmäinen access token vielä voimassa (eli käyttäjä ei ole evännyt pääsyä). jos ei offline niin silloin ei refresh tokeniakaan.
-
-
-  % subsubsection oauth_tokenit (end)
 
   \subsubsection{OAuth-flowt} % (fold)
   \label{ssub:oauth_flowt}
@@ -1672,7 +1532,13 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   \subsection{Suunnitelman arviointi} % (fold)
   \label{sub:suunnitelman_arviointi}
 
-  Tähän kuva MOOC-palvelun sisäänkirjautumissivusta.
+  Tähän kuva MOOC-palvelun sisäänkirjautumissivusta. Selitä kuva~\ref{fig:mooc_login_luonnos}.
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.6\textwidth]{images/mooc_login_sketch.jpg}
+    \caption{Luonnos MOOC-järjestelmän sisäänkirjautumissivusta. Missä tunnuksen luominen tapahtuu?}
+    \label{fig:mooc_login_luonnos}
+  \end{figure}
 
   Vastataan alkukappaleessa esitettyihin kysymyksiin.
 
@@ -1718,6 +1584,24 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
 
   Väite != Luottamus. Mooc-suoritusten perusteella voidaan myöntää opinto-oikeuus TKTL:lle. Käyttäjä täytyy siis kyetä tunnistamaan luotettavasti eli väite käyttäjän identiteetistä täytyy vahvistaa. Vahvistaminen jätetään korkeammalle abstraktiotasolle eli esim yliopiston kansliaan. Google/Facebook mahdollistaa kenen tahansa rekisteröitymisen, eli jotenkin käyttäjän on osoitettava että tietty tunniste kuuluu hänelle ja sen jälkeen vahvistaa tämä registration authoritylle esim näyttämällä henkilökorttia livenä kansliassa. Kaikille avoin openid idp joka hyväksyy minkä tahansa autentikoinnin --> periaatteessa sama juttu paitsi että miksi käyttäjä olisi tehnyt tällaisen -- käyttäjä voi myös jakaa tarkoitusta varten luomansa facebook-tunnukesnsa salasanan kaverilleen joka tekee tehtävät hänen puolestansa.
+
+  % OAuth-checklist http://oauthchecklist.org/:
+  % UX:
+  % Remove passwords from API calls
+  % Offer an easy way to revoke applications
+  % Offer detailed permissions, or scopes
+  %
+  % Development:
+  % Use a well tested OAuth library
+  % Offer the appropriate OAuth dance
+  % Document your OAuth implementation
+  %
+  % Security:
+  % Encrypt all OAuth credentials
+  % Generate verifiable consumer keys
+  % Throttle undesired usage
+
+
   % subsection suunnitelman_arviointi (end)
 
   \subsection{Jatkokehitysideoita} % (fold)

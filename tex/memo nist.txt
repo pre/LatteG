@@ -11,3 +11,42 @@ Kuvat!
 9.1.3. Kerberos Tickets
 
 9.2. Assertion Threats
+
+
+%%%%%%%%%%%%%%%%%
+''Assertions are statements from a Verifier to an RP that contain information about a
+Subscriber. Assertions are used when the RP and the Verifier are not collocated (i.e., they
+are connected through a shared network). The RP uses the information in the assertion to
+identify the Claimant and make authorization decisions about his or her access to
+resources controlled by the RP. An assertion may include identification and
+authentication statements regarding the Subscriber, and may additionally include attribute
+statements that further characterize the Subscriber and support the authorization decision
+at the RP.''
+%
+''There are two basic models for assertion-based authentication. After successful
+authentication with the Verifier, the Subscriber is issued an assertion or an assertion
+reference, which the Subscriber uses to authenticate to the RP.''
+%
+''an assertion contains a set of claims or statements about an
+authenticated Subscriber. Based on the statements contained within it, an authentication
+assertion will fall into one of two categories (and either category can be used in both
+direct and indirect models): Holder-of-Key Assertions ja Bearer Assertions. (sivu 83.)''
+%
+Lisäksi Proxy-model, jossa käyttäjä <--> verifier/portal <--> relying party.
+%
+% ''Three types of assertion technologies will be discussed within this section: Web browser
+%   cookies, SAML (Security Assertion Markup Language) assertions, and Kerberos tickets''
+%
+''Cookies are effective as assertions for Internet single-sign-on where the RP and Verifier
+are part of the same Internet domain, and when the cookie contains authentication status
+for that domain. They are not usable in scenarios where the RP and the Verifier are part
+of disparate domains.''
+%
+Cookies are also often used by the Claimant to re-authenticate to a server. This may be
+considered to be a use of assertion technology. In this case, the server acts as a Verifier
+when it sets the cookie in the Subscriber’s browser, and as an RP when it requests the
+cookie from a Claimant who wishes to re-authenticate to it. Often, the cookie contains a
+random number, and the assertion data that it represents does not leave the server.
+% Kpl 9: Assertions
+% NIST-Special-Publication-800-63-1-E-Authentication-Guidelines.pdf
+% todo tähän myös Figure 4 ja Figure 5 samasta guidelinesta!

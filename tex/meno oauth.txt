@@ -1,0 +1,111 @@
+% oauth 1.0a:
+% oauth_callback: url johon idp ohjaa käyttäjän autentikoinnin/auktorisoinnin jälkeen
+% out of band: ei url callbackia, mutta oauth_verifier haaste
+% requestToken: poletti joka myönnetään kysyjälle. uudelleenkäytetään auktorisointivaiheessa.
+% accessToken: poletti joka myönnetään auktorisointisyklin lopuksi. Toimii käyttäjän myöntämänä valtakirjana: valtakirjaa vastaan annetaan käyttöoikeus käyttäjän resursseihin.
+% authorize: Poletin vastaanottamisen jälkeen idp esittää auktorisointisivun jossa käyttäjä sallii/hylkää pääsyoikeuspyynnön
+% token secret: merkkijono joka palautetaan requestToken ja accessToken vaiheiden jälkeen, käytetään yhdessä consumer secretin kanssa kun pyyntö allekirjoitetaan
+% comsumer key: idc:n api-avain
+% consumer secert: idc:n api-salaisuus, jolla kaikki pyynnöt allekirjoitetaan
+% oauth_nonce: satunnaismerkkijono, uniikki joka pyynnöllä
+% oauth_timestamp: epoch time sekunteina, max synkronisointiero 5? minuuttia idc:n kelloon?
+% oauth_token: riippuu kontekstista: joko request token tai access token
+% oauth_verifier: idp palauttaa idc:lle oauth_callbackin kutsun yhteydessä, tai käyttäjä syöttää käsin out-of-band flowssa.
+%
+% kuinka request token rakennetaan? http method, request uri, oauth_callback, oauth_consumer_key, oauth_nonce, oauth_signature_method, oauth_timestamp, oauth_version
+% rakennetaan url, urlescape parametrit
+% lisätään url http authorization headeriin
+% lähetetään endpointtiin
+% jos onnistuu, tulee takaisin url encoodattu vastaus, jossa oauth_token, token_secret ja callback_confirmed=true:
+%    oauth-token on request token ja token_secretillä allekirjoitetaan pyyntö access_tokenista
+%     callback_confirmed -- vapaaehtoinen vai pakollinen? sanoo vain että ok
+%     säilytä oauth_token ja token_secret kunness access_token vaihe on valmis.
+% -- tämän jälkeen idc:llä on request token ja rakennetaan url auktorisointia varten.
+%  auktorisointi url endpoint on idp:llä, queryparametriksi oauth_token, jonka arvo on saatu edellisessä vaiheessa.
+% timestamp --> käyttäjän täytyy saapua <=5minuutissa ensimmäisen tokenin myöntämisen jälkeen. idp:llä on jo oauth_callback --> sitä ei enää tartte tässä syöttää.
+%
+% prepare your signing secret:
+% riippumatta käyttääkö callback vai out-of-band: idc:llä on request token, oauth_token_secret ja oauth_verifier. Request token vaihdetaan access_tokeniin, joka esittää valtakirjaa jolla idc saa (valtakirjan mukaiessti) toimia käyttäjän puolesta idp:n myöntämissä resursseissa.
+% signing key format: url_escape(consumer_secret)&url_escape(oauth_token_secret)
+% ---> rakenna url, lähetä authorisointitiedot http headereissa:
+%    oauth_signature, _nonce, _callback, _signature_method, _timestamp, _consumer_key, _token, _verifier, _version
+% ---> idp vastaa oauth_token ja oauth_token_secret, idc:n täytyy säilöä molemmat niin kauan aikaa kuin se käyttää valtakirjaa. Käyttäjä voi määritellä myös ajan kauanko valtakirja on voimassa. Käyttäjä voi myös poistaa valtakirjan (revoke token) milloin vain idp:n palvelussa. Myös idc voi omatoimisesti invalidoida tokeninsa.
+% Lähde:   http://www.slideshare.net/episod/linkedin-oauth-zero-to-hero
+
+% Jos käyttäjä painaa auktorisointipyyntöön cancel, voidaan palauttaa "integration urliin". Jos tätä ei määritetty, palautus callback_urliin. Tällöin idp ei välitä tokenia tai salaisuutta. Callback urliin lähetetään oauth_problem jonka arvona "user_refused".
+
+% Your servers making requests must be within 5 minutes of our system clock. Timestamps in OAuth are always represented in epoch time in seconds. In any error response LinkedIn sends you, the current timestamp on our servers is included in an XML body of the response. However, at this time the timestamp we send you is in milliseconds, not seconds. It's quite easy to do the math to convert milliseconds to seconds.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Soundcloud OAuth authorization flow diagram
+http://developers.soundcloud.com/docs/api/authentication#authorization-code-flow
+
+Twitter OAuth flow diagram
+https://dev.twitter.com/docs/auth/oauth
+
+Kerro miksi hueniverse on mainio lähde; blogia pitää yksi oauth-speksin kehittäjistä
+
+auktorisointiluvan kysyminen mobiilissa.
+
+Onko OAuth 2.0 sama REST-palveluille kuin WS-Trust and WS-Security for SOAP -palveluille? (https://www.pingidentity.com/resource-center/oauth-essentials.cfm)
+
+Kaaviokuva / sanallinen dialogi autentikaatiosta ennen oauth1.0, oauth2.0, palvelin-palvelin
+
+ks. Internet-Scale Identity Systems: An Overview and Comparison
+
+Facebook OAuth dialogs: https://developers.facebook.com/docs/reference/dialogs/oauth/
+
+OAuth mahdollistaa http basic autentikoinnin (kpl 2.3.1) ennen auktorisointia.
+
+Draft vaatii HTTPS:n ja brute-force suojauksen:
+  ''The authorization server MUST require the use of a transport-layer
+   security mechanism when sending requests to the token endpoint, as
+   requests using this authentication method result in the transmission
+   of clear-text credentials.
+
+   Since this client authentication method involves a password, the
+   authorization server MUST protect any endpoint utilizing it against
+   brute force attacks.''
+
+Vaatii aina autentikoitumisen (3.2.1. Client Authentication) tietyissä tapauksissa.
+
+Tietomurrosta toipuminen (3.2.1):
+''Changing a single set of client credentials is significantly faster than revoking an entire set of refresh tokens.''
+''Rotation of an entire set of refresh tokens can be challenging, while rotation of a single set of client credentials is significantly easier.''
+
+9. Native Authentication:
+''When choosing between an external or embedded user-agent, developers should consider: [..]''
+
+10. Client Authentication
+Hyvä kappale eri tietoturvanäkökulmista ja uhkakuvista.
+OAuth ja MITM:
+- 10.6.  Authorization Code Redirection URI Manipulation
+- 10.9.  Endpoints Authenticity
+- 10.11.  Phishing Attacks
+
+
+OAuth draft kpl 2.1:
+OAuth Client Types: confindential/public
+OAuth Client Profiles: Web Application, user-agent-based application, native application
+
+Endpointit: kpl3.1
+ The authorization endpoint is used to interact with the resource
+    owner and obtain an authorization grant.  The authorization server
+    MUST first verify the identity of the resource owner.
+ Autentikointimenetelmään ei ota kantaa.
+ Edellytetään HTTPS:ää (''The authorization server MUST support TLS 1.0 ([RFC2246]), SHOULD support TLS 1.2 ([RFC5246]) and its future'')
+ ks. myös 3.1.2.1 HTTPS
+http://tools.ietf.org/html/draft-ietf-oauth-v2-22
+
+http://tools.ietf.org/html/draft-ietf-oauth-v2-threatmodel-01
+
+
+
+Erityisesti OAuth 1.0:n aikana
+''This has been a sore point from the beginning with people arguing whether OAuth is an authentication protocol or an authorization protocol, with the word ‘delegation’ being used as a compromise. The truth is, OAuth contains both. The redirection-based flow is authorization (with user authentication left intentionally out of scope), and the signature flow is authentication. By separating the two, OAuth becomes more modular and easier to understand.'' http://hueniverse.com/2009/11/planning-for-oauth-2-0/
+
+
+''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
+
+

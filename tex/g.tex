@@ -15,11 +15,15 @@
 %    - ESO
 %    - TKTL, CSP-TiViT
 %    - Fratello hyvä kahvi
-%
+%    - tarkista footnote-rivitykset
+%    - tarkista reunamarginaalin ylivuodot
+%    - tarkista otsikoiden ylivuodot
+%    - tarkista \verb-ylivuodot
 
 % Termistö, yhdenmukaista:
 %  - identiteetinkuluttaja, yhdyssanana
 %  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
+%    pääsyoikeuspoletti vs käyttöoikeuspoletti
 
 
 \begin{document}
@@ -32,7 +36,6 @@
 \level{G!}
 \maketitle
 
-
 \onehalfspacing
 
 \level{Graduluonnos}
@@ -44,36 +47,38 @@
 \keywords{OpenID, OAuth, SAML, internet, autentikointi, identiteetti}
 
 \begin{abstract}
-
+  \begin{singlespacing}
   \begin{verbatim}
 
 
 
 
-                                                            ___
-                                                         ,o88888
-                                                      ,o8888888'
-                                ,:o:o:oooo.        ,8O88Pd8888"
-                            ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
-                          ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
-                         , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
-                        , ..:.::o:ooOoOO8O888O8O,COCOO"
-                       , . ..:.::o:ooOoOOOO8OOOOCOCO"
-                        . ..:.::o:ooOoOoOO8O8OCCCC"o
-                           . ..:.::o:ooooOoCoCCC"o:o
-                           . ..:.::o:o:,cooooCo"oo:o:
-                        `   . . ..:.:cocoooo"'o:o:::'
-                        .`   . ..::ccccoc"'o:o:o:::'
-                       :.:.    ,c:cccc"':.:.:.:.:.'
-                     ..:.:"'`::::c:"'..:.:.:.:.:.'
-                   ...:.'.:.::::"'    . . . . .'
-                  .. . ....:."' `   .  . . ''
-                . . . ...."'
-                .. . ."'
-               .
+
+
+                                                        ___
+                                                     ,o88888
+                                                  ,o8888888'
+                            ,:o:o:oooo.        ,8O88Pd8888"
+                        ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+                      ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+                     , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
+                    , ..:.::o:ooOoOO8O888O8O,COCOO"
+                   , . ..:.::o:ooOoOOOO8OOOOCOCO"
+                    . ..:.::o:ooOoOoOO8O8OCCCC"o
+                       . ..:.::o:ooooOoCoCCC"o:o
+                       . ..:.::o:o:,cooooCo"oo:o:
+                    `   . . ..:.:cocoooo"'o:o:::'
+                    .`   . ..::ccccoc"'o:o:o:::'
+                   :.:.    ,c:cccc"':.:.:.:.:.'
+                 ..:.:"'`::::c:"'..:.:.:.:.:.'
+               ...:.'.:.::::"'    . . . . .'
+              .. . ....:."' `   .  . . ''
+            . . . ...."'
+            .. . ."'
+           .
 
   \end{verbatim}
-
+  \end{singlespacing}
 \end{abstract}
 
 \setcounter{tocdepth}{3}
@@ -464,7 +469,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Symmetristä avainta käytetään usein tilanteissa, joissa tarvitaan vahvaa salausta eikä käyttäjän tarvitse muistaa avainta ulkoa. Salasanana toimivan merkkijonon käyttötarkoitus riippuu vastaavasti merkkijonon pituudesta, voimassaoloajasta ja satunnaisuudesta. Yleinen salasana-autentikoinnin toteutus on tallettaa käyttäjätunnukseen liitetystä salasanasta \emph{tiiviste} (\emph{digest}). Tällöin palveluntarjoja ei koskaan talleta varsinaista salasanaa vaan ainoastaan sen tiivisteen eli poletin. Kun käyttäjä autentikoidaan, käyttäjän syöttämästä salasanasta lasketaan tiiviste samalla tavalla kuin aiemminkin. Jos aiemmin talletettu sekä myöhemmin uudelleenlaskettu tiiviste ovat samat, käyttäjän antama salasana on oikea.
 
-  Salaista merkkijonoa ei välttämättä aina kutsuta \emph{salasanaksi}. Tutkielmassa esitellään myöhemmin autentikointistandardeja, joissa osapuolten tunnistaminen perustuu jaetun salaisuuden periaatteeseen. Esimerkiksi OpenID:ssä hyödynnetään \emph{nonssia} (\emph{nonce, number used only once}), joka on nimensä mukaisesti kertakäyttöinen satunnainen merkkijono. OAuthissa resurssin tarjoaja (identiteetintarjoaja) jakaa resurssin asiakkaalle (identiteetinkuluttajalle) \emph{käyttöoikeuspoletin} (\emph{access token}), joka on kummankin osapuolen tuntema merkkijono (jaettu salaisuus), jolla asiakkaalle myönnetään käyttöoikeus tiettyyn resurssiin.
+  Salaista merkkijonoa ei välttämättä aina kutsuta \emph{salasanaksi}. Tutkielmassa esitellään myöhemmin autentikointistandardeja, joissa osapuolten tunnistaminen perustuu jaetun salaisuuden periaatteeseen. Esimerkiksi OpenID:ssä hyödynnetään \emph{nonssia} (\emph{nonce, number used only once}), joka on nimensä mukaisesti kertakäyttöinen satunnainen numero tai merkkijono. OAuthissa resurssin tarjoaja (identiteetintarjoaja) jakaa resurssin asiakkaalle (identiteetinkuluttajalle) \emph{käyttöoikeuspoletin} (\emph{access token}), joka on kummankin osapuolen tuntema merkkijono (jaettu salaisuus), jolla asiakkaalle myönnetään käyttöoikeus tiettyyn resurssiin.
 
   % todo kuva; miksi puhutaan poletista. Hashed passwords --> palveluntarjoaja ei talleta salasanaa vaan hashin, eli palveluntarjoajallakin on poletti.
   %
@@ -1150,6 +1155,50 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Resurssin omistajan salasanan sijaan resurssin asiakas (identiteetinkuluttaja) hankkii käyttöönsä pääsyoikeuspoletin. Pääsyoikeuspoletti tarjoaa abstraktion, jossa kolmas osapuoli saa pääsyoikeuden resurssiin käyttäjän salasanan sijasta yksilöllistä merkkijonoa vastaan. Resurssin palvelin validoi poletin ja myöntää käyttöoikeuden pyydettyyn resurssiin kelvollista ja riittävät oikeudet sisältävää polettia vastaan. Tällainen abstraktio mahdollistaa käyttöoikeuden myöntämisen vain tietyksi ja asiakaskohtaisen pääsyoikeuksien valvonnan. Pääsyoikeuspoletit myöntää auktorisointipalvelin resurssin omistajan hyväksyntää vastaan~\cite{ietf_oauth2}.
 
+  OAuthissa monta eri tapaa (todo termi: virtaus, flow) pääsyoikeuspoletin myöntämiseksi. Näitä tapoja kutsutaan \emph{virtauksiksi} (\emph{flow}). Jokainen virtaus kuitenkin toteuttaa kuvassa~\ref{fig:oauth_abstract_flow}~\cite{ietf_oauth2} esitetyn neljän eri roolin välisen keskustelun pääsyoikeuspoletin myöntämiseksi.
+
+todo termit: asiakas, auktorisointipalvelin. Selkiytä roolit, abstraktissa flowssa client on ihminen+user-agent.
+
+  (A) Asiakas pyytää auktorisointia resurssin omistajalta. Auktorisointipyyntö voidaan esittää suoraan resurssin omistajalle (kuvassa) tai epäsuorasti siten, että auktorisointipalvelin toimii välittäjänä.
+
+  (B) Asiakas vastaanottaa resurssin omistajan auktorisointisuostumuksen. Suostuksen tyyppi riippuu menetelmästä, jota asiakas käytti auktorisointipyynnössä.
+
+  (C) Asiakas autentikoituu auktorisointipalvelimelle ja pyytää päsyoikeuspolettia auktorisointisuostumusta vastaan.
+
+  (D) Auktorisointipalvelin autentikoi asiakkaan ja validoi auktorisointisuostumuksen. Jos auktorisointisuostumus on validi, auktorisointipalvelin myöntää pääsyoikeuspoletin.
+
+  (E) Asiakas pyytää suojattua resurssia resurssin palvelimelta ja autentikoituu esittämällä pääsyoikeuspoletin.
+
+  (F) Resurssin palvelin validoi pääsyoikeuspoletin ja, jos poletti on validi, tarjoilee pyydetyn resurssin.
+
+  todo piirrä kuva ja kerro nää smoothimmin.
+
+  \begin{singlespacing}
+  \begin{verbatim}
+    \label{fig:oauth_abstract_flow}
++--------+                               +---------------+
+|        |--(A)- Authorization Request ->|   Resource    |
+|        |                               |     Owner     |
+|        |<-(B)-- Authorization Grant ---|               |
+|        |                               +---------------+
+|        |
+|        |                               +---------------+
+|        |--(C)-- Authorization Grant -->| Authorization |
+| Client |                               |     Server    |
+|        |<-(D)----- Access Token -------|               |
+|        |                               +---------------+
+|        |
+|        |                               +---------------+
+|        |--(E)----- Access Token ------>|    Resource   |
+|        |                               |     Server    |
+|        |<-(F)--- Protected Resource ---|               |
++--------+                               +---------------+
+todo: piirrä kuvaksi~\cite{ietf_oauth2}
+  \end{verbatim}
+  \end{singlespacing}
+
+  Tässä esitellään eri flow't. MOOC-kappaleessa valitaan authorization code flow ja esitellään se tarkemmin.
+
   Authorization code: vaihdetaan access codeen webserver flowssa. kirjoita tästä lisää.
 
   Implicit flow: nopeuttaa vasteaikaa koska vähemmän roundtrippejä clientin ja idp:n välillä. Optimoitu erityisesti selaimessa toimiville asiakkaille jotka toteutettu javascriptillä. ei auth codea välissä vaan access token suoran. auth server ei autentikoi clienttiä. access token saattaa näkyä resurssin omistajalle tai muille sovelluksille, joille pääsy resurssin omistajan käyttäjäagenttiin. Parantaa joidenkin asiakkaiden responsiivisuutta ja tehokkuutta, mutta tämä mukavuus on kompromissi tietoturvan suhteen. Kehittäjän syytä punnita hyötyjä ja haittapuolia erityisesti, jos auth code grant typeä voisi käyttää implicitin sijasta.
@@ -1160,6 +1209,25 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Mikä on bearer token type, miten online/offline access erotellaan.
   - onko bearer token kattotermi access/refresh tokenille?
+
+
+  % 1. User-Agent Flow: Käyttäjäagentilla asioiville asiakkaille (webselaimet)
+  %
+  % 2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
+  %
+  % 3. Device Flow: Rajoitettujen päätelaitteiden asiakkaille, kun loppukäyttäjällä on sovelluksesta riippumaton pääsy web-selaimeen toisella päätelaitteella tai tietokoneella.
+  %
+  % 4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
+  %
+  % Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
+  %
+  % 5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
+  %
+  % 6. Assertion Flow: Asiakas esittää assertion (kuten SAML-assertio), jota vastaan auktorisointipalvelin tarjoaa pääsyoikeuspoletin.
+  %
+  % Lähde: http://hueniverse.com/2010/05/introducing-oauth-2-0/
+  %
+
   % "This
   %   specification describes how to make protected resource requests when
   %   the OAuth access token is a bearer token."
@@ -1171,7 +1239,8 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
      % that can be used with bearer tokens from any source to access any
      % resources protected by those bearer tokens.
   % tls välttämätön
-  selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
+
+  % selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
 
   offline access edellyttää on refresh-tokenin, jolla saa rajattomasti lisää uusia tokeneita. access token edellyttää että käyttäjä on läsnä, eli että user consent voi toteutua. access token vain jonkin aikaa voimassa, refresh tokenilla saa uuden access tokenin jos ensimmäinen access token vielä voimassa (eli käyttäjä ei ole evännyt pääsyä). jos ei offline niin silloin ei refresh tokeniakaan.
   % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
@@ -1230,35 +1299,9 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   % subsubsection oauth_käytännössä (end)
 
 
+  % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
+  % https://developers.facebook.com/docs/authentication/
 
-
-  \subsubsection{OAuth-flowt} % (fold)
-  \label{ssub:oauth_flowt}
-
-  1. User-Agent Flow: Käyttäjäagentilla asioiville asiakkaille (webselaimet)
-
-  2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
-
-  3. Device Flow: Rajoitettujen päätelaitteiden asiakkaille, kun loppukäyttäjällä on sovelluksesta riippumaton pääsy web-selaimeen toisella päätelaitteella tai tietokoneella.
-
-  4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
-
-  Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
-
-  5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
-
-  6. Assertion Flow: Asiakas esittää assertion (kuten SAML-assertio), jota vastaan auktorisointipalvelin tarjoaa pääsyoikeuspoletin.
-
-  Lähde: http://hueniverse.com/2010/05/introducing-oauth-2-0/
-
-
-
-  http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
-
-  https://developers.facebook.com/docs/authentication/
-
-
-  % subsubsection oauth_flowt (end)
 
 
   % http://fireeagle.yahoo.net/developer/documentation/using_oauth

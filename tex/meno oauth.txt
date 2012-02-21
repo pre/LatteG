@@ -109,3 +109,28 @@ Erityisesti OAuth 1.0:n aikana
 ''Over the past few weeks, we determined that OAuth is now a mature standard with broad participation across the industry. In addition, we have been working with Symantec to identify issues in our authentication flow to ensure that they are more secure. This has led us to conclude that migrating to OAuth \& HTTPs now is in the best interest of our users and developers. (11.5.2011, https://developers.facebook.com/blog/post/497/)''
 
 
+%%%%%%%%%%%%%%%%%%%%
+
+% linkedin oauth 1.0a flow: https://developer.linkedin.com/documents/oauth-overview
+% twitter oauth 1.0a: https://dev.twitter.com/docs/auth/authorizing-request
+% https://dev.twitter.com/docs/auth/implementing-sign-twitter
+
+% Better ux: app logo secure url: oauth pyynnön käyttäjälle näytettävällä sivulla voidaan esittää idc:n logo.
+
+
+
+"This
+  specification describes how to make protected resource requests when
+  the OAuth access token is a bearer token."
+http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-16
+While designed for use with
+   access tokens resulting from OAuth 2.0 Authorization
+   [I-D.ietf-oauth-v2] flows to access OAuth protected resources, this
+   specification actually defines a general HTTP authorization method
+   that can be used with bearer tokens from any source to access any
+   resources protected by those bearer tokens.
+
+
+
+
+Selitetäänkö \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!

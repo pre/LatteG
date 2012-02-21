@@ -20,6 +20,8 @@
 %    - tarkista otsikoiden ylivuodot
 %    - tarkista \verb-ylivuodot
 %    - tarkista kuvien asettelu, ettei kuva tule esim keskelle listaa jolloin vasen marginaali rikkoutuu
+%    - tarkista viitteet: etsi ?? previewissä ja katso sanooko latex undefined references
+%    - tarkista että http-urlit rivittyvät oikein
 
 % Termistö, yhdenmukaista:
 %  - identiteetinkuluttaja, yhdyssanana
@@ -519,6 +521,10 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % http://news.cnet.com/8301-27080_3-20025688-245.html
   % http://news.yahoo.com/blogs/cutline/leaked-gawker-passwords-cause-problems-twitter-gmail-20101213-130428-283.html
    Gawkerin vuodetuista 188.279 salasanasta lähes 2.000 kappaletta oli ''password'' ja yli 3.000 oli  ''123456''~\cite{forbes_gawker_12_2010}. Paljastuneista Gawker-salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}. Yksinkertaiset salasanat yllättivät myös helmikuussa 2012, kun Syyrian sisällissodan alla valtiohallinnon sähköpostijärjestelmän salasanat vuodettiin tietomurron jälkeen julkisiksi\footnote{Syyrian valtionhallinnon vuodetut salasanat ovat julkisesti saatavilla mm. osoitteesta \url{http://pastebin.com/uaYDfCz0}. Salasanojen julkistaminen johti noloihin paljastuksiin, koska niiden myötä myös Syyrian presidentin sisällissodan alla käymä sähköpostikirjeenvaihto julkistettiin.}. Esimerkiksi Syyrian presidentin ja 33 muun valtionhallinnon henkilön salasanana oli ''12345'' tai ''123456''.
+  % 1234 ja syntymäpäivät yleisin pin-koodi:
+  % http://www.schneier.com/blog/archives/2012/02/1234_and_birthd.html
+  % http://www.cl.cam.ac.uk/~jcb82/doc/BPA12-FC-banking_pin_security.pdf
+  % http://bits.blogs.nytimes.com/2012/02/20/security-of-self-selected-pins-is-lacking/
 
   \begin{figure}
     \centering
@@ -910,7 +916,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa.
   %   Identiteetin kuluttaja aloittaa etsintävaiheen ottamalla yhteyden käyttäjätunnuksen tai suunnatun identiteetin URL-osoitteeseen.
 
-  Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Suunnatun identiteetin kritiikkinä on esitetty, että kun käyttäjän ei tarvitse tuntea omaa OpenID-tunnistettaan vaan ainoastaan sitä hallinnoivan yrityksen logo, mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan (todo viite \url{http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/})? Toistaiseksi on ollut suurten yritysten intresseissä tukea avoimia standardeja kuten OAuth ja OpenID. Silti esimerkiksi Microsoftin Windows Live -palvelu vuonna 2008 aloitti kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsfot Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008 \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}}, mutta myöhemmin tämä tuki lopetettiin\footnote{Windows Liven kehittäjäverkostosta ei löydy yhtään artikkelia hakusanalla ''openid'' tammikuussa 2012 \url{http://windowsteamblog.com/search/searchresults.aspx?q=openid}}.
+  Käyttäjäkeskeinen identiteetti toteutuisi ihanteellisesti siten, että käyttäjän OpenID-tunniste olisi hänen omassa hallinnassaan. Tällöin tunnisteena olisi käyttäjän oma verkkotunnus kuten \url{https://petrus.repo.fi} tai sähköpostiosoite \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus saattaa poistua käytöstä esimerkiksi yrityksen lopettaessa toimintansa. Suunnatun identiteetin kritiikkinä on esitetty, että kun käyttäjän ei tarvitse tuntea omaa OpenID-tunnistettaan vaan ainoastaan sitä hallinnoivan yrityksen logo, mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan (todo viite \url{http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/})? Toistaiseksi on ollut suurten yritysten intresseissä tukea avoimia standardeja kuten OAuth ja OpenID. Silti esimerkiksi Microsoftin Windows Live -palvelu vuonna 2008 aloitti kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsfot Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008: \\ \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}}, mutta myöhemmin tämä tuki lopetettiin\footnote{Windows Liven kehittäjäverkostosta ei löydy yhtään artikkelia hakusanalla ''openid'' tammikuussa 2012: \url{http://windowsteamblog.com/search/searchresults.aspx?q=openid}}.
 
   % Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
@@ -1097,31 +1103,10 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
     ''Many luxury cars come with a valet key. It is a special key you give the parking attendant and unlike your regular key, will only allow the car to be driven a short distance while blocking access to the trunk and the onboard cell phone. Regardless of the restrictions the valet key imposes, the idea is very clever. You give someone limited access to your car with a special key, while using another key to unlock everything else.''~\cite{hueniverse_oauth_intro}
   \end{quote}
 
-  % linkedin oauth 1.0a flow: https://developer.linkedin.com/documents/oauth-overview
-  % twitter oauth 1.0a: https://dev.twitter.com/docs/auth/authorizing-request
-  % https://dev.twitter.com/docs/auth/implementing-sign-twitter
-  % twitter tokenit
-
-  % Better ux: app logo secure url: oauth pyynnön käyttäjälle näytettävällä sivulla voidaan esittää idc:n logo.
-
-  % OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
-  % 1) The current member is logged into LinkedIn.
-  % 2) The current member has already granted an access token to your application.
-  % 3) The access token has not expired.
-  %
-  % Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
-  % % https://developer.linkedin.com/documents/linkedins-oauth-details
-
-  % *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
-  %
-  % *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
-  %   % https://dev.twitter.com/docs/auth/pin-based-authorization
-
-
   OAuth 1.0 syntyi sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen: jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuth 1.0:n mahdollisti luvan kysymisen käyttäjältä ennen tietojen jakamista kolmannen osapuolen palvelun kesken. Kuitenkin ennen kaikkea sisäänkirjautuminen tehtiin ainoastaan dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää syöttää kolmannen osapuolen palveluun. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jonne käyttäjä syötti salasanansa. Sen jälkeen käyttäjällä oli mahdollisuus hyväksyä tai hylätä tämä käyttöoikeuspyyntö.
 
   Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa. Kolmannen osapuolen palvelua kutsutaan OAuth-protokollassa asiakkaaksi (\emph{client}), mutta yhdenmukaisuuden vuoksi tässä tutkielmassa käytetään käytetään aina nimeä identiteetinkuluttaja.
-  OAuth 2.0 on kokonaan uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa\footnote{Tätä kirjoittaessa OAuth 2.0:n luonnosvaiheen versionumero oli 23}, mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
+  OAuth 2.0 on edeltäjiinsä nähden täysin uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 -standardi on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa\footnote{Tätä kirjoittaessa OAuth 2.0 -standardin luonnosvaiheen versionumero on 23}, mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt. Auktorisoinnin lisäksi OAuth 2.0 tukee aiempaa versiotaan selvemmin myös autentikointia.
   % OAuth 1.0 + Facebook Connect --> OAuth 2.0.
 
   OAuth 1.0 synnytti runsaasti vastutusta kehittäjien keskuudessa~\cite{developers_like_hypermedia_but_2010}. Ennen OAuthia esimerkiksi Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen kyselyn yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!https://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja erityisesti sen vuoksi, että tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
@@ -1157,22 +1142,22 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   Resurssin omistajan salasanan sijaan resurssin asiakas (identiteetinkuluttaja) hankkii käyttöönsä pääsyoikeuspoletin. Pääsyoikeuspoletin avulla kolmas osapuoli saa pääsyoikeuden resurssiin käyttäjän salasanan sijasta yksilöllistä merkkijonoa vastaan. Resurssin palvelin validoi poletin ja myöntää käyttöoikeuden pyydettyyn resurssiin kelvollista ja riittävät oikeudet sisältävää polettia vastaan. Tämä mahdollistaa käyttöoikeuden myöntämisen vain tietyksi ajaksi sekä asiakaskohtaisen pääsyoikeuksien valvonnan. Pääsyoikeuspoletit myöntää auktorisointipalvelin resurssin omistajan hyväksyntää vastaan~\cite{ietf_oauth2}.
 
-  OAuthissa monta eri tapaa pääsyoikeuspoletin myöntämiseksi. Näitä tapoja kutsutaan \emph{virtauksiksi} (\emph{flow}), ja OAuth 2.0 -standardi määrittelee niitä neljä erilaista erilaisia asiakastyyppejä ja käyttötapauksia varten. OAuth 2.0 -työryhmä on tarkoituksellisesti halunnut pitää itse standardin mahdollisimman tiiviinä ja määritellä siinä vain perustoiminnallisuuden. Standardi mahdollistaa tämän vuoksi laajennokset (\emph{extensions}), joilla esimerkiksi OAuth-virtauksia voidaan määritellä lisää\footnote{Yksi tällainen laajennos on esimerkiksi SAML-autentikointiväitteen käyttäminen OAuth pääsyoikeuspoletin pyyntövaiheessa~\cite{ietf_oauth2_saml_bearer}}.
+  OAuthissa on monta eri tapaa pääsyoikeuspoletin myöntämiseksi. Näitä tapoja kutsutaan \emph{virtauksiksi} (\emph{flow}), ja OAuth 2.0 -standardi määrittelee neljä virtausta erityyppisiä asiakkaita ja käyttötapauksia varten. OAuth 2.0 -työryhmä on tarkoituksellisesti halunnut pitää standardin ytimen mahdollisimman tiiviinä ja jättää ylimääräiset ominaisuudet laajennosten (\emph{extensions}) varaan. Laajennoksilla OAuth-virtauksia voidaankin määritellä lisää kuten esimerkiksi SAML-autentikointiväitteen käyttäminen OAuth pääsyoikeuspoletin pyyntövaiheessa~\cite{ietf_oauth2_saml_bearer}.
 
-  Jokainen OAuth-virtaus toteuttaa kuvassa~\ref{fig:oauth_abstract_flow}~\cite{ietf_oauth2} esitetyn abstraktion neljän eri roolin välisestä keskustelusta pääsyoikeuspoletin myöntämiseksi. Kuvassa \emph{asiakas} (\emph{client}) tarkoittaa resurssin käyttöoikeutta pyytävää yleensä kolmannen osapuolen palvelua. \emph{Resurssin omistaja} (\emph{resource owner}) on yleensä loppukäyttäjä, mutta voi jossain tapauksessa olla myös kolmannen osapuolen palvelu, jos asiakas itse omistaa pyydetyn resurssin. Abstraktioon pureudutaan konkretialla seuraavassa alaluvussa, mutta abstraktilla tasolla OAuth-tanssi on seuraavanlainen~\cite{ietf_oauth2}:
+  Jokainen OAuth-virtaus toteuttaa kuvassa~\ref{fig:oauth_abstract_flow}~\cite{ietf_oauth2} esitetyn abstraktion neljän eri roolin välisestä keskustelusta pääsyoikeuspoletin myöntämiseksi. Kuvassa \emph{asiakas} (\emph{client}) tarkoittaa resurssin käyttöoikeutta pyytävää yleensä kolmannen osapuolen palvelua. \emph{Resurssin omistaja} (\emph{resource owner}) on yleensä loppukäyttäjä, mutta voi jossain tapauksessa olla myös kolmannen osapuolen palvelu, jos asiakas itse omistaa pyydetyn resurssin. Abstraktiossa ei ole esitetty viestinvälittäjänä toimivaa käyttäjäagenttia, koska kaikissa virtauksissa sellaista ei ole. Abstraktioon pureudutaan konkretialla MOOC-autentikoinnin luvussa~\ref{ssub:autentikoituminen_oauth_protokollalla}, mutta abstraktilla tasolla OAuth-tanssi on seuraavanlainen~\cite{ietf_oauth2}:
 
   \begin{description}
     \item[(A)]
       Asiakas pyytää auktorisointia resurssin omistajalta. Auktorisointipyyntö voidaan esittää suoraan resurssin omistajalle (kuvassa) tai epäsuorasti siten, että auktorisointipalvelin toimii välittäjänä.
 
     \item[(B)]
-      Asiakas vastaanottaa resurssin omistajan auktorisointisuostumuksen. Suostuksen tyyppi riippuu menetelmästä, jota asiakas käytti auktorisointipyynnössä.
+      Asiakas vastaanottaa resurssin omistajan auktorisointisuostumuksen. Suostuksen tyyppi riippuu menetelmästä, jota asiakas sovelsi auktorisointipyynnössä.
 
     \item[(C)]
-      Asiakas autentikoituu auktorisointipalvelimelle ja pyytää päsyoikeuspolettia auktorisointisuostumusta vastaan.
+      Asiakas autentikoituu auktorisointipalvelimelle ja pyytää saada päsyoikeuspoletin vaihtokauppana auktorisointisuostumusta vastaan.
 
     \item[(D)]
-      Auktorisointipalvelin autentikoi asiakkaan ja validoi auktorisointisuostumuksen. Jos auktorisointisuostumus on validi, auktorisointipalvelin myöntää pääsyoikeuspoletin.
+      Auktorisointipalvelin autentikoi asiakkaan ja validoi asiakkaan esittämän auktorisointisuostumuksen. Jos auktorisointisuostumus on validi, auktorisointipalvelin myöntää asiakkaalle pääsyoikeuspoletin.
 
     \item[(E)]
       Asiakas pyytää suojattua resurssia resurssin palvelimelta ja autentikoituu esittämällä pääsyoikeuspoletin.
@@ -1205,8 +1190,6 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   \end{verbatim}
   \end{singlespacing}
 
-  Tässä esitellään eri flow't. MOOC-luvussa valitaan authorization code flow ja esitellään se tarkemmin.
-
 
   % subsubsection oauth_tokenit (end)
 
@@ -1214,51 +1197,43 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   \subsubsection{Virtaukset} % (fold)
   \label{ssub:virtaukset}
 
+  OAuth 2.0 -standardin ytimessä olevat neljä virtausta soveltuvat sekä palvelinpäässä olevan luotetun ympäristön että asiakaspäässä olevan epäluotetun ympäristön käyttötarkoituksiin. Käytettävän virtauksen valintaan vaikuttaa ensisijaisesti asiakaspalvelun arkkitehtuuri eli käytännössä se, millainen on suojatun resurssin asiakas. Ei-toiminnalliset vaatimukset ovat hyvin erityyppisiä palvelinohjelmistolle, selaimessa toimivalle JavaScript-sovellukselle, työpöytäohjelmistolle sekä mobiililaitteessa toimivalle ohjelmalle. Näille neljälle käyttötapaukselle standandardin ytimen määrittelemät virtaukset ovat seuraavat.
 
-  Authorization code: vaihdetaan access codeen webserver flowssa. kirjoita tästä lisää.
-
-  Implicit flow: nopeuttaa vasteaikaa koska vähemmän roundtrippejä clientin ja idp:n välillä. Optimoitu erityisesti selaimessa toimiville asiakkaille jotka toteutettu javascriptillä. ei auth codea välissä vaan access token suoran. auth server ei autentikoi clienttiä. access token saattaa näkyä resurssin omistajalle tai muille sovelluksille, joille pääsy resurssin omistajan käyttäjäagenttiin. Parantaa joidenkin asiakkaiden responsiivisuutta ja tehokkuutta, mutta tämä mukavuus on kompromissi tietoturvan suhteen. Kehittäjän syytä punnita hyötyjä ja haittapuolia erityisesti, jos auth code grant typeä voisi käyttää implicitin sijasta.
-
- Resource owner password credentials: authorization granttina käytetään suoraan käyttäjätunnusta ja salasanaa, jotka vaihdetaan access tokeniin. Syytä käyttä vain, jos korkea luottamus resurssin omistajan ja clientin välillä (esim client osa laitteen käyttöjärjestelmää tai sovelluksella on muutoin runsaat oikeudet.), ja kun muut auth grant typet eivät ole käytettävissä. Resurssin omistajan salasanaa käytetetään vain yhden pyynnön ajan ja ne vaihdetaan access tokeniin: clientin ei tarvitse tallettaa salasanaa myöhempää käyttöä varten kun accesstoken pitkään voimassa tai refreshtoken.
-
- client credentials (tai muu tapa clientin autentikoimiseksi) toimii authz granttina, kun käyttöoikeuksien laajuus (scope) rajoittuu clientin itsensä hallinnoimiin resursseihin. Tyypillisesti tätä käytetään silloin kun client toimii itsenäisesti omasta puolestaan eli myös client on resurssin omistaja. Toinen käyttötapaus on, kun client pyytää pääsyä suojattuun resurssiin pohjautuen auktorisointiin jonka se on aiemmin neuvotellut auktorisointipalvelimen kanssa. todo tarkoittaako tämä refresh tokenin pyytämistä jos access token vanhentunut?
-
-  % Mikä on bearer token type, miten online/offline access erotellaan.
-  % - onko bearer token kattotermi access/refresh tokenille?
-
+  \begin{description}
+    \item
 
   % 1. User-Agent Flow: Käyttäjäagentilla asioiville asiakkaille (webselaimet)
   %
   % 2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
+  \item[Authorization code:] \hfill \\
+   vaihdetaan access codeen webserver flowssa. kirjoita tästä lisää.
+
+  \item[Implicit flow:] \hfill \\
+   nopeuttaa vasteaikaa koska vähemmän roundtrippejä clientin ja idp:n välillä. Optimoitu erityisesti selaimessa toimiville asiakkaille jotka toteutettu javascriptillä. ei auth codea välissä vaan access token suoran. auth server ei autentikoi clienttiä. access token saattaa näkyä resurssin omistajalle tai muille sovelluksille, joille pääsy resurssin omistajan käyttäjäagenttiin. Parantaa joidenkin asiakkaiden responsiivisuutta ja tehokkuutta, mutta tämä mukavuus on kompromissi tietoturvan suhteen. Kehittäjän syytä punnita hyötyjä ja haittapuolia erityisesti, jos auth code grant typeä voisi käyttää implicitin sijasta.
+
+  % 4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
+   %
+   % Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
+   \item[Resource owner password credentials:] \hfill \\
+    authorization granttina käytetään suoraan käyttäjätunnusta ja salasanaa, jotka vaihdetaan access tokeniin. Syytä käyttä vain, jos korkea luottamus resurssin omistajan ja clientin välillä (esim client osa laitteen käyttöjärjestelmää tai sovelluksella on muutoin runsaat oikeudet.), ja kun muut auth grant typet eivät ole käytettävissä. Resurssin omistajan salasanaa käytetetään vain yhden pyynnön ajan ja ne vaihdetaan access tokeniin: clientin ei tarvitse tallettaa salasanaa myöhempää käyttöä varten kun accesstoken pitkään voimassa tai refreshtoken.
+
+ %
+ % 5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
+ %
+    \item[client credentials:] \hfill \\
+    (tai muu tapa clientin autentikoimiseksi) toimii authz granttina, kun käyttöoikeuksien laajuus (scope) rajoittuu clientin itsensä hallinnoimiin resursseihin. Tyypillisesti tätä käytetään silloin kun client toimii itsenäisesti omasta puolestaan eli myös client on resurssin omistaja. Toinen käyttötapaus on, kun client pyytää pääsyä suojattuun resurssiin pohjautuen auktorisointiin jonka se on aiemmin neuvotellut auktorisointipalvelimen kanssa. todo tarkoittaako tämä refresh tokenin pyytämistä jos access token vanhentunut?
+
+   \end{description}
+
+  % Mikä on bearer token type, miten online/offline access erotellaan.
+  % - onko bearer token kattotermi access/refresh tokenille?
   %
   % 3. Device Flow: Rajoitettujen päätelaitteiden asiakkaille, kun loppukäyttäjällä on sovelluksesta riippumaton pääsy web-selaimeen toisella päätelaitteella tai tietokoneella.
-  %
-  % 4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
-  %
-  % Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
-  %
-  % 5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
   %
   % 6. Assertion Flow: Asiakas esittää assertion (kuten SAML-assertio), jota vastaan auktorisointipalvelin tarjoaa pääsyoikeuspoletin.
   %
   % Lähde: http://hueniverse.com/2010/05/introducing-oauth-2-0/
   %
-
-  % "This
-  %   specification describes how to make protected resource requests when
-  %   the OAuth access token is a bearer token."
-  % http://tools.ietf.org/html/draft-ietf-oauth-v2-bearer-16
-  % While designed for use with
-     % access tokens resulting from OAuth 2.0 Authorization
-     % [I-D.ietf-oauth-v2] flows to access OAuth protected resources, this
-     % specification actually defines a general HTTP authorization method
-     % that can be used with bearer tokens from any source to access any
-     % resources protected by those bearer tokens.
-  % tls välttämätön
-
-  % selitetään \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
-
-
 
   % subsubsection virtaukset (end)
 
@@ -1500,6 +1475,23 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
 
   Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
+
+  Tässä valitaan MOOC:lle virtauksista authorization code flow ja esitellään se tarkemmin.
+  Kerrotaan että https/tls välttämätön
+
+  % OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
+  % 1) The current member is logged into LinkedIn.
+  % 2) The current member has already granted an access token to your application.
+  % 3) The access token has not expired.
+  %
+  % Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
+  % % https://developer.linkedin.com/documents/linkedins-oauth-details
+
+  % *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
+  %
+  % Jatkokehitysideoihin eclipsen auktorisoimiseksi:
+  % *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
+  %   % https://dev.twitter.com/docs/auth/pin-based-authorization
 
 
   % subsection autentikoituminen_oauth_protokollalla (end)

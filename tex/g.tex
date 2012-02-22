@@ -188,6 +188,12 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   Eri järjestelmien pitää toimia keskenään yhteen, jotta sama identiteetti voidaan jakaa toisistaan riippumattomien palvelujen kesken. Tarve yhteiskäyttöiselle standardille.
 
 
+  % soa & security: http://www.slideshare.net/oliverpfaff/soa-security-so-what-10143526
+
+  % declaration of identity
+  % http://nat.sakimura.org/2011/07/04/declaration-of-identity/
+  % http://nat.sakimura.org/wp-content/uploads/2011/07/Declaration-Final-Draft.pdf
+
     % 7 Laws of Identity.
     %
     % The Laws of Identity [The Laws of Identity. Microsoft Whitepaper, May 2005.] are intended to codify a set of fundamental principles to which a universally adopted,
@@ -355,18 +361,18 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % subsection arkkitehtuurityyli_soa (end)
 
 
-  \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)
-  \label{sub:rajapintakutsun_pääsyoikeudet}
-
-  Auktorisointi ei ole tutkielman fokuksessa. Kerrotaan siitä minimiminimi.
-
-  Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
-
-  api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
-
-  restapi security vs soap-api ja WS-Security
-
-  % subsection rajapintakutsun_pääsyoikeudet (end)
+  % \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)
+  % \label{sub:rajapintakutsun_pääsyoikeudet}
+  %
+  % Auktorisointi ei ole tutkielman fokuksessa. Kerrotaan siitä minimiminimi.
+  %
+  % Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
+  %
+  % api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
+  %
+  % restapi security vs soap-api ja WS-Security
+  %
+  % % subsection rajapintakutsun_pääsyoikeudet (end)
 
   % \subsection{Kommunikaatiotavat: front-channel ja back-channel} % (fold)
   % \label{sub:kommunikaatiotavat_front_channel_ja_back_channel}
@@ -791,6 +797,10 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   SAML exchanges ilmaistaan muodoltaan standardoidulla XML-murteella, josta myös SAMLin nimi on peräisin (Security Assertion Markup Language). (viite
   %http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
 
+  web services have the soap message header layer and its security headers (soap message security, saml token profile) and can especially care about proof-of-possession.
+  % web applications do not have that and use the html layer as a replacement. ???
+  % they can not care about proof-of-possession because browsers are unaware of the identity assertion abstraction
+  % http://www.slideshare.net/oliverpfaff/stateoftheart-in-web-services-federation
 
   % For real, mitä eroa on OAuth ja SAML
   % https://www.pingidentity.com/resource-center/oauth-essentials.cfm
@@ -920,10 +930,11 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   % Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
 
+  todo
   OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
 
+  todo
   Toinen single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen. OpenID:n idc ja idp eivät tunne toisiaan--> openid-idp:n haltuunsa palauttanut käyttäjä ei voi poistaa oikeuksia idc:ltä (kuten oauthissa). Tällöin myöskään sessiot hyökkääjän ja idc:n välillä ei vanhene jos hyökkääjä ehtinyt avata sellaisen (toisin kuin oauthissa).
-
 
 
 
@@ -1206,24 +1217,35 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   %
   % 2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
   \item[Authorization code:] \hfill \\
-   vaihdetaan access codeen webserver flowssa. kirjoita tästä lisää.
+   vaihdetaan access codeen webserver flowssa. lyhytikäinen ja kertakäyttöinen.
+   ''for token pull via authorization and token endpoints''
 
   \item[Implicit flow:] \hfill \\
+  ''for token push via authorization endpoint''. yksinkertaistettu pyyntömenetelmä rajoitetuille asiakkaille (todo pitäiskö käyttää intermediary vai client)
+
    nopeuttaa vasteaikaa koska vähemmän roundtrippejä clientin ja idp:n välillä. Optimoitu erityisesti selaimessa toimiville asiakkaille jotka toteutettu javascriptillä. ei auth codea välissä vaan access token suoran. auth server ei autentikoi clienttiä. access token saattaa näkyä resurssin omistajalle tai muille sovelluksille, joille pääsy resurssin omistajan käyttäjäagenttiin. Parantaa joidenkin asiakkaiden responsiivisuutta ja tehokkuutta, mutta tämä mukavuus on kompromissi tietoturvan suhteen. Kehittäjän syytä punnita hyötyjä ja haittapuolia erityisesti, jos auth code grant typeä voisi käyttää implicitin sijasta.
 
   % 4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
    %
    % Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
    \item[Resource owner password credentials:] \hfill \\
+   ''for token pull via token endpoint'': tarjotaan resurssin omistajan credentiaalit jotta saadaan token. Käyttötapa on deprekoitu mutta tarjoaa siirtymävaiheen ratkaisun (deprecated practise in a mitigated flavor).
+
     authorization granttina käytetään suoraan käyttäjätunnusta ja salasanaa, jotka vaihdetaan access tokeniin. Syytä käyttä vain, jos korkea luottamus resurssin omistajan ja clientin välillä (esim client osa laitteen käyttöjärjestelmää tai sovelluksella on muutoin runsaat oikeudet.), ja kun muut auth grant typet eivät ole käytettävissä. Resurssin omistajan salasanaa käytetetään vain yhden pyynnön ajan ja ne vaihdetaan access tokeniin: clientin ei tarvitse tallettaa salasanaa myöhempää käyttöä varten kun accesstoken pitkään voimassa tai refreshtoken.
 
  %
  % 5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
  %
     \item[client credentials:] \hfill \\
+    ''for token pull via token endpoint'': tarjotaan 3-osapuolen client credentiaalit  jotta saadaan token. kun resurssi 3-osapuolen hallinnassa. kutsutaan myös 2-legged exchangeksi. Käyttää suoraan resurssin omistajan oikeuksia eli toisin kuin muissa virtauksissa, käyttöoikeutta ei delegoida.
+
     (tai muu tapa clientin autentikoimiseksi) toimii authz granttina, kun käyttöoikeuksien laajuus (scope) rajoittuu clientin itsensä hallinnoimiin resursseihin. Tyypillisesti tätä käytetään silloin kun client toimii itsenäisesti omasta puolestaan eli myös client on resurssin omistaja. Toinen käyttötapaus on, kun client pyytää pääsyä suojattuun resurssiin pohjautuen auktorisointiin jonka se on aiemmin neuvotellut auktorisointipalvelimen kanssa. todo tarkoittaako tämä refresh tokenin pyytämistä jos access token vanhentunut?
 
    \end{description}
+
+  % ks. kalvo 54/57
+  % http://www.slideshare.net/oliverpfaff/analyzing-oauth-11014266
+
 
   % Mikä on bearer token type, miten online/offline access erotellaan.
   % - onko bearer token kattotermi access/refresh tokenille?
@@ -1450,7 +1472,8 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
   Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielma kuitenkin suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 850 miljoonan käyttäjän\footnote{todo: linkki pörssilistautumissivulle jossa 850M} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
-  todo Selitä miksi vain OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
+  todo yhteenvetokappale. Painota, että tärkeintä on tarjota abstraktio sisäisen rajapinnan eteen, jotta sisäinen toteutus ei ole tiukasti kytketty kolmansien osapuolten käyttäjänä rajapintaan. Käytettävä standardi ei ole ykkösjuttu, vaan abstraktio. Tutkielma suosittelee OAuthin tarjoamista koska se on emergentti pilviratkaisu. Ylläpitdettävyyden kannalta voi olla kätevää tarjota vain yksi ulkoinen rajapinta. Toisaalta voi olla sisäisiä vaatimuksia joiden vuoksi kannattaa tarjota saml myös ulkoisena rajapintana.
+  Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
 
   % Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
   % LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan.
@@ -1477,7 +1500,13 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
 
   Tässä valitaan MOOC:lle virtauksista authorization code flow ja esitellään se tarkemmin.
-  Kerrotaan että https/tls välttämätön
+  Kerrotaan että https/tls välttämätön.
+
+  mooc-asiakastyyppi on confidential (''capable of maintaining the confidentiality of clients' credentials or capable of secure client authentication of other means'')
+  toinen asiakastyyppi on public (incabable of edellinen)
+
+  mooc-asiakasprofiili on web-applikaatio: confidential 3-osapuolen asiakas joka ajossa palvelinpäässä.
+  muita asiakasprofiileja user-agent-based app (julkinen 3-osapuolen asiakas jonka koodi downloadattu webistä ja jota ajetaan useragentissa resurssin omistajan laitteella, html5/javascript) sekä natiiviapp (julkinen 3-osapuolen asiakas joka asennettu ja joka suoritetaan resurssin omistajan laitteella.)
 
   % OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
   % 1) The current member is logged into LinkedIn.
@@ -1645,6 +1674,26 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
   Väite != Luottamus. Mooc-suoritusten perusteella voidaan myöntää opinto-oikeuus TKTL:lle. Käyttäjä täytyy siis kyetä tunnistamaan luotettavasti eli väite käyttäjän identiteetistä täytyy vahvistaa. Vahvistaminen jätetään korkeammalle abstraktiotasolle eli esim yliopiston kansliaan. Google/Facebook mahdollistaa kenen tahansa rekisteröitymisen, eli jotenkin käyttäjän on osoitettava että tietty tunniste kuuluu hänelle ja sen jälkeen vahvistaa tämä registration authoritylle esim näyttämällä henkilökorttia livenä kansliassa. Kaikille avoin openid idp joka hyväksyy minkä tahansa autentikoinnin --> periaatteessa sama juttu paitsi että miksi käyttäjä olisi tehnyt tällaisen -- käyttäjä voi myös jakaa tarkoitusta varten luomansa facebook-tunnukesnsa salasanan kaverilleen joka tekee tehtävät hänen puolestansa.
 
+  openid provider white list? jottei epäluotettavia idp:itä.
+
+  mooc-koodinpalautusrajapinnan autentikointi: koska sso niin käyttäjillä ei ole enää salasanaa mooc-järjestelmään. sen vuoksi nykyinen http basic auth ei enää toimi. nopea ratkaisu on api-key, parempi ratkaisu oauth ja desktop appille sopiva flow.
+
+  oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. siksi oauthin käyttämisessä autentikointiin riskinsä, koska periaatteessa oauth ei ole federoitu autenikointisyteemi vaan autentikointi on auktorisointirajapinnan sivutuote. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
+
+  oauthissa ei ole standardissa käsitettä ''identiteetti'', vaan 3:s osapuoli saa käyttäjän tiedot joko parametrina pääsyoikeuspoletin myöntämisvaiheena tai erikseen rajapintakutsun kautta access tokenilla.
+  molemmat, sekä openid että oauth, uudelleenohjaavat käyttäjän jonnekin muualle ja käyttäjä palaa sieltä varmistetun assertion/väitteen kanssa. OpenID tarjoaa identiteettiassertion/väitteen, kun taas oauth palauttaa pääsyoikeuspoletin jonka suomin valtuuksin kolmas osapuoli voi sen jälkeen kysyä oauth-tarjoajalta kysymyksiä. openid:ssä discovery, oauthissa joutuu kovakoodaamaan tuetut idp:t. discovery tosin myös yksi openid:n ongelmista koska käyttäjät eivät ymmärrä URI:a käyttäjätunnuksena.
+
+  oauthissa ja openid 2.0:ssa samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. oauthissa käyttäjä antaa valtakirjan/auktorisoinnin suojattuihin resursseihin ja openid:ssä identiteettiin. muuta yhteistä niillä ei ole. kummallakin protokollalla omanlaisensa vaatimukset 3-osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen/vastausten autenttisuus (ettei ole väärennetty eli laskea signature).
+
+  openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
+  oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.
+
+  oauth sopii paremmin auktorisointiin koska autentikoinnin jälkeinen toiminta eri resurssien välillä on rakennettu suoraan protokollaan. openid 2.0 edellyttää laajennoksen käyttämistä (esim openid+oauth1.0) jotta voi käyttää auktorisointiin. openid connect rakentaa identiteettikerroksen oauth2.0:n päälle. koska moocissa auktorisointitarpeita (jatkokehitysideat), valitaan oauth2.0 ensisijaiseksi protokollaksi.
+
+  aina https: openid uses anonymous diffie-helman for an ad-hoc association establishment. Tämän seurauksena openid haavoittuvainen impersonointi ja man-in-the-middlelle.
+
+  emergentti paradigmanmuutos: first authenticate then transfer authenticated subject information -- tästä tulee pian default approact. vrt vanha jossa auth/authz samassa. decoupling.
+
   % OAuth-checklist http://oauthchecklist.org/:
   % UX:
   % Remove passwords from API calls
@@ -1696,13 +1745,6 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
   Kun aloitin tekstin kirjoittamisen, Googlen tuki OAuth 2.0 :lle oli ''experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä valmis. % 6.2.2012
 
-  OpenID Conncet on samankaltainen kuin OAuth 2.0, ''based on the OAuth 2.0''
-  OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
-  % http://openid.net/connect/
-  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
-
-
-
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
   % Miksi MOOC resurssipohjainen eikä ws-* ?
 
@@ -1713,6 +1755,21 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
   % subsubsection jatkokehitysideoita_auktorisointi (end)
 
+  \subsubsection{Autentikointi käyttäen OpenID Connect -protokollaa} % (fold)
+  \label{ssub:autentikointi_käyttäen_openid_connect_protokollaa}
+
+  OpenID Connect rakentuu OAuth 2.0:n päälle, normaali oauth2.0 request access tokenin pyytämiseksi. kuitenkin parempi ''pseudo-loginiin'' koska internet-skaalassa rajaa suoraan liikaa oikeuksia pyytävät asiakkaat pois. oauthissa asiakas voi pyytää mitä tahansa oikeuksia ja käyttäjä saattaa hyväksyä pyynnön. openidconnect oauth20:n päällä tarjoaa pääsyn vain identiteetin tietoihin, ei esim offline access tai kuvien jako.
+  % OpenID Connect is a new generation of the internet identity protocol. Technically, it is fundamentally different than OpenID 2.0. From the point of view of the non-technical end user, however, it would be hard to see the difference.  (=nat )
+  % http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
+
+  OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
+  % http://openid.net/connect/
+  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
+
+
+
+
+  % subsubsection autentikointi_käyttäen_openid_connect_protokollaa (end)
 
   % subsection jatkokehitysideoita (end)
 

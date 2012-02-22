@@ -134,3 +134,104 @@ While designed for use with
 
 
 Selitetäänkö \verb!client_id!, \verb!response_type!, \verb!client_secret!, \verb!redirect_uri!, \verb!scope!, \verb!access_type!, \verb!approval_prompt!
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Analyzing OAuth
+http://www.slideshare.net/oliverpfaff/analyzing-oauth-11014266
+
+Venn-kaavio
+IT-security  Auth/Authz/Federation   IAM (Identity and Access Management)
+
+OAuth ais at a use case in cloud computing, SOA and Web 2.0 by addressing access control for composite applications:
+- 3rd party apps accessing resources owned by individual users on their behalf
+- wants to obsolete naive approaches
+- has (at a first glance) analogies with approaches in enterprise IAM eg
+  * 3rd party security protocols such as kerberos, saml
+  * classical web access management
+- development and standardization is currently ongoing in an ietf working group
+
+komposiittiapplikaatio:
+- appin omat tiedot + esim kuvia flickeristä
+- ks Authenticating/AuthorizingCompositeApplications:
+ " requests from 3rd-parties that are xplicitly entitled by John Doe may access resources of John Doe"
+ sen sijaan että salasana
+
+use case:
+- facilitate access to protected (user) resources hosted in the network:
+  via web apis
+  by 3rd party apps
+  on a discretional basis (controlled by resource owners)
+  in a constrained way (time, functional scope)
+  without revealing user credentials to 3rd parties
+  independent of the means of user authentication deployed by services and 3rdparty apps
+
+OAuth 1.0 (2007) emerged from propietary protocols such as Flickr API Auth, Google AuthSub
+OAuth 1.0a v2009, korjasi session fixation attack
+ietf-versio v2010, oauth core 1.0a + errata: rfc 5849
+
+resurssin omistaja
+ capable of delegatin access rights for protected resources to 3rd parties
+ presenting a http client
+ eg individual users (represented by their user agents)
+
+intermediary
+ requesting protected resources on behalf of resource owners
+ presenting a http client and server
+ eg composite apps
+
+service
+ hosting protected resources and responding to requests from intermediaries
+ presenting a http server
+ eg cloud services
+(ks kuva)
+
+
+credentials comprise pairs of a token and a key (shared-secret)
+ provide means for request authentication purposes
+ oauth2.0 supports bearer tokens. then the key portion is absent.
+ (token[esim viivakoodi], key)
+ token on identifier tai self-contained
+ <---------credential-------->
+
+
+exchanges for acquiring oauth credentials are called flows.
+
+identity provisioning (eg spml, scim) and federation (eg saml, openid) enable the sharing of user identity in a persistent resp. transient fashion
+oauth enaebles sharing of user resources - not user identity
+- HMMMM
+- SSO (eg. Kerberos) enables users to subsequently authenticate at multiple systems or applications and access them after a single initial authentication.
+- OAuth allows services to authenticate 3rdparty apps as entities acting on behalf of a user - not as the actual user. <--------- kyllä, mutta mitä eroa openid:hen tältä osin?
+
+using oauth in pseudo-authentication mode way produces authorization side-effects: access rights may be granted to intermediaries. it should not be used for federated login-only purposes.
+" However, signing in to a web site that you do not know well using pseudo-authentication of OAuth is same as spreading your valet key everywhere and that is very dangerous. Now you see why many sites want OAuth “authentication” rather than OpenID. Having a valet key is much more useful than a referral letter to provide services or doing something bad for you."
+
+resource owners need to trust intermediaries. intermediaries that are in posession of valid oauth credentials or that can obtain them may access protected resources of resource owners.
+
+oauth, iam ja saml, ks. kalvo 23/57
+ks conclusions kalvo 24/57
+
+!!! ks kalvot 52 --->
+
+
+alternative token form factors: identifier vs. self-contained tokens (various syntax options such as saml, jwt)
+alternative token families (bearer vs proof)
+decoupled lifetime for access right and token objects (refresh token)
+extensible protocol abstractions (eg own authorization grant types)
+
+OpenID Connect:
+- jos oauth resurssintarjoaja ei rajoita scopella, voi asiakas saada liikaa valtuuksia vaikka piti tehdä pelkkä login. vaara asiakkaalle.
+
+http://nat.sakimura.org/2011/05/15/dummys-guide-for-the-difference-between-oauth-authentication-and-openid/
+http://nat.sakimura.org/2012/01/20/openid-connect-nutshell/
+
+OpenID Connect is a distributed identity framework on top of OAuth that not only allows safe authentication but also make it possible for the sites to move the distributed data in the internet and provide better services.
+
+It is very dangerous to randomly authenticate yourself to the sites using plain OAuth [*1]. Then, what should we do to authenticate safely and properly using OAuth? What about just handing a valet key to a locker that only has a copy of the letter of referral instead to your apartment?
+
+In this case, even the worst happens, you only lose the copy of referral letter. The damage is not so different than the case of OpenID.
+
+This indeed is the basic idea behind “OpenID Connect.”
+

@@ -272,6 +272,8 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   \subsection{Palveluorientoitunut arkkitehtuuri (SOA)} % (fold)
   \label{sub:arkkitehtuurityyli_soa}
 
+  todo upota tämä lukuun rajapinnat ja web
+
   Löyhästi kytketyt palvelut (loosely coupled).
   Mahdollisuus uusien toimintojen lisäämiseen itsenäisinä \emph{palveluina}
   Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
@@ -344,25 +346,33 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   \end{figure}
 
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
-    \caption{Turvattomuusilmoitus sisältökontekstissa}
-    \label{fig:trust_context_html_unsecure}
-  \end{figure}
-
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
+  %   \caption{Turvattomuusilmoitus sisältökontekstissa}
+  %   \label{fig:trust_context_html_unsecure}
+  % \end{figure}
+  %
 
   Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
 
   Esimerkiksi Facebookin SDK pyrkii ensisijaisesti avaamaan virallisen Facebook-applikaation, kun kolmannen osapuolen applikaatio pyytää käyttäjää autentikoitumaan Facebook-tunnuksillaan tai pyytää käyttöoikeutta hänen Facebook-tietoihinsa (kuva~\ref{fig:trust_context_mobile_fb}). Jos virallista Facebook-applikaatiota ei ole asennettu, SDK:n toissijainen menetelmä on avata autentikointitapahtuma järjestelmätason web-selaimessa (kuva~\ref{fig:trust_context_mobile_unknown_secure}), jolloin käyttäjä voi varmistua palvelun autenttisuudesta selaimen osoiterivin perusteella. Vasta viimeisenä vaihtoehtona, jos mobiililaite ei tue useamman sovelluksen rinnakkaista suorittamista (\emph{multi-tasking}), Facebook SDK suorittaa autentikoinnin applikaatiokontekstissa (viite \verb=https://developers.facebook.com/docs/mobile/ios/build/#implementsso=).
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
-    \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
-    \label{fig:trust_context_mobile_fb}
-  \end{figure}
 
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
+  %   \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
+  %   \label{fig:trust_context_mobile_fb}
+  % \end{figure}
+
+
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
   % \begin{figure}
   %   \centering
   %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}

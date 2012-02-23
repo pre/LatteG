@@ -28,7 +28,9 @@
 %  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
 %    pääsyoikeuspoletti vs käyttöoikeuspoletti
 %  - credentials, miten käännät
-
+%  - OAuthissa
+%      identiteetinkuluttaja vs. resurssin asiakas
+%      identiteetintarjoaja  vs. auktorisointipalvelin
 \begin{document}
 
 \title{Internet-skaalan identiteetti:
@@ -1250,155 +1252,53 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
    \end{description}
 
-
-  % Mikä on bearer token type?
-  % MAC:
-  %  - family: proof
-  %  - form-factor: identifier
-  % Bearer:
-  %  - family: bearer
-  %  - form-factor: self-contained
-  %
-  % Tuottaako refresh token access tokenin vai käytetäänkö refresh tokenia suoraan?
-  %  - kyllä, refresh-tokenia vastaan myönnetään uusi access-token
-  %
-  % 3. Device Flow: Rajoitettujen päätelaitteiden asiakkaille, kun loppukäyttäjällä on sovelluksesta riippumaton pääsy web-selaimeen toisella päätelaitteella tai tietokoneella.
-  %
-  % 6. Assertion Flow: Asiakas esittää assertion (kuten SAML-assertio), jota vastaan auktorisointipalvelin tarjoaa pääsyoikeuspoletin.
-  %
-  % Lähde: http://hueniverse.com/2010/05/introducing-oauth-2-0/
-  %
-
   % subsubsection virtaukset (end)
-
-  \subsubsection{OAuth käytännössä} % (fold)
-  \label{ssub:oauth_käytännössä}
-
-  OAuth 2.0 on suhteellisen yksinkertainen protokolla verrattuna edeltäjäänsä OAuth 1.0:aan. OAuth-kuluttaja rekisteröidään OAuth-palveluntarjoajalle, kuluttaja ohjaa käyttäjäagentin URL-osoitteeseen, parsii tarjoajalta saamanstansa vastauksesta poletin ja lähettää tämän poletin palvelukutsun mukana tarjoajan rajapintaan. OAuth 2.0 -identiteetintarjoajan on tunnettava identiteetinkuluttaja etukäteen. OAuth-spesifikaatio ei kuitenkaan sulje pois ennalta tuntemattomia kuluttajia: dynaaminen rekisteröityminen voi standardin vakiinnuttua olla mahdollista OAuth-laajennoksena~\cite{ietf_oauth2_unregistered_clients}.
-
-  % Eran Hammer was the lead author and editor of the OAuth specifications
-  OAuthissa on kaksi päävaihetta: pääsyoikeuspoletin hankkiminen identiteetintarjoajalta ja poletin esittäminen pääsylippuna suojattuihin resursseihin. OAuthin eri tapoja poletin hankkimiseksi kutsutaan \emph{virtauksiksi} (\emph{flow}).
-  \cite{hueniverse_oauth_intro}
-
-  OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
-  Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
-  OAuthin turvallisuus perustuu pitkälti HTTPS:n käyttämiseen.
-
-  % ''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
-  % ''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
-
-  Jokaisessa OAuth 2.0 -protokollan mukaisessa vuorovaikutustilanteessa on pääsääntöisesti seuraavat vaiheet:
-  % http://code.google.com/apis/accounts/docs/OAuth2.html
-
-  \begin{description}
-    \item[Kuluttajapalvelun rekisteröinti:] \hfill \\
-     OAuth-identiteetintarjoajan täytyy tuntea identiteetinkuluttaja etukäteen. Kuluttajapalvelu rekisteröidään tarjoajan palveluun ja rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä kuluttajan että tarjoajan tiedossa. Arvoja ovat tyypillisesti \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! -- näiden lukumäärä ja tyyppi vaihtelee kuluttajapalvelun tyypistä riippuen. Esimerkiksi JavsScript-sovellus ei tarvitse salaisuutta, mutta web-palvelu (kuten MOOC) tarvitsee.
-
-    \item[Pääsyoikeuspoletin hankkiminen:] \hfill \\
-  todo kirjoita tämä uusiksi: poletti on kyketty valtakirjaan, ei toisinpäin!
-  Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Poletti voi toteuttaa pelkän sisäänkirjautumisen tai sillä voidaan lisäksi myöntää valtakirja käyttäjän hallinnoimiin resursseihin. Valtakirjan laajuus määräytyy poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Yksi pyyntö voi sisältää monta scope-näkyvyysalueparametria.
-
-  Hankkimispyynnön yhteydessä käyttäjä autentikoituu identiteetintarjoajalle. Sisäänkirjautumisen jälkeen identiteetintarjoaja esittää identiteetinkuluttajan pyytämän valtakirjan, jonka käyttäjä joko hyväksyy tai hylkää. Tätä vaihetta kutsutaan on käyttäjän suostumukseksi (\emph{user consent}, kuva~\ref{google_id_and_user_consent}). Jos käyttäjä hyväksyy pyynnön, käyttäjäagentti ohjataan takaisin kuluttajapalveluun, jolle välitetään viestin yhteydessä joko pääsyoikeuspoletti tai pyyntöpoletti (jolla pääsyoikeuspoletti haetaan). Kun identiteetinkuluttaja on saanut pääsyoikeuspoletin, sen ei tarvitse enää kysyä seuraaviin pyyntöihin käyttäjän suostumusta niin kauan kuin poletti on voimassa. todo selitä tämä paremmin
-
-  Pääsyoikeuspoletin hankkimistapoja on erilaisia -- valittava tapa riippuu kuluttajapalvelun luonteesta.
-  Tämän tutkielman puitteissa esitellään tarkemmin web-palvelun kannalta kiinnostava flow.
-
-    \item[Pääsyoikeuspoletin esittäminen, kun resurssin omistaja on läsnä:] \hfill \\
-  Hankkimisvaiheen jälkeen kuluttajapalvelu voi käyttää pääsyoikeuspolettia valtakirjana käyttäjän hallinnoimiin resursseihin tarjoajan palvelussa. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin kuluttajapalvelu pyysi valtuuksia hankkimisvaiheessa. Poletti lähetetään joko HTTP Authorization -otsakkeen tai URL:n \emph{query string} -parametrina.
-
-    \item[Virkistyspoletin esittäminen, kun resurssin omistaja ei ole läsnä:] \hfill \\
-  Pääsyoikeuspoletilla on rajoitettu elinaika. Jos kuluttajapalvelu tarvitsee pitkäaikaisen pääsyn resurssiin, tarjoajalta noudetaan pääsyoikeuspolettia vastaan virkistyspoletti. Tarkoituksena on tarjota lyhytikäinen poletti, mutta pitkäikäinen auktorisointi. Kuluttajapalvelu voi hakea uuden virkistyspoletin samalle pääsyoikeuspoletille, jolloin käyttäjää ei tarvitse vaivata auktorisointipyynnön kanssa. Käyttäjä voi evätä pääsyoikeuspoletin, jolloin sitä vastaan ei enää myönnetä uusia virkistyspoletteja.    todo: selitä tarkemmin, miksei ennemmin vain käytä aina pääsyoikeuspolettia (voimassaoloaika). kerro että käyttäjältä pitää kysyä lupa että käyttäjä sallii offline-accessin jota vastaan virkistyspoletti. % todo muotoilu: "vaivata" vs. ei tartte user-consent
-    \end{description}
 
 
   \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{images/google_id_and_user_consent.jpg}
+    \includegraphics[width=1.0\textwidth]{images/google_id_and_user_consent.jpg}
     \caption{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla. Käyttäjäagentilla on sessio voimassa kummallekin identiteetille, joten Google ei kysy lainkaan salasanaa vaan antaa loppukäyttäjän valita, kummalta identiteetiltä pääsyoikeuslupa kysytään.}
     \label{fig:google_id_and_user_consent}
   \end{figure}
 
 
+  \subsubsection{OAuth käytännössä} % (fold)
+  \label{ssub:oauth_käytännössä}
+
+  OAuth ei lähtökohtaisesti ole autentikointiprotokolla, vaan mahdollisuus loppukäyttäjän autentikointiin on auktorisoinnin sivutuote. Auktorisointipalvelin jakaa käyttöoikeuksia ensisijaisesti resursseihin, ja käyttäjän identiteetti voi olla yksi tällainen resurssi. Poletti voi kuitenkin sisäänkirjautumisen lisäksi toimia valtakirjana myös muihin käyttäjän hallinnoimiin resursseihin. Jos käyttäjä ei ole tarkkana, hän voi huomaamattaan myöntää resurssin asiakkaalle ylimääräisiä oikeuksia, vaikka tarkoituksena olisi pelkästään käyttäjän autentikointuminen.
+
+  Auktorisointipalvelimen on tunnettava resurssin asiakas etukäteen. OAuth 2.0 ei kuitenkaan sulje pois ennalta tuntemattomia asiakkaita, joten dynaaminen rekisteröityminen voi standardin vakiinnuttua olla myöhemmin mahdollista laajennoksena~\cite{ietf_oauth2_unregistered_clients}. Jokaisessa OAuth 2.0 -protokollan mukaisessa vuorovaikutustilanteessa on pääsääntöisesti seuraavat vaiheet:
+
+  \begin{description}
+  \item[Kuluttajapalvelun rekisteröinti auktorisointipalvelimelle:] \hfill \\
+   Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä asiakkaan että auktorisointipalvelimen tiedossa. Arvoja ovat tyypillisesti asiakkaan tunniste (\verb!client_id!), jaettu salaisuus (\verb!client_secret!) ja asiakkaan palautusosoite (\verb!redirect_uri!). Asetusten luonne vaihtelee kuluttajapalvelusta riippuen: esimerkiksi JavsScript-sovellus ei tarvitse jaettua salaisuutta, mutta web-palvelu tarvitsee.
+
+  \item[Pääsyoikeuspoletin hankkiminen:] \hfill \\
+  Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Resurssin asiakas määrittelee käyttöoikeuksien laajuuden poletin hankkimispyynnön yhteydessä (\verb!scope!-parametri), ja käyttäjä vahvistaa tai hylkää oikeuksien myöntämisen (kuva~\ref{fig:google_id_and_user_consent}).
+
+  \item[Pääsyoikeuspoletin esittäminen:] \hfill \\
+  Poletin hankkimisvaiheen jälkeen resurssin asiakas esittää pääsyoikeuspoletin valtakirjana resurssin tarjoajalle. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin asiakas pyysi valtuuksia poletin hankkimisvaiheessa.
+
+  \item[Virkistyspoletin esittäminen:] \hfill \\
+  OAuth suosittelee periaatetta, jossa ensisijaisesti tarjotaan lyhytikäinen poletti ja pitkäikäinen auktorisointi. Tämän seurauksena pääsyoikeuspoletilla on rajoitettu elinaika ja uuden pääsyoikeuspoletin pyytäminen edellyttää resurssin omistajan auktorisointisuostumusta. Auktorisointisuostumusta ei kuitenkaan ole mahdollista kysyä, jos resurssin omistaja ei ole läsnä.
+
+  Virkistyspoletti tarjoaa niin sanotun \emph{offline}-pääsyoikeuden, joka resurssin omistajan täytyy vahvistaa pääsyoikeuspoletin myöntämisvaiheessa. Jos asiakkaalle myönnetään virkistyspoletti, asiakas pystyy sitä vastaan noutaamaan uusia pääsyoikeuspoletteja niin kauan kuin sille myönnetty valtuutus on voimassa.
+
+  \end{description}
+
   % subsubsection oauth_käytännössä (end)
 
-
-  % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
-  % https://developers.facebook.com/docs/authentication/
-
-
-
-  % http://fireeagle.yahoo.net/developer/documentation/using_oauth
-  %
-  % http://developers.soundcloud.com/docs/api/authentication#refreshing
-  % Once an access_token is expired you can use the refresh_token to obtain a new one:
-  %
-  % $ curl "https://api.soundcloud.com/oauth2/token" \
-  %            -d 'client_id=YOUR_CLIENT_ID' \
-  %            -d 'client_secret=YOUR_CLIENT_SECRET' \
-  %            -d 'grant_type=refresh_token' \
-  %            -d 'refresh_token=04u7h-r3fr35h-70k3n'
-  % {
-  %   "access_token": "04u7h-4cc355-70k3n-2",
-  %   "expires_in": 3600,
-  %   "scope": null,
-  %   "refresh_token": "04u7h-r3fr35h-70k3n-2"
-  % }
-
-  % Using a Refresh Token
-  % http://code.google.com/apis/accounts/docs/OAuth2ForDevices.html
-  %
-  % POST /o/oauth2/token HTTP/1.1
-  % Host: accounts.google.com
-  % Content-Type: application/x-www-form-urlencoded
-  %
-  % client_id=812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com&
-  % client_secret={clientSecret}&
-  % code=4/L9fTtLrhY96442SEuf1Rl3KLFg3y&
-  % grant_type=http://oauth.net/grant_type/device/1.0
-  %
-  % If the user has not yet approved the request, the response will appear as follows:
-  % {
-  %   "error" : "authorization_pending"
-  % }
-  % Your application should repeat these requests at the rate that does not exceed the value of interval field. If your application polls too quickly, then the response will appear as follows:
-  % {
-  %   "error" : "slow_down"
-  % }
-  % Once the user logs in and grants your application access to a Google API, the next polling request will result in an access and refresh token (shown below).
-  % {
-  %   "access_token" : "ya29.AHES6ZSuY8f6WFLswSv0HELP2J4cCvFSj-8GiZM0Pr6cgXU",
-  %   "token_type" : "Bearer",
-  %   "expires_in" : 3600,
-  %   "refresh_token" : "1/551G1yXUqgkDGnkfFk6ZbjMLMDIMxo3JFc8lY8CAR-Q"
-  % }
-  % Upon receipt of this response, your application may use the access token in Google API requests. Access tokens have a limited lifetime. If your application needs access to an API over a long period of time, then it can use the refresh token to obtain a new access token (see Using a refresh token). If your application needs this type of access, then it should store the refresh token for later use.
-  %
-  % Access tokens expire. An API will indicate that an access token has expired when it returns a 401 status code. To obtain a new access token, make a request to the token endpoint and include the client_id, client_secret, refresh_token, and grant_type parameters (shown below).
-  % POST /o/oauth2/token HTTP/1.1
-  % Host: accounts.google.com
-  % Content-Type: application/x-www-form-urlencoded
-  %
-  % client_id=812741506391-h38jh0j4fv0ce1krdkiq0hfvt6n5amrf.apps.googleusercontent.com&
-  % client_secret={clientSecret}&
-  % refresh_token=1/551G1yXUqgkDGnkfFk6ZbjMLMDIMxo3JFc8lY8CAR-Q&
-  % grant_type=refresh_token
-
-
-
-
   % subsection oauth (end)
-
-
-
 
 
   \subsection{Tekniikoiden soveltuvuus} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   Sen jälkeen kun eri tekniikat on selitetty, yhteenvetolukuun taulukko jossa parilla lauseella selitetään jokainen.
-  + Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
-  + Trust Model: RP/SP initiated; IDP initieated %; (esim definition of trust: "A reasonable expectation of confidence in an actor’s behavior")
-  + Registration / Discovery % ("Discovery is similar to a Web search for an identity."; "Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.")
+  %+ Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
+  %+ Trust Model: RP/SP initiated; IDP initieated %; (esim definition of trust: "A reasonable expectation of confidence in an actor’s behavior")
+  %+ Registration / Discovery % ("Discovery is similar to a Web search for an identity."; "Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.")
 
     % http://stackoverflow.com/questions/7699200/what-is-the-difference-between-openid-and-saml
     % SAML2 supports single sign-out - but OpenID does not
@@ -1426,7 +1326,6 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
 
 
 
-%%%%%%%%%%%%%%%%%%%%
 
 \section{MOOC-palvelun autentikointiratkaisun arkkitehtuuri} % (fold)
 \label{sec:mooc_palvelun_autentikointiratkaisun_arkkitehtuuri}
@@ -1509,6 +1408,12 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   todo kirjoita puhtaaksi, offline access edellyttää on refresh-tokenin, jolla saa lisää uusia tokeneita.
   access token vain jonkin aikaa voimassa, todo piirrä kuva.
   lyhytaikaiset poletit ja pitkäikäiset auktorisoinnit.
+
+  %
+  % Tuottaako refresh token access tokenin vai käytetäänkö refresh tokenia suoraan?
+  %  - kyllä, refresh-tokenia vastaan myönnetään uusi access-token
+  %
+
   % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
 
   Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.

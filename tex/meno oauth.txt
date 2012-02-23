@@ -244,3 +244,37 @@ http://tools.ietf.org/html/draft-hardjono-oauth-kerberos-01#section-3
 
 Anaylyzin OAuth 2.0
 http://www.slideshare.net/oliverpfaff/analyzing-oauth-11014266
+
+
+
+
+
+Eran Hammer was the lead author and editor of the OAuth specifications
+\cite{hueniverse_oauth_intro}
+
+OAuth on suunniteltu toimimaan ensisijaisesti HTTP-protokollalla~\cite{ietf_oauth2}.
+Standardi jättää määrittelemättä OAuthin käytön muulla kuin HTTP-protokollalla.
+OAuthin turvallisuus perustuu pitkälti HTTPS:n käyttämiseen.
+
+''Bearer tokens: OAuth 2.0 provides a cryptography-free option for authentication which is based on existing cookie authentication architecture. Instead of sending signed requests using HMAC and token secrets, the token itself is used as a secret sent over HTTPS. This allows making API calls using cURL and other simple scripting tools without having to canonicalize the request and sign it.''
+''Short-lived tokens with Long-lived authorizations: Instead of issuing a long lasting token (typically good for a year or unlimited lifetime), the server can issues a short-lived access token and a long lived refresh token. This allows clienta to obtain a new access token without having to involve the user again, but keeps access tokens limited. This feature was adopted from Yahoo!’s BBAuth protocol and later its OAuth 1.0 Session Extension.''
+
+Mikä on bearer token type?
+MAC:
+ - family: proof
+ - form-factor: identifier
+Bearer:
+ - family: bearer
+ - form-factor: self-contained
+
+
+
+
+ http://code.google.com/apis/accounts/docs/OAuth2.html
+
+ http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
+ https://developers.facebook.com/docs/authentication/
+
+ http://fireeagle.yahoo.net/developer/documentation/using_oauth
+
+ http://developers.soundcloud.com/docs/api/authentication#refreshing

@@ -27,7 +27,7 @@
 %  - identiteetinkuluttaja, yhdyssanana
 %  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
 %    pääsyoikeuspoletti vs käyttöoikeuspoletti
-
+%  - credentials, miten käännät
 
 \begin{document}
 
@@ -1214,43 +1214,41 @@ todo: piirrä kuvaksi~\cite{ietf_oauth2}
   \subsubsection{Virtaukset} % (fold)
   \label{ssub:virtaukset}
 
-  OAuth 2.0 -standardin ytimessä olevat neljä virtausta soveltuvat sekä palvelinpäässä olevan luotetun ympäristön että asiakaspäässä olevan epäluotetun ympäristön käyttötarkoituksiin. Käytettävän virtauksen valintaan vaikuttaa ensisijaisesti asiakaspalvelun arkkitehtuuri eli käytännössä se, millainen on suojatun resurssin asiakas. Ei-toiminnalliset vaatimukset ovat hyvin erityyppisiä palvelinohjelmistolle, selaimessa toimivalle JavaScript-sovellukselle, työpöytäohjelmistolle sekä mobiililaitteessa toimivalle ohjelmalle. Näille neljälle käyttötapaukselle standandardin ytimen määrittelemät virtaukset ovat seuraavat.
+  OAuth 2.0 -standardin ytimessä olevat neljä virtausta soveltuvat sekä palvelinpäässä olevan luotetun ympäristön että asiakaspäässä olevan epäluotetun ympäristön käyttötarkoituksiin. Käytettävän virtauksen valintaan vaikuttaa ensisijaisesti asiakaspalvelun arkkitehtuuri eli käytännössä se, millainen on suojatun resurssin asiakas. Ei-toiminnalliset vaatimukset ovat hyvin erityyppisiä palvelinohjelmistolle, selaimessa toimivalle JavaScript-sovellukselle, työpöytäohjelmistolle sekä mobiililaitteessa toimivalle ohjelmalle. Näille neljälle käyttötapaukselle on standardin ytimessä määritelty seuraavat virtaukset~\cite{ietf_oauth2}.
 
   \begin{description}
-    \item
+  % ''for token pull via authorization and token endpoints''
+  \item[Auktorisointikoodi (\emph{authorization code}):] \hfill \\
+  Kertakäyttöinen ja lyhytikäinen auktorisointikoodi vaihdetaan pääsyoikeuspolettiin~\cite{ietf_oauth2}.
 
-  % 1. User-Agent Flow: Käyttäjäagentilla asioiville asiakkaille (webselaimet)
-  %
-  % 2. Web Server Flow: Osana web-palvelua oleville asiakkaille, palvelin--palvelin-yhteydet HTTP:llä. Aiempaan OAuth 1.0:aan verrattuna yksinkertaisestti flow.
-  \item[Authorization code:] \hfill \\
-   vaihdetaan access codeen webserver flowssa. lyhytikäinen ja kertakäyttöinen.
-   ''for token pull via authorization and token endpoints''
+  Auktorisointikoodin noutovaiheessa (vaihe A kuvassa~\ref{fig:oauth_abstract_flow}) auktorisointipalvelin toimii välittäjänä resurssin asiakkaan ja resurssin omistajan välillä. Resurssin asiakas ei siten kysy auktorisointia suoraan omistajalta, vaan ohjaa omistajan auktorisointipalvelimelle. Auktorisointipalvelin autentikoi resurssin omistajan ja kysyy, hyväksyykö omistaja valtakirjan myöntämisen kolmannelle osapuolelle sen pyytämiin resursseihin. Resurssin omistaja autentikoituu ainoastaan auktorisointipalvelimelle, joten resurssin asiakas ei näe käyttäjän salasanaa tai muita tunnistaumistietoja.
 
-  \item[Implicit flow:] \hfill \\
-  ''for token push via authorization endpoint''. yksinkertaistettu pyyntömenetelmä rajoitetuille asiakkaille (todo pitäiskö käyttää intermediary vai client)
+  Suotumuksen myöntämisen jälkeen auktorisointipalvelin ohjaa käyttäjän takaisin resurssin asiakkaalle väliaikaisen auktorisointikoodin kanssa. Auktorisointikoodi on lyhytikäinen ja kertakäyttöinen, mistä seuraa tiettyjä hyötyjä tietoturvallisuuden suhteen. Hyötyjä ovat esimerkiksi resurssin asiakkaan autentikoiminen, koska resurssin asiakkaan on pääsyoikeuspoletin myöntämisvaiheessa kyettävä esittämään oman tunnistetietonsa lisäksi myös kertakäyttöinen auktorisointikoodi. Lisäksi auktorisointipalvelin myöntää pääsyoikeuspoletin suoraan resurssin asiakkaalle, jolloin pääsyoikeuspolettia ei kuljettaa resurssin omistajan käyttäjäagentin avulla, jolloin jokin se voisi päätyä jonkin ulkopuolisen osapuolen tai resurssin omistajan nähtäville.
 
-   nopeuttaa vasteaikaa koska vähemmän roundtrippejä clientin ja idp:n välillä. Optimoitu erityisesti selaimessa toimiville asiakkaille jotka toteutettu javascriptillä. ei auth codea välissä vaan access token suoran. auth server ei autentikoi clienttiä. access token saattaa näkyä resurssin omistajalle tai muille sovelluksille, joille pääsy resurssin omistajan käyttäjäagenttiin. Parantaa joidenkin asiakkaiden responsiivisuutta ja tehokkuutta, mutta tämä mukavuus on kompromissi tietoturvan suhteen. Kehittäjän syytä punnita hyötyjä ja haittapuolia erityisesti, jos auth code grant typeä voisi käyttää implicitin sijasta.
+  % ''for token push via authorization endpoint''
+  \item[Epäsuora myöntäminen (\emph{implicit grant}):] \hfill \\
+  Pääsyoikeuspoletti myönnetään ilman auktorisointikoodia.
 
-  % 4. Client Password Flow (rfc kpl 2.3.1): Loppukäyttäjä luottaa asiakkaaseen ja tarjoaa sille salasanansa. Asiakas antaa salasanan eteenpäin identiteetintarjoajalle speksin mukaan ensisijaisesti HTTP Basic Authilla, jolloin \verb!client_id! on OAuth-käyttäjätunnus ja \verb!client_secret! OAuth-salasana. Speksi ei suosittele näiden tietojen välittämistä HTTP-otsakkeissa ja kieltää niiden välittämisen osana URI:a.
-   %
-   % Asiakkaan ei ole suositeltavaa tallettaa loppukäyttäjän salasanaa itselleen vaan vaihtaa se pääsyoikeuspolettiin. Tämä flow on soveltuu vain tilanteeseen, jossa loppukäyttäjällä ja asiakkaalla on luottamussuhde. Ks. kohta jossa kerrotaan Twitter ja xAuth. RFC:n mukaan HTTPS-yhteys ja on välttämätön käytettäessä Client Password -flowta.
-   \item[Resource owner password credentials:] \hfill \\
-   ''for token pull via token endpoint'': tarjotaan resurssin omistajan credentiaalit jotta saadaan token. Käyttötapa on deprekoitu mutta tarjoaa siirtymävaiheen ratkaisun (deprecated practise in a mitigated flavor).
+  Epäsuora myöntäminen on yksinkertaistettu virtaus, joka on optiomoitu selaimessa toimiville asiakkaille kuten JavaScript-ohjelmille~\cite{ietf_oauth2}. Virtaus on ''epäsuora'', koska käyttäjän suostumusvaiheen jälkeen asiakkaalle ei myönnetä ensin auktorisointikoodia, vaan sille annetaan suoraan pääsyoikeuspoletti. Tämä nopeuttaa auktorisointitapahtuman vasteaikaa verrattuna auktorisointikoodin virtaukseen, koska pääsyoikeuspoletin myöntämisessä on vähemmän vähemmän vaiheita resurssin asiakkaan ja auktorisointipalvelimen välillä.
 
-    authorization granttina käytetään suoraan käyttäjätunnusta ja salasanaa, jotka vaihdetaan access tokeniin. Syytä käyttä vain, jos korkea luottamus resurssin omistajan ja clientin välillä (esim client osa laitteen käyttöjärjestelmää tai sovelluksella on muutoin runsaat oikeudet.), ja kun muut auth grant typet eivät ole käytettävissä. Resurssin omistajan salasanaa käytetetään vain yhden pyynnön ajan ja ne vaihdetaan access tokeniin: clientin ei tarvitse tallettaa salasanaa myöhempää käyttöä varten kun accesstoken pitkään voimassa tai refreshtoken.
+  Tässä virtauksessa auktorisointipalvelin ei autentikoi resurssin asiakasta vaan ainoastaan resurssin omistajan. Koska resurssin asiakkaana on suoraan käyttäjäagentti, pääsyoikeuspoletti saattaa paljastua resurssin omistajalle tai muille sovelluksille, joilla on mahdollisuus päästä käsiksi resurssin omistajan käyttäjäagenttiin. Epäsuora virtaus nopeuttaa joidenkin asiakkaiden responsiivisuutta, mutta tämä parannus on kompromissi tietoturvan suhteen. Virtauksen käyttöönottamisessa on syytä punnita hyötyjä ja haittapuolia erityisesti silloin, kun auktorisointikoodia on mahdollista käyttää epäsuoran virtauksen sijasta.
 
- %
- % 5. Client Credentials Flow: Asiakas käyttää \emph{credentials} hankkiakseen pääsyoikeuspoletin. Ota selvää mikä on 2-legged scenario.
- %
-    \item[client credentials:] \hfill \\
-    ''for token pull via token endpoint'': tarjotaan 3-osapuolen client credentiaalit  jotta saadaan token. kun resurssi 3-osapuolen hallinnassa. kutsutaan myös 2-legged exchangeksi. Käyttää suoraan resurssin omistajan oikeuksia eli toisin kuin muissa virtauksissa, käyttöoikeutta ei delegoida.
 
-    (tai muu tapa clientin autentikoimiseksi) toimii authz granttina, kun käyttöoikeuksien laajuus (scope) rajoittuu clientin itsensä hallinnoimiin resursseihin. Tyypillisesti tätä käytetään silloin kun client toimii itsenäisesti omasta puolestaan eli myös client on resurssin omistaja. Toinen käyttötapaus on, kun client pyytää pääsyä suojattuun resurssiin pohjautuen auktorisointiin jonka se on aiemmin neuvotellut auktorisointipalvelimen kanssa. todo tarkoittaako tämä refresh tokenin pyytämistä jos access token vanhentunut?
+   % ''for token pull via token endpoint''
+   \item[Resurssin omistajan salasana \emph{(resource owner password)}:] \hfill \\
+   Pääsyoikeuspoletti myönnetään resurssin omistajan tunnistautumistietoja vastaan.
+
+   Resurssin omistajan käyttäjätunnus ja salasana esittävät auktorisointisuostumusta, jonka perusteella auktorisointipalvelin myöntää pääsyoikeuspoletin. OAuth 2.0 -standardi suosittelee, että virtausta käytetään ainoastaan, kun mikään muu virtauksista ei ole käytettävissä ja resurssin omistajan ja asiakkaan välillä on riittävän korkea luottamussuhde~\cite{ietf_oauth2}. Tyypillisesti tällainen luottamussuhde on voimassa, jos resurssin asiakas ja resurssin palvelin ovat saman organisaation tuottamia kuten esimerkiksi Facebook-yhtiön itsensä toteuttama mobiiliapplikaatio, joka kysyy käyttäjän Facebook-salasanaa.
+
+   Resurssin asiakas nimenomaisesti vaihtaa salasanan pääsyoikeuspolettiin, jota asiakkaan tulee käyttää kaikissa seuraavissa yhteydenotoissa. Tämän ansiosta asiakkaan ei tarvitse tallettaa itselleen resurssin omistajan salasanaa. Tätä virtausta voidaan myös hyödyntää siirtymävaiheen ratkaisuna, jos esimerkiksi aiemmasta HTTP Basic -autentikoinnista halutaan vaiheittain siirtyä OAuth 2.0:aan.
+
+   % ''for token pull via token endpoint''
+   \item[Asiakkaan tunnistautumistiedot \emph{(client credentials)}:] \hfill \\
+   Pääsyoikeuspoletti myönnetään resurssin asiakkaan tunnistautumistietoja vastaan.
+
+  Jos asiakas itse on resurssin omistaja tai asiakkaalla on jokin aiemmin myönnetty valtuutus auktorisointipalvelimelle, voidaan asiakkaan omat tunnistautumistiedot vaihtaa auktorisointipalvelimella pääsyoikeuspolettiin~\cite{ietf_oauth2}. Tällöin asiakas toimii suoraan itsensä edustajana eli auktorisointitapahtumassa ei ole kolmatta osapuolta, jolle pääsyoikeus delegoitaisiin. Tätä virtausta kutsutaan sen vuoksi myös kaksijalkaiseksi vaihdoksi (\emph{2-legged exchange}).
 
    \end{description}
-
-  % ks. kalvo 54/57
-  % http://www.slideshare.net/oliverpfaff/analyzing-oauth-11014266
 
 
   % Mikä on bearer token type?

@@ -240,3 +240,7 @@ This indeed is the basic idea behind “OpenID Connect.”
 OAuth 2.0 vs. Kerberos
 3.  Functional Comparison of OAuth 2.0 and Kerberos V5
 http://tools.ietf.org/html/draft-hardjono-oauth-kerberos-01#section-3
+
+
+Anaylyzin OAuth 2.0
+http://www.slideshare.net/oliverpfaff/analyzing-oauth-11014266

@@ -212,87 +212,9 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
     % Miksei OpenID yleistynyt?
     % Miksi Facebook koetaan uhkana? (vrt 2500 sivua dataa keskivertokansalaisesta vs kgb/cia vs eu-lait)
     % Miksei Facebook-tunnusta voi käyttää kaikkialla?
-    %
-    % Fyysisen laitteen vaativat tekniikat, niiden ongelmat. (HST-kortti, SIM-kortti)
-
-    % Hyllytetyt aiheet:
-    % Directed Identity
-    % Korttiperusteinen identiteetti (card-based identity)
-    % Luottamusmalli (Trust Model)
-    %     Milloin tarvitaan trust model? Kun halutaan vaihtaa dataa palvelujen kesken? Onko Facebook Connectissa Trust Model?
 
   % subsection identiteetti_internetissä (end)
 
-
-  % \subsection{HTTP-protokolla} % (fold)
-  % \label{sub:http_protokolla}
-  %
-  % rfc 2068, http/1.1
-  %
-  % Practical information systems require more functionality than simple
-  %    retrieval, including search, front-end update, and annotation. HTTP
-  %    allows an open-ended set of methods that indicate the purpose of a
-  %    request. It builds on the discipline of reference provided by the
-  %    Uniform Resource Identifier (URI) [3][20], as a location (URL) [4] or
-  %    name (URN) , for indicating the resource to which a method is to be
-  %    applied.
-  %
-  %    HTTP is also used as a generic protocol for communication between
-  %      user agents and proxies/gateways to other Internet systems, including
-  %      those supported by the SMTP [16], NNTP [13], FTP [18], Gopher [2],
-  %      and WAIS [10] protocols. In this way, HTTP allows basic hypermedia
-  %      access to resources available from diverse applications.
-  %
-  % HTTP on request/response-protokolla. Tilaton.
-  %
-  % URIs in HTTP can be represented in absolute form or relative to some
-  %    known base URI, depending upon the context of their use. The two
-  %    forms are differentiated by the fact that absolute URIs always begin
-  %    with a scheme name followed by a colon.
-  %
-  % RFC kpl 1.4
-  %
-  % HTTP 1.1 -pyyntö:
-  % \begin{verbatim}
-  %   GET /resurssi HTTP/1.1
-  %   Host: verkkotunnus.com
-  % \end{verbatim}
-  %
-  % Tässä  /resurssi kuvastaa suhteellista request-URI:a ja GET on verbi.
-  %
-  % The absoluteURI form is required when the request is being made to a proxy. The proxy is requested to forward the request or service it from a valid cache, and return the response.
-  % GET http://www.w3.org/pub/WWW/TheProject.html HTTP/1.1
-  %
-  % The most common form of Request-URI is that used to identify a
-  %    resource on an origin server or gateway. In this case the absolute
-  %    path of the URI MUST be transmitted (see section 3.2.1, abs_path) as
-  %    the Request-URI, and the network location of the URI (net_loc) MUST
-  %    be transmitted in a Host header field.
-  %
-  %    For example, a client wishing
-  %       to retrieve the resource above directly from the origin server would
-  %       create a TCP connection to port 80 of the host "www.w3.org" and send
-  %       the lines:
-  % GET /pub/WWW/TheProject.html HTTP/1.1
-  % Host: www.w3.org
-  %
-  % followed by the remainder of the Request. Note that the absolute path
-  %    cannot be empty; if none is present in the original URI, it MUST be
-  %    given as "/" (the server root).
-  %
-  %
-  %
-  %      http://ftp.ics.uci.edu/pub/ietf/http/rfc2068.txt
-  %
-  %      For definitive information on URL syntax and semantics, see RFC 1738
-  %         [4] and RFC 1808 [11].
-  %
-  %
-  % The use of IP addresses in URL's SHOULD be avoided whenever possible (see RFC 1900 [24])
-  %
-  % If the abs_path is not present in the URL, it MUST be given as "/" when used as a Request-URI for a resource (section 5.1.2).
-  %
-  % subsection http_protokolla (end)
 
   \subsection{Internet-resurssien tunnisteet (URI, URL, URN ..ja XRI)} % (fold)
   \label{sub:käsitteet_uri_url_ja_urn}
@@ -1387,16 +1309,6 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
   Identiteetintarjoajalle autentikoitumisen jälkeen tarjoaja kysyy käyttäjän suostumuksen kuluttajapalvelun pyytämien tietojen välittämiseksi eteenpäin. Jos käyttäjä suostuu, tarjoaja lyö leimansa vastaukseen, jonka käyttäjäagentti välittää \verb!redirect_uri!:n kautta kuluttajapalveluun. Kun identiteetinkuluttaja on palvelinpään sovellus, tarjoajan vastaus on auktorisointikoodi (\emph{authorization code}). Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit. % todo tarkista mitä kirjoitettiin refresh-tokenista
 
   Kuluttaja tarvitsee auktorisointikoodia ainoastaan silloin, kun käyttäjältä kysytään suostumusta. Käyttäjän suostumus tarvitaan silloin, kun kuluttajalla ei ole \verb!access_token!-valtakirjaa tai kun aiemmin myönnetty \verb!access_token! on vanhentunut. \verb!Access_token! on aina rajallisen ajan voimassa ja edellyttää käyttäjän läsnäoloa (todo selitä paremmin) ollakseen käyttökelpoinen. Jos kuluttaja tarvitsee käyttäjästä riippumattoman pääsyn tarjoajan resursseihin, kuluttajan on pyydettävä käyttäjän suostumusvaiheessa \verb!offline access!-lupaa. Tällöin tarjoaja antaa auktorisointikoodin lunastamisen yhteydessä \verb!acces_token!-poletin lisäksi myös \verb!refresh_token!-poletin.
-
-  todo kirjoita puhtaaksi, offline access edellyttää on refresh-tokenin, jolla saa lisää uusia tokeneita.
-  access token vain jonkin aikaa voimassa, todo piirrä kuva.
-  lyhytaikaiset poletit ja pitkäikäiset auktorisoinnit.
-
-  %
-  % Tuottaako refresh token access tokenin vai käytetäänkö refresh tokenia suoraan?
-  %  - kyllä, refresh-tokenia vastaan myönnetään uusi access-token
-  %
-
   % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
 
   Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
@@ -1677,7 +1589,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
 % section mooc_palvelun_autentikointiratkaisun_arkkitehtuuri (end)
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Yhteenveto} % (fold)
 \label{sec:yhteenveto}
 

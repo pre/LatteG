@@ -1163,7 +1163,7 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
 
   OAuthissa on monta eri tapaa pääsyoikeuspoletin myöntämiseksi. Näitä tapoja kutsutaan \emph{virtauksiksi} (\emph{flow}), ja OAuth 2.0 -standardi määrittelee neljä virtausta erityyppisiä asiakkaita ja käyttötapauksia varten. OAuth 2.0 -työryhmä on tarkoituksellisesti halunnut pitää standardin ytimen mahdollisimman tiiviinä ja jättää ylimääräiset ominaisuudet laajennosten (\emph{extensions}) varaan. Laajennoksilla OAuth-virtauksia voidaankin määritellä lisää kuten esimerkiksi SAML-autentikointiväitteen käyttäminen OAuth pääsyoikeuspoletin pyyntövaiheessa~\cite{ietf_oauth2_saml_bearer}.
 
-  Jokainen OAuth-virtaus toteuttaa kuvassa~\ref{fig:oauth_abstract_flow}~\cite{ietf_oauth2} esitetyn abstraktion neljän eri roolin välisestä keskustelusta pääsyoikeuspoletin myöntämiseksi. Kuvassa \emph{asiakas} (\emph{client}) tarkoittaa resurssin käyttöoikeutta pyytävää yleensä kolmannen osapuolen palvelua. \emph{Resurssin omistaja} (\emph{resource owner}) on yleensä loppukäyttäjä, mutta voi jossain tapauksessa olla myös kolmannen osapuolen palvelu, jos asiakas itse omistaa pyydetyn resurssin. Abstraktiossa ei ole esitetty viestinvälittäjänä toimivaa käyttäjäagenttia, koska kaikissa virtauksissa sellaista ei ole. Abstraktioon pureudutaan konkretialla MOOC-autentikoinnin luvussa~\ref{ssub:autentikoituminen_oauth_protokollalla}, mutta abstraktilla tasolla OAuth-tanssi on seuraavanlainen~\cite{ietf_oauth2}:
+  Jokainen OAuth-virtaus toteuttaa kuvassa~\ref{fig:oauth_abstract_flow}~\cite{ietf_oauth2} esitetyn abstraktion neljän eri roolin välisestä keskustelusta pääsyoikeuspoletin myöntämiseksi. Kuvassa \emph{asiakas} (\emph{client}) tarkoittaa resurssin käyttöoikeutta pyytävää yleensä kolmannen osapuolen palvelua. \emph{Resurssin omistaja} (\emph{resource owner}) on yleensä loppukäyttäjä, mutta voi jossain tapauksessa olla myös kolmannen osapuolen palvelu, jos asiakas itse omistaa pyydetyn resurssin. Abstraktiossa ei ole esitetty viestinvälittäjänä toimivaa käyttäjäagenttia, koska kaikissa virtauksissa sellaista ei ole. Abstraktioon pureudutaan konkretialla MOOC-autentikoinnin luvussa~\ref{ssub:autentikoituminen_oauth_protokollalla}, mutta abstraktilla tasolla kuvassa~\ref{fig:oauth_abstract_flow} esitetty OAuth-tanssi on seuraavanlainen~\cite{ietf_oauth2}:
 
   \begin{description}
     \item[(A)]
@@ -1185,30 +1185,13 @@ Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, ett
       Resurssin palvelin validoi pääsyoikeuspoletin ja, jos poletti on validi, tarjoilee pyydetyn resurssin.
   \end{description}
 
-  \begin{singlespacing}
-  \begin{verbatim}
-    \label{fig:oauth_abstract_flow}
-+--------+                               +---------------+
-|        |--(A)- Authorization Request ->|   Resource    |
-|        |                               |     Owner     |
-|        |<-(B)-- Authorization Grant ---|               |
-|        |                               +---------------+
-|        |
-|        |                               +---------------+
-|        |--(C)-- Authorization Grant -->| Authorization |
-| Client |                               |     Server    |
-|        |<-(D)----- Access Token -------|               |
-|        |                               +---------------+
-|        |
-|        |                               +---------------+
-|        |--(E)----- Access Token ------>|    Resource   |
-|        |                               |     Server    |
-|        |<-(F)--- Protected Resource ---|               |
-+--------+                               +---------------+
-todo: piirrä kuvaksi~\cite{ietf_oauth2}
-  \end{verbatim}
-  \end{singlespacing}
 
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/oauth_abstract_flow.jpg}
+    \caption{Abstrakti kuvaus OAuth 2.0:n kommunikointivaiheista~\cite{ietf_oauth2}.}
+    \label{fig:oauth_abstract_flow}
+  \end{figure}
 
   % subsubsection oauth_tokenit (end)
 

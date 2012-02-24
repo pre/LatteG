@@ -1,0 +1,119 @@
+  Tällöin myös käyttäjän identiteetin OpenID-tunniste muuttuu, jos siinä on käytetty lopettaneen yrityksen käytöstä poistuvaa verkkotunnusta. Lukuisat OpenID-identiteetintarjoajat mahdollistavat oman verkkotunnuksen käytön OpenID-tunnisteessa -- esimerkiksi Google Apps ja Yahoo!. Jos identiteetintarjoaja ei suoraan mahdollista oman verkkotunnuksen käyttöä, se voi silti olla mahdollista OpenID-delegoinnilla.
+
+
+
+
+lue ja viittaa myös http://wiki.openid.net/w/page/12995200/OpenID%20Security%20Best%20Practices
+
+XRDS Discovery https://sites.google.com/site/oauthgoog/fedlogininterp/openiddiscovery
+
+email address discovery: http://hueniverse.com/2009/10/email-addresses-as-openids/
+
+openid nascar problem (haluaa nähdä vain googlen logon):
+http://factoryjoe.com/blog/2009/04/06/does-openid-need-to-be-hard/
+
+
+\subsubsection{XRI ja Directed Identity} % (fold)
+\label{ssub:xri_ja_directed_identity}
+
+Current speciﬁcation of OpenID [1] states that an OpenID
+identiﬁer is either a ”http” or ”https” URI [...] , or an XRI.
+We classiﬁed only http and https identiﬁers, ignoring XRI.
+The reasons are that almost nobody uses XRI, there is not
+support in current browsers to resolve XRI and there is not
+a standard way to get a HTML document from them.
+-- A survey on OpenID identiﬁers
+
+
+XRI on yhdentyyppinen URI
+
+
+
+XRDS service links are all related to the OpenID protocol, despite XRDS
+supports discovery of other types of services. Beyond authentication, OpenID
+Simple Registration Extension and OpenID Attribute Exchange are popular
+OpenID extensions supported by collected identiﬁers. They are followed by
+provider policy authentication extensions (PAPE), which assert policies
+applied by identity providers in order to assure end user authentication.
+The most popular is phishing-resistant policies. The rest of services are
+less common. \cite{openid_identifier_survey_2011}
+
+
+
+ The premise of OpenID 1.x was that users would share one
+  globally unique URL (or one of a presumably small set of URLs)
+  with RPs. This stood in stark contrast to other Internet identity
+  frameworks such as Liberty Alliance ID-WSF and Information
+  Cards, which go to great lengths to use pairwise identifiers so
+  they introduce no new correlation handles at the protocol level.
+      OpenID Authentication 2.0 addressed this issue by adding support
+  for “directed identity”—a term for the use of pairwise-unique
+  identifiers coined by Microsoft Chief Identity Architect Kim
+  Cameron [23]. This was accomplished by adding the new service
+  endpoint type “http://specs.openid.net/auth/2.0/identifier_select”.
+  When a user enters an OpenID identifier resolving to a service
+  endpoint of this type (typically by entering the URL or i-name of
+  their OpenID provider, rather than their own OpenID identifier),
+  the RP knows it must ask the OP for the user’s identifier. The OP
+  can then offer the user the choice of using one of their existing
+  OpenID identifiers, or having the OP generate a pairwise-unique
+  identifier for this specific relationship. In fact the user need not
+  know or remember this identifier as the OP can store and
+  automatically use it in future logins to the same RP.
+      This directed identity feature  works with both URLs and XRIs,
+  however by assigning XRI i-numbers in the OP’s own XRI
+  delegation space, OPs can take advantage of their persistence and
+  security features discussed above.
+subsubsection xri_ja_directed_identity (end)
+
+subsubsection openid_autentikoinnin_vaiheet (end)
+
+\subsubsection{Identiteetin delegointi} % (fold)
+\label{ssub:identiteetin_delegointi}
+
+Selitetään mahdollisuus kytkeä oma verkkotunnus kolmannen osapuolen identitarjoaan delegoimalla identiteetti.
+
+Käyttäjä --identiteetti--> verkkotunnus --delegointi--> idp jossa login
+
+\begin{verbatim}
+  <head>
+  <link rel="openid2.provider"
+    href="https://openid.stackexchange.com/openid/provider">
+  <link rel="openid2.local_id"
+    href="https://openid.stackexchange.com/user/a0cd3405-f76e-429e-b935">
+  </head>
+
+  todo viite http://blog.stackoverflow.com/2009/01/using-your-own-url-as-your-openid/
+\end{verbatim}
+
+Oman verkkotunnuksen hosting pitää olla turvallinen. Delegointia voi muuttaa jos pääsee käsiksi verkkotunnuksen tarjoamaan delegoinnin web-sivuun.
+Google ei tästä syystä tue delegointia.
+% subsubsection identiteetin_delegointi (end)
+
+
+Google:
+Guide to Running a User Account System
+http://goo.gl/R8pMP
+
+subsection openid (end)
+
+\subsection{OpenID Connect} % (fold)
+\label{sub:openid_connect}
+OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid)
+
+http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
+
+
+Mitä eroa on OpenID Connect ja OAuth 2.0 ?
+OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
+Onko OpenID-C edelleen user-centric id?
+
+Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
+
+The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
+
+Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
+
+ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
+
+subsection openid_connect (end)

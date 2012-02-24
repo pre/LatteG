@@ -348,13 +348,13 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   % todo lopullinen tuomio: poistetaanko kuva
   %
-  % \begin{figure}
-  %   \centering
-  %   \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
-  %   \caption{Turvattomuusilmoitus sisältökontekstissa}
-  %   \label{fig:trust_context_html_unsecure}
-  % \end{figure}
-  %
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
+    \caption{Turvattomuusilmoitus sisältökontekstissa}
+    \label{fig:trust_context_html_unsecure}
+  \end{figure}
+
 
   Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
 
@@ -363,22 +363,22 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   % todo lopullinen tuomio: poistetaanko kuva
   %
-  % \begin{figure}
-  %   \centering
-  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
-  %   \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
-  %   \label{fig:trust_context_mobile_fb}
-  % \end{figure}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
+    \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
+    \label{fig:trust_context_mobile_fb}
+  \end{figure}
 
 
   % todo lopullinen tuomio: poistetaanko kuva
   %
-  % \begin{figure}
-  %   \centering
-  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
-  %   \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
-  %   \label{fig:trust_context_mobile_unknown_secure}
-  % \end{figure}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
+    \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
+    \label{fig:trust_context_mobile_unknown_secure}
+  \end{figure}
 
   % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
@@ -852,7 +852,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
 
   \subsubsection{Virtaukset} % (fold)
-  \label{ssub:virtaukset}
+  \label{ssub:openid_virtaukset}
 
   OpenID 2.0:ssa on kaksi \emph{virtausta} (\emph{flow}) identiteetin etsimiseksi: \emph{suunnattu identiteetti}  (\emph{directed identity}) ja \emph{väitetty identiteetti} (\emph{claimed identity})~\cite{hueniverse_openid_idps}. Suunnatun identiteetin virtauksessa käyttäjä kertoo identiteetinkuluttajalle identiteetintarjoajan jaetun OpenID-\emph{päätepisteen}~\cite{openid_discovery_recordon_2008} (\emph{endpoint}). Tämä voi tapahtua klikkaamalla esivalitun identiteetin logoa tai syöttämällä identiteetintarjoajan URI OpenID-sisäänkirjautumiskenttään.
 
@@ -1019,7 +1019,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
 
   \subsubsection{Virtaukset} % (fold)
-  \label{ssub:virtaukset}
+  \label{ssub:oauth_virtaukset}
 
   OAuth 2.0 -standardin ytimessä olevat neljä virtausta soveltuvat sekä palvelinpäässä olevan luotetun ympäristön että asiakaspäässä olevan epäluotetun ympäristön käyttötarkoituksiin. Käytettävän virtauksen valintaan vaikuttaa käytännössä se, millainen on resurssin asiakas. Vaatimukset ovat hyvin erilaisia palvelinohjelmistolle, selaimessa toimivalle JavaScript-sovellukselle, työpöytäohjelmistolle sekä mobiililaitteessa toimivalle sovellukselle. Näille neljälle käyttötapaukselle on standardin ytimessä määritelty seuraavat virtaukset~\cite{ietf_oauth2}.
 

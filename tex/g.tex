@@ -22,6 +22,8 @@
 %    - tarkista kuvien asettelu, ettei kuva tule esim keskelle listaa jolloin vasen marginaali rikkoutuu
 %    - tarkista viitteet: etsi ?? previewissä ja katso sanooko latex undefined references
 %    - tarkista että http-urlit rivittyvät oikein
+%    - kuvatekstien riviväli: nyt ei erotu leipätekstistä
+
 
 % Termistö, yhdenmukaista:
 %  - identiteetinkuluttaja, yhdyssanana
@@ -31,10 +33,11 @@
 %  - OAuthissa
 %      identiteetinkuluttaja vs. resurssin asiakas
 %      identiteetintarjoaja  vs. auktorisointipalvelin
+%  - "Tutkielma ei ota kantaa": tutkielma ei ole tekijä, ei kantaa --> jättää määrittelemättä
 \begin{document}
 
-\title{Internet-skaalan identiteetti:
-    \\ ''Case-study kertakirjautumisesta virtuaalikurssille.''}
+\title{Internet-skaalan identiteetti
+    \\ -- Case-study kertakirjautumisesta virtuaalikurssille}
 
 \author{Petrus Repo}
 \date{\today}
@@ -94,17 +97,18 @@
 
   Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
-  Kuva~\ref{fig:yleiskuva_termien_suhteista} esittelee tutkielmaan liittyvien autentikoinnin toimijoiden välisiä suhteita. Ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi GMail-palveluun. GMail-palvelu on identiteetinkuluttja (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}) -- vaan ei varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, joka vahvistetaan yhteentoimivuuden standardin avulla identiteetintarjoajan (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, johon tutkielmassa ei oteta kantaa. Yleisiä toteutuksia siihen ovat esimerkiksi Kerberos-tiketit ja salasanan tiivisteen tallettaminen tietokantaan tai LDAP-palveluun.
+  Kuva~\ref{fig:yleiskuva_termien_suhteista} esittelee tutkielmaan liittyvien autentikoinnin toimijoiden välisiä suhteita. Ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi GMail-palveluun. GMail-palvelu on identiteetinkuluttaja (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}) -- vaan ei varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, joka vahvistetaan yhteentoimivuuden standardin avulla identiteetintarjoajan (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, joka ei kuulu tämän tutkielman piiriin. Yleisiä toteutuksia siihen ovat esimerkiksi Kerberos-tiketit ja salasanan tiivisteen tallettaminen tietokantaan tai LDAP-palveluun.
+
 
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.6\textwidth]{images/auth_yleiskuva.jpg}
-    \caption{Tutkielman liittyvien termien väliset suhteet}
+    \includegraphics[width=0.9\textwidth]{images/auth_yleiskuva.jpg}
+    \caption{Tutkielman keskeisen termistön väliset suhteet}
     \label{fig:yleiskuva_termien_suhteista}
   \end{figure}
 
 
-  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielma ei ota kantaa järjestelmien sisäiseen toteutukseen, mutta kuvailee  standardien arkkitehtuuria relevantein osin. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
+  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
 
   \begin{figure}
@@ -121,8 +125,25 @@
 \section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
+Tässä esitellään tutkimuksen tausta.
+
+% pura mooc nimi tässä uudelleen auki
+todo kömpelö kappale:
 MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos virtuaalikurssi muodostuu suosituksi täytyy kuormitukseen liittyvät pullonkaulat tunnistaa. Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa. Valtavuuden vuoksi on houkuttelevaa ulkoistaa identiteetintarjoajan vastuualue täysin kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle tai Facebookille. Helsingin yliopistolla on noin 40.000 käyttäjätunnusta\footnote{Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä (\url!http://www.helsinki.fi/lyhyesti/!)}. Facebookilla ja Googlella yhteensä yli 1,2 miljardia käyttäjätunnusta\footnote{Facebookilla 845 miljoonaa käyttäjää (\url!http://newsroom.fb.com/content/default.aspx?NewsAreaId=22!), Googlen Gmail-palvelulla 350 miljoonaa käyttäjää (\url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!)}. Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi on avoin kaikille.
 
+Tavoite: ettei autentikointi pullonkaulaksi kun opiskelijamäärä kasvaa.
+
+
+\subsection{Kertakirjautuminen MOOC-järjestelmään} % (fold)
+\label{sub:tutkimusongelmana_kertakirjautuminen}
+
+Tässä esitellään tutkimusongelma ja mainitaan termejä, jotka selitetään seuraavissa luvuissa.
+
+Tässä kerrotaan mihin tutkielmassa otetaan kantaa, mitä siinä pohditaan ja että lopputuloksena on suositus siitä miten MOOC-sisäänkirjautuminen kannattaa toteuttaa.
+
+Tämän luvun lukemisen jälkeen lukija tietää, mikä on tutkimuksen päätehtävä.
+
+% subsection tutkimusongelmana_kertakirjautuminen (end)
 
 \subsection{Web ja SaaS ilmiöinä} % (fold)
 
@@ -134,17 +155,17 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
     % http://en.wikiquote.org/wiki/William_Gibson
   \end{quote}
 
-  \emph{Web 2.0} oli yleinen muotisana vuosina 2005--2008. Perinteinen web, ''versio 1.0'' oli staattinen, yksisuuntainen ja täysin palvelinpään hallinnassa. Versionumerolla \emph{2.0} kuvastettiin uutta ajatusmaailmaa, jossa sivuston sisältö ei enää olisi suljettu, vaan tietoa pystyisi tuomaan järjestelmään käyttäjän selaimesta -- parhaimmillaan ilman, että koko web-sivua tarvitsi ladata uudelleen. Trendin keskeisin piirre oli kuitenkin selainpohjaisuus: sisällön lukemiseksi ja tuottamiseksi ei selaimen lisäksi tarvitsisi asentaa muuta erillistä natiivisovellusta.
+  \emph{Web 2.0} oli internetin keskeinen muotisana vuosina 2005--2008. Perinteinen web, ''versio 1.0'' oli staattinen, yksisuuntainen ja täysin palvelinpään hallinnassa. Versionumerolla \emph{2.0} kuvastettiin uutta ajatusmaailmaa, jossa sivuston sisältö ei enää olisi suljettu, vaan tietoa pystyisi tuomaan järjestelmään käyttäjän selaimesta -- parhaimmillaan ilman, että koko web-sivua tarvitsi ladata uudelleen. Uuden ilmiön tärkein piirre oli selainpohjaisuus: käyttäjän ei selaimen lisäksi enää tarvitisi asentaa sisällön lukemiseksi ja tuottamiseksi muuta erillistä natiivisovellusta (todo muotoilu).
 
   % web = web 2.0 + saas + cloud
-  2010-luvulla Web 2.0:n ovat syrjäyttäneet trendikkäämmät termit kuten \emph{SaaS} (\emph{Software-as-a-Service}) ja \emph{pilvi} (\emph{cloud}). Termit eivät suoranaisesti korvaa Web 2.0:aa, mutta niillä on paljon yhteistä. Pilvi on käsitteenä häilyvä ja voi tarkoittaa eri yhteyksissä erilaisia asioita. Pilven keskeisin teesi on kuitenkin \emph{kapasiteetiltaan rajattoman laitteiston käyttö palveluna}. Perinteisesti laitteiston virtualisointi on kytketty ennalta määritettyyn kapasiteettiin, joka vuokrataan ennalta määrätyksi ajaksi, esimerkiksi kuukaudeksi tai vuodeksi kerrallaan. Pilvessä kapasiteettia voidaan kuitenkin ottaa käyttöön dynaamisesti, jolloin lisäkapasiteettia tarvitsee parhaimmillaan vuokrata vain kuormituspiikin ajaksi. Esimerkiksi laskentaintensiiviset tai eräajona suoritettavat ohjelmistot on houkuttelevaa hajauttaa pilveen: kustannus ajaa yhtä konetta 1000 tuntia voi olla sama kuin ajaa 1000:a konetta yksi tunti -- mutta jälkimmäisellä tavalla tulos valmistuu nopeammin.
+  2010-luvulla Web 2.0:n ovat syrjäyttäneet trendikkäämmät termit kuten \emph{SaaS} (\emph{Software-as-a-Service}) ja \emph{pilvi} (\emph{cloud}). Termit eivät suoranaisesti korvaa Web 2.0:aa, mutta niillä on paljon yhteistä. Pilvi on käsitteenä häilyvä ja voi tarkoittaa eri yhteyksissä erilaisia asioita. Pilven keskeisin teesi on kuitenkin \emph{kapasiteetiltaan rajattoman laitteiston käyttö palveluna}. Perinteisesti laitteiston virtualisointi on kytketty ennalta määritettyyn kapasiteettiin, joka vuokrataan ennalta määrätyksi ajaksi, esimerkiksi kuukaudeksi tai vuodeksi kerrallaan. Pilvessä kapasiteettia voidaan kuitenkin ottaa käyttöön dynaamisesti, jolloin lisäkapasiteettia tarvitsee parhaimmillaan vuokrata vain kuormituspiikin ajaksi. Esimerkiksi laskentaintensiiviset tai eräajona suoritettavat ohjelmistot on houkuttelevaa hajauttaa pilveen: kustannus ajaa yhtä konetta 1000 tuntia voi olla sama kuin ajaa 1000:a konetta yksi tunti -- mutta jälkimmäisellä tavalla tulos valmistuu nopeammin (todo sano selkeämmin).
 
   % IaaS ja PaaS: Ei käsitellä tässä tutkielmassa.
   SaaS on pilven kulma, jonka teesinä on ohjelmiston tarjoaminen palveluna loppukäyttäjälle. Web 2.0:aa edeltävänä aikana oli tyypillistä asennuttaa ohjelmisto natiivisovelluksena työasemalle. Koska ohjelmisto on SaaS-ajatusmallissa palvelu, sen käyttämiseksi riittää \emph{käyttäjäagentti} (\emph{user-agent}) (todo termi), joka tyypillisesti on web-selain tai natiivi mobiilisovellus. Merkittävänä hyötynä on ylläpidon vaatiman työmäärän pieneneminen: palveluntuottajan riittää varmistaa yhteensopivuus eri käyttäjäagenttien kesken ja asentaa ohjelmistopäivitykset ainoastaan itsensä hallinnoimaan ohjelmistoympäristöön. Käyttäjäagentin -- kuten web-selaimen -- päivittäminen on loppukäyttäjän vastuulla. 2010-luvulla ''web'' on edelleen ajankohtainen termi, mutta sen merkitys on aiempaa monipuolisempi.
 
   % Ihanteellisesti SaaS-ajatusmaailmassa palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille. Palvelun kustannukset per asiakas saadaan sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Taloudellisuus on edellytys palvelun skaalautumiseksi laajalle käyttäjäjoukolle. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua. % multitenanttius
 
-  Palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta relevanttien ongelmien ratkaisemiseen itse ja ostaa kaiken muun palveluna. Ohjelmistokehitys- ja ylläpitotyön lisäksi palveuntuottajan ei varsinkaan tarvitse ylläpitää palvelinlaitteistoa -- fyysistä tai virtualisoituakaan. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta niihin emme tässä tutkielmassa pureudu tätä syvemmälle.
+  Palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta relevanttien ongelmien ratkaisemiseen itse ja ostaa kaiken muun palveluna. Ohjelmistokehitys- ja ylläpitotyön lisäksi palveuntuottajan ei varsinkaan tarvitse ylläpitää palvelinlaitteistoa -- fyysistä tai virtualisoituakaan. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta tässä tutkielmassa niihin ei pureuduta.
 
   % section web_ja_saas (end)
 
@@ -169,14 +190,17 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   \subsection{Identiteetti internetissä} % (fold)
   \label{sub:identiteetti_internetissä}
+  % tässä selitetään mikä on identiteetinkuluttaja,
+  %    ja että oauthissa asiakas ja openidssä relying party
 
+  todo
   Ihmisellä monta erilaista profiilia internetissä. Työpaikan-, vapaa-ajan- ja opiskelun profiili. Jokainen profiili luo omanlaisensa identiteetin (tarkenna). On tyypillistä hyväksyä LinkedIn-yhteisöpalveluun työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-kavereiksi sen sijaan ei yleensä haluta pomoa tai kaukaisempia työkavereita, koska vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon tavanomaisesti kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella.
 
   Käyttäjäkeskeisen identiteetin periaatteen mukaan käyttäjällä täytyy olla mahdollisuus valita, minkä identiteeteistänsä hän yhdistää johonkin web-palveluun~\cite{openid_recordon_2009}. Toteutuakseen käytännössä periaate tarkoittaa, että web-palvelun on mahdollistettava sisäänkirjautuminen monen eri identiteetintarjoan avulla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas.
 
-  Federoitu identiteetti on toinen periaate, joka ei kuitenkaan ole poissulkeva käyttäjäkeskeisyyden suhteen. Federaatioksi kutsutaan joukkoa toimijoita, jotka luottavat toisiltansa saaman tietynlaisen tiedon olevan oikeellista (todo termi, valid)~\cite{id_in_federation_systems_2005}. Käyttäjän tunnistamisen osalta tunnistamista pyytänyt identiteetinkuluttaja (federaation jäsen) luottaa identiteetintarjoajan viestiin siitä, että käyttäjä vahvistanut hallitsevansa esittämäänsä käyttäjätunnusta. Identiteetinkuluttaja on siten valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan käyttäjälle federoidun identiteetin.
+  Federaatioksi kutsutaan joukkoa toimijoita, jotka luottavat toisiltansa saaman tietynlaisen tiedon olevan oikeellista (todo termi, valid)~\cite{id_in_federation_systems_2005}. Käyttäjän tunnistamisen osalta tunnistamista pyytänyt identiteetinkuluttaja (federaation jäsen) luottaa identiteetintarjoajan viestiin siitä, että käyttäjä vahvistanut hallitsevansa esittämäänsä käyttäjätunnusta. Identiteetinkuluttaja on siten valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan käyttäjälle federoidun identiteetin.
 
-  Palvelujen välisen luottamussuhteen laatu riippuu tapauksesta -- lähtökohtaisesti luottamus on mahdollisimman vähäinen tietoturvariskien minimoimiseksi. Vaikka identiteetinkuluttaja luottaa identiteetintarjoajan autentikointiviestiin, kuluttaja voi turvallisuuden lisäämiseksi soveltaa monivaiheista autentikointia esimerkiksi kysymällä lisäksi omaa palvelukohtaista salasanaa. OAuth- tai OpenID-spesifikaatio ei ota kantaa siihen, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. Tästä syystä OpenID-identiteetinkuluttajan ja -tarjoajan ei lähtökohtaisesti ole minkäänlaista luottamusta, jolloin luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
+  Palvelujen välisen luottamussuhteen laatu riippuu tapauksesta -- lähtökohtaisesti luottamus on mahdollisimman vähäinen tietoturvariskien minimoimiseksi. Vaikka identiteetinkuluttaja luottaa identiteetintarjoajan autentikointiviestiin, kuluttaja voi turvallisuuden lisäämiseksi soveltaa monivaiheista autentikointia esimerkiksi kysymällä lisäksi omaa palvelukohtaista salasanaa. OAuth- tai OpenID-spesifikaatio ei määrittele, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. Tästä syystä OpenID-identiteetinkuluttajan ja -tarjoajan ei lähtökohtaisesti ole minkäänlaista luottamusta, jolloin luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
 
   Identiteetinkuluttajalla voi olla käyttäjilleen paikallinen tunniste, joka yhdistetään identiteetintarjoajan federoidun identiteetin tunnisteeseen~\cite{id_delegation_2005}. Tällöin eri identiteetintarjoajien tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa. Käyttäjälle voidaan myös antaa vapaus valita oma paikallinen käyttäjätunnuksensa ja sitä kautta muodostaa oma MOOC-identiteetti, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa. MOOC-palvelun käyttäjän identiteetintarjoaja voidaan pitää vain MOOC-palvelun tiedossa eli olla näyttämättä sitä muille käyttäjille. Tällöin käyttäjä voi halutessaan säilyttää yksityisyytensä, vaikka hän käyttäisi sisäänkirjautumisessa Facebook-tunnustansa. Kuvassa~\ref{fig:uid_mapping} on esitetty identiteetinkuluttajan paikallisen käyttäjätunnisteen kytkeminen federoidun identiteetin tunnisteeseen identiteetintarjoajan päässä.
 
@@ -216,15 +240,19 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % subsection identiteetti_internetissä (end)
 
 
-  \subsection{Internet-resurssien tunnisteet (URI, URL, URN ..ja XRI)} % (fold)
+  \subsection{Internet-resurssien tunnisteet} % (fold)
   \label{sub:käsitteet_uri_url_ja_urn}
 
   \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä kuten \verb!XRI!, joten jokainen webissä esiintyvä URI ei ole URL.
 
-  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}. Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
-  \\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
+  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}.
 
-  Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää luvussa \emph{HTTP Basic Auth} (todo viite).
+  % TODO
+  %
+  %Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
+  %\\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
+  %
+  % Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää luvussa \emph{HTTP Basic Auth} (todo viite).
 
 
   \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
@@ -235,7 +263,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
-    \caption{Käsitteet URI, URL ja URN}
+    \caption{Käsitteet URI, URL ja URN (todo tähän xri ja parempi kuvasteksti)}
     \label{fig:uri_url_urn}
   \end{figure}
 
@@ -269,21 +297,21 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % subsection arkkitehtuurityyli_rest (end)
 
 
-  \subsection{Palveluorientoitunut arkkitehtuuri (SOA)} % (fold)
-  \label{sub:arkkitehtuurityyli_soa}
-
-  todo upota tämä lukuun rajapinnat ja web
-
-  Löyhästi kytketyt palvelut (loosely coupled).
-  Mahdollisuus uusien toimintojen lisäämiseen itsenäisinä \emph{palveluina}
-  Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
-  Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
-  Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
-  orkestrointi vs koreografia
-
-  SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
-
-  Design by Contract: rajapintakutsun esi- ja jälkiehdot.
+  % \subsection{Palveluorientoitunut arkkitehtuuri (SOA)} % (fold)
+  % \label{sub:arkkitehtuurityyli_soa}
+  %
+  % todo upota tämä lukuun rajapinnat ja web
+  %
+  % Löyhästi kytketyt palvelut (loosely coupled).
+  % Mahdollisuus uusien toimintojen lisäämiseen itsenäisinä \emph{palveluina}
+  % Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
+  % Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
+  % Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
+  % orkestrointi vs koreografia
+  %
+  % SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
+  %
+  % Design by Contract: rajapintakutsun esi- ja jälkiehdot.
   % B. Meyer. Applying Design By Contract.Computer, No. 25, Vol. 10, 1992
 
   % decouling between means of production and use of product.
@@ -321,73 +349,6 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
 % section autentikoituminen_ja_web (end)
 
-
-  \subsection{Selain-, sisältö- ja applikaatiokonteksti} % (fold)
-  \label{sub:selainkonteksti_vs_applikaatiokonteksti}
-
-  Tähän johdantokappale, jossa kerrotaan että käyttäjän täytyy tietää, että hän syöttää salasanansa oikeaan palveluun. Käyttäjäagentin on oltava siis luotettu. Käyttäjä tietää että hän autentikoituu esim Facebook-tunnuksilla. Käyttäjälle pitää näyttää facebookin sivu luotetussa kontekstissa. Erittäin oleellista kun ulkoinen identiteetintarjoaja ja random-identiteetinkuluttajia (Jenni Vartiainen -app kysyy facebook-salasanaa suoraan.)
-
-  Selainkontekstissa käyttäjä voi luottaa siihen, mitä osoiterivillä lukee, kun työasema oletetaan turvalliseksi (ei troijalaisia tms). Selaimen oman ulkonäön ja turvallisuustoimien väärentäminen erittäin työlästä. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen URL-osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko (A) ilmaisee, että yhteys selaimen ja palvelimen välillä on suojattu. Selainkontekstissa käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Selaimen osoiterivillä täytyy olla palvelua vastaava URL-osoite (B). Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Käyttäjää on mahdollista jekuttaa selainkontekstissa lukon kuvalla, jos osoiterivillä esim. ''faceboook.com''.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/Facebook_reauth_ab.jpg}
-    \caption{Turvallisuusilmoitukset selainkontekstissa}
-    \label{fig:facebook_reauth_ab}
-  \end{figure}
-
-  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava. Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/trust_context_html.jpg}
-    \caption{Turvallisuusilmoituksia selain- (C) ja sisältökontekstissa (D)}
-    \label{fig:trust_context_html}
-  \end{figure}
-
-
-  % todo lopullinen tuomio: poistetaanko kuva
-  %
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
-    \caption{Turvattomuusilmoitus sisältökontekstissa}
-    \label{fig:trust_context_html_unsecure}
-  \end{figure}
-
-
-  Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
-
-  Esimerkiksi Facebookin SDK pyrkii ensisijaisesti avaamaan virallisen Facebook-applikaation, kun kolmannen osapuolen applikaatio pyytää käyttäjää autentikoitumaan Facebook-tunnuksillaan tai pyytää käyttöoikeutta hänen Facebook-tietoihinsa (kuva~\ref{fig:trust_context_mobile_fb}). Jos virallista Facebook-applikaatiota ei ole asennettu, SDK:n toissijainen menetelmä on avata autentikointitapahtuma järjestelmätason web-selaimessa (kuva~\ref{fig:trust_context_mobile_unknown_secure}), jolloin käyttäjä voi varmistua palvelun autenttisuudesta selaimen osoiterivin perusteella. Vasta viimeisenä vaihtoehtona, jos mobiililaite ei tue useamman sovelluksen rinnakkaista suorittamista (\emph{multi-tasking}), Facebook SDK suorittaa autentikoinnin applikaatiokontekstissa (viite \verb=https://developers.facebook.com/docs/mobile/ios/build/#implementsso=).
-
-
-  % todo lopullinen tuomio: poistetaanko kuva
-  %
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
-    \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
-    \label{fig:trust_context_mobile_fb}
-  \end{figure}
-
-
-  % todo lopullinen tuomio: poistetaanko kuva
-  %
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
-    \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
-    \label{fig:trust_context_mobile_unknown_secure}
-  \end{figure}
-
-  % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
-
-  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), sisältöcontextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen. Overlay-sivu tarjoillaan suoraan Facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
-
-  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
-
-  % subsection selainkonteksti_vs_applikaatiokonteksti (end)
-
 % section 2-luku (end)
 
 \section{Sisäänkirjautuminen web-palveluissa} % (fold)
@@ -396,7 +357,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/usnavy_authentication.jpg}
-    \caption{Yhdysvaltain ilmasotajoukkojen toisen maailmansodan ajan koulutusmateriaalia~\cite{usnavy_authentication}}
+    \caption{Autentikointi ei välttämättä tarkoita sisäänkirjautumista tietojärjestelmään. Esimerkkinä Yhdysvaltain ilmasotajoukkojen toisen maailmansodan ajan koulutusmateriaalia~\cite{usnavy_authentication}}
     \label{fig:autentikointi_suojaa_viholliselta}
   \end{figure}
 
@@ -433,7 +394,7 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy haasteena käyttäjätunnusta ja salasanaa, ja toisen osapuolen on tarjottava siihen vastineena täsmälleen oikeanlaiset merkkijonot.
 
-  1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi. Tuohon aikaan laajan dokumentin kopioiminen oli varsin työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä. Tämän tutkielman kirjoittaja vietti ala-asteikäisenä joskus iltaa kopioimalla kynällä ja paperilla tällaisia koodikirjoja itselleen.
+  1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi. Tuohon aikaan laajan dokumentin kopioiminen oli varsin työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä\footnote{Tämän tutkielman kirjoittaja kopioi kouluikäisenä kynällä ja paperilla tällaisia koodikirjoja itselleen. Käsinkopioiminen oli todella työlästä, mutta palkintona oli rajoituksettomasti toimiva peli. Tuolloin oli vaikea ymmärtää, miksi pelin käynnistäminen oli tehty hankalaksi eikä kopioiminen tuntunut eettiseltä ongelmalta -- varsinkaan koska pelin ja koodit lainasi oma kummisetä.}.
 
   Haasteeseen voi olla myös julkisesti tunnettu vastine. Spämmibottien torjumiseksi kehitetty CAPTCHA-testi (\emph{Completely Automated Public Turing test to tell Computers and Humans Apart}) kysyy kysymyksen (esittää haasteen), johon ihmisen on helppo vastata (tarjota vastine), mutta johon tietokone ei pysty luotettavasti tuottamaan oikeaa vastausta. CAPTCHA-haaste voi olla esimerkiksi yksinkertainen matemaattinen laskutoimitus, bittikarttakuvaan upotettu ihmissilmällä erottuva sana tai yksiselitteinen suomenkielinen kysymys, johon on yksiselitteinen ja yleisesti tunnettu vastaus.
 
@@ -509,7 +470,9 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   Internet-mittakaavassa ulkoisen laitteen edellyttäminen hankaloittaa autentikointitavan laajaa käyttöönottoa. Ulkoisista laitteista matkapuhelin on suosittu juuri yleistyneisyytensä vuoksi. On kuitenkin olemassa myös muita ulkoisia laitteita, jotka tarjoavat mahdollisuuden kaksivaiheistaa autentikointi -- näitä käytetään usein yritysverkoissa tai muissa keskitetysti hallituissa verkkoympäristöissä. Osa laitteista markkinoi itseänsä myös salasanan korvaajina ja jotkut palvelut kuten verkkopankit jakavat etukäteen käyttäjilleen listan kertakäyttöisistä salasanoista. Tällöin kyseessä on kuitenkin yksivaiheinen haaste--vastine-autentikointi ellei laitteen tai kertakäyttösalasanalistan lisäksi vaadita mitään muuta tunnistetta.
 
   Kaksivaiheinen autentikointi on monivaiheisen autentikoinnin (\emph{multifactor authentication}) toteutus (todo termi, erikoistus?).
-  Vaiheiden \emph{jotain minkä tiedot} ja \emph{jotain minkä omistat} lisäksi voidaan vaatia \emph{jotain mitä olet} -- tällöin kyse on kolmivaiheisesta autentikoinnista. Vaiheeksi \emph{jotain mitä olet} sopii esimerkiksi sormenjälki, iiriksen skannaaminen tai muu biometrinen tunniste. Monivaiheinen autentikointi tarkoittaa vähintään kahden edellä mainitun vaiheen käyttöä asiakkaan (todo termi, \emph{claimant}) tunnistamiseksi~\cite{NIST_SP800-63-1}. Monivaiheisen autentikoinnin toteutus on yleisesti käsitetty vahvemmaksi kuin vain yhtä vaihtetta käyttävä: kolmen vaiheen autentikointi on vahvempi kuin kuin kahta vaihteta käyttävä, ja kahden autentikointivaiheen kokonaisuus on vahvempi kuin yhden vaiheen vaiheen toteutus~\cite{NIST_SP800-63-1}. Myös karttapaikannustietoa tai laitteen yksilöivää tunnistekoodia voidaan käyttää autentikointiprosessin tukena, mutta ne eivät kuitenkaan ole autentikointitapoja (\emph{authentication factors})~\cite{NIST_SP800-63-1}.
+  Vaiheiden \emph{jotain minkä tiedät} ja \emph{jotain minkä omistat} lisäksi voidaan vaatia \emph{jotain mitä olet}. Tällöin autentikoinnissa on kolme vaihetta, joten menetelmää kutsutaan kolmivaiheiseksi autentikoinniksi. Vaiheeksi \emph{jotain mitä olet} sopii esimerkiksi sormenjälki, iiriksen skannaaminen tai muu biometrinen tunniste.
+
+  Monivaiheinen autentikointi tarkoittaa vähintään kahden edellä mainitun vaiheen käyttöä asiakkaan (todo termi, \emph{claimant}) tunnistamiseksi~\cite{NIST_SP800-63-1}. Monivaiheisen autentikoinnin toteutus on yleisesti käsitetty vahvemmaksi kuin vain yhtä vaihtetta käyttävä: kolmen vaiheen autentikointi on vahvempi kuin kuin kahta vaihteta käyttävä, ja kahden autentikointivaiheen kokonaisuus on vahvempi kuin yhden vaiheen vaiheen toteutus~\cite{NIST_SP800-63-1}. Myös karttapaikannustietoa tai laitteen yksilöivää tunnistekoodia voidaan käyttää autentikointiprosessin tukena, mutta ne eivät kuitenkaan ole autentikointitapoja (\emph{authentication factors})~\cite{NIST_SP800-63-1}.
 
   Kokonaisturvallisuutta lisäävästä vaikutuksestaan huolimatta monivaiheinen autentikointi ei itsessään ratkaise \emph{man-in-the-middle}-ongelmaa tai suojaa trojalaisilta~\cite{schneier_2factor_2005}. Jos kolmas osapuoli pääsee tietoliikenneyhteyden väliin, hän voi välittää kaikki käyttäjän viestit eteenpäin. Man-in-the-Middle ei näe haastetta, jonka palveluntarjaoja lähettää kaksivaiheisessa autentikoinnissa esimerkiksi käyttäjän matkapuhelimeen. Hän kuitenkin näkee kaapatun tietoliikenneyhteyden kautta käyttäjän haasteeseen tarjoaman vastineen ja pystyy välittämään sen eteenpäin palveluntarjoajalle. Vaikka tiedonsiirtokanava olisi turvallinen, käyttäjän huolimattomuuden, päätelaitteessa olevan troijalaisen tai vakoiluohjelmiston on edelleen mahdollista aiheuttaa MITM-turvallisuusongelma~\cite{schneier_2factor_2012} (todo viite security ignorance). Monivaiheisuus lisää kuitenkin hyökkäyksen vaatimaa työläyttä yksivaiheiseen autentikointiin verrattuna, muun muassa koska hyökkäys täytyy kohdistaa tarkemmin tiettyä palveluntarjoajaa vastaan.
 
@@ -534,7 +497,8 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
 
   Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}. Kaupalliset palveluntarjoajat kuten Thwate ja Verisign toimivat luotettuna kolmantena osapuolena eli sertifikaattiauktoriteettina (\emph{CA, certificate authority}), joiden oma juurivarmenne (\emph{root certificate}) on käyttäjäagentin (selaimen) ennalta tuntemien ja luotettavaksi merkittyjen sertifikaattien listalla. Sertifikaattiauktoriteetti todentaa juurisertifikaattinsa luottamusketjun avulla, että sen jollekin yritykselle myöntämä julkinen varmenne kuuluu sitä esittävälle web-palvelulle. Web-kontekstissa sertifikaatti kytketään URL:n verkko-osoitteeseen, jonka täytyy täsmätä sertifikaattiin kytketyn nimitiedon kanssa.
 
-  Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on liian monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}.
+  todo
+  Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}.
 
   todo
   Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
@@ -547,9 +511,9 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   % subsection sessiopohjainen_autentikointi (end)
 
 
-  \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
-  \label{sub:http_basic_auth_ja_http_digest_auth}
-  Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/polku!) ja mikä on http digest auth (haaste-vastine http headereissa).
+  % \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
+  % \label{sub:http_basic_auth_ja_http_digest_auth}
+  % Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/polku!) ja mikä on http digest auth (haaste-vastine http headereissa).
 
   % It is clearly unwise to use a URL that contains a password which is
   % intended to be secret. In particular, the use of a password within
@@ -585,6 +549,72 @@ MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos 
   %   Phishing ja selaimen omat vastatoimet.
   %
   % % section uhat_turvalliselle_autentikoitumiselle (end)
+
+  \subsection{Selain-, sisältö- ja applikaatiokonteksti} % (fold)
+  \label{sub:selainkonteksti_vs_applikaatiokonteksti}
+
+  Tähän johdantokappale, jossa kerrotaan että käyttäjän täytyy tietää, että hän syöttää salasanansa oikeaan palveluun. Käyttäjäagentin on oltava siis luotettu. Käyttäjä tietää että hän autentikoituu esim Facebook-tunnuksilla. Käyttäjälle pitää näyttää facebookin sivu luotetussa kontekstissa. Erittäin oleellista kun ulkoinen identiteetintarjoaja ja random-identiteetinkuluttajia (Jenni Vartiainen -app kysyy facebook-salasanaa suoraan.)
+
+  Selainkontekstissa käyttäjä voi luottaa siihen, mitä osoiterivillä lukee, kun työasema oletetaan turvalliseksi (ei troijalaisia tms). Selaimen oman ulkonäön ja turvallisuustoimien väärentäminen erittäin työlästä. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen URL-osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko (A) ilmaisee, että yhteys selaimen ja palvelimen välillä on suojattu. Selainkontekstissa käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Selaimen osoiterivillä täytyy olla palvelua vastaava URL-osoite (B). Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Käyttäjää on mahdollista jekuttaa selainkontekstissa lukon kuvalla, jos osoiterivillä esim. ''faceboook.com''.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/Facebook_reauth_ab.jpg}
+    \caption{Turvallisuusilmoitukset selainkontekstissa}
+    \label{fig:facebook_reauth_ab}
+  \end{figure}
+
+  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava. Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/trust_context_html.jpg}
+    \caption{Turvallisuusilmoituksia selain- (C) ja sisältökontekstissa (D)}
+    \label{fig:trust_context_html}
+  \end{figure}
+
+
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
+    \caption{Turvattomuusilmoitus sisältökontekstissa}
+    \label{fig:trust_context_html_unsecure}
+  \end{figure}
+
+
+  % Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
+
+  % Esimerkiksi Facebookin SDK pyrkii ensisijaisesti avaamaan virallisen Facebook-applikaation, kun kolmannen osapuolen applikaatio pyytää käyttäjää autentikoitumaan Facebook-tunnuksillaan tai pyytää käyttöoikeutta hänen Facebook-tietoihinsa (kuva~\ref{fig:trust_context_mobile_fb}). Jos virallista Facebook-applikaatiota ei ole asennettu, SDK:n toissijainen menetelmä on avata autentikointitapahtuma järjestelmätason web-selaimessa (kuva~\ref{fig:trust_context_mobile_unknown_secure}), jolloin käyttäjä voi varmistua palvelun autenttisuudesta selaimen osoiterivin perusteella. Vasta viimeisenä vaihtoehtona, jos mobiililaite ei tue useamman sovelluksen rinnakkaista suorittamista (\emph{multi-tasking}), Facebook SDK suorittaa autentikoinnin applikaatiokontekstissa (viite \verb=https://developers.facebook.com/docs/mobile/ios/build/#implementsso=).
+
+
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
+  %   \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
+  %   \label{fig:trust_context_mobile_fb}
+  % \end{figure}
+
+
+  % todo lopullinen tuomio: poistetaanko kuva
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
+  %   \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
+  %   \label{fig:trust_context_mobile_unknown_secure}
+  % \end{figure}
+
+  % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
+
+  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), sisältöcontextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen. Overlay-sivu tarjoillaan suoraan Facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
+
+  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
+
+  % subsection selainkonteksti_vs_applikaatiokonteksti (end)
 
 
 % section kakkosluku (end)
@@ -836,7 +866,6 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä seurauksena monella internet-käyttäjällä on tietämättään OpenID-käyttätunnus. Esimerkiksi jokainen Googlen GMail-sähköpostin käyttäjätunnus toimii  OpenID-käyttäjätunnuksena.
 
-  % todo korvaa XXX
   OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voi periaatteessa käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa.
   % Käytännössä palveluntuottaja kuitenkin usein hyväksyy vain etukäteen määritetyn identiteetintarjoajan: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan.
   Monesti palveluntuottaja kuitenkin hyväksyy identiteetintarjoajana ainoastaan oman organisaationsa tai suppean listan esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}).
@@ -867,7 +896,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Väitetyn identiteetin virtauksessa identiteetinkuluttaja etsii identiteetintarjoajan loppukäyttäjän syöttämän henkilökohtaisen OpenID-tunnisteen perusteella. Väitetyn identiteetin OpenID-käyttäjätunnus on yleensä muistettavissa oleva URL-osoite kuten esimerkiksi \url!https://petrusrepo.myopenid.com!, \url!https://myopenid.com/repo! tai \url{https://petrus.repo.fi}. Sen sijaan esimerkiksi Googlen myöntämä suunnatun identiteetin OpenID-tunniste on muotoa
   % todo tsekkaa rivitys
-  \\ \verb#https://www.google.com/accounts/o8/id?id=XXX#, jossa \verb!XXX! on yksilöivä satunnaismerkkijono.
+  \\ \verb#https://www.google.com/accounts/o8/id?id=XXX#, jossa \verb!XXX! on yksilöivä satunnaismerkkijono. %todo kappaleen yhteenvetolause
 
 
   % subsubsection virtaukset (end)
@@ -905,7 +934,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
     \item Identiteetinkuluttaja uudelleenohjaa loppukäyttäjän identiteetintarjoajalle. Loppukäyttäjä esittää edellisessä vaiheessa luodun jaetun salaisuuden, jonka avulla identiteetintarjoaja yhdistää saapuneen käyttäjän identiteetinkuluttajan alustamaan autentikointipyyntöön.
 
-    \item OpenID-identiteetintarjoaja autentikoi käyttäjän. Protokolla ei ota kantaa siihen, miten autentikointi tapahtuu.
+    \item OpenID-identiteetintarjoaja autentikoi käyttäjän. OpenID-standardi ei määrittele, kuinka autentikointi tapahtuu.
 
     \item Identiteetintarjoaja uudelleenohjaa loppukäyttäjän identiteetinkuluttajan palveluun. Käyttäjä saa kannettavakseen jaetun salaisuuden perusteella laaditun poletin sekä mahdollisia käyttäjäprofiiliin liittyviä attribuutteja kuten sähköpostiosoitteen.
 
@@ -919,7 +948,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
     Käyttäjäkeskeinen OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identiteetintarjoajaksi. OpenID-identiteetin todentaminen osoittaa ainoastaan, että tietty OpenID-identiteetti on käyttäjän hallinnassa~\cite{openid_2.0_specification_07}. Identiteetinkuluttaja siis luottaa identiteetintarjoajan sanomaan siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan. Siksi OpenID-standardissa identiteetinkuluttajaa kusutaan \emph{luottavaksi osapuoleksi} (\emph{relying party}). Identiteetinkuluttajana toimiva luottava osapuoli ei siten tunne käyttäjän salasanaa eikä identiteetintarjoajaa, vaan ainoastaan käyttäjän yksilöivän OpenID-käyttäjätunnuksen.
 
-    OpenID-protokolla ei ota kantaa identiteetintarjoajan suorittaman autentikoinnin tasoon~\cite{openid_2.0_specification_07}. On täysin mahdollista toteuttaa identiteetintarjoaja, joka vastaa kaikkiin identiteettikyselyihin hyväksyvästi eikä siten takaa mikäänlaista käyttäjän tunnistetietojen varmentamista. Sen vuoksi identiteetinkuluttajan kannalta voi olla järkevää hyväksyä vain yksi tai useampi ennalta valittu identiteetintarjoaja, jolla on vakaa ja luotettava maine. OpenID:lle on myös autentikoinnin turvallisuustason määrittelevä PAPE-laajennos, jolla identiteetintarjoaja kertoo identiteetinkuluttajalle, kuinka turvallinen sen soveltama autentikointi on~\cite{openid_2.0_pape_07}. PAPE-laajennoksesta huolimatta kuluttaja joutuu kuitenkin vain uskomaan tarjoajan identiteettiväittämän, joten laajennoksesta ei ole hyötyä ellei kuluttaja luota tarjoajaan.
+    OpenID-standardi jättää määrittelemättä identiteetintarjoajalta vaadittavan autentikoinnin luotettavuuden (todo termi: taso/luotettavuus/vahvuus/mikä)~\cite{openid_2.0_specification_07}. On täysin mahdollista toteuttaa identiteetintarjoaja, joka vastaa kaikkiin identiteettikyselyihin hyväksyvästi eikä siten takaa mikäänlaista käyttäjän tunnistetietojen varmentamista. Sen vuoksi identiteetinkuluttajan kannalta voi olla järkevää hyväksyä vain yksi tai useampi ennalta valittu identiteetintarjoaja, jolla on vakaa ja luotettava maine. OpenID:lle on myös autentikoinnin turvallisuustason määrittelevä PAPE-laajennos, jolla identiteetintarjoaja kertoo identiteetinkuluttajalle, kuinka turvallinen sen soveltama autentikointi on~\cite{openid_2.0_pape_07}. PAPE-laajennoksesta huolimatta kuluttaja joutuu kuitenkin vain uskomaan tarjoajan identiteettiväittämän, joten laajennoksesta ei ole hyötyä ellei kuluttaja luota tarjoajaan.
 
     Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Näiden tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvan kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008}. Tällöin OpenID-etsintävaihe käynnistyy tyypillisesti klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen
       asiakkaille\footnote{Suunnatun identiteetin OpenID-päätepiste on Yahoolla \url!https://yahoo.com! ja
@@ -948,9 +977,9 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   OAuth 1.0 syntyi vuonna 2007 sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua jopa salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen, vaan jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuthin myötä sisäänkirjautuminen oli mahdollista rajoittaa dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää jakaa kolmannelle osapuolelle. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jossa käyttäjä autentikoitumisen jälkeen hyväksyi kolmannen osapuolen esittämän käyttöoikeuspyyntön.
 
   %Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa. Kolmannen osapuolen palvelua kutsutaan OAuth-protokollassa asiakkaaksi (\emph{client}), mutta yhdenmukaisuuden vuoksi tässä tutkielmassa käytetään käytetään aina nimeä identiteetinkuluttaja.
-  OAuth 2.0 on edeltäjiinsä nähden uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 -standardi on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa\footnote{Helmikuussa 2012 OAuth 2.0 -standardin luonnosvaiheen versionumero on 23}, mutta lopullinen versio valmistunee vielä vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut edeltäjänsä lisäksi merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt.
+  OAuth 2.0 on edeltäjiinsä nähden uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 -standardi on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa\footnote{Helmikuussa 2012 OAuth 2.0 -standardin luonnosvaiheen versionumero on 23}, mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut edeltäjänsä lisäksi merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt.
 
-  OAuth 1.0 synnytti alkujaan runsaasti vastutusta kehittäjien keskuudessa~\cite{developers_like_hypermedia_but_2010}. Ennen OAuthia esimerkiksi kolmannen osapuolen Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen välittämisen yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!https://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja erityisesti sen vuoksi, että tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
+  OAuth 1.0 synnytti alkujaan runsaasti vastutusta web-kehittäjien keskuudessa~\cite{developers_like_hypermedia_but_2010}. Ennen OAuthia esimerkiksi kolmannen osapuolen Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen välittämisen yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!https://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja erityisesti sen vuoksi, että tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
 
   Kehittäjäyhteisöstä tulleen muutosta vastustaneen negatiivisen palautteen jälkeen Twitter kehitti siirtymävaiheen avuksi xAuth-mentelmän\footnote{Twitterin xAuth on nimestänsä huolimatta eri asia kuin \url{XAuth.org}.}, jossa resurssin asiakas kysyy käyttäjän salasanaa\footnote{xAuth on OAuth 1.0a ilman \emph{request\_token} ja \emph{authorization} -vaiheita: auktorisointipalvelin myöntää pääsyoikeuspoletin resurssin asiakkaan tarjoamaa käyttäjätunnusta ja salasanaa vastaan. xAuthin käyttämiseksi Twitteriltä täytyy anoa erillinen lupa (\url{https://dev.twitter.com/docs/oauth/xauth}).}. OAuth 2.0 tuo mukanaan käyttäjätunnus ja salasana -virtauksen, joka vastaa Twitterin xAuth-ratkaisua.
   % taustaa:
@@ -975,6 +1004,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   OAuth eriyttää toisistansa roolit resurssin omistajalle (loppukäyttäjälle) ja resurssiin yhteyttä ottavalle kolmannen osapuolen palvelulle (resurssin asiakkaalle). OAuth toteuttaa näiden väliin auktorisointikerroksen (\emph{authorization layer})~\cite{ietf_oauth2}: kolmannen osapuolen palvelu pyytää pääsyoikeutta resurssiin, jota hallinnoi resurssin omistaja ja isännöi resurssin palvelin. Resurssia isännöivä palvelin voi SOA-arkkitehtuurin mukaisesti olla täysin itsenäinen pääsyoikeuksia valvovasta auktorisointipalvelusta. Auktorisointipalvelu hyväksyttää resurssin omistajalla kolmannen osapuolen pääsyoikeuspyynnön ja luo hyväksytylle pyynnölle valtakirjan. Resurssin isäntä vastaavasti tarkistaa, että käyttöoikeutta pyytävällä osapuolella on auktorisointipalvelimella voimassa oleva valtakirja pyydettyyn resurssiin. Yhden valtakirjan evääminen ei vaikuta muille osapuolille myönnettyihin valtakirjoihin tai resurssin omistajan omiin pääsyoikeuksiin.
 
+  % todo tsekkaa missä poletti on edellisen kerran selitetty
   Valtakirjan käyttäminen edellyttää, että resurssin asiakkaalla on hallussaan tietynlainen poletti.   Asiakas ei tunne resurssin omistajan salasanaa, vaan esittää poletin saadakseen käyttöoikeuden kohteena olevaan resurssiin. Polettiin kytketty valtakirja sisältää tiedon kolmannelle osapuolelle myönnettyjen oikeuksien laajuudesta sekä oikeuksien voimassaoloajasta. Tällöin resurssin omistajalle on mahdollista tarjota näkyvyys siihen, minkä resurssien jakamiseen hän on myöntänyt luvan ja kenelle mikäkin lupa on myönnetty. Kuvassa~\ref{fig:facebook_app_acl} on esitetty kolmannen osapuolen sovellukselle myönnetty valtakirja Facebook-käyttäjän tietoihin. Facebookin Developer -sivustolla huomautetaan kolmannen osapuolen kehittäjiä, että mitä laajempaan joukkoon resursseja pyydetään käyttöoikeutta, sitä suurempi on oikeuksien myöntämisestä kieltäytyvä käyttäjäjoukko~\cite{facebook_oauth2_doc}. Tämä on merkittävä havainto, koska OAuthia edeltäneenä aikana oikeuksia ei käytännössä ollut mahdollisuutta rajata lainkaan, vaan kolmannen osapuolen palvelu pystyi tekemään saamallaan käyttäjän salasanalla mitä tahansa.
 
 
@@ -1071,7 +1101,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
-  OAuth ei lähtökohtaisesti ole autentikointiprotokolla, vaan mahdollisuus loppukäyttäjän autentikointiin syntyy auktorisointiprosessin sivutuotteena. Auktorisointipalvelin jakaa käyttöoikeuksia ensisijaisesti resursseihin, ja käyttäjän identiteetti voi olla yksi tällainen resurssi. Poletti voi kuitenkin sisäänkirjautumisen lisäksi toimia valtakirjana myös muihin käyttäjän hallinnoimiin resursseihin. Jos käyttäjä ei ole tarkkana, hän voi huomaamattaan myöntää resurssin asiakkaalle ylimääräisiä oikeuksia, vaikka tarkoituksena olisi pelkästään käyttäjän autentikointuminen.
+  OAuth ei lähtökohtaisesti ole autentikointiprotokolla, vaan mahdollisuus loppukäyttäjän autentikointiin syntyy auktorisointiprosessin sivutuotteena. Auktorisointipalvelin jakaa käyttöoikeuksia ensisijaisesti resursseihin, ja käyttäjän identiteetti voi olla yksi tällainen resurssi. Poletti voi kuitenkin sisäänkirjautumisen lisäksi toimia valtakirjana myös muihin käyttäjän hallinnoimiin resursseihin. Käyttäjä voi huolimattomuuttaan myöntää resurssin asiakkaalle ylimääräisiä oikeuksia, vaikka tarkoituksena olisi pelkästään käyttäjän autentikointuminen.
 
   Auktorisointipalvelimen on tunnettava resurssin asiakas etukäteen. OAuth 2.0 ei kuitenkaan sulje pois ennalta tuntemattomia asiakkaita, joten dynaaminen rekisteröityminen voi standardin vakiinnuttua olla myöhemmin mahdollista laajennoksena~\cite{ietf_oauth2_unregistered_clients}. Jokaisessa OAuth 2.0 -protokollan mukaisessa vuorovaikutustilanteessa on pääsääntöisesti seuraavat vaiheet:
 
@@ -1086,7 +1116,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   Poletin hankkimisvaiheen jälkeen resurssin asiakas esittää pääsyoikeuspoletin valtakirjana resurssin tarjoajalle. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin asiakas pyysi valtuuksia poletin hankkimisvaiheessa.
 
   \item[Virkistyspoletin esittäminen:] \hfill \\
-  OAuth suosittelee periaatetta, jossa tarjotaan lyhytikäinen poletti ja pitkäikäinen auktorisointi. Tällöin pääsyoikeuspoletilla on rajoitettu elinaika ja uuden pääsyoikeuspoletin pyytäminen edellyttää resurssin omistajan auktorisointisuostumusta. Auktorisointisuostumusta ei kuitenkaan ole mahdollista kysyä, jos resurssin omistaja ei ole läsnä.
+  OAuthin soveltamisessa periaatteena on tarjota lyhytikäinen poletti ja pitkäikäinen auktorisointi. Tällöin pääsyoikeuspoletilla on rajoitettu elinaika ja uuden pääsyoikeuspoletin pyytäminen edellyttää resurssin omistajan auktorisointisuostumusta. Auktorisointisuostumusta ei kuitenkaan ole mahdollista kysyä, jos resurssin omistaja ei ole läsnä.
 
   Virkistyspoletti tarjoaa niin sanotun \emph{offline}-pääsyoikeuden, joka resurssin omistajan täytyy vahvistaa pääsyoikeuspoletin myöntämisvaiheessa. Jos asiakkaalle myönnetään virkistyspoletti, asiakas pystyy sitä vastaan noutaamaan uusia pääsyoikeuspoletteja niin kauan kuin sille myönnetty valtuutus on voimassa ilman, että käyttäjältä tarvitsee kysyä auktorisointisuostumusta.
 
@@ -1186,10 +1216,12 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Vaikka kuluttajapalveluja olisi useita, identiteetintarjoajan sisäinen SAML-rajapinta käyttäjärekisteriin ei koskaan ole suoraan kuluttajapalvelun saatavilla. Tämän ansiosta sisäinen rajapinta on tarvittaessa mahdollista vaihtaa ilman, että yhteenkään kuluttajapalveluun tarvitsee sen vuoksi tehdä muutoksia. Lisäksi identiteetintarjoajan sisäisen rajapinnan yhdistämää käyttäjärekisteriä on mahdollista vaihtaa myös väliaikaisesti, koska ulkoinen OAuth-rajapinta ei välitä käyttäjärekisterin autentikoinnin sisäisestä toteutuksesta. Tämän ansiosta käyttäjä voisi valita identiteetiksi Helsingin yliopiston käyttäjätunnuksen sijasta myös Tietojenkäsittelytieteen laitoksen tai Tietotekniikan tutkimuslaitoksen (HIIT) käyttäjätunnuksella -- samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
 
-  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielma kuitenkin suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sec:kakkosluku}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
+  % todo: muoto "tutkielma suosittelee", "tämän tutkimuksen perusteella"
+  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sec:kakkosluku}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
-  todo yhteenvetokappale. Painota, että tärkeintä on tarjota abstraktio sisäisen rajapinnan eteen, jotta sisäinen toteutus ei ole tiukasti kytketty kolmansien osapuolten käyttäjänä rajapintaan. Käytettävä standardi ei ole ykkösjuttu, vaan abstraktio. Tutkielma suosittelee OAuthin tarjoamista koska se on emergentti pilviratkaisu. Ylläpitdettävyyden kannalta voi olla kätevää tarjota vain yksi ulkoinen rajapinta. Toisaalta voi olla sisäisiä vaatimuksia joiden vuoksi kannattaa tarjota saml myös ulkoisena rajapintana.
-  Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
+  todo Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
+
+  todo yhteenvetokappale jossa edut ja haitat. Painota, että tärkeintä on tarjota abstraktio sisäisen rajapinnan eteen, jotta sisäinen toteutus ei ole tiukasti kytketty kolmansien osapuolten käyttäjänä rajapintaan. Käytettävä standardi ei ole ykkösjuttu, vaan abstraktio. Tutkielma suosittelee OAuthin tarjoamista koska se on emergentti pilviratkaisu. Ylläpitdettävyyden kannalta voi olla kätevää tarjota vain yksi ulkoinen rajapinta. Toisaalta voi olla sisäisiä vaatimuksia joiden vuoksi kannattaa tarjota saml myös ulkoisena rajapintana.
 
   % Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
   % LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan.
@@ -1204,7 +1236,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Identiteetinkuluttaja on rekisteröitynyt etukäteen identiteetintarjoajan asiakkaaksi~\cite{google_oauth2_doc, facebook_oauth2_doc}. Rekisteröintiprosessissa kuluttajalle on määritetty tunnisteena \verb!client_id!, salaisuutena \verb!client_secret! sekä yksi tai useampi loppukäyttäjän takaisin kuluttajapalveluun palauttava \verb!redirect_uri!. Kuluttajapalvelun tavoitteena on saada tarjoajapalvelulta \verb!access_token!, jonka tarjoaja myöntää, jos se hyväksyy loppukäyttäjän autentikoitumisen.
 
-  Prosessi alkaa, kun kuluttaja uudelleenohjaa käyttäjäagentin tarjoajapalvelun URL-osoitteeseen, jonka parametreiksi kuluttaja liittää tunnistetietonsa. Tarjoajapalvelu ottaa käyttäjäagentin vastaan ja suorittaa käyttäjän tunnistamisen. OAuth ei ota kantaa autentikoinnin yksityikohtiin~\cite{ietf_oauth2}, joten tarjoaja voi esimerkiksi soveltaa kaksivaiheista autentikointia ja antaa käyttäjän valita, minkä identiteettinsä hän haluaa ottaa käyttöön ennen käyttäjän suostumisvaihetta (kuva~\ref{fig:google_id_and_user_consent}).
+  Prosessi alkaa, kun kuluttaja uudelleenohjaa käyttäjäagentin tarjoajapalvelun URL-osoitteeseen, jonka parametreiksi kuluttaja liittää tunnistetietonsa. Tarjoajapalvelu ottaa käyttäjäagentin vastaan ja suorittaa käyttäjän tunnistamisen. OAuth-standardi ei määrittele, kuinka autentikointi suoritetaan~\cite{ietf_oauth2}, joten tarjoaja voi esimerkiksi soveltaa kaksivaiheista autentikointia ja antaa käyttäjän valita, minkä identiteettinsä hän haluaa ottaa käyttöön ennen käyttäjän suostumisvaihetta (kuva~\ref{fig:google_id_and_user_consent}).
 
   Identiteetintarjoajalle autentikoitumisen jälkeen tarjoaja kysyy käyttäjän suostumuksen kuluttajapalvelun pyytämien tietojen välittämiseksi eteenpäin. Jos käyttäjä suostuu, tarjoaja lyö leimansa vastaukseen, jonka käyttäjäagentti välittää \verb!redirect_uri!:n kautta kuluttajapalveluun. Kun identiteetinkuluttaja on palvelinpään sovellus, tarjoajan vastaus on auktorisointikoodi (\emph{authorization code}). Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit. % todo tarkista mitä kirjoitettiin refresh-tokenista
 
@@ -1521,7 +1553,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   Identiteetin ja pääsyoikeuksien hallinta ovat läpileikkaavia haasteita SOA-järjestelmissä.
   Auktorisointi ja autentikointi ovat perustavanlaatuisia vaatimuksia verkkopalveluille. Pelkkä autentikointi ei riitä, jos käytöoikeuksia halutaan rajata tarkemmin kuin ''kaikki kaikille''. Kertakirjautuminen tarkoittaa autentikoitumisen tilan siirtämistä järjestelmästä toiselle. Identiteetin federaatiolla loppukäyttäjän identiteetti voidaan jakaa itsenäisten palvelujen ja toisistaan riippumattomien organisaatioiden kesken.
 
-    OpenID:n käytäjäkeskeisyyden perimmäinen idea toteutuisi, jos sitä voisi käyttää kuten iki.fi:n sähköpostiohjausta. Nyt näyttää siltä että OpenID:stä yleistyy ainoastaan hajautettu autentikointi ilman käyttäjäkeskeisyyttä. Tällöin etuja OAuthiin vähden on vaikea sanoa, koska OAuth tarjoaa myös auktorisoinnin. Toivottavasti tuleva OpenID Connect tarjoaa jotain merkittävästi parempaa tai OAuth syrjäyttää OpenID:n kokonaan. Käytännössä: NYt google tarjoaa sekä openid2.0+oauth1.0 että oauth 2.0, jatkossa vain oauth2.0 jos openid syrjäytyy.
+    OpenID:n käytäjäkeskeisyys toteutuisi, jos sitä voisi käyttää kuten iki.fi:n sähköpostiohjausta. Nyt näyttää siltä että OpenID:stä yleistyy ainoastaan hajautettu autentikointi ilman käyttäjäkeskeisyyttä. Tällöin etuja OAuthiin vähden on vaikea sanoa, koska OAuth tarjoaa myös auktorisoinnin. Toivottavasti tuleva OpenID Connect tarjoaa jotain merkittävästi parempaa tai OAuth syrjäyttää OpenID:n kokonaan. Käytännössä: NYt google tarjoaa sekä openid2.0+oauth1.0 että oauth 2.0, jatkossa vain oauth2.0 jos openid syrjäytyy.
 
  Microsoft InfoCardsin tavoitteena olla internet-skaalan identiteetin meta-framework. Kuitenkaan ei ole saanut riittävästi jalansijaa ja vaikuttaa kuolevan pois. OpenID + InfoCards toimivat yhteen. Ongelma on, että muille kuin Microsoft Windowsille ei ole kunnollista InfoCards-clienttiä. Kenen intresseissä sellaisen rakentaminen olisi? Entä mobiilissa? Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
 

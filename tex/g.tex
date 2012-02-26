@@ -95,10 +95,13 @@
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
-  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
+  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää ohjelmoinnin kaikille avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
-  Kuva~\ref{fig:yleiskuva_termien_suhteista} esittelee tutkielmaan liittyvien autentikoinnin toimijoiden välisiä suhteita. Ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi GMail-palveluun. GMail-palvelu on identiteetinkuluttaja (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}) -- vaan ei varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, joka vahvistetaan yhteentoimivuuden standardin avulla identiteetintarjoajan (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, joka ei kuulu tämän tutkielman piiriin. Yleisiä toteutuksia siihen ovat esimerkiksi Kerberos-tiketit ja salasanan tiivisteen tallettaminen tietokantaan tai LDAP-palveluun.
+  Kurssin avoimen luonteen ansiosta virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri aiotaan siksi ulkoistaa sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
+  Tutkielmassa esittellään kolme \emph{yhteiskäytön standardia} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 sekä sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}).
+
+  Tutkielmaan liittyvän keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen GMail-palveluun. GMail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka pitää hallussaan käyttäjän yksilöivää tunnistetta (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, joka ei kuulu tämän tutkielman piiriin.
 
   \begin{figure}[h!]
     \centering
@@ -106,10 +109,6 @@
     \caption{Tutkielman keskeisen termistön väliset suhteet}
     \label{fig:yleiskuva_termien_suhteista}
   \end{figure}
-
-
-  Tutkielma esittelee kolme yhteiskäytön standardia (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 (luonnos 22) sekä yritysten sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}). Lopputuloksena on palvelun käyttäjämäärän kasvattaminen ilman, että käyttäjien autentikointitietojen hallinnasta koituu lisätyötä MOOC-kurssin vastuuhenkilöille. Tällöin MOOC-kurssin vetäjät voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
-
 
   \begin{figure}
     \centering
@@ -125,13 +124,14 @@
 \section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
-Tässä esitellään tutkimuksen tausta.
+% Tässä esitellään tutkimuksen tausta.
 
-% pura mooc nimi tässä uudelleen auki
-todo kömpelö kappale:
-MOOC:n lähtökohtana on nimensä mukaisesti olla valtava (\emph{massive}). Jos virtuaalikurssi muodostuu suosituksi täytyy kuormitukseen liittyvät pullonkaulat tunnistaa. Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa. Valtavuuden vuoksi on houkuttelevaa ulkoistaa identiteetintarjoajan vastuualue täysin kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle tai Facebookille. Helsingin yliopistolla on noin 40.000 käyttäjätunnusta\footnote{Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä (\url!http://www.helsinki.fi/lyhyesti/!)}. Facebookilla ja Googlella yhteensä yli 1,2 miljardia käyttäjätunnusta\footnote{Facebookilla 845 miljoonaa käyttäjää (\url!http://newsroom.fb.com/content/default.aspx?NewsAreaId=22!), Googlen Gmail-palvelulla 350 miljoonaa käyttäjää (\url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!)}. Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi on avoin kaikille.
+Tutkielman fokuksena on selvittää, kuinka Massive Online Open Course (MOOC) -virtuaalikurssilla kannattaa soveltaa identiteetin varmistamiseen sopivia yhteiskäytön standardeja. Kurssin perusajatuksena on nimensä mukaisesti olla valtava (\emph{massive}), joten käyttäjien sisäänkirjautumistietojen hallinta ei saa muodostua pullonkaulaksi.  Valtavuuden vuoksi tutkielma suosittelee, että identiteetin varmistaminen ulkoistetaan kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle ja Facebookille.
 
-Tavoite: ettei autentikointi pullonkaulaksi kun opiskelijamäärä kasvaa.
+Tutkielmassa suositellaan identiteetinhallinnan ulkoistamista OAuth-standardin avulla kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Tällöin saavutetaan merkittävä joukko potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielma suosittelee huomioimaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Heitä varten suositellaan \emph{käyttäjäkeskeisen identiteetin} (\emph{user-centric identity}) periaatteen toteuttamista vapaavalintaisella OpenID-identiteetintarjoajalla. Kolmanneksi suositellaan, että Helsingin yliopisto perustaa oman identiteetintarjoajan. Tällöin Helsingin yliopiston identiteettiä voisi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+
+todo kirjoita puhtaaksi:
+Helsingin yliopistolla on yhteensä noin 40.000 käyttäjätunnusta\footnote{Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä (\url!http://www.helsinki.fi/lyhyesti/!)}. Facebookilla ja Googlella yhteensä yli 1,2 miljardia käyttäjätunnusta\footnote{Facebookilla 845 miljoonaa käyttäjää (\url!http://newsroom.fb.com/content/default.aspx?NewsAreaId=22!), Googlen Gmail-palvelulla 350 miljoonaa käyttäjää (\url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!)}. Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi on avoin kaikille.
 
 
 \subsection{Kertakirjautuminen MOOC-järjestelmään} % (fold)
@@ -142,6 +142,9 @@ Tässä esitellään tutkimusongelma ja mainitaan termejä, jotka selitetään s
 Tässä kerrotaan mihin tutkielmassa otetaan kantaa, mitä siinä pohditaan ja että lopputuloksena on suositus siitä miten MOOC-sisäänkirjautuminen kannattaa toteuttaa.
 
 Tämän luvun lukemisen jälkeen lukija tietää, mikä on tutkimuksen päätehtävä.
+
+%Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa.
+
 
 % subsection tutkimusongelmana_kertakirjautuminen (end)
 

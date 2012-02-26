@@ -124,27 +124,31 @@
 \section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
-% Tässä esitellään tutkimuksen tausta.
-
 Tutkielman fokuksena on selvittää, kuinka Massive Online Open Course (MOOC) -virtuaalikurssilla kannattaa soveltaa identiteetin varmistamiseen sopivia yhteiskäytön standardeja. Kurssin perusajatuksena on nimensä mukaisesti olla valtava (\emph{massive}), joten käyttäjien sisäänkirjautumistietojen hallinta ei saa muodostua pullonkaulaksi.  Valtavuuden vuoksi tutkielma suosittelee, että identiteetin varmistaminen ulkoistetaan kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle ja Facebookille.
 
-Tutkielmassa suositellaan identiteetinhallinnan ulkoistamista OAuth-standardin avulla kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Tällöin saavutetaan merkittävä joukko potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielma suosittelee huomioimaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Heitä varten suositellaan \emph{käyttäjäkeskeisen identiteetin} (\emph{user-centric identity}) periaatteen toteuttamista vapaavalintaisella OpenID-identiteetintarjoajalla. Kolmanneksi suositellaan, että Helsingin yliopisto perustaa oman identiteetintarjoajan. Tällöin Helsingin yliopiston identiteettiä voisi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
-
-todo kirjoita puhtaaksi:
-Helsingin yliopistolla on yhteensä noin 40.000 käyttäjätunnusta\footnote{Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä (\url!http://www.helsinki.fi/lyhyesti/!)}. Facebookilla ja Googlella yhteensä yli 1,2 miljardia käyttäjätunnusta\footnote{Facebookilla 845 miljoonaa käyttäjää (\url!http://newsroom.fb.com/content/default.aspx?NewsAreaId=22!), Googlen Gmail-palvelulla 350 miljoonaa käyttäjää (\url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!)}. Pelkästään kahden jälkimmäisen kautta iso prosenttiosuus MOOC-palvelun käyttäjistä saataisiin autentikoitua -- erityisesti koska kurssi on avoin kaikille.
+Tutkielmassa suositellaan identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Tällöin saavutetaan merkittävä joukko potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielma suosittelee huomioimaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Heitä varten suositellaan \emph{käyttäjäkeskeisen identiteetin} (\emph{user-centric identity}) periaatteen toteuttamista käyttäjän itsensä valitsemalla identiteetintarjoajalla. Kolmanneksi suositellaan, että Helsingin yliopisto perustaa oman identiteetintarjoajan. Tällöin Helsingin yliopiston identiteettiä voisi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
 
 
-\subsection{Kertakirjautuminen MOOC-järjestelmään} % (fold)
-\label{sub:tutkimusongelmana_kertakirjautuminen}
+% todo tsekkaa rivitys
+\subsection{Tutkimusongelmana sisäänkirjautuminen MOOC-\\järjestelmään} % (fold)
+\label{sub:tutkimusongelma}
 
-Tässä esitellään tutkimusongelma ja mainitaan termejä, jotka selitetään seuraavissa luvuissa.
+Vuoden 2012 alussa Helsingin yliopistolla oli yhteensä noin 40.000 käyttäjätunnusta\footnote{
+  Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä:
+  \url!http://www.helsinki.fi/lyhyesti/!}.
+Vastaavasti Facebookilla ja Googlella oli yhteensä yli 1,2 miljardia käyttäjätunnusta\footnote{
+  Facebookilla 845 miljoonaa käyttäjää:
+  \url!http://newsroom.fb.com/content/default.aspx?NewsAreaId=22! ja
+  Googlen Gmail-palvelulla 350 miljoonaa käyttäjää:
+  \url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!},
+ja internet-käyttäjiä oli maailmassa yhteensä 2,3 miljardia\footnote{Maailmassa 2.267 miljoonaa internet-käyttäjää: \url!http://www.internetworldstats.com/stats.htm!}.
+Sisäänkirjautumisen mahdollistaminen Googlen ja Facebookin käyttäjätunnuksilla tarkoittaisi, että yli 50~\% internetin-käyttäjistä voisi ilmoittautua kaikille avoimeen Tietojenkäsittelytieteen laitoksen MOOC-virtuaaliopetukseen ilman uuden käyttäjätunnuksen rekisteröimistä. Ulkoisen identiteetintarjoajan käyttäminen vaikuttaa siten erittäin houkuttelevalta mahdollisuudelta.
 
-Tässä kerrotaan mihin tutkielmassa otetaan kantaa, mitä siinä pohditaan ja että lopputuloksena on suositus siitä miten MOOC-sisäänkirjautuminen kannattaa toteuttaa.
+Ennen kuin tutkielmassa voidaan kertoa laajemmin sisäänkirjautumiseen liittyvistä yhteentoimivuuden standardeista, lukija täytyy tutustuttaa webin, identiteetin ja autentikoinnin peruskäsitteisiin. Lukijalle esitellään taustatietona internetin nykyinen \emph{de facto} -tunnistautumismenetelmä -- salasana-autentikointi -- sekä siihen liittyvät ongelmat. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat implisiittisesti läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto välitetään. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta.
 
-Tämän luvun lukemisen jälkeen lukija tietää, mikä on tutkimuksen päätehtävä.
+Tutkielman tehtävänä on selvittää, millaisia vaatimuksia (todo termi) kolme yhteentoimivuuden standardia -- SAML 2.0, OpenID 2.0 ja OAuth 2.0 -- asettavat MOOC-järjestelmälle. Standardit ovat valikoituneet tutkimukseen ulkoisten syiden vuoksi, koska sovellettava standardi määräytyy kunkin ulkopuolisen identiteetintarjoajan mukaan. Helsingin yliopiston käyttäjärekisteri tarvitsee SAML:n, Facebook OAuthin ja Google joko OpenID:n tai OAuthin. Tutkimuskysymyksenä on, kuinka Tietojenkäsittelytieteen laitoksen MOOC-palvelu saisi ideaalitilanteessa autentikoitua virtuaalikurssiensa kaikki opiskelijat Helsingin yliopiston, Facebookin ja Googlen käyttäjärekisterin avulla. Tutkielman lopputuloksena on suositus siitä, kuinka tällainen autentikointiratkaisu toteutettaisiin.
 
-%Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa.
-
+Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä SaaS- että web-palvelu, joten taustoittaminen on luontevaa aloittaa webin historiasta.
 
 % subsection tutkimusongelmana_kertakirjautuminen (end)
 
@@ -176,9 +180,8 @@ Tämän luvun lukemisen jälkeen lukija tietää, mikä on tutkimuksen pääteht
   \label{sub:web_ja_rajapinnat}
 
   \begin{quote}
-    ''It is not the strongest of the species that survive, nor the most intelligent, but the ones most responsive to change.'' --- Darwin (todo viite) (kräp, lainaus ei oikeasti darwin)
-    % ei oikeasti darwin,
-    % The earliest known appearance of this basic statement is a paraphrase of Darwin in the writings of Leon C. Megginson, a management sociologist at Louisiana State University.
+    ''It is not the strongest of the species that survive, nor the most intelligent, but the ones most responsive to change.''
+    \\--- Prof. Leon C. Megginson\footnote{Professori Leon C. Megginsonin mukailema lainaus Darwinin pääteoksesta \emph{Origin of Species}. Tämä kuuluisa sitaatti esitetään usein kuitenkin Darwinin itsensä nimissä: \url!http://www.darwinproject.ac.uk/six-things-darwin-never-said!}
   \end{quote}
 
   Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä (todo poista tai täsmennä, esim eri asia torrentit ja web). Toistaiseksi web-selain on yleisin sovellus, jolla webiä käytetään. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
@@ -186,6 +189,10 @@ Tämän luvun lukemisen jälkeen lukija tietää, mikä on tutkimuksen pääteht
   Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palveluntuottajasta riippumattomien ohjelmistokehittäjien välillä. Rajapinta helpottaa pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta. Tällöin myös palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon avaaminen rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
 
   Ohjelmistoon kohdistuvat vaatimukset tyypillisesti elävät (muuttuvat) sekä kehityksen että ylläpitovaiheen aikana. Darwinin lainauksen mukaisesti muutoskykyisyys on edellytys selviämiselle. Palveluorientoitunut arkkitehtuuri (\emph{Service Oriented Architecture, SOA}) on voimakas tapa varautua muuttuviin vaatimuksiin. SOA-periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa. Tavoitteena on palvelujen välinen löyhä kytkentä (\emph{loose coupling}), jolloin muutokset yhdessä palvelussa eivät vaikuta muihin palveluihin. Palveluorientoituneessa arkkitehtuurissa palvelut keskustelevat keskenään rajapintojen kautta.
+
+
+  %Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa.
+
 
   % subsection web_ja_rajapinnat (end)
 
@@ -958,7 +965,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
                         \\ Googlella \url!https://www.google.com/accounts/o8/id!}.
   Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa, jolloin identiteetinkuluttajan on käytännössä välttämätöntä esittää sisäänkirjautumissivullaan Googlen logo.
 
-    OAuth 2.0:n standardin toimittaja (todo termi, \emph{editor}) Eran Hammer esittää kritiikkiä~\cite{hueniverse_openid_crisis} suunnattua identiteettiä vastaan: mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan, jos käyttäjän ei tarvitse tuntea oma OpenID-tunnistettaan vaan ainoastaan tunnistetta hallinnoivan yrityksen logo? Identiteetinkuluttajan kannalta logon tarjoaminen sisäänkirjautumiseen on houkuttelevaa, koska identiteetintarjoajina Google ja Facebook yhdessä saavuttavat jo yli 50~\% internetin käyttäjistä\footnote{Tilastojen mukaan 31.12.2011 Facebookilla ja Googlella oli yhteensä 1,2 miljardia käyttäjätunnusta (ks. luku~\ref{sec:kakkosluku}), ja maailmassa oli 2,2 miljardia internetin käyttäjää: \url{http://www.internetworldstats.com/stats.htm}}.
+    OAuth 2.0:n standardin toimittaja (todo termi, \emph{editor}) Eran Hammer esittää kritiikkiä~\cite{hueniverse_openid_crisis} suunnattua identiteettiä vastaan: mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan, jos käyttäjän ei tarvitse tuntea oma OpenID-tunnistettaan vaan ainoastaan tunnistetta hallinnoivan yrityksen logo? Identiteetinkuluttajan kannalta logon tarjoaminen sisäänkirjautumiseen on houkuttelevaa, koska identiteetintarjoajina Google ja Facebook yhdessä saavuttavat jo yli 50~\% internetin käyttäjistä\footnote{Tilastojen mukaan 31.12.2011 Facebookilla ja Googlella oli yhteensä 1,2 miljardia käyttäjätunnusta, ja maailmassa oli 2,3 miljardia internetin käyttäjää (ks. luku~\ref{sub:tutkimusongelma}).}.
 
     Toistaiseksi suurten yritysten intresseissä on ollut tukea avoimia standardeja kuten OAuth ja OpenID. Identiteetintarjoaja voisi Hammerin mukaan yhtä hyvin antaa käytettäväksi oman logonsa ja soveltaa OpenID:n sijasta omaa autentikointistandardiaan. Esimerkiksi Microsoftin Windows Live -palvelu aloitti vuonna 2008  kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsfot Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008: \\ \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}},
   mutta myöhemmin tämä tuki lopetettiin ja nykyään Windows Live käyttää Microsoftin omaa autentikointitoteutusta\footnote{Windows Liven kehittäjäverkostosta ei löydy yhtään artikkelia hakusanalla ''openid'' tammikuussa 2012: \url{http://windowsteamblog.com/search/searchresults.aspx?q=openid}}.
@@ -1220,7 +1227,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
   Vaikka kuluttajapalveluja olisi useita, identiteetintarjoajan sisäinen SAML-rajapinta käyttäjärekisteriin ei koskaan ole suoraan kuluttajapalvelun saatavilla. Tämän ansiosta sisäinen rajapinta on tarvittaessa mahdollista vaihtaa ilman, että yhteenkään kuluttajapalveluun tarvitsee sen vuoksi tehdä muutoksia. Lisäksi identiteetintarjoajan sisäisen rajapinnan yhdistämää käyttäjärekisteriä on mahdollista vaihtaa myös väliaikaisesti, koska ulkoinen OAuth-rajapinta ei välitä käyttäjärekisterin autentikoinnin sisäisestä toteutuksesta. Tämän ansiosta käyttäjä voisi valita identiteetiksi Helsingin yliopiston käyttäjätunnuksen sijasta myös Tietojenkäsittelytieteen laitoksen tai Tietotekniikan tutkimuslaitoksen (HIIT) käyttäjätunnuksella -- samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
 
   % todo: muoto "tutkielma suosittelee", "tämän tutkimuksen perusteella"
-  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sec:kakkosluku}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
+  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sub:tutkimusongelma}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
   todo Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
 

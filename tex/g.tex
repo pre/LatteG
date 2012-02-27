@@ -162,17 +162,22 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
     % http://en.wikiquote.org/wiki/William_Gibson
   \end{quote}
 
-  \emph{Web 2.0} oli internetin keskeinen muotisana vuosina 2005--2008. Perinteinen web, ''versio 1.0'' oli staattinen, yksisuuntainen ja täysin palvelinpään hallinnassa. Versionumerolla \emph{2.0} kuvastettiin uutta ajatusmaailmaa, jossa sivuston sisältö ei enää olisi suljettu, vaan tietoa pystyisi tuomaan järjestelmään käyttäjän selaimesta -- parhaimmillaan ilman, että koko web-sivua tarvitsi ladata uudelleen. Uuden ilmiön tärkein piirre oli selainpohjaisuus: käyttäjän ei selaimen lisäksi enää tarvitisi asentaa sisällön lukemiseksi ja tuottamiseksi muuta erillistä natiivisovellusta (todo muotoilu).
+  \emph{Web 2.0} oli internetin keskeinen muotisana vuosina 2005--2008. Perinteinen web, ''versio 1.0'' oli staattinen, yksisuuntainen ja täysin palvelinpään hallinnassa. Versionumerolla \emph{2.0} kuvastettiin uutta ajatusmaailmaa, jossa sivuston sisältö ei enää olisi muuttumatonta, vaan tietoa pystyisi tuomaan järjestelmään käyttäjän selaimesta. Parhaimmillaan kaksisuuntaisuus toteutuisi siten, ettei koko web-sivua tarvitsi ladata uudelleen jokaisen sivupyynnön jälkeen kuten perinteisessä webissä. Uuden ilmiön tärkein piirre oli selainpohjaisuus: sisällön tuottamiseksi riittää web-selain.
 
   % web = web 2.0 + saas + cloud
-  2010-luvulla Web 2.0:n ovat syrjäyttäneet trendikkäämmät termit kuten \emph{SaaS} (\emph{Software-as-a-Service}) ja \emph{pilvi} (\emph{cloud}). Termit eivät suoranaisesti korvaa Web 2.0:aa, mutta niillä on paljon yhteistä. Pilvi on käsitteenä häilyvä ja voi tarkoittaa eri yhteyksissä erilaisia asioita. Pilven keskeisin teesi on kuitenkin \emph{kapasiteetiltaan rajattoman laitteiston käyttö palveluna}. Perinteisesti laitteiston virtualisointi on kytketty ennalta määritettyyn kapasiteettiin, joka vuokrataan ennalta määrätyksi ajaksi, esimerkiksi kuukaudeksi tai vuodeksi kerrallaan. Pilvessä kapasiteettia voidaan kuitenkin ottaa käyttöön dynaamisesti, jolloin lisäkapasiteettia tarvitsee parhaimmillaan vuokrata vain kuormituspiikin ajaksi. Esimerkiksi laskentaintensiiviset tai eräajona suoritettavat ohjelmistot on houkuttelevaa hajauttaa pilveen: kustannus ajaa yhtä konetta 1000 tuntia voi olla sama kuin ajaa 1000:a konetta yksi tunti -- mutta jälkimmäisellä tavalla tulos valmistuu nopeammin (todo sano selkeämmin).
+  2010-luvulla Web 2.0:n ovat syrjäyttäneet trendikkäämmät termit kuten \emph{SaaS} (\emph{Software-as-a-Service}) ja \emph{pilvi} (\emph{cloud}). Termit eivät suoranaisesti korvaa Web 2.0:aa, mutta niillä on paljon yhteistä. Pilvi on käsitteenä häilyvä ja voi tarkoittaa eri yhteyksissä erilaisia teknologioita. Pilven keskeisin teesi on kuitenkin \emph{kapasiteetiltaan rajattoman laitteiston käyttö palveluna}. Perinteisesti laitteiston virtualisointi on kytketty ennalta määritettyyn kapasiteettiin, jonka palveluntuottaja vuokraa ennalta määrätyksi ajaksi kuten esimerkiksi kuukaudeksi tai vuodeksi kerrallaan. Pilvessä kapasiteettia voidaan kuitenkin ottaa käyttöön dynaamisesti, jolloin lisäkapasiteettia tarvitsee parhaimmillaan vuokrata vain kuormituspiikin ajaksi. Tällaista resurssien ylös- ja alaspäin skaalaamista kutsutaan \emph{elastisuudeksi} (\emph{elasticity}).
 
-  % IaaS ja PaaS: Ei käsitellä tässä tutkielmassa.
-  SaaS on pilven kulma, jonka teesinä on ohjelmiston tarjoaminen palveluna loppukäyttäjälle. Web 2.0:aa edeltävänä aikana oli tyypillistä asennuttaa ohjelmisto natiivisovelluksena työasemalle. Koska ohjelmisto on SaaS-ajatusmallissa palvelu, sen käyttämiseksi riittää \emph{käyttäjäagentti} (\emph{user-agent}) (todo termi), joka tyypillisesti on web-selain tai natiivi mobiilisovellus. Merkittävänä hyötynä on ylläpidon vaatiman työmäärän pieneneminen: palveluntuottajan riittää varmistaa yhteensopivuus eri käyttäjäagenttien kesken ja asentaa ohjelmistopäivitykset ainoastaan itsensä hallinnoimaan ohjelmistoympäristöön. Käyttäjäagentin -- kuten web-selaimen -- päivittäminen on loppukäyttäjän vastuulla. 2010-luvulla ''web'' on edelleen ajankohtainen termi, mutta sen merkitys on aiempaa monipuolisempi.
+  Kaksisuuntainen web 2.0 oli ennakkoedellytys sosiaalisen median palvelujen räjähdysmäiselle kasvulle. Vastaavasti kuormituksen jakaminen tasaisesti eri palvelinresursseille oli edellytys räjähdysmäisen kasvun tuottamalle kuormituksen lisääntymiselle. Jotta erilaista kuormitusta voidaan kohdistaa tietylle laskentaresurssille, täytyy taustajärjestelmän arkkitehtuurin olla palveluperusteinen (todo viite soa in practise). Palveluperusteista arkkitehtuuria kutsutaan nimellä SOA (\emph{Service Oriented Architecture}).
 
-  % Ihanteellisesti SaaS-ajatusmaailmassa palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille. Palvelun kustannukset per asiakas saadaan sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Taloudellisuus on edellytys palvelun skaalautumiseksi laajalle käyttäjäjoukolle. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua. % multitenanttius
+  SOA-arkkitehtuurin perusajatuksena on määritellä järjestelmän itsenäiset vastuualueet ja toteuttaa ne löyhästi kytkettyinä palveluina (\emph{loosely coupled services}). Palvelut kommunikoivat keskenään rajapintojen kautta, jolloin toimintoa kutsuva osapuoli määrittää \emph{mitä} tehdään ja toiminnon suorittava osapuoli määrittää \emph{miten} tehdään. Periaatteena on siten erottaa toisistansa tuotteen käyttö ja tapa valmistaa tuote: saadakseen kananmunia kotitalouteen, kotitalouden ei tarvitse omistaa kanalaa. Vastaavasti varmistaakseen käyttäjän identiteetin, web-palvelun ei tarvitse toteuttaa käyttäjän autentikointia itse.
 
-  Palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta relevanttien ongelmien ratkaisemiseen itse ja ostaa kaiken muun palveluna. Ohjelmistokehitys- ja ylläpitotyön lisäksi palveuntuottajan ei varsinkaan tarvitse ylläpitää palvelinlaitteistoa -- fyysistä tai virtualisoituakaan. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta tässä tutkielmassa niihin ei pureuduta.
+  % Esimerkiksi laskentaintensiiviset tai eräajona suoritettavat ohjelmistot on houkuttelevaa hajauttaa pilveen: kustannus ajaa yhtä konetta 1000 tuntia voi olla sama kuin ajaa 1000 konetta yksi tunti -- mutta jälkimmäisellä tavalla tulos valmistuu nopeammin (todo sano selkeämmin).
+
+  SaaS on pilven kulma, jonka teesinä on ohjelmiston tarjoaminen palveluna loppukäyttäjälle. Web-ohjelmistojärjestelmä on SaaS-ajatusmallissa palvelu, jonka asiakas on joko toinen web-palvelu tai loppukäyttäjän \emph{käyttäjäagentti} (\emph{user-agent}). Käyttäjäagentti on loppukäyttäjää edustava web-selain tai muu natiivi työpöytä- tai mobiiliohjelmisto. Merkittävänä hyötynä on ylläpitotyön keskittyminen palveluntuottajan omaan ympäristöön: palveluntuottajan riittää varmistaa yhteensopivuus eri käyttäjäagenttien kesken ja asentaa ohjelmistopäivitykset ainoastaan itsensä hallinnoimaan ohjelmistoympäristöön. Loppukäyttäjän vastuulla on vain käyttäjäagentin -- kuten web-selaimen -- pitäminen ajantasalla.
+
+  Myös palveluntuottajan kannalta SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa kannalta keskeisten ominaisuuksien tuottamiseen ja ostaa kaiken muun palveluna. Ihanteellisesti SaaS-ajatusmaailmassa tietyn palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille eli palvelu on \emph{multitenantti} (\emph{multi-tenant}). Palvelun ylläpidon kustannukset per asiakas saadaan madallutettua sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua, ja käyttömaksua vastaan palveluntuottaja takaa palvelun ylläpidon ja ohjelmistopäivitykset.
+
+  SaaS-kokonaisuus koostuu siten kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, joita palvelun asiakas kutsuu (todo termi invoke/kutsuu/käynnistää). Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta niihin ei pureuduta tässä tutkielmassa. Tutkielman ytimessä on ulkoisen identiteetintarjoajan eli SaaS-palvelun käyttöönotto.
 
   % section web_ja_saas (end)
 
@@ -192,6 +197,10 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
 
   %Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa.
+
+  % orkestrointi vs. koreografia
+  % Design by Contract: rajapintakutsun esi- ja jälkiehdot.
+  % B. Meyer. Applying Design By Contract.Computer, No. 25, Vol. 10, 1992
 
 
   % subsection web_ja_rajapinnat (end)
@@ -306,29 +315,6 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   % subsection arkkitehtuurityyli_rest (end)
 
-
-  % \subsection{Palveluorientoitunut arkkitehtuuri (SOA)} % (fold)
-  % \label{sub:arkkitehtuurityyli_soa}
-  %
-  % todo upota tämä lukuun rajapinnat ja web
-  %
-  % Löyhästi kytketyt palvelut (loosely coupled).
-  % Mahdollisuus uusien toimintojen lisäämiseen itsenäisinä \emph{palveluina}
-  % Pitkällä aikavälillä ylläpito ja jatkokehitys helpompaa, koska muutokset vaikuttavat vain palveluun itseensä.
-  % Palvelut kommunikoivat keskenään rajapintojen kautta, erityisesti yleistynyt on HTTP.
-  % Rajapinnat määritellään web-kontekstissa joko REST- tai WS-*-arkkitehtuurityylin mukaisesti.
-  % orkestrointi vs koreografia
-  %
-  % SaaS-kokonaisuus koostuu kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta operaatioita, jotka palvelun asiakas käynnistää (invoke, todo termi).
-  %
-  % Design by Contract: rajapintakutsun esi- ja jälkiehdot.
-  % B. Meyer. Applying Design By Contract.Computer, No. 25, Vol. 10, 1992
-
-  % decouling between means of production and use of product.
-  % ei tartte omistaa lehmää jotta voi juoda maitoa.
-  % vs ei tartte identiteettidataa jotta voi autentikoida
-
-  % subsection arkkitehtuurityyli_soa (end)
 
 
   % \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)

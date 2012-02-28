@@ -336,6 +336,9 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   \emph{Autentikoituminen} on identiteetin määrittämistä. Jotta käyttäjälle voidaan myöntää pääsyoikeus pyydettyyn resurssiin, täytyy käyttäjän esittämä identiteetti ensin varmistaa. Jos \verb#s# on väite, niin autentikointi vastaa kysymykseen ''Kuka sanoi \verb#s#?''. Jos \verb#o# on väitteen kohde, \emph{auktorisointi} (\emph{authorization}) vastaa kysymykseen ''Kenellä on pääsy kohteeseen \verb#o#?''~\cite{lampson_distributed_1992}. Tämän tutkielman fokuksessa on autentikointi julkisessa verkkoympäristössä, joten auktorisointia käsitellään vain pintapuolisesti.
 
+  \emph{Haaste--vastine-autentikaatiossa} (\emph{challenge-response authentication}) toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine)~\cite{NIST_SP800-63-1}. Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy haasteena käyttäjätunnusta ja salasanaa, ja toisen osapuolen on tarjottava siihen vastineena täsmälleen oikeanlaiset merkkijonot.
+
+
   % Identiteetti: Kuka teki pyynnön?
   % Autentikointi: Onko tekijä todella se, joka hän väittää olevansa?
   % Auktorisointi: Onko tekijällä valtuudet tehdä se, mitä hän yrittää tehdä?
@@ -344,7 +347,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   \emph{Julkinen avain} ja sitä vastaava \emph{yksityinen avain} muodostavat \emph{julkisen avainparin} (\emph{public key pair})~\cite{NIST_SP800-63-1}. Julkinen avainpari on epäsymmetrinen, eli avainparin julkisella avaimella salakirjoitetun tiedon pystyy avaamaan ainoastaan avainparin yksityisellä avaimella. Vastaavasti yksityisellä avaimella salakirjoitetun tiedon voi avata ainoastaan julkisella avaimella. Julkisen avaimen perusteella ei ole käytännössä mahdollista päätellä avainparin yksityistä avainta, kun avainpari on matemaattisesti riittävän vahva.
 
-  Julkisen avaimen infrastruktuuria voidaan soveltaa digitaalisessa allekirjoituksessa ja autentikoinnissa. Tyypillinen menetelmä on varastoida julkinen avain \emph{sertifikaattiin} ja tallettaa se identiteetintarjoajalle. Vastaavasti väittävällä osapuolella on avainparin yksityinen komponentti yksityisessä sertifikaatissa. Tällöin identiteetintarjoaja voi soveltaa julkiseen avainpariin perustuvaa autentikointiprotokollaa ja esittää väittäjälle haasteen, jonka vastaus edellyttää pääsyä yksityiseen sertifikaattiin. Kun yksityinen sertifikaatti on ainoastaan väittäjän hallinnassa, vain hän voi tarjota kelvollisen vastineen esitettyyn haasteeseen.
+  Julkisen avaimen infrastruktuuria voidaan soveltaa digitaalisessa allekirjoituksessa ja autentikoinnissa. Tyypillinen menetelmä on varastoida julkinen avain polettina toimivaan \emph{sertifikaattiin} ja tallettaa se identiteetintarjoajalle. Vastaavasti väittävällä osapuolella on yksityinen sertifikaatti, joka sisältää avainparin yksityisen komponentin. Tällöin identiteetintarjoaja voi soveltaa julkiseen avainpariin perustuvaa autentikointiprotokollaa ja esittää väittäjälle haasteen, jonka vastaus edellyttää pääsyä yksityiseen sertifikaattiin. Kun yksityinen sertifikaatti on ainoastaan väittäjän hallinnassa, vain hän voi tarjota kelvollisen vastineen esitettyyn haasteeseen.
 
   \emph{Jaettu salaisuus} on joko \emph{symmetrinen avain} (\emph{symmetric key}) tai salassa pidettävä merkkijono~\cite{NIST_SP800-63-1}. Näitä kahta voidaan käyttää samankaltaisissa autentikointiprotokollissa, mutta niiden välisenä erona on se, mitä niiden soveltaminen edellyttää loppukäyttäjältä. Symmetrinen avain on tyypillisesti tallennettu johnonkin käyttäjän hallinnoimaan laitteeseen tai ohjelmistoon, mutta salasana käyttäjän täytyy muistaa ulkoa. Muistettavuuden vuoksi salasana on pituudeltaan lyhyempi merkkijono kuin kryptografinen avain, joten salasanalla on vähemmän erilaisia mahdollisia arvoja kuin avaimella. Menetelmät voidaan myös yhdistää: yksityinen avain voidaan suojata salasanalla, jolloin avaimen tuntemisen lisäksi täytyy tuntea myös avaimen salasana.
 
@@ -356,25 +359,25 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
 
 
-  \subsection{Haaste--vastine-autentikaatio} % (fold)
-  \label{sub:haaste_vastine_autentikaatio}
-
-  \emph{Haaste--vastine-autentikoinniksi} (\emph{challenge-response authentication}) kutsutaan autentikointitapaa, jossa toinen osapuoli esittää kysymyksen (haasteen), johon toisen osapuolen on tarjottava kelvollinen vastaus (vastine)~\cite{NIST_SP800-63-1}. Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset~\cite{NIST_SP800-63-1}.
-
-  Autentikoituminen käyttäjätunnuksella ja salasanalla on yksi haaste--vastine-autentikoinnin sovellus. Salasana-autentikoinnissa toinen osapuoli kysyy haasteena käyttäjätunnusta ja salasanaa, ja toisen osapuolen on tarjottava siihen vastineena täsmälleen oikeanlaiset merkkijonot.
-
-  1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi. Tuohon aikaan laajan dokumentin kopioiminen oli varsin työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä\footnote{Tämän tutkielman kirjoittaja kopioi kouluikäisenä kynällä ja paperilla tällaisia koodikirjoja itselleen. Käsinkopioiminen oli todella työlästä, mutta palkintona oli rajoituksettomasti toimiva peli. Tuolloin oli vaikea ymmärtää, miksi pelin käynnistäminen oli tehty hankalaksi eikä kopioiminen tuntunut eettiseltä ongelmalta -- varsinkaan koska pelin ja koodit lainasi oma kummisetä.}.
-
-  Haasteeseen voi olla myös julkisesti tunnettu vastine. Spämmibottien torjumiseksi kehitetty CAPTCHA-testi (\emph{Completely Automated Public Turing test to tell Computers and Humans Apart}) kysyy kysymyksen (esittää haasteen), johon ihmisen on helppo vastata (tarjota vastine), mutta johon tietokone ei pysty luotettavasti tuottamaan oikeaa vastausta. CAPTCHA-haaste voi olla esimerkiksi yksinkertainen matemaattinen laskutoimitus, bittikarttakuvaan upotettu ihmissilmällä erottuva sana tai yksiselitteinen suomenkielinen kysymys, johon on yksiselitteinen ja yleisesti tunnettu vastaus.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/Facebook_captcha_filled.jpg}
-    \caption{Esimerkki CAPTCHA:n käytöstä Facebookissa}
-    \label{fig:captcha_facebook}
-  \end{figure}
-
-  % subsection haaste_vastine_autentikaatio (end)
+  % \subsection{Haaste--vastine-autentikaatio} % (fold)
+  % \label{sub:haaste_vastine_autentikaatio}
+  %
+  % [siirretty luvun johdantotekstiin]
+  % Haaste voi olla esimerkiksi satunnaisluku, jonka haastaja lähettää vastaajalle ja johon vastaaja yhdistää jonkin ennalta jaetun salaisuuden. Yhdistäminen voidaan tehdä esimerkiksi laskemalla tiiviste haasteesta ja salaisuudesta, joka lähetetään takaisin haastajalle. Koska haastaja tuntee jaetun salaisuuden, hän pystyy laskemaan oman versionsa tiivisteestä. Haaste voidaan hyväksyä, jos sekä haastajan itse laskema että vastaanottama tiiviste ovat identtiset~\cite{NIST_SP800-63-1}.
+  %
+  %
+  % 1990-luvun tietokonepeleissä oli usein kopionestosuojauksia, jotka häiritsivät tai estivät pelaamisen ellei käyttäjä tarjonnut oikeaa vastausta pelin esittämään haasteeseen. Yleensä haasteena oli jokin kysymys, johon löytyi vastaus pelin laillisen kopion mukana toimitetussa paperisessa ohjekirjassa. Motiivina oli tehdä laittoman pelikopion levittäminen pelkkien tiedostojen kopioimista vaivalloisemmaksi. Tuohon aikaan laajan dokumentin kopioiminen oli varsin työlästä, eivätkä kopiokoneet ja skannerit eivät olleet yleisiä\footnote{Tämän tutkielman kirjoittaja kopioi kouluikäisenä kynällä ja paperilla tällaisia koodikirjoja itselleen. Käsinkopioiminen oli todella työlästä, mutta palkintona oli rajoituksettomasti toimiva peli. Tuolloin oli vaikea ymmärtää, miksi pelin käynnistäminen oli tehty hankalaksi eikä kopioiminen tuntunut eettiseltä ongelmalta -- varsinkaan koska pelin ja koodit lainasi oma kummisetä.}.
+  %
+  % Haasteeseen voi olla myös julkisesti tunnettu vastine. Spämmibottien torjumiseksi kehitetty CAPTCHA-testi (\emph{Completely Automated Public Turing test to tell Computers and Humans Apart}) kysyy kysymyksen (esittää haasteen), johon ihmisen on helppo vastata (tarjota vastine), mutta johon tietokone ei pysty luotettavasti tuottamaan oikeaa vastausta. CAPTCHA-haaste voi olla esimerkiksi yksinkertainen matemaattinen laskutoimitus, bittikarttakuvaan upotettu ihmissilmällä erottuva sana tai yksiselitteinen suomenkielinen kysymys, johon on yksiselitteinen ja yleisesti tunnettu vastaus.
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.9\textwidth]{images/Facebook_captcha_filled.jpg}
+  %   \caption{Esimerkki CAPTCHA:n käytöstä Facebookissa}
+  %   \label{fig:captcha_facebook}
+  % \end{figure}
+  %
+  % % subsection haaste_vastine_autentikaatio (end)
 
 
   \subsection{Salasanat ovat vallitseva käytäntö} % (fold)

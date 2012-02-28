@@ -30,9 +30,11 @@
 %  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
 %    pääsyoikeuspoletti vs käyttöoikeuspoletti
 %  - credentials, miten käännät
-%  - OAuthissa
+%  - OAuthissa,
 %      identiteetinkuluttaja vs. resurssin asiakas
 %      identiteetintarjoaja  vs. auktorisointipalvelin
+%  - OpenID:ssä,
+%      identiteetinkuluttaja vs. luottava osapuoli
 %  - "Tutkielma ei ota kantaa": tutkielma ei ole tekijä, ei kantaa --> jättää määrittelemättä
 %  - SOA = Palveluperusteinen vai palvelusuuntautunut arkkitehtuuri?
 \begin{document}
@@ -216,13 +218,26 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   % tässä selitetään mikä on identiteetinkuluttaja,
   %    ja että oauthissa asiakas ja openidssä relying party
 
-  todo
-  Ihmisellä monta erilaista profiilia internetissä. Työpaikan-, vapaa-ajan- ja opiskelun profiili. Jokainen profiili luo omanlaisensa identiteetin (tarkenna). On tyypillistä hyväksyä LinkedIn-yhteisöpalveluun työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-kavereiksi sen sijaan ei yleensä haluta pomoa tai kaukaisempia työkavereita, koska vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon tavanomaisesti kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella.
+  % \cite{user_centricity_taxonomy_2006}
 
+  % Käyttäjäkeskeisyyteen vapaus valita identiteetintarjoaja sekä user consent kun käyttäjän identiteetin attribuutteeja välitetään palvelusta toiselle.
+  % idc luottaa idp:hen muttei toisinpäin
+
+
+  Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä eri web-palveluissa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Jokaisen palvelun käyttäjäprofiili muodostaa siten omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun kontekstissa.
+
+  Käyttäjäprofiili on digitaalinen identiteetti. Identiteetin käyttäjälle myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa.
+
+  XXX Facebook takaa että tiettyä tunnaria pääsee käyttämään vain tietty käyttäjä (joka tuntee salasanan). Identiteetti on kuitenin henkliön itsensä myöntämä: facebook ei tarkista tietojen oikeellisuutta mitenkään. Federaatio.
+
+
+   todo
   Käyttäjäkeskeisen identiteetin periaatteen mukaan käyttäjällä täytyy olla mahdollisuus valita, minkä identiteeteistänsä hän yhdistää johonkin web-palveluun~\cite{openid_recordon_2009}. Toteutuakseen käytännössä periaate tarkoittaa, että web-palvelun on mahdollistettava sisäänkirjautuminen monen eri identiteetintarjoan avulla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas.
 
   Federaatioksi kutsutaan joukkoa toimijoita, jotka luottavat toisiltansa saaman tietynlaisen tiedon olevan oikeellista (todo termi, valid)~\cite{id_in_federation_systems_2005}. Käyttäjän tunnistamisen osalta tunnistamista pyytänyt identiteetinkuluttaja (federaation jäsen) luottaa identiteetintarjoajan viestiin siitä, että käyttäjä vahvistanut hallitsevansa esittämäänsä käyttäjätunnusta. Identiteetinkuluttaja on siten valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan käyttäjälle federoidun identiteetin.
 
+  % Luottamus on päämäärä, turvatoimet (security) ovat tapa saavuttaa se.
+  % Security exists to facilitate trust (secrets and lies)
   Palvelujen välisen luottamussuhteen laatu riippuu tapauksesta -- lähtökohtaisesti luottamus on mahdollisimman vähäinen tietoturvariskien minimoimiseksi. Vaikka identiteetinkuluttaja luottaa identiteetintarjoajan autentikointiviestiin, kuluttaja voi turvallisuuden lisäämiseksi soveltaa monivaiheista autentikointia esimerkiksi kysymällä lisäksi omaa palvelukohtaista salasanaa. OAuth- tai OpenID-spesifikaatio ei määrittele, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. Tästä syystä OpenID-identiteetinkuluttajan ja -tarjoajan ei lähtökohtaisesti ole minkäänlaista luottamusta, jolloin luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
 
   Identiteetinkuluttajalla voi olla käyttäjilleen paikallinen tunniste, joka yhdistetään identiteetintarjoajan federoidun identiteetin tunnisteeseen~\cite{id_delegation_2005}. Tällöin eri identiteetintarjoajien tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa. Käyttäjälle voidaan myös antaa vapaus valita oma paikallinen käyttäjätunnuksensa ja sitä kautta muodostaa oma MOOC-identiteetti, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa. MOOC-palvelun käyttäjän identiteetintarjoaja voidaan pitää vain MOOC-palvelun tiedossa eli olla näyttämättä sitä muille käyttäjille. Tällöin käyttäjä voi halutessaan säilyttää yksityisyytensä, vaikka hän käyttäisi sisäänkirjautumisessa Facebook-tunnustansa. Kuvassa~\ref{fig:uid_mapping} on esitetty identiteetinkuluttajan paikallisen käyttäjätunnisteen kytkeminen federoidun identiteetin tunnisteeseen identiteetintarjoajan päässä.
@@ -281,7 +296,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
 
   % todo
-  Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla.
+  Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns.
 
   \begin{figure}
     \centering
@@ -1302,6 +1317,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Tässä esitellään OpenID-toteutus.
 
+  % User and idp discovery: http://hueniverse.com/2009/09/openid-and-lrdd/
   \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}

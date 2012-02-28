@@ -90,3 +90,22 @@ A Web Portal that allows administrative access to ACS configuration
 
 https://www.windowsazure.com/en-us/develop/net/how-to-guides/access-control/
 Windows Azure ACS is built on the principals of claims-based identity - a consistent approach to creating authentication mechanisms for applications running on-premises or in the cloud. Claims-based identity provides a common way for applications and services to acquire the identity information they need about users inside their organization, in other organizations, and on the Internet.
+
+
+--------
+
+
+7 Laws of Identity.
+
+The Laws of Identity [The Laws of Identity. Microsoft Whitepaper, May 2005.] are intended to codify a set of fundamental principles to which a universally adopted,
+sustainable identity architecture must conform. The Laws were proposed, debated, and refined through a longrunning, open, and
+continuing dialogue on the Internet [http://www.identityblog.com/]
+
+Ks. tiivistelmä appendix 1: http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
+
+
+
+declaration of identity
+http://nat.sakimura.org/2011/07/04/declaration-of-identity/
+http://nat.sakimura.org/wp-content/uploads/2011/07/Declaration-Final-Draft.pdf
+

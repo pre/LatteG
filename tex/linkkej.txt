@@ -84,6 +84,7 @@ WS-Security:
 http://www.oasis-open.org/committees/tc_home.php?wg_abbrev=wss
 
 
+SOA & security: http://www.slideshare.net/oliverpfaff/soa-security-so-what-10143526
 
 Kuvitusta
 http://www.flickr.com/photos/phill_dvsn/393952186/

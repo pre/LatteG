@@ -232,34 +232,34 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   % subsection identiteetti_internetissä (end)
 
 
-  \subsection{Internet-resurssien tunnisteet} % (fold)
-  \label{sub:käsitteet_uri_url_ja_urn}
-
-  \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä kuten \verb!XRI!, joten jokainen webissä esiintyvä URI ei ole URL.
-
-  \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}.
-
-  % TODO
+  % \subsection{Internet-resurssien tunnisteet} % (fold)
+  % \label{sub:käsitteet_uri_url_ja_urn}
   %
-  %Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
-  %\\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
+  % \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä kuten \verb!XRI!, joten jokainen webissä esiintyvä URI ei ole URL.
   %
-  % Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää luvussa \emph{HTTP Basic Auth} (todo viite).
-
-
-  \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
-
-  % todo
-  Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
-    \caption{Käsitteet URI, URL ja URN (todo tähän xri ja parempi kuvasteksti)}
-    \label{fig:uri_url_urn}
-  \end{figure}
-
-  % subsection käsitteet_uri_url_ja_urn (end)
+  % \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}.
+  %
+  % % TODO
+  % %
+  % %Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
+  % %\\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
+  % %
+  % % Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää luvussa \emph{HTTP Basic Auth} (todo viite).
+  %
+  %
+  % \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
+  %
+  % % todo
+  % Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns.
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
+  %   \caption{Käsitteet URI, URL ja URN (todo tähän xri ja parempi kuvasteksti)}
+  %   \label{fig:uri_url_urn}
+  % \end{figure}
+  %
+  % % subsection käsitteet_uri_url_ja_urn (end)
 
 
   % TODO / POIS:

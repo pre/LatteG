@@ -428,7 +428,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   Tavanomaisessa haaste--vastine-autentikoinnissa käyttäjän on annettava esitettyyn haasteeseen kelvollinen vastine eli osoitettava toiselle osapuolelle että hän \emph{tietää} jotain. Kaksivaiheisessa autentikoinnissa käyttäjän on lisäksi osoitettava, että hänellä \emph{on hallussaan} jotain~\cite{NIST_SP800-63-1, google_2step_2010}. Jälkimmäinen tekijä voidaan muodostaa esimerkiksi lähttämällä käyttäjän puhelinnumeroon vahvistuskoodin sisältävä tekstiviesti tai kysymällä merkkijonoa, jonka jokin ulkoinen laite tuottaa. Autentikoinnin suorittamiseksi käyttäjän on tietyn ajan sisällä esitettävä kelvollinen vastine molempiin haasteisiin.
 
-  Internet-palveluissa yleisin kaksivaiheisuuden toteutustapa on käyttäjän matkapuhelimen hyödyntäminen. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussaan ennalta tunnettua puhelinnumeroa. Toinen yleinen keino on \emph{Google Authenticator} -älypuhelinsovelluksen hyödyntäminen. Google Authenticator -mobiilisovellus tarjoaa rajoitetun ajan voimassa olevan numerosarjan, jota autentikoiva palvelin kysyy onnistuneen salasana-autentikoinnin jälkeen. Älypuhelinsovelluksen hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator -projektin taustajärjestelmä (\emph{backend}) sekä iOS, Android ja Blackberry -mobiilisovellukset on julkistettu avoimena lähdekoodina\footenote{Google Authenticator -projekti: \url!http://code.google.com/p/google-authenticator/!}, minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös Googlesta riippumattomiin palveluihin.
+  Internet-palveluissa yleisin kaksivaiheisuuden toteutustapa on käyttäjän matkapuhelimen hyödyntäminen. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussaan ennalta tunnettua puhelinnumeroa. Toinen yleinen keino on \emph{Google Authenticator} -älypuhelinsovelluksen hyödyntäminen. Google Authenticator -mobiilisovellus tarjoaa rajoitetun ajan voimassa olevan numerosarjan, jota autentikoiva palvelin kysyy onnistuneen salasana-autentikoinnin jälkeen. Älypuhelinsovelluksen hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator -projektin taustajärjestelmä (\emph{backend}) sekä iOS, Android ja Blackberry -mobiilisovellukset on julkistettu avoimena lähdekoodina\footnote{Google Authenticator -projekti: \url!http://code.google.com/p/google-authenticator/!}, minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös Googlesta riippumattomiin palveluihin.
 
   \begin{figure}
     \centering
@@ -465,56 +465,15 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta;
   HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
 
-
   % subsection sertifikaatit_webissä (end)
 
-  % subsection sessiopohjainen_autentikointi (end)
-
-
-  % \subsection{HTTP Basic Auth ja HTTP Digest Auth} % (fold)
-  % \label{sub:http_basic_auth_ja_http_digest_auth}
-  % Tässä kerrotaan mikä on basic auth (\verb!http://tunnus:salasana@osoite.fi/polku!) ja mikä on http digest auth (haaste-vastine http headereissa).
-
-  % It is clearly unwise to use a URL that contains a password which is
-  % intended to be secret. In particular, the use of a password within
-  % the 'userinfo' component of a URL is strongly disrecommended except
-  % in those rare cases where the 'password' parameter is intended to be
-  % public.
-  % rfc 2396
-
-
-  % subsection http_basic_auth_ja_http_digest_auth (end)
-
-
-  % \subsection{Uhat turvalliselle autentikoitumiselle (ohjelmistokehittäjän näkökulmasta)} % (fold)
-  % \label{sec:uhat_turvalliselle_autentikoitumiselle}
-  %
-  %   OAuth security token -tyypit:
-  %   - Bearer vaatiin aina HTTPS:n.
-  %   - Mac (vrt. token scheme oauth 1.0), turvallinen vaikkei suojattu yhteys. Vaatii keyn ja secretin, ja käyttää hashmacia kryptaamaan osan requestista. Seurauksena pyyntö valid ainoastaan jos molemmilla osapuolilla samat avaimet, kolmannen osapuolen ei ole mahdollista uudelleenluoda alkuperäistä requestia ilman validia salasanaa.
-  %   - SAML Mahdollistaa SAML-assertioiden käytön. Mahdollistaa olemassaolevan SAML-toteutuksen hyödytämisen OAuthissa. (todo esimerkki milloin hyödyllinen, esim. sisäverkon active directory + julkinen web-palvelu)
-  %
-  %   Mitkä on Pihvin kannalta oleellisimmat?
-  %   OAuth draftin threat model -dokumentti.
-  %
-  %   Haavoittuvuudet, jotka huomioitava, vaikka yhteys olisi suojattu HTTPS:llä:
-  %   CSRF: OAuth draft kpl 10.12.: ''The client MUST implement CSRF protection for its redirection URI.''
-  %   Clickjacking: Oauth draft kpl 10.13.
-  %      ''To prevent this form of attack, native applications SHOULD use
-  %      external browsers instead of embedding browsers in an iframe when
-  %      requesting end-user authorization.''
-  %   Code Injection ja Input Validation (kpl 10.14.)
-  %   Open Redirectors (kpl 10.15.)
-  %
-  %   Phishing ja selaimen omat vastatoimet.
-  %
-  % % section uhat_turvalliselle_autentikoitumiselle (end)
 
   \subsection{Selain-, sisältö- ja applikaatiokonteksti} % (fold)
   \label{sub:selainkonteksti_vs_applikaatiokonteksti}
 
-  Tähän johdantokappale, jossa kerrotaan että käyttäjän täytyy tietää, että hän syöttää salasanansa oikeaan palveluun. Käyttäjäagentin on oltava siis luotettu. Käyttäjä tietää että hän autentikoituu esim Facebook-tunnuksilla. Käyttäjälle pitää näyttää facebookin sivu luotetussa kontekstissa. Erittäin oleellista kun ulkoinen identiteetintarjoaja ja random-identiteetinkuluttajia (Jenni Vartiainen -app kysyy facebook-salasanaa suoraan.)
+  Tähän johdantokappale, jossa kerrotaan että käyttäjän täytyy tietää, että hän syöttää salasanansa oikeaan palveluun. Käyttäjäagentin on oltava siis luotettu. Käyttäjä tietää että hän autentikoituu esim Facebook-tunnuksilla. Käyttäjälle pitää näyttää facebookin sivu luotetussa kontekstissa. oleellista kun ulkoinen identiteetintarjoaja ja random-identiteetinkuluttajia (Jenni Vartiainen -app kysyy facebook-salasanaa suoraan.)
 
+  todo
   Selainkontekstissa käyttäjä voi luottaa siihen, mitä osoiterivillä lukee, kun työasema oletetaan turvalliseksi (ei troijalaisia tms). Selaimen oman ulkonäön ja turvallisuustoimien väärentäminen erittäin työlästä. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen URL-osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko (A) ilmaisee, että yhteys selaimen ja palvelimen välillä on suojattu. Selainkontekstissa käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Selaimen osoiterivillä täytyy olla palvelua vastaava URL-osoite (B). Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Käyttäjää on mahdollista jekuttaa selainkontekstissa lukon kuvalla, jos osoiterivillä esim. ''faceboook.com''.
 
   \begin{figure}
@@ -524,7 +483,8 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
     \label{fig:facebook_reauth_ab}
   \end{figure}
 
-  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava. Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
+  todo
+  Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} HTML-sisältösivu itse ilmoittaa olevansa turvallinen (D) ja näyttää sisältöosassa lukon kuvan. Ilmoitus on hyväntahtoinen, mutta tässä tapauksessa käyttäjä voi luottaa ainoastaan siihen, että selaimen osoiterivillä oleva palvelu (C) on luotettava.
 
   \begin{figure}
     \centering
@@ -534,14 +494,16 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   \end{figure}
 
 
+  % Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
+
   % todo lopullinen tuomio: poistetaanko kuva
   %
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
-    \caption{Turvattomuusilmoitus sisältökontekstissa}
-    \label{fig:trust_context_html_unsecure}
-  \end{figure}
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
+  %   \caption{Turvattomuusilmoitus sisältökontekstissa}
+  %   \label{fig:trust_context_html_unsecure}
+  % \end{figure}
 
 
   % Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
@@ -570,9 +532,9 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   % "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
-  Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), sisältöcontextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen. Overlay-sivu tarjoillaan suoraan Facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
-
-  Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
+  % Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), sisältöcontextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen. Overlay-sivu tarjoillaan suoraan Facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
+  %
+  % Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
 
   % subsection selainkonteksti_vs_applikaatiokonteksti (end)
 
@@ -674,8 +636,8 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   Mitään tässä tutkielmassa esiteltävää protokollaa ei ole suositeltavaa implementoida omatoimisesti ilman painavaa syytä. Protokollan toteutuksen turvallisuus tai toimintavarmuus saattaa vaarantua pienestäkin virheestä. Jokaiselle tutkielmassa käsiteltävälle protokollalle on olemassa runsas joukko laajasti käytössä olevia kirjastoja, jotka ovat testattuja, ylläpidettyjä ja lisäksi myös jatkuvasti paremmaksi kehittyviä.
 
-  Tässä kerrotaan mikä on federoitu identiteetti ja mikä delegoitu identiteetti.
-  Jos käyttäjällä ei mahdollisuutta valita omaa identiteetintarjoajaansa, OpenID, OAuth tai SAML on vain sisäisen toteutuksen yksityiskohta. Jos idc-palvelulla merkittävä API-riippuvuus tiettyyn palveluntarjoajaan, OpenID ei tarjoa mitään, mitä OAuthilla ei voisi saada. Esimerkiksi Twitter-sidonnainen sovellus tarvitsee pääsyn nimenomaan Twitter-käyttäjätiliin. Tällöin on sovelluksesta johtuen täysin järkevää hyväksyä sisäänkirjautuminen vain Twitter-käyttäjätunnuksella. Vastaavasti käyttäjän sosiaalista verkostoa hyödyntävä Sofanatics (kuva~\ref{fig:facebook_oauth_login}) hyväksyy pelkän Facebook-tunnuksen, koska palvelun tärkeimpiä ominaisuuksia on kerätä ja välittää tietoa ottelutapahtumista Facebookiin.
+  % Tässä kerrotaan mikä on federoitu identiteetti ja mikä delegoitu identiteetti.
+  % Jos käyttäjällä ei mahdollisuutta valita omaa identiteetintarjoajaansa, OpenID, OAuth tai SAML on vain sisäisen toteutuksen yksityiskohta. Jos idc-palvelulla merkittävä API-riippuvuus tiettyyn palveluntarjoajaan, OpenID ei tarjoa mitään, mitä OAuthilla ei voisi saada. Esimerkiksi Twitter-sidonnainen sovellus tarvitsee pääsyn nimenomaan Twitter-käyttäjätiliin. Tällöin on sovelluksesta johtuen täysin järkevää hyväksyä sisäänkirjautuminen vain Twitter-käyttäjätunnuksella. Vastaavasti käyttäjän sosiaalista verkostoa hyödyntävä Sofanatics (kuva~\ref{fig:facebook_oauth_login}) hyväksyy pelkän Facebook-tunnuksen, koska palvelun tärkeimpiä ominaisuuksia on kerätä ja välittää tietoa ottelutapahtumista Facebookiin.
 
 
   \begin{figure}
@@ -1264,7 +1226,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   % subsection autentikoituminen_facebook (end)
 
-  \subsection{Autentikoituminen käyttäjäkeskeisellä identiteetillä} % (fold)
+  \subsection{Autentikoituminen vapaasti valittavalla identiteetintarjoajalla} % (fold)
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
 
   Tässä esitellään OpenID-toteutus.
@@ -1500,7 +1462,7 @@ myös muihin palveluihin.) Client-server, server-server. Application-Useragent-S
 
   On myös mahdollista tarjota MOOC-suorituksista raportti lukioon siten, että MOOC tukee OAuthia ja tarjoaa ulkoisen rajapinnan tietojen noutamiseksi. Tällöin lukion tietojärjestelmä voi hakea käyttäjän MOOC-suoritukset OAuth-valtuutuksella, joka voi olla joko käyttäjän hyväksyttävä TAI sitten palvelin-palvelin-yhteydelle aina hyväksytty (implisiittinen ja sit se toinen tapa).
 
-  Auktorisointi: Käyttäjän yhteystiedot, profiilikuva jne Facebookista.
+  Auktorisointi: Käyttäjän yhteystiedot, profiilikuva jne Facebookista. Tai koodi, pull requestit, changelog jne githubista vrt nyt eclipsestä.
 
   \begin{figure}
     \centering

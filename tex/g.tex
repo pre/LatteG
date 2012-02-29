@@ -1222,13 +1222,25 @@ parts as they pass through the user-agent.
   OAuth-standardi ei määrittele, kuinka autentikointi täytyy suorittaa~\cite{ietf_oauth2}.
 
   \item[(C)]
-  Autentikoitumisen jälkeen Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee vain käyttäjän perustietoja (nimi, sukupuoli, profiilikuva jne). MOOC-palvelu tarvitsee lisäksi sähköpostiosoitteen, joten \verb!scope!-parametrin arvoksi asetetaan \emph{email}\footnote{
+  Autentikoitumisen jälkeen Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli, profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten MOOC asettaa \verb!scope!-parametrin arvoksi \emph{email}\footnote{
     Kattava listaus Facebook Platformin tarjoamista käyttöoikeuksista saatavilla osoitteesta:
     \url{https://developers.facebook.com/docs/reference/api/permissions/}
   }.
 
-    % https://www.facebook.com/dialog/oauth?
-    %      client_id=MOOC_APP_ID&redirect_uri=MOOC_URL&scope=email
+  % https://www.facebook.com/dialog/oauth?
+  %      client_id=MOOC_APP_ID&redirect_uri=MOOC_URL&scope=email
+
+  Jos käyttäjä hyväksyy tietojen luovuttamisen, Facebook ohjaa käyttäjäagentin MOOC-palvelun paluuosoitteeseen (\verb!redirect_uri!). Parametrina MOOC-palvelulle välitetään Facebookin luoma väliaikainen auktorisointikoodi.
+  Jos käyttäjä ei hyväksy tietojen luovuttamista, käyttäjäagentti ohjataan paluuosoitteeseen
+  % (HTTP 302)
+  ja parametreina välitetään virhetieto tapahtuman keskeytymisestä.
+
+  % Success:
+  % http://YOUR_URL?code=A_CODE_GENERATED_BY_SERVER
+  %
+  % Error:
+  % http://YOUR_URL?error_reason=user_denied&
+  %     error=access_denied&error_description=The+user+denied+your+request.
 
   \begin{figure}
     \centering
@@ -1238,17 +1250,28 @@ parts as they pass through the user-agent.
   \end{figure}
 
 
+  \item[(D)]
+    MOOC-palvelu ottaa suoran yhteyden Facebook Platformiin eli käyttäjäagentti ei ole välissä. MOOC välittää edellisessä vaiheessa saamansa auktorisointikoodin ja pyytää saada käyttöönsä pääsyoikeuspoletin (\verb!access_token!). Auktorisointikoodin lisäksi MOOC välittää pyynnössään yksilöivän tunnisteensa (\verb!client_id!) ja jaetun salaisuuden (\verb!client_secret!), joiden perusteella Facebook Platform autentikoi MOOC-palvelun eli varmistuu siitä, että pyyntö tulee oikealta toimijalta. Ainoastaan MOOC ja Facebook Platform tuntevat jaetun salaisuuden, ja vastaavasti auktorisointikoodi on ainoastaan käyttäjäagentin, MOOC-palvelun ja Facebook Platformin tiedossa.
+
+  \item[(E)]
+  Facebook Platform luo pääsyoikeuspoletin (\verb!access_token!) ja lähettää sen MOOC-palveluun. MOOC käyttää pääsyoikeuspolettia, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa. Tämän vaiheen jälkeen MOOC tuntee käyttäjän perustiedot ja sähköpostiosoitteen.
+
+  Vaiheen jälkeen käyttäjä on lisäksi auktorisoinut MOOC-palvelun omaan Facebook-profiiliinsa ja auktorisointi on voimassa kunnes käyttäjä poistaa sen. Tämän ansiosta myöhemmin MOOC-palveluun saapuva käyttäjä voidaan autentikoida kysymättä lainkaan salasanaa, jos käyttäjän oma Facebook-sessio on voimassa. Tällöin virtauksesta suoritetaan ainoastaan vaiheet \verb!(A)! ja \verb!(E)!.
+
+  % TODO TÄSSÄ
+
+  Jos asiakas tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, asiakkaan on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!offline access!-käyttöoikeutta.
+
+  \item[(XX)]
+  Autentikointi: pääsyoikeuspoletin vastaanottamisen jälkeen MOOC ottaa yhteyden Facebook Platformin
   \end{description}
 
-  Jos käyttäjä suostuu, tarjoaja lyö leimansa vastaukseen, jonka käyttäjäagentti välittää \verb!redirect_uri!:n kautta kuluttajapalveluun. Kun identiteetinkuluttaja on palvelinpään sovellus, tarjoajan vastaus on auktorisointikoodi (\emph{authorization code}). Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit. % todo tarkista mitä kirjoitettiin refresh-tokenista
+  % Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit. % todo tarkista mitä kirjoitettiin refresh-tokenista
 
-  Kuluttaja tarvitsee auktorisointikoodia ainoastaan silloin, kun käyttäjältä kysytään suostumusta. Käyttäjän suostumus tarvitaan silloin, kun kuluttajalla ei ole \verb!access_token!-valtakirjaa tai kun aiemmin myönnetty \verb!access_token! on vanhentunut. \verb!Access_token! on aina rajallisen ajan voimassa ja edellyttää käyttäjän läsnäoloa (todo selitä paremmin) ollakseen käyttökelpoinen. Jos kuluttaja tarvitsee käyttäjästä riippumattoman pääsyn tarjoajan resursseihin, kuluttajan on pyydettävä käyttäjän suostumusvaiheessa \verb!offline access!-lupaa. Tällöin tarjoaja antaa auktorisointikoodin lunastamisen yhteydessä \verb!acces_token!-poletin lisäksi myös \verb!refresh_token!-poletin.
+  % MOOC-palvelu tarvitsee auktorisointikoodia ainoastaan silloin, kun käyttäjältä kysytään suostumusta.
+  Käyttäjän suostumusvaihe suoritetaan aina, kun resurssin asiakkaan toimivalla MOOC-palvelulla ei ole pääsyoikeuspolettia (\verb!access_token!) tai kun aiemmin myönnetty pääsyoikeuspoletti on vanhentunut. Pääsyoikeuspoletti on rajallisen ajan voimassa ja sen uusiminen edellyttää joko käyttäjän suostusvaihetta tai virkistyspolettia. Jos asiakas tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, asiakkaan on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!offline access!-käyttöoikeutta. Tällöin tarjoaja antaa auktorisointikoodin lunastamisen yhteydessä \verb!acces_token!-poletin lisäksi myös \verb!refresh_token!-poletin.facebook ei käytä refreshtokenia vaan jos scopessa on offline access, niin pääsyoikeuspoletin voimassaoloaikaa ei määritellä (ks pitääkö paikkansa vielä deprekoinnin jälkeen).
+
   % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
-
-  Kuluttaja voi olla myös asiakaspään sovellus kuten esimerkiksi käyttäjäagentissa suoritettava Javascript-ohjelma. Tällöin tarjoaja palauttaa auktorisointikoodin sijasta suoraan \verb!access_code!:n. Tutkielman puitteissa rajaudumme kuitenkin identiteetinkuluttajiin, jotka ovat palvelinpään sovelluksia kuten MOOC-järjestelmä.
-
-  Tässä valitaan MOOC:lle virtauksista authorization code flow ja esitellään se tarkemmin.
-  Kerrotaan että https/tls välttämätön.
 
   mooc-asiakastyyppi on confidential (''capable of maintaining the confidentiality of clients' credentials or capable of secure client authentication of other means'')
   toinen asiakastyyppi on public (incabable of edellinen)
@@ -1256,7 +1279,6 @@ parts as they pass through the user-agent.
   mooc-asiakasprofiili on web-applikaatio: confidential 3-osapuolen asiakas joka ajossa palvelinpäässä.
   muita asiakasprofiileja user-agent-based app (julkinen 3-osapuolen asiakas jonka koodi downloadattu webistä ja jota ajetaan useragentissa resurssin omistajan laitteella, html5/javascript) sekä natiiviapp (julkinen 3-osapuolen asiakas joka asennettu ja joka suoritetaan resurssin omistajan laitteella.)
 
-  facebook ei käytä refreshtokenia vaan jos scopessa on offline access, niin pääsyoikeuspoletin voimassaoloaikaa ei määritellä (ks pitääkö paikkansa vielä deprekoinnin jälkeen).
 
 
   % subsubsection autentikoinnin_vaiheet_facebook_platform_palveluun (end)

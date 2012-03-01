@@ -538,7 +538,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   % subsection selainkonteksti_vs_applikaatiokonteksti (end)
 
-\subsubsection{Keksien käyttö autentikoinnissa} % (fold)
+\subsection{Keksien käyttö autentikoinnissa} % (fold)
 \label{ssub:keksien_käyttö_autentikoinnissa}
 
 todo
@@ -548,9 +548,11 @@ Selitä mikä on cookie, keksi, eväste: dataa jonka web-palvelin tallettaa käy
 
 Selaimen tietoturvamalli estää keksien jakamisen eri domainien kesken. Keksi mahdollista jakaa *.domain.com. Keksin käyttäminen eri palvelujen integraatiopisteenä ei ole suositeltavaa koska silloin palvelut eivät ole enää löyhästi kytkettyjä. Vertaa SOA: ennemmin rajapinta palvelujen välille, jolloin jokainen palvelu voi itse ylläpitää omaa tilaansa. Sama kuin tietokannan käyttäminen integraatiopisteenä: muutokset yhteen palveluun vaikuttavat myös muihin palveluihin.
 
+Secure-täppä joka estää selainta lähettämästä keksiä suojaamattoman yhteyden yli. Tärkeä.
+
 Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käyttää sisäänkirjautuneisuuden tilan välittämiseen toisistaan riippumattomien palvelujen kesken. Seuraavassa luvussa esitellään tapaa jakaa autentikoinnin tila palvelujen kesken autentikoinnin yhteentoimivuuden standardeilla.
 
-% subsubsection keksien_käyttö_autentikoinnissa (end)
+% subsection keksien_käyttö_autentikoinnissa (end)
 
 % section kakkosluku (end)
 
@@ -1030,16 +1032,16 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \item[Kuluttajapalvelun rekisteröinti auktorisointipalvelimelle:] \hfill \\
    Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä asiakkaan että auktorisointipalvelimen tiedossa. Näitä ovat tyypillisesti asiakkaan tunniste (\verb!client_id!), jaettu salaisuus (\verb!client_secret!) ja asiakkaan palautusosoite (\verb!redirect_uri!). Asetusten luonne vaihtelee kuluttajapalvelusta riippuen: esimerkiksi epäsuoraa virtausta käyttävä JavsScript-sovellus ei tarvitse jaettua salaisuutta, mutta auktorisointikoodin virtausta käyttävä web-palvelu tarvitsee.
 
-  \item[Pääsyoikeuspoletin hankkiminen:] \hfill \\
-  Pääsyoikeuspoletti mahdollistaa eri tasoisia käyttöoikeuksia. Resurssin asiakas määrittelee käyttöoikeuksien laajuuden poletin hankkimispyynnön yhteydessä (\verb!scope!-parametri), ja käyttäjä vahvistaa tai hylkää oikeuksien myöntämisen (kuva~\ref{fig:google_id_and_user_consent}).
+  \item[Pääsyoikeuspoletin hankinta:] \hfill \\
+  Pääsyoikeuspoletti (\verb!access_token!) toimii asiakkaan valtakirjana resurssin omistajan tietoihin. Resurssin asiakas määrittelee käyttöoikeuksien laajuuden poletin hankkimispyynnön yhteydessä (\verb!scope!-parametri), ja käyttäjä vahvistaa tai hylkää oikeuksien myöntämisen käyttäjän suostumusvaiheessa (kuva~\ref{fig:google_id_and_user_consent}).
 
   \item[Pääsyoikeuspoletin esittäminen:] \hfill \\
-  Poletin hankkimisvaiheen jälkeen resurssin asiakas esittää pääsyoikeuspoletin valtakirjana resurssin tarjoajalle. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin asiakas pyysi valtuuksia poletin hankkimisvaiheessa.
+  Hankintavaiheen jälkeen resurssin asiakas esittää pääsyoikeuspoletin valtakirjana resurssin tarjoajalle. Resurssin tarjoaja validoi poletin auktorisointipalvelimen avustuksella. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin asiakas pyysi valtuuksia poletin hankkimisvaiheessa.
 
   \item[Virkistyspoletin esittäminen:] \hfill \\
-  OAuthin soveltamisessa periaatteena on tarjota lyhytikäinen poletti ja pitkäikäinen auktorisointi. Tällöin pääsyoikeuspoletilla on rajoitettu elinaika ja uuden pääsyoikeuspoletin pyytäminen edellyttää resurssin omistajan auktorisointisuostumusta. Auktorisointisuostumusta ei kuitenkaan ole mahdollista kysyä, jos resurssin omistaja ei ole läsnä.
+  OAuth-standardin periaatteena on tarjota lyhytikäinen pääsyoikeuspoletti ja pitkäikäinen auktorisointi. Kun pääsyoikeuspoletilla on rajoitettu elinaika, asiakkaan täytyy säännöllisesti vahvistaa pääsyoikeutensa uudelleen. Uuden pääsyoikeuspoletin pyytäminen edellyttää resurssin omistajan auktorisointisuostumusta, mikä vastaavasti edellyttää että resurssin omistaja on läsnä.
 
-  Virkistyspoletti tarjoaa niin sanotun \emph{offline}-pääsyoikeuden, joka resurssin omistajan täytyy vahvistaa pääsyoikeuspoletin myöntämisvaiheessa. Jos asiakkaalle myönnetään virkistyspoletti, asiakas pystyy sitä vastaan noutaamaan uusia pääsyoikeuspoletteja niin kauan kuin sille myönnetty valtuutus on voimassa ilman, että käyttäjältä tarvitsee kysyä auktorisointisuostumusta.
+  Virkistyspoletti tarjoaa asiakkaalle niin sanotun \emph{offline}-pääsyoikeuden, joka resurssin omistajan täytyy vahvistaa käyttäjän suostumusvaiheessa. Jos asiakkaalle myönnetään virkistyspoletti, asiakas pystyy sitä vastaan noutaamaan uusia pääsyoikeuspoletteja niin kauan kuin sille myönnetty valtuutus on voimassa ilman, että käyttäjältä tarvitsee kysyä uutta auktorisointisuostumusta.
 
   \end{description}
 
@@ -1160,17 +1162,21 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \subsection{Facebook-identiteetin autentikoiminen} % (fold)
   \label{ssub:mooc_fb_auth}
 
-  Facebook Platform soveltaa OAuth 2.0 -protokollaa autentikointiin ja auktorisointiin~\cite{facebook_oauth2_doc}. Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on web-palvelu, joten OAuth-virtaukseksi soveltuu parhaiten auktorisointikoodin käyttäminen. Kaikki kommunikointi Facebook Platform -rajapinnan ja MOOC-palvelun välillä suojataan käyttämällä \verb!https!-yhteyttä.
+  Facebook Platform\footnote{
+    Facebookin kolmansille osapuolille tarjoama rajapintakokonaisuus on nimeltään Facebook Platform:
+    \url!https://www.facebook.com/platform!
+  }
+  soveltaa OAuth 2.0 -protokollaa autentikointiin ja auktorisointiin~\cite{facebook_oauth2_doc}. MOOC-palvelun OAuth-standardin mukainen asiakastyyppi on \emph{luotettava} (\emph{confidential}), koska MOOC on ''kykenevä pitämään salassa asiakkaidensa luottamukselliset varmenteet''~\cite{ietf_oauth2}. MOOC-palvelun asiakasprofiili on \emph{web-sovellus} eli OAuth-standardin määrittämä \emph{luotettava} asiakas, joka ''suoritetaan web-palvelimella'' ja ''joka kykenee käsittelemään varmenteita siten ettei resurssin omistaja pääse niihin käsiksi''~\cite{ietf_oauth2}. OAuth-virtaukseksi soveltuu siten auktorisointikoodin käyttäminen.
 
-  Ensimmäiseksi identiteetinkuluttajana ja resurssin asiakkaana toimiva MOOC-palvelu rekisteröidään Facebook Platform -identiteetintarjoajan asiakkaaksi~\cite{facebook_oauth2_doc}. Rekisteröintiprosessissa resurssin asiakkaalle määritetään yksilöivänä tunnisteena \verb!client_id!, jaettuna salaisuutena \verb!client_secret! sekä MOOC-palvelun palautusosoite \verb!redirect_uri!, johon identiteetintarjoaja uudelleenohjaa loppukäyttäjän autentikointipyynnön jälkeen.
+  MOOC-palvelun tavoitteena on saada Facebook Platform -palvelulta valtakirjana käyttäjän tietoihin toimiva pääsyoikeuspoletti (\verb!access_token!). Pääsyoikeuspoletin saaminen edellyttää hyväksyntää sekä loppukäyttäjältä että palveluntarjoajalta. Tarjoajana Facebook Platform täytyy ensin hyväksyä loppukäyttäjän autentikoituminen, jonka jälkeen loppukäyttäjän on hyväksyttävä tietojen luovuttamiseen MOOC-palveluun. Kaikki kommunikointi Facebook Platform -rajapinnan ja MOOC-palvelun välillä suojataan käyttämällä \verb!https!-yhteyttä.
 
-  MOOC-palvelun tavoitteena on saada Facebook Platform -palvelulta pääsyoikeuspoletti \verb!access_token!. Pääsyoikeuspoletin saaminen edellyttää hyväksyntää sekä loppukäyttäjältä että palveluntarjoajalta. Tarjoajana Facebook Platform täytyy ensin hyväksyä loppukäyttäjän autentikoituminen, ja sen jälkeen loppukäyttäjän on suostuttava tietojen luovuttamiseen MOOC-palveluun.
+  Ensimmäinen vaihe on rekisteröidä identiteetinkuluttajana ja resurssin asiakkaana toimiva MOOC-palvelu Facebook Platform -identiteetintarjoajan asiakkaaksi~\cite{facebook_oauth2_doc}. Rekisteröintiprosessissa resurssin asiakkaalle määritetään yksilöivänä tunnisteena \verb!client_id!, jaettuna salaisuutena \verb!client_secret! sekä palautusosoite \verb!redirect_uri!, johon identiteetintarjoaja uudelleenohjaa loppukäyttäjän auktorisointitapahtuman jälkeen. Rekisteröinnin jälkeen MOOC-palvelun sisäänkirjautumissivulle lisätään Facebook-sisäänkirjautumisen linkki.
+
 
   \subsubsection{Autentikoinnin vaiheet Facebook Platform -palveluun} % (fold)
   \label{ssub:autentikoinnin_vaiheet_facebook_platform_palveluun}
 
-  todo
-  Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-ikonia MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook-päätepisteeseen, joka kysyy käyttäjältä suostumuksen tietojen välittämiseen MOOCiin. MOOC-palvelu ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myötämisestä ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
+  Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisäänkirjautumisen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myötämisestä ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
 
   \begin{singlespacing}
     \begin{verbatim}
@@ -1251,35 +1257,23 @@ parts as they pass through the user-agent.
 
 
   \item[(D)]
-    MOOC-palvelu ottaa suoran yhteyden Facebook Platformiin eli käyttäjäagentti ei ole välissä. MOOC välittää edellisessä vaiheessa saamansa auktorisointikoodin ja pyytää saada käyttöönsä pääsyoikeuspoletin (\verb!access_token!). Auktorisointikoodin lisäksi MOOC välittää pyynnössään yksilöivän tunnisteensa (\verb!client_id!) ja jaetun salaisuuden (\verb!client_secret!), joiden perusteella Facebook Platform autentikoi MOOC-palvelun eli varmistuu siitä, että pyyntö tulee oikealta toimijalta. Ainoastaan MOOC ja Facebook Platform tuntevat jaetun salaisuuden, ja vastaavasti auktorisointikoodi on ainoastaan käyttäjäagentin, MOOC-palvelun ja Facebook Platformin tiedossa.
+    MOOC-palvelu pyytää pääsyoikeuspolettia (\verb!access_token!) suoraan Facebook Platformilta eli käyttäjäagentti ei toimi pyynnön välittäjänä. MOOC liittää pyynnön parametreiksi paluuosoitteen (\verb!redirect_uri!) sekä edellisessä vaiheessa käyttäjäagentilta saamansa auktorisointikoodin (\verb!code!). Lisäksi MOOC välittää pyynnössään yksilöivän tunnisteensa (\verb!client_id!) ja jaetun salaisuuden (\verb!client_secret!), joiden perusteella Facebook Platform autentikoi MOOC-palvelun eli varmistuu siitä, että pyyntö tulee oikealta toimijalta. Ainoastaan MOOC ja Facebook Platform tuntevat jaetun salaisuuden, ja vastaavasti auktorisointikoodi on ainoastaan käyttäjäagentin, MOOC-palvelun ja Facebook Platformin tiedossa.
+
+  % https://graph.facebook.com/oauth/access_token?
+  %      client_id=YOUR_APP_ID&redirect_uri=YOUR_URL&
+  %      client_secret=YOUR_APP_SECRET&code=THE_CODE_FROM_ABOVE
+
 
   \item[(E)]
-  Facebook Platform luo pääsyoikeuspoletin (\verb!access_token!) ja lähettää sen MOOC-palveluun. MOOC käyttää pääsyoikeuspolettia, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa. Tämän vaiheen jälkeen MOOC tuntee käyttäjän perustiedot ja sähköpostiosoitteen.
+  Facebook Platform luo pääsyoikeuspoletin (\verb!access_token!) ja lähettää sen MOOC-palvelun kohdassa (D) annettuun paluuosoitteeseen. MOOC käyttää pääsyoikeuspolettia, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa. Tämän vaiheen jälkeen MOOC tuntee käyttäjän perustiedot ja sähköpostiosoitteen.
 
-  Vaiheen jälkeen käyttäjä on lisäksi auktorisoinut MOOC-palvelun omaan Facebook-profiiliinsa ja auktorisointi on voimassa kunnes käyttäjä poistaa sen. Tämän ansiosta myöhemmin MOOC-palveluun saapuva käyttäjä voidaan autentikoida kysymättä lainkaan salasanaa, jos käyttäjän oma Facebook-sessio on voimassa. Tällöin virtauksesta suoritetaan ainoastaan vaiheet \verb!(A)! ja \verb!(E)!.
-
-  % TODO TÄSSÄ
-
-  Jos asiakas tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, asiakkaan on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!offline access!-käyttöoikeutta.
-
-  \item[(XX)]
-  Autentikointi: pääsyoikeuspoletin vastaanottamisen jälkeen MOOC ottaa yhteyden Facebook Platformin
   \end{description}
 
-  % Auktorisointikoodi on lyhyen aikaa voimassa oleva väliaikainen tunniste, jota vastaan kuluttajapalvelu seuraavaksi lunastaa valtakirjan loppukäyttäjän resursseihin eli \verb!access_token!- ja (mahdollisesti) \verb!refresh_token!-poletit. % todo tarkista mitä kirjoitettiin refresh-tokenista
+  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä auktorisoinnin hyväksymistä uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa auktorisoinnin. Lisäksi, jos käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, MOOC-palveluun myöhemmin palaava käyttäjä voidaan autentikoida kysymättä salasanaa.
 
-  % MOOC-palvelu tarvitsee auktorisointikoodia ainoastaan silloin, kun käyttäjältä kysytään suostumusta.
-  Käyttäjän suostumusvaihe suoritetaan aina, kun resurssin asiakkaan toimivalla MOOC-palvelulla ei ole pääsyoikeuspolettia (\verb!access_token!) tai kun aiemmin myönnetty pääsyoikeuspoletti on vanhentunut. Pääsyoikeuspoletti on rajallisen ajan voimassa ja sen uusiminen edellyttää joko käyttäjän suostusvaihetta tai virkistyspolettia. Jos asiakas tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, asiakkaan on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!offline access!-käyttöoikeutta. Tällöin tarjoaja antaa auktorisointikoodin lunastamisen yhteydessä \verb!acces_token!-poletin lisäksi myös \verb!refresh_token!-poletin.facebook ei käytä refreshtokenia vaan jos scopessa on offline access, niin pääsyoikeuspoletin voimassaoloaikaa ei määritellä (ks pitääkö paikkansa vielä deprekoinnin jälkeen).
+  Facebook Platformin myöntämä pääsyoikeuspoletti on voimassa vain rajallisen ajan ja se mitätöityy, jos käyttäjä vaihtaa salasanaansa tai kirjautuu ulos Facebookista. Pääsyoikeuspoletin uusiminen edellyttää OAuth-virtauksen suorittamista uudelleen. Jos MOOC tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, sen on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!scope!-parametrin välityksellä \verb!offline_access!-käyttöoikeutta~\cite{facebook_oauth2_doc}.
 
-  % ks http://tools.ietf.org/html/draft-ietf-oauth-v2-23#page-9
-
-  mooc-asiakastyyppi on confidential (''capable of maintaining the confidentiality of clients' credentials or capable of secure client authentication of other means'')
-  toinen asiakastyyppi on public (incabable of edellinen)
-
-  mooc-asiakasprofiili on web-applikaatio: confidential 3-osapuolen asiakas joka ajossa palvelinpäässä.
-  muita asiakasprofiileja user-agent-based app (julkinen 3-osapuolen asiakas jonka koodi downloadattu webistä ja jota ajetaan useragentissa resurssin omistajan laitteella, html5/javascript) sekä natiiviapp (julkinen 3-osapuolen asiakas joka asennettu ja joka suoritetaan resurssin omistajan laitteella.)
-
-
+  OAuth-standardin mukaan auktorisointipalvelin tarjoaa virkistyspoletin (\verb!refresh_token!), kun asiakaalle myönnetään pääsy käyttäjän tietoihin silloinkin, kun käyttäjä ei ole läsnä~\cite{ietf_oauth2}. Asiakas voi virkistyspoletin avulla pyytää uuden pääsyoikeuspoletin ilman käyttäjän suostumusvaihetta: OAuthin yhtenä perusajatuksena on kannustaa pitkäikäisiin auktorisointeihin ja lyhytikäisiin pääsyoikeuspoletteihin. Facebook ei tätä kirjoitettassa kuitenkaan tarjoa koskaan virkistyspolettia, vaan myöntää sen sijasta rajoittamattomasti voimassaolevan pääsyoikeuspoletin~\cite{facebook_oauth2_doc}.
 
   % subsubsection autentikoinnin_vaiheet_facebook_platform_palveluun (end)
 
@@ -1441,6 +1435,9 @@ parts as they pass through the user-agent.
   Salaisuuden varastointi on desktop/mobiiliympäristössä. Web-palvelussa salaisuus voidaan varastoida esim. tietokantaan. Mutta työpöytäkäytössä yhden tallettaman salaisuuden voi pölliä toinen ohjelma: tällöin jälkimmäinen voi käyttää palvelua edelliselle myönnetyillä oikeuksilla. Tässä tutkielmassa rajaudutaan web-palveluihin. Twitter ja Yammer ratkaisseet ongelman kysymällä käyttäjältä pin-koodia oikeuksien myöntämisen yhteydessä (miten toimii, onko kertakäyttöinen?) % http://stackoverflow.com/questions/1934187/oauth-secrets-in-mobile-apps
 
   Skaalautuuko, mitkä ovat uudet pullonkaulat?
+
+  Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus siltä varalta, että käyttäjän fb-sessio on jäänyt auki
+  % https://developers.facebook.com/docs/reauthentication/
 
   % \cite{user_centricity_taxonomy_2006}
   % Käyttäjäkeskeisen identiteetin periaatteen mukaan käyttäjällä täytyy olla mahdollisuus valita, minkä identiteeteistänsä hän yhdistää johonkin web-palveluun~\cite{openid_recordon_2009}. Toteutuakseen käytännössä periaate tarkoittaa, että web-palvelun on mahdollistettava sisäänkirjautuminen monen eri identiteetintarjoan avulla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas.

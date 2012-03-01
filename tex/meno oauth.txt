@@ -308,3 +308,21 @@ Bearer:
   Phishing ja selaimen omat vastatoimet.
 
 % section uhat_turvalliselle_autentikoitumiselle (end)
+
+
+
+---------------------
+
+% *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
+%
+% Jatkokehitysideoihin eclipsen auktorisoimiseksi:
+% *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
+%   % https://dev.twitter.com/docs/auth/pin-based-authorization
+
+
+
+
+
+- In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
+- auktorisointipäätös käyttäjälle itselleen (ei automaatille)
+

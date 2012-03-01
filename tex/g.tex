@@ -1269,56 +1269,31 @@ parts as they pass through the user-agent.
 
   \end{description}
 
-  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä auktorisoinnin hyväksymistä uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa auktorisoinnin. Lisäksi, jos käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, MOOC-palveluun myöhemmin palaava käyttäjä voidaan autentikoida kysymättä salasanaa.
-
-  Facebook Platformin myöntämä pääsyoikeuspoletti on voimassa vain rajallisen ajan ja se mitätöityy, jos käyttäjä vaihtaa salasanaansa tai kirjautuu ulos Facebookista. Pääsyoikeuspoletin uusiminen edellyttää OAuth-virtauksen suorittamista uudelleen. Jos MOOC tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, sen on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!scope!-parametrin välityksellä \verb!offline_access!-käyttöoikeutta~\cite{facebook_oauth2_doc}.
-
-  OAuth-standardin mukaan auktorisointipalvelin tarjoaa virkistyspoletin (\verb!refresh_token!), kun asiakaalle myönnetään pääsy käyttäjän tietoihin silloinkin, kun käyttäjä ei ole läsnä~\cite{ietf_oauth2}. Asiakas voi virkistyspoletin avulla pyytää uuden pääsyoikeuspoletin ilman käyttäjän suostumusvaihetta: OAuthin yhtenä perusajatuksena on kannustaa pitkäikäisiin auktorisointeihin ja lyhytikäisiin pääsyoikeuspoletteihin. Facebook ei tätä kirjoitettassa kuitenkaan tarjoa koskaan virkistyspolettia, vaan myöntää sen sijasta rajoittamattomasti voimassaolevan pääsyoikeuspoletin~\cite{facebook_oauth2_doc}.
-
   % subsubsection autentikoinnin_vaiheet_facebook_platform_palveluun (end)
 
+  \subsubsection{Ensimmäisen auktorisoinnin jälkeen} % (fold)
+  \label{ssub:ensimmäisen_auktorisoinnin_jälkeen}
 
-  % OAuth autentikointiflow toimii kuten auktorisointi flow lukuunottamatta yhtä poikkeusta. Jos seuraavat kolme ehtoa täyttyvät:
-  % 1) The current member is logged into LinkedIn.
-  % 2) The current member has already granted an access token to your application.
-  % 3) The access token has not expired.
-  %
-  % Niin IDP voi ohjata käyttäjän välittömästi callback urliin -- ilman keskeytymisiä. Hyvä UX: one-click login. Jos jokin em. ehdoista ei täyty, niin silloin normaali auktorisointiflow. (vrt. linkedin, sporttipalvelu josta kuva)
-  % % https://developer.linkedin.com/documents/linkedins-oauth-details
+  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pääsyoikeuspyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä hyväksyntää uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa sen. Jos auktorisoinnin lisäksi myös käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, käyttäjä voidaan autentikoida kysymättä salasanaa.
 
-  % *** 3-legged authorization: käyttäjältä kysytään AINA lupa vaikka app olisi auktorisoitu jo aiemmin. Ota kuva twitterin docseista. % https://dev.twitter.com/docs/auth/3-legged-authorization
-  %
-  % Jatkokehitysideoihin eclipsen auktorisoimiseksi:
-  % *** PIN Based authentication: Kun app ei voi embeddaa tai käyttää web-selainta käyttäjän uudelleenohjaamiseksi auktorisoinnin endpointtiin. Commandline-ohjelmat, embedded systems, pelikonsolit ja tietyntyyppiset mobiiliappsit. Toimii kuten normaali ja 3-legged, mutta oauth\_callbackin täytyy olla \verb!oob! POST oauth/request\_token -kutsussa. Kun app kehittänyt idp:n oauth/authenticate tai oauth/authorize URL:n, idc näyttää URL:n käyttäjälle joka syöttää sen käsin web-selaimeen. Idp autentikoi käyttäjän, mutta ei redirectaa takaisin appiin (koska käyttäjä avasi selaimen manuaalisesti). Sen sijaan idp tarjoaa PIN-koodin, jota idc seuraavaksi kysyy ja joka käyttäjän täytyy idc:lle syöttää. Ota kuva twitterin docseista. PIN-koodi annetaan \verb!oauth_verifier! arvona kun \verb!POST oauth/access_token!. Muut pyynnöt toimivat normaalisti.
-  %   % https://dev.twitter.com/docs/auth/pin-based-authorization
+  OAuth on ensisijaisesti auktorisointiprotokolla. Mahdollisuus autentikoida käyttäjä on ikään kuin auktorisoinnin sivutuote, koska käyttäjäidentiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa. Autentikoinnin ja auktorisoinnin käsitteiden suhteen tulee silti olla tarkkana. Resurssin asiakkaan vastaanottama pääsyoikeuspoletti ei vielä sisällä käyttäjän tietoja: pääsyoikeuspoletti on ainoastaan valtakirja käyttäjätietojen kysymiseksi resurssin tarjoajalta. Siksi MOOC-palvelun täytyy auktorisointiprosessin vaiheen \verb!(E)! jälkeen pyytää käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}.
+
+  Facebook Platformin myöntämä pääsyoikeuspoletti on voimassa vain rajallisen ajan -- oletusarvoisesti kaksi tuntia. Vanhenemisen lisäksi pääsyoikeuspoletti mitätöityy myös, jos käyttäjä vaihtaa salasanaansa, kirjautuu ulos Facebookista tai poistaa sovelluksen auktorisoinnin~\cite{facebook_oauth2_expired_tokens}. Pääsyoikeuspoletin uusiminen edellyttää OAuth-virtauksen suorittamista uudelleen. Tämä puolestaan edellyttää käyttäjän läsnäoloa, jotta Facebook Platform myöntää auktorisointikoodin käyttäjän suostumusvaiheessa \verb!(C)!.
+
+  OAuth-standardin mukaan auktorisointipalvelin tarjoaa virkistyspoletin (\verb!refresh_token!), kun asiakaalle myönnetään pääsy käyttäjän tietoihin silloinkin, kun käyttäjä ei ole läsnä~\cite{ietf_oauth2}. Asiakas voi virkistyspoletin avulla pyytää uuden pääsyoikeuspoletin ilman käyttäjän suostumusvaihetta. OAuthin yhtenä perusajatuksena on pitkäikäinen auktorisointi ja lyhytikäinen pääsyoikeuspoletti.
+
+  Facebook ei standardista poiketen tarjoa virkistyspolettia, vaan myöntää sen sijaan ikuisesti voimassa olevan pääsyoikeuspoletin~\cite{facebook_oauth2_doc}. Jos MOOC tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, sen on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!scope!-parametrin välityksellä \verb!offline_access!-käyttöoikeutta~\cite{facebook_oauth2_doc}. Facebookin suunnitelmissa on lopettaa ikuisesti voimassa olevat pääsyoikeuspoletit. Vuoden 2012 aikana Facebook päättää tuen \verb!offline_access!-käyttöoikeudelle ja korvaa sen pidentämällä pääsyoikeuspoletin voimassaoloaikaa joka kerralla, kun käyttäjä palaa asiakaspalveluun~\cite{facebook_oauth2_deprecate_offline}.
 
 
-  % subsection autentikoituminen_oauth_protokollalla (end)
+  % subsubsection ensimmäisen_auktorisoinnin_jälkeen (end)
 
-  \subsection{Autentikoituminen Google- ja Facebook-identiteetillä} % (fold)
+
+  % subsection mooc_fb_auth (end)
+
+  \subsection{Autentikoituminen Google-identiteetillä} % (fold)
   \label{sub:autentikoituminen_facebook}
-  Tässä kerrotaan kuinka Facebook-autentikoinnilla pääsee MOOC-palveluun.
 
-  Päälähteenä Facebookin kehittäjädokumentaatio:
-  \\ \verb!https://developers.facebook.com/docs/authentication/!
-
-  Sisäänkirjautuminen github-tunnuksella? Mahdollistaa integroitumisen koodinkääntäjään. Tämä jatkokehitysideoihin.
-  % http://develop.github.com/p/oauth.html
-
-  Facebook ei anna refreshtokenia vaan jos pyytää scope=offline\_access, niin saa accesstokenin joka ei vanhene. ilman offlineaccessia accesstoken kahdessa tunnissa. Google sen sijaan jakaa refreshtokenin.
-  Facebook deprekoi offlineaccessin, uusi token endpoint sitä varten?
-
-  std ei määrittele kuinka autentikointi suoritetaan
-  joten tarjoaja voi esimerkiksi soveltaa kaksivaiheista autentikointia ja antaa käyttäjän valita, minkä identiteettinsä hän haluaa ottaa käyttöön ennen käyttäjän suostumisvaihetta (kuva~\ref{fig:google_id_and_user_consent}).
-
-  % https://developers.facebook.com/docs/offline-access-deprecation/
-  % https://developers.facebook.com/docs/reference/api/permissions/
   % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
-
-
-  % - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
-  % - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
-
   Google tarjoaa OpenID 2.0 + OAuth 1.0 -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
   % http://code.google.com/apis/accounts/docs/OAuth2.html
   OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
@@ -1422,10 +1397,15 @@ parts as they pass through the user-agent.
     \label{fig:mooc_login_luonnos}
   \end{figure}
 
+
   Vastataan alkuluvussa esitettyihin kysymyksiin.
   % Käyttäjäkeskeisyyteen vapaus valita identiteetintarjoaja sekä user consent kun käyttäjän identiteetin attribuutteeja välitetään palvelusta toiselle.
 
   %OAuth- tai OpenID-spesifikaatio ei määrittele, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
+  std ei määrittele kuinka autentikointi suoritetaan
+  joten tarjoaja voi esimerkiksi soveltaa kaksivaiheista autentikointia ja antaa käyttäjän valita, minkä identiteettinsä hän haluaa ottaa käyttöön ennen käyttäjän suostumisvaihetta (kuva~\ref{fig:google_id_and_user_consent}).
+
+
 
   Yksityisyys? % http://www.google.com/policies/
 
@@ -1436,8 +1416,12 @@ parts as they pass through the user-agent.
 
   Skaalautuuko, mitkä ovat uudet pullonkaulat?
 
-  Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus siltä varalta, että käyttäjän fb-sessio on jäänyt auki
+  Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus siltä varalta, että käyttäjän fb-sessio on jäänyt auki.
   % https://developers.facebook.com/docs/reauthentication/
+
+  Käytä Facebook SDK:ta, älä tee käsin.
+  % https://developers.facebook.com/docs/guides/web/#login
+
 
   % \cite{user_centricity_taxonomy_2006}
   % Käyttäjäkeskeisen identiteetin periaatteen mukaan käyttäjällä täytyy olla mahdollisuus valita, minkä identiteeteistänsä hän yhdistää johonkin web-palveluun~\cite{openid_recordon_2009}. Toteutuakseen käytännössä periaate tarkoittaa, että web-palvelun on mahdollistettava sisäänkirjautuminen monen eri identiteetintarjoan avulla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas.
@@ -1553,6 +1537,10 @@ parts as they pass through the user-agent.
   Kurssisuoritus edellyttää tehtävien hyväksyttyä suorittamista. Tehtävien tarkistaminen tarkistaminen on automatisoitu. Ohjelmointitehtävistä annetaan opiskelijoille yksikkötestit, joiden täytyy suorittua hyväksytysti, jotta opiskelijan ohjelmointitehtävä hyväksytään. Opiskelijalla on yksikkötestit käytettävissä omassa kehitysympäristössänsä. Opiskelijan IDE-kehitysohjelmaan on toteutettu erillinen lisäosa (plugin), joka lähettää opiskelijan ohjelmointitehtävien ratkaisut HTTP-rajapinnan kautta MOOC-palveluun. Sen jälkeen MOOC-palvelu suorittaa taustalla yksikkötestit ja kirjaa tehtävät hyväksytyiksi, jos testit menevät läpi.
 
   Tehtäväpalautusten rajapinta tarvitse pääsyoikeudet. Nykyinen toteutus on HTTP Basic Authilla, jossa opiskelija antaa käyttäjätunnuksensa ja salasanansa IDE-ohjelmistoon. Tämä ei hyvä, koska salasana monessa eri paikassa. Yksinkertainen ratkaisu: MOOC-palvelu luo käyttäjälle API-keyn joka syötetään IDE:hen. Parempi ratkaisu: Sopiva OAuth-flow, jolla auktorisoidaan työpöytäsovellus.
+
+  Sisäänkirjautuminen github-tunnuksella? Mahdollistaa integroitumisen koodinkääntäjään. Tämä jatkokehitysideoihin.
+  % http://develop.github.com/p/oauth.html
+
 
   Tämän tutkielman fokus on käyttäjän autentikoimisessa, joten pääsyoikeuksien myöntäminen jää jatkokehitysideaksi.
 

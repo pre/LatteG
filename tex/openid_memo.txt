@@ -117,3 +117,23 @@ Federal Identity, Credentialing, and Access Management % http://www.idmanagement
 ks http://stackoverflow.com/questions/3260557/openid-is-the-identifier-url-unique-what-are-the-differences-between-the-ident
 
 subsection openid_connect (end)
+
+
+
+-------------
+
+
+https://openid.net/2011/04/29/a-map-for-openid-abc/
+
+
+Directed Identity vs Identifier Select
+http://willnorris.com/2009/07/openid-directed-identity-identifier-select
+
+
+------------
+
+
+Delegation no longer supported. Normaalikäyttäjällä ei ole omaa verkkotunnusta johon sais link-tägit.
+
+OpenID Connect gives you three choices: use an identifier issued by an existing provider, use a provider that provides white-label OpenID services under your domain, or run your own provider. The first and second of these options are reasonable for your average user and the last is for us nerds.
+http://www.apparently.me.uk/2010/05/important-changes-in-openid-connect.html

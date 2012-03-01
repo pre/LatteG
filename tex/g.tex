@@ -222,7 +222,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä monessa eri web-palvelussa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Digitaalinen identiteetti on siten kontekstisidonnainen, koska jokaisen palvelun käyttäjäprofiili muodostaa omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun asiayhteyksissä.
 
-  Käyttäjäprofiili on digitaalinen identiteetti. Identiteetin käyttäjälle myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän antamia tietoja. Tällöin on kyse käyttäjän itsensä myöntämästä identiteetistä~\cite{cameron_id_arch_2006}.
+  Käyttäjäprofiili on digitaalinen identiteetti~\cite{sakimura_identity_2011}. Identiteetin käyttäjälle myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän antamia tietoja. Tällöin on kyse käyttäjän itsensä myöntämästä identiteetistä~\cite{cameron_id_arch_2006}.
 
   \emph{Federaatioksi} kutsutaan joukkoa toimijoita, jotka luottavat tietynlaiseen toisiltansa saaman tietoon~\cite{id_in_federation_systems_2005, federated_auth_case_2008}. Identiteetinkuluttaja on federaation jäsen, jota kutsutaan usein \emph{luottavaksi osapuoleksi} (\emph{relying party}), koska se on valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan federoidun identiteetin. Identiteetinkuluttaja siten luottaa identiteetintarjoajan viestiin siitä, että käyttäjä todistanut hallitsevansa esittämäänsä käyttäjätunnusta. Web-palvelujen kasvavan suosion (todo termi) myötä korostuu tarve digitaalisen identiteetin jakamiselle eri palvelujen ja organisaatioiden kesken. Tätä kutsutaan \emph{federoiduksi identiteetinhallinnaksi} (\emph{federated identity management})~\cite{id_in_federation_systems_2005}.
 
@@ -250,7 +250,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   % \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
   %
   % % todo
-  % Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns.
+  % Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns. XRI on URN-skeema (http://nat.sakimura.org/2006/10/23/identity-20-and-mydentity/) jota hallinnoi xdi.org
   %
   % \begin{figure}
   %   \centering
@@ -1054,6 +1054,75 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   Sen jälkeen kun eri tekniikat on selitetty, yhteenvetolukuun taulukko jossa parilla lauseella selitetään jokainen.
+
+  OAuth on ensisijaisesti auktorisointiprotokolla. Mahdollisuus autentikoida käyttäjä on ikään kuin auktorisoinnin sivutuote, koska käyttäjäidentiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa. Autentikoinnin ja auktorisoinnin käsitteiden suhteen tulee silti olla tarkkana. Resurssin asiakkaan vastaanottama pääsyoikeuspoletti ei vielä sisällä käyttäjän tietoja: pääsyoikeuspoletti on ainoastaan valtakirja käyttäjätietojen kysymiseksi resurssin tarjoajalta. Siksi resurssin asiakkaan täytyy pääsyoikeuspoletin vastaanottamisen jälkeen vielä erikseen pyytää käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}. OAuth ei siten tarjoa varsinaista autentikointiprosessia, vaan pääsyoikeuspoletin käyttämisellä ''simuloidaan autentikointia''~\cite{sakimura_dummydiff_oauth_openid_2011}.
+
+  % One of my goals is getting OAuth 2.0 to the point – fairly quickly – where we can start to architect the next version of OpenID on top of it. WebFinger + OAuth 2.0 + identity would be sweet and finally give us a consistent story for both authentication and authorization. I'd love whatever help I could get with all of this as well!
+  % - David Recordon 03/2010: http://daveman692.livejournal.com/349384.html
+  %
+  % "Since Facebook provides both identity as well as authorization, it’s critical that we get this piece right in order to have a complete solution."
+  % - Luke Shepard
+  % http://www.sociallipstick.com/?p=239
+
+  Jaettu salaisuus luotettava ja ennen kaikkea yksinekrtainen toteutus vs signaturet ja assertiot. Mahdollista tehdä turvallisesti koska https suojaa kuljetuskerroksen. (ei applikaatiokerroksen tehtävä) Joinssain tapauksissa vaikeaa tai laskennallisesti liian työlästä käyttää ssl/tls, silloin signaturet. Käytännössä hyödyt ssl/tls:n soveltamisesta ovat suuremmat kuin haittapuolet~\cite{oauthwg_ssl_discussion_2010}.
+
+  % Now you understand that it is very dangerous to randomly authenticate yourself to the sites using plain OAuth [*1]. Then, what should we do to authenticate safely and properly using OAuth? What about just handing a valet key to a locker that only has a copy of the letter of referral instead to your apartment?
+  % http://nat.sakimura.org/2011/05/15/dummys-guide-for-the-difference-between-oauth-authentication-and-openid/
+  % [*1] Indeed, twitter allowed any apps that the user authorized to read all his direct messages (DMs) until the end of June, 2011.
+  %
+  % In this case, even the worst happens, you only lose the copy of referral letter. The damage is not so different than the case of OpenID. This indeed is the basic idea behind “OpenID Connect.”
+  % OpenID Connect is a distributed identity framework on top of OAuth that not only allows safe authentication but also make it possible for the sites to move the distributed data in the internet and provide better services.
+  %
+  % openid connect: http://openid.net/2011/05/20/openids-second-act-openid-connect/
+
+
+
+  % Tein kokeeksi itselleni delegoidun OpenID-tunnisteen, joka autentikoi Googleen.
+  %
+  % OpenID-käyttäjätunnukseni on: http://salainen.asia
+  % Salasanani on: Googlen varmistama petrus.repo@gmail.comin salasana
+  %
+  % Riittää että web-sivulle laittaa
+  %   <link rel="openid2.provider"
+  % href="https://www.google.com/accounts/o8/ud?source=profiles">
+  %   <link rel="openid2.local_id"
+  % href="https://profiles.google.com/GOOGLE_PROFIILIN_ID">
+  %
+  % niin google autentikoi minkä tahansa openid-tunnisteen. Ihan vitun
+  % jepa! Mutta ongelmana on, että OpenID:tä tuetaan tosi harvassa
+  % paikassa. Ja sitä ei tueta, koska sitä ei käytetä.
+  %
+  % OpenID Connectissa eli OpenID:n seuraavassa versiossa tämä
+  % identiteetin delegointi onkin sitten jo deprekoitu. Syynä juurikin se,
+  % että ei kenelläkään normaalilla ihmisellä ole enää vuonna 2012
+  % henkilökohtaisia kotisivuja tai domainia, jonka html:n sekaan voisi
+  % laittaa <link>-tägejä.
+  %
+  % OpenID Connectia aletaan stabiloida vasta sen jälkeen, kun OAuth 2.0
+  % on virallisesti ulkona. OpenID:n entinen päätyyppi David Recordon on
+  % ollut vuodesta 2008 lähtien töissä Facebookilla ja vaikuttanut
+  % voimakkaasti Facebook Connectin (ja sitä kautta OAuth 2.0:n)
+  % kehittämiseen.
+  %
+  % Erinäisten blogimerkintöjen perusteella näyttäisi siltä, että myös
+  % facebookin intresseissä on tarjota openid connectilla käyttäjille
+  % identiteetti myöhemmässä vaiheessa kun OAuth 2.0 on valmis. OAuth ei
+  % ole autentikointiprotokolla vaan autentikointi on OAuthissa
+  % auktorisoinnin sivutuote -- tästä seuraa tiettyjä ongelmia 850
+  % miljoonan käyttäjän massalla.
+  % http://www.apparently.me.uk/2010/05/important-changes-in-openid-connect.html
+
+  OpenID:ssä autentikointi ja identifier yleensä tiukasti kytketty toisiinsa. Käyttäjä ei voi vaihtaa idp:tä jos idenfierin verkkotunnus ei ole hänen hallinnassaan. Tällöin identiteetti häviää jos idp menee nurin. OpenID:n suurin heikkous Sakimuran mukaan.
+  % http://nat.sakimura.org/2009/06/15/identity-loss-with-openid-20/
+
+  OpenID olisi mainio tekniikka jos sillä voisi kirjautua sisään moneen palveluun.
+  Facebook ilmoitti toukokuussa 2009 (viite https://developers.facebook.com/blog/post/246/), että facebookiin voi kirjautua openid:llä. Esimerkissä mainittiin gmail tunnuksella sisäänkirjautuminen. Myöhemmin Facebook pyörsi päätöksensä eikä enää mahdollista openid:tä. Facebook haluaa toimia itse idp:nä, ja siinä sillä on jo valtava valmis käyttäjämassa.
+
+  Käyttäjän oma verkkotunnus ja delegoitu autentikointi esim googleen (luotettavampaa)
+  % http://stackoverflow.com/questions/2541526/delegate-openid-to-google-not-google-apps/2545245#2545245
+  % <link rel="openid2.provider" href="https://www.google.com/accounts/o8/ud?source=profiles">
+  % <link rel="openid2.local_id" href="https://profiles.google.com/[YOUR PROFILE ID]">
+
   %+ Voi olla toinenkin taulukko, jossa esim. front channel ja back channel jokaisen protokollan osalta.
   %+ Trust Model: RP/SP initiated; IDP initieated %; (esim definition of trust: "A reasonable expectation of confidence in an actor’s behavior")
   %+ Registration / Discovery % ("Discovery is similar to a Web search for an identity."; "Discovery can be preceded by a registration step: a step by which IDPs register themselves as providing a particular identity service for a given user. Such a registry could be located on the client or on a network endpoint.")
@@ -1066,6 +1135,12 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
     %
     %
 
+    % OAuth ja assertiot jos jaettu salaisuus client_id ja client_secret eivät tarpeeksi turvallisia.
+    %
+    % We modified our OAuth2 webserver flow implementation to accept assertions from the OAuth client,
+    % instead of sending client_id&client_secret. This is useful in some cases where long-lived
+    % client_id&client_secret are not considered strong enough. Here are the steps to use it:
+    % https://sites.google.com/site/oauthgoog/Home/google-oauth2-assertion-flow
 
     % TODO: Tää on huono kuva.
     %
@@ -1274,9 +1349,7 @@ parts as they pass through the user-agent.
   \subsubsection{Ensimmäisen auktorisoinnin jälkeen} % (fold)
   \label{ssub:ensimmäisen_auktorisoinnin_jälkeen}
 
-  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pääsyoikeuspyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä hyväksyntää uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa sen. Jos auktorisoinnin lisäksi myös käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, käyttäjä voidaan autentikoida kysymättä salasanaa.
-
-  OAuth on ensisijaisesti auktorisointiprotokolla. Mahdollisuus autentikoida käyttäjä on ikään kuin auktorisoinnin sivutuote, koska käyttäjäidentiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa. Autentikoinnin ja auktorisoinnin käsitteiden suhteen tulee silti olla tarkkana. Resurssin asiakkaan vastaanottama pääsyoikeuspoletti ei vielä sisällä käyttäjän tietoja: pääsyoikeuspoletti on ainoastaan valtakirja käyttäjätietojen kysymiseksi resurssin tarjoajalta. Siksi MOOC-palvelun täytyy auktorisointiprosessin vaiheen \verb!(E)! jälkeen pyytää käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}.
+  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin ja MOOC voi kysyä käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pääsyoikeuspyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä hyväksyntää uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa sen. Jos auktorisoinnin lisäksi myös käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, käyttäjä voidaan autentikoida MOOC-palveluun kysymättä salasanaa.
 
   Facebook Platformin myöntämä pääsyoikeuspoletti on voimassa vain rajallisen ajan -- oletusarvoisesti kaksi tuntia. Vanhenemisen lisäksi pääsyoikeuspoletti mitätöityy myös, jos käyttäjä vaihtaa salasanaansa, kirjautuu ulos Facebookista tai poistaa sovelluksen auktorisoinnin~\cite{facebook_oauth2_expired_tokens}. Pääsyoikeuspoletin uusiminen edellyttää OAuth-virtauksen suorittamista uudelleen. Tämä puolestaan edellyttää käyttäjän läsnäoloa, jotta Facebook Platform myöntää auktorisointikoodin käyttäjän suostumusvaiheessa \verb!(C)!.
 
@@ -1292,6 +1365,10 @@ parts as they pass through the user-agent.
 
   \subsection{Autentikoituminen Google-identiteetillä} % (fold)
   \label{sub:autentikoituminen_facebook}
+  \begin{quote}
+    ''OpenID is a referral letter, OAuth is a valet key.''
+    \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
+  \end{quote}
 
   % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
   Google tarjoaa OpenID 2.0 + OAuth 1.0 -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
@@ -1305,6 +1382,12 @@ parts as they pass through the user-agent.
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
 
   Tässä esitellään OpenID-toteutus.
+
+  Riskinä, että vapaa openid idp katoaa. Tämä on openid foundationin pj:n mielestä openid:n suurin riski.
+  % "With several OP going away recently, this is the reality."
+  % http://nat.sakimura.org/2009/06/15/identity-loss-with-openid-20/
+
+  OpenID-sisäänkirjautuminen on mystinen käyttäjälle joka ei tunne openid:tä etukäteen. Käyttäjä näkee vain sisäänkirjautumisformin ilman rekisteröintiä. Koska vapaa idp, ei voi tarjota rekisteröintilinkkiä. Rekisteröintilinkki tarjotaan vain esivalittuihin google/facebookiin.
 
   % User and idp discovery: http://hueniverse.com/2009/09/openid-and-lrdd/
   \begin{figure}
@@ -1376,11 +1459,44 @@ parts as they pass through the user-agent.
 
   \subsection{Uloskirjautuminen ja kertauloskirjautuminen} % (fold)
   \label{sub:kertauloskirjautuminen}
+    \begin{quote}
+      ''The Shibboleth 2 IdP does not support SLO [Single Log Out]. Period. Don't bother looking. This document is NOT a recipe for implementing SLO. It's a warning to those who think they understand SLO. They probably do not understand it and need to think about it long and hard before they even begin to contemplate it at some future point in time.''
+    \\--- Shibboleth 2:n Wiki-sivulla oleva varoitus kertauloskirjautumisesta  todo viite
+    % viite https://wiki.shibboleth.net/confluence/display/SHIB2/SLOIssues
+    \end{quote}
+
+
   Kerrotaan lyhyesti kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
 
   MOOC-sessio nullataan kun uloskirjautuu moocista. IDP-sessio jää voimaan. Jos palvelusta logout, niin logout myös idp:ltä. Koska jos käyttää julkiselta koneelta, niin muuten jäisi huomaamatta sessio auki idp:hen! Vastaavasti, jos logout idp:ltä, niin idc:n sessio ei enää voimassa. IDC:llä user-consent-vastuu, kun ei refresh-tokenia. HUOM! OpenID v2.0:ssa tämä ei toteudu!
 
   Webissä palveluja joihin kirjaudutaan ainoastaan fb-tunnareilla. Tällaisesta palvelusta logout kirjaa käyttäjän ulos myös facebookista. uloskirjautuminen voi tulla yllätyksenä (minulle tuli kun kokeilin, urheilusaitti se jonka nimeä en koskaan muista).
+
+  Kolme vaihtoehtoa:
+  1) Käyttäjä kirjataan ulos MOOC-palvelusta (poistetaan MOOC-verkkotunnukseen liitetyt keksit)
+  2) Kirjataan käyttäjä ulos MOOC-palvelusta ja identiteetintarjoajalta (poistetaan keksit ja ohjataan käyttäjä identiteetintarjoajan uloskirjautumisosoitteeseen)
+  3) Anentaan käyttäjän valita vaihtoehdoista 1 ja 2. Tällöin käyttäjä saattaa valita vahingossa turvattoman vaihtoehdon, jolloin sessio identiteetintarjoajalle jää voimaan esimerkiksi jaetulla työasemalla.
+
+  Kun sessio on voimassa identiteetintarjoajalla, sisäänkirjautuminen MOOC-palveluun onnistuu ilman salasanaa. Uloskirjautumisesta ei siten ole hyötyä, jollei MOOC-palvelun lisäksi myös identiteetintarjoajan sessiota päätetä. Identiteetintarjoajan täytyy tarjota uloskirjautumisen rajapinta. (Facebook: FB.Connect.logout()). OpenID:ssä ei protokollatasolla ole uloskirjautumista (viite http://www.sociallipstick.com/?p=189)
+
+  Kertauloskirjautuminen on erittäin monimutkainen ja haastava ongelma, kun identiteetinkuluttajia on useita (viite shibbo). Jos MOOC-palvelu lopettaa sekä käyttäjän paikallisen session että Facebook-session, muiden identiteetinkuluttajien sessio on yhä voimassa, kunnes niiden pääsyoikeuspoletti tai muu varmenne vanhenee. Tämä tutkielma rajataan yksinkertaisuuden puolesta siten, että MOOC on ainoa identiteetinkuluttaja.
+  % https://wiki.shibboleth.net/confluence/display/SHIB2/SLOIssues
+
+
+  %
+  % What does that “logout” link do?
+  %
+  % There are three possible choices:
+  %
+  % Log you out of the current site. (clear cookies on the current domain)
+  % Log you out of the current site AND the identity provider. (clear cookies and use cross domain communication to clear the parent)
+  % Give the user a choice between #1 and #2.
+  % As I argued last fall, the only logical choice is #2: for it to log you out of not only the current site, but the identity provider as well.
+  %
+  % For #1 or #3 (which involve clearing cookies on just the current domain), we leave the user in a logically inconsistent state, which exposes them to security and usability problems.
+  %
+  % http://www.sociallipstick.com/2008/10/theres-three-types-of-sites-out-there/
+
 
   % subsection kerta (end)
 
@@ -1477,7 +1593,8 @@ parts as they pass through the user-agent.
 
   mooc-koodinpalautusrajapinnan autentikointi: koska sso niin käyttäjillä ei ole enää salasanaa mooc-järjestelmään. sen vuoksi nykyinen http basic auth ei enää toimi. nopea ratkaisu on api-key, parempi ratkaisu oauth ja desktop appille sopiva flow.
 
-  oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. siksi oauthin käyttämisessä autentikointiin riskinsä, koska periaatteessa oauth ei ole federoitu autenikointisyteemi vaan autentikointi on auktorisointirajapinnan sivutuote. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
+  % ks luku tekniikoiden soveltuvuus
+  oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
 
   oauthissa ei ole standardissa käsitettä ''identiteetti'', vaan 3:s osapuoli saa käyttäjän tiedot joko parametrina pääsyoikeuspoletin myöntämisvaiheena tai erikseen rajapintakutsun kautta access tokenilla.
   molemmat, sekä openid että oauth, uudelleenohjaavat käyttäjän jonnekin muualle ja käyttäjä palaa sieltä varmistetun assertion/väitteen kanssa. OpenID tarjoaa identiteettiassertion/väitteen, kun taas oauth palauttaa pääsyoikeuspoletin jonka suomin valtuuksin kolmas osapuoli voi sen jälkeen kysyä oauth-tarjoajalta kysymyksiä. openid:ssä discovery, oauthissa joutuu kovakoodaamaan tuetut idp:t. discovery tosin myös yksi openid:n ongelmista koska käyttäjät eivät ymmärrä URI:a käyttäjätunnuksena.
@@ -1496,6 +1613,15 @@ parts as they pass through the user-agent.
 
   todo
   OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
+  Nurinmeneminen on ongelma jota ei voi ratkaista tekniikalla. Jokaisella ulkoistetulla identiteetintarjoajalla on riski palvelun lopettamisesta.
+  % http://nat.sakimura.org/2010/09/04/re-openid-provider-imploding-chaos-coming/
+  % tätä varten xdi.org ja tietojen escrow:
+
+  % http://nat.sakimura.org/2006/10/23/identity-20-and-mydentity/
+  % We would also have to think about the cases when this company gets bankrupt etc. What XDIORG does is to put the legal and contractual as well as technical infrastructure to cover such cases, such as creating the minimum standard of the service implementation, creating the rules so that one can move to another hosting company when needed, setting up escrow relationships so that people will not get caught by the sudden death of the hosting provider, determining what kind of insurance plan that hosting provider must purchase, etc. We need to vigorously think about those social fabrics. Technical considerations alone is not enough.
+  %
+  % By the way, technically, to achieve this kind of infrastructure, SAML alone is not enough and we have to have other technologies that assists the resolution of the authentication provider and determine the reputation of such. One candidate for such technology is XRI/XDI which is being standerdized at Oasis Open, the same institution that SAML got standerdized. XRI is a URN scheme that has built in delegation framework and a portion of it (XRDS) is being used as the centerpiece of a href=”http://www.yadis.org/”>Yadis, which is being used by OpenID, LID, and inames.
+
 
   Luottamus ja opintooikeus:
   opinto-oikeus mooc-suoritusten perusteella: voidaanko vapaavalintaiseen openid-idp:hen luottaa?
@@ -1538,7 +1664,7 @@ parts as they pass through the user-agent.
 
   Tehtäväpalautusten rajapinta tarvitse pääsyoikeudet. Nykyinen toteutus on HTTP Basic Authilla, jossa opiskelija antaa käyttäjätunnuksensa ja salasanansa IDE-ohjelmistoon. Tämä ei hyvä, koska salasana monessa eri paikassa. Yksinkertainen ratkaisu: MOOC-palvelu luo käyttäjälle API-keyn joka syötetään IDE:hen. Parempi ratkaisu: Sopiva OAuth-flow, jolla auktorisoidaan työpöytäsovellus.
 
-  Sisäänkirjautuminen github-tunnuksella? Mahdollistaa integroitumisen koodinkääntäjään. Tämä jatkokehitysideoihin.
+  Sisäänkirjautuminen github-tunnuksella? Mahdollistaa integroitumisen koodinkääntäjään. Tämä jatkokehitysideoihin. Ei pakko sisäänkirjautua github-tunnarilla jotta voi käyttää github-resursseja. Jos tehtäviä paljon, github-integraatio voi olla sukkelampi kuin eclipse-plugin. Tosin edellyttää käyttäjältä versionhallintakokemusta.
   % http://develop.github.com/p/oauth.html
 
 

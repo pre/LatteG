@@ -108,8 +108,8 @@
 
   \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.9\textwidth]{images/auth_yleiskuva.jpg}
-    \caption{Tutkielman keskeisen termistön väliset suhteet (todo parempi skannaus)}
+    \includegraphics[width=0.8\textwidth]{images/auth_yleiskuva.jpg}
+    \caption{Tutkielman keskeisen termistön väliset suhteet}
     \label{fig:yleiskuva_termien_suhteista}
   \end{figure}
 
@@ -1095,6 +1095,14 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % openid connect: http://openid.net/2011/05/20/openids-second-act-openid-connect/
 
 
+  % OpenID Connect is a new generation of the internet identity protocol. Technically, it is fundamentally different than OpenID 2.0. From the point of view of the non-technical end user, however, it would be hard to see the difference.  (=nat )
+  % http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
+
+  % OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
+  % http://openid.net/connect/
+  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
+
+
 
   % Tein kokeeksi itselleni delegoidun OpenID-tunnisteen, joka autentikoi Googleen.
   %
@@ -1281,56 +1289,26 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisäänkirjautumisen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myötämisestä ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
 
-  \begin{singlespacing}
-    \begin{verbatim}
-      kuva {fig:oauth_auth_code_flow}
-      todo piirrä puhtaaksi \cite{ietf_oauth2}:
-+----------+
-| resource |
-|   owner  |
-| (opiskelija)  |
-+----------+
-     ^
-     |
-    (B)
-+----|-----+          Client Identifier      +---------------+
-|         -+----(A)-- & Redirection URI ---->|               |
-|  User-   |                                 | Authorization |
-|  Agent  -+----(B)-- User authenticates --->|     Server    |
-| (web-selain)|                              |  (Facebook)   |
-|         -+----(C)-- Authorization Code ---<|               |
-+-|----|---+                                 +---------------+
-  |    |                                         ^      v
- (A)  (C)                                        |      |
-  |    |                                         |      |
-  ^    v                                         |      |
-+---------+                                      |      |
-|         |>---(D)-- Authorization Code ---------'      |
-|  Client |          & Redirection URI                  |
-|  (MOOC) |                                             |
-|         |<---(E)----- Access Token -------------------'
-+---------+       (w/ Optional Refresh Token)
 
-
-Note: The lines illustrating steps A, B, and C are broken into two
-parts as they pass through the user-agent.
-    \end{verbatim}
-
-  \end{singlespacing}
-
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/fb_auth_sekvenssi.jpg}
+    \caption{OAuth-auktorisointikoodin virtaus}
+    \label{fig:oauth_auth_code_flow}
+  \end{figure}
 
   \begin{description}
   \item[(A)]
+   Loppukäyttäjä on klikannut MOOC-palvelun sisäänkirjautumissivulta Facebook-autentikoinnin linkkiä.
    MOOC ohjaa käyttäjäagentin Facebook Platformin auktorisointipäätepisteeseen ja liittää pyyntöön oman tunnisteensa (\verb!client_id!) sekä paluuosoitteen (\verb!redirect_uri!).
     % https://www.facebook.com/dialog/oauth?
     %      client_id=YOUR_APP_ID&redirect_uri=YOUR_URL
 
-  \item[(B)]
+  \item[(B) TODO TSEKKAA ETTÄ VASTAA KUVAA]
   Facebook Platform ottaa käyttäjäagentin vastaan ja autentikoi käyttäjän.
   Jos käyttäjä on jo sisäänkirjautunut, Facebook validoi käyttäjän session voimassaolon  käyttäjäagenttiin Facebookin tallettaman keksin perusteella (todo keksi vai eväste)~\cite{facebook_oauth2_doc}. Jos sessio ei ole voimassa, Facebook kysyy käyttäjätunnusta ja salasanaa.
   OAuth-standardi ei määrittele, kuinka autentikointi täytyy suorittaa~\cite{ietf_oauth2}.
 
-  \item[(C)]
   Autentikoitumisen jälkeen Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli, profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten MOOC asettaa \verb!scope!-parametrin arvoksi \emph{email}\footnote{
     Kattava listaus Facebook Platformin tarjoamista käyttöoikeuksista saatavilla osoitteesta:
     \url{https://developers.facebook.com/docs/reference/api/permissions/}
@@ -1338,6 +1316,8 @@ parts as they pass through the user-agent.
 
   % https://www.facebook.com/dialog/oauth?
   %      client_id=MOOC_APP_ID&redirect_uri=MOOC_URL&scope=email
+
+  \item[(C)]
 
   Jos käyttäjä hyväksyy tietojen luovuttamisen, Facebook ohjaa käyttäjäagentin MOOC-palvelun paluuosoitteeseen (\verb!redirect_uri!). Parametrina MOOC-palvelulle välitetään Facebookin luoma väliaikainen auktorisointikoodi.
   Jos käyttäjä ei hyväksy tietojen luovuttamista, käyttäjäagentti ohjataan paluuosoitteeseen
@@ -1398,6 +1378,16 @@ parts as they pass through the user-agent.
     \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
   \end{quote}
 
+  oauthissa ja openid 2.0:ssa samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. oauthissa käyttäjä antaa valtakirjan/auktorisoinnin suojattuihin resursseihin ja openid:ssä identiteettiin. muuta yhteistä niillä ei ole. kummallakin protokollalla omanlaisensa vaatimukset 3-osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen/vastausten autenttisuus (ettei ole väärennetty eli laskea signature). openid connect rakentuu oauth 2.0:n päälle.
+
+  emergentti paradigmanmuutos: first authenticate then transfer authenticated subject information -- tästä tulee pian default approact. vrt vanha jossa auth/authz samassa. decoupling.
+  openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
+  oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.
+
+  oauth sopii paremmin auktorisointiin koska autentikoinnin jälkeinen toiminta eri resurssien välillä on rakennettu suoraan protokollaan. openid 2.0 edellyttää laajennoksen käyttämistä (esim openid+oauth1.0) jotta voi käyttää auktorisointiin. openid connect rakentaa identiteettikerroksen oauth2.0:n päälle. koska moocissa auktorisointitarpeita (jatkokehitysideat), valitaan oauth2.0 ensisijaiseksi protokollaksi.
+
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   Tehdään OAuthilla. Osoitetaan että menee samalla lailla kuin fb.
   Myöhemmin openid connect + oauth 2: oauth2 on jo valmiina, openid connect rakentuu päälle
   % openid connect demo http://oauthssodemo.appspot.com/step/1
@@ -1413,6 +1403,8 @@ parts as they pass through the user-agent.
   Käytetään OpenID:tä googlen kanssa google oauth2: \cite{google_oauth2_doc}
 
   % subsection autentikoituminen_facebook (end)
+
+
 
   \subsection{Autentikoituminen vapaasti valittavalla identiteetintarjoajalla} % (fold)
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
@@ -1550,7 +1542,6 @@ parts as they pass through the user-agent.
   \end{figure}
 
 
-  Vastataan alkuluvussa esitettyihin kysymyksiin.
   % Käyttäjäkeskeisyyteen vapaus valita identiteetintarjoaja sekä user consent kun käyttäjän identiteetin attribuutteeja välitetään palvelusta toiselle.
 
   %OAuth- tai OpenID-spesifikaatio ei määrittele, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
@@ -1593,9 +1584,9 @@ parts as they pass through the user-agent.
 
   Kuinka luotettavia tunnisteet ovat? Federoitu vs käyttäjäkeskeinen. Keskitetty + user centric = monta sso-identiteettiä.
 
-  Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkosluvussa.
+  Vastaa tähän kaikkiin kriteereihin, jotka nostetaan esiin kakkos- ja kolmosluvussa.
 
-  Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
+  % Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
 
   vastaa johdantotekstissä olevaan ''Autentikoinnin vaatimuksena on siten varmistaa ..''
 
@@ -1626,8 +1617,9 @@ parts as they pass through the user-agent.
   Väite != Luottamus. Mooc-suoritusten perusteella voidaan myöntää opinto-oikeuus TKTL:lle. Käyttäjä täytyy siis kyetä tunnistamaan luotettavasti eli väite käyttäjän identiteetistä täytyy vahvistaa. Vahvistaminen jätetään korkeammalle abstraktiotasolle eli esim yliopiston kansliaan. Google/Facebook mahdollistaa kenen tahansa rekisteröitymisen, eli jotenkin käyttäjän on osoitettava että tietty tunniste kuuluu hänelle ja sen jälkeen vahvistaa tämä registration authoritylle esim näyttämällä henkilökorttia livenä kansliassa. Kaikille avoin openid idp joka hyväksyy minkä tahansa autentikoinnin --> periaatteessa sama juttu paitsi että miksi käyttäjä olisi tehnyt tällaisen -- käyttäjä voi myös jakaa tarkoitusta varten luomansa facebook-tunnukesnsa salasanan kaverilleen joka tekee tehtävät hänen puolestansa.
 
   openid provider white list? jottei epäluotettavia idp:itä.
+  tekniseltä toimintavarmuudeltaan google ja facebook ovat erinomaisia koska takana suuri yhtiö, tavoite avoimiin standardeihin (oauth ja openid) ja valtava käyttäjämassa.
 
-  mooc-koodinpalautusrajapinnan autentikointi: koska sso niin käyttäjillä ei ole enää salasanaa mooc-järjestelmään. sen vuoksi nykyinen http basic auth ei enää toimi. nopea ratkaisu on api-key, parempi ratkaisu oauth ja desktop appille sopiva flow.
+  mooc-koodinpalautusrajapinnan autentikointi: koska sso niin käyttäjillä ei ole enää salasanaa mooc-järjestelmään. sen vuoksi nykyinen käyttäjäsalasanaan perustuva http basic auth ei enää toimi. nopea ratkaisu on api-key, parempi ratkaisu oauth ja desktop appille sopiva flow.
 
   % ks luku tekniikoiden soveltuvuus
   oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
@@ -1635,19 +1627,10 @@ parts as they pass through the user-agent.
   oauthissa ei ole standardissa käsitettä ''identiteetti'', vaan 3:s osapuoli saa käyttäjän tiedot joko parametrina pääsyoikeuspoletin myöntämisvaiheena tai erikseen rajapintakutsun kautta access tokenilla.
   molemmat, sekä openid että oauth, uudelleenohjaavat käyttäjän jonnekin muualle ja käyttäjä palaa sieltä varmistetun assertion/väitteen kanssa. OpenID tarjoaa identiteettiassertion/väitteen, kun taas oauth palauttaa pääsyoikeuspoletin jonka suomin valtuuksin kolmas osapuoli voi sen jälkeen kysyä oauth-tarjoajalta kysymyksiä. openid:ssä discovery, oauthissa joutuu kovakoodaamaan tuetut idp:t. discovery tosin myös yksi openid:n ongelmista koska käyttäjät eivät ymmärrä URI:a käyttäjätunnuksena.
 
-  oauthissa ja openid 2.0:ssa samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. oauthissa käyttäjä antaa valtakirjan/auktorisoinnin suojattuihin resursseihin ja openid:ssä identiteettiin. muuta yhteistä niillä ei ole. kummallakin protokollalla omanlaisensa vaatimukset 3-osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen/vastausten autenttisuus (ettei ole väärennetty eli laskea signature).
 
-  openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
-  oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.
-
-  oauth sopii paremmin auktorisointiin koska autentikoinnin jälkeinen toiminta eri resurssien välillä on rakennettu suoraan protokollaan. openid 2.0 edellyttää laajennoksen käyttämistä (esim openid+oauth1.0) jotta voi käyttää auktorisointiin. openid connect rakentaa identiteettikerroksen oauth2.0:n päälle. koska moocissa auktorisointitarpeita (jatkokehitysideat), valitaan oauth2.0 ensisijaiseksi protokollaksi.
-
-  aina https: openid uses anonymous diffie-helman for an ad-hoc association establishment. Tämän seurauksena openid haavoittuvainen impersonointi ja man-in-the-middlelle.
-
-  emergentti paradigmanmuutos: first authenticate then transfer authenticated subject information -- tästä tulee pian default approact. vrt vanha jossa auth/authz samassa. decoupling.
+  aina https: openid uses anonymous diffie-helman for an ad-hoc association establishment. Tämän seurauksena openid haavoittuvainen impersonointi ja man-in-the-middlelle. sertifikaatit eivät ole täydellinnen turva, ca-tietomurrot ja epärehelliset/valtion painostamat ca:t.
 
 
-  todo
   OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
   % Nurinmeneminen on ongelma jota ei voi ratkaista tekniikalla. Jokaisella ulkoistetulla identiteetintarjoajalla on riski palvelun lopettamisesta.
   % http://nat.sakimura.org/2010/09/04/re-openid-provider-imploding-chaos-coming/
@@ -1724,10 +1707,8 @@ parts as they pass through the user-agent.
     \label{fig:luvan_kysyminen_oauth_fb}
   \end{figure}
 
-  Kun aloitin tekstin kirjoittamisen, Googlen tuki OAuth 2.0 :lle oli ''experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä valmis. % 6.2.2012
 
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
-  % Miksi MOOC resurssipohjainen eikä ws-* ?
 
   % Entäs MOOC Mobiili? % https://dev.twitter.com/docs/auth/mobile-sign-flow
 
@@ -1735,22 +1716,6 @@ parts as they pass through the user-agent.
   % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
   % subsubsection jatkokehitysideoita_auktorisointi (end)
-
-  \subsubsection{Autentikointi käyttäen OpenID Connect -protokollaa} % (fold)
-  \label{ssub:autentikointi_käyttäen_openid_connect_protokollaa}
-
-  OpenID Connect rakentuu OAuth 2.0:n päälle, normaali oauth2.0 request access tokenin pyytämiseksi. kuitenkin parempi ''pseudo-loginiin'' koska internet-skaalassa rajaa suoraan liikaa oikeuksia pyytävät asiakkaat pois. oauthissa asiakas voi pyytää mitä tahansa oikeuksia ja käyttäjä saattaa hyväksyä pyynnön. openidconnect oauth20:n päällä tarjoaa pääsyn vain identiteetin tietoihin, ei esim offline access tai kuvien jako.
-  % OpenID Connect is a new generation of the internet identity protocol. Technically, it is fundamentally different than OpenID 2.0. From the point of view of the non-technical end user, however, it would be hard to see the difference.  (=nat )
-  % http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
-
-  OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
-  % http://openid.net/connect/
-  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
-
-
-
-
-  % subsubsection autentikointi_käyttäen_openid_connect_protokollaa (end)
 
   % subsection jatkokehitysideoita (end)
 
@@ -1760,12 +1725,14 @@ parts as they pass through the user-agent.
 \section{Yhteenveto} % (fold)
 \label{sec:yhteenveto}
 
+  emergenttiys: Kun aloitin tekstin kirjoittamisen, Googlen tuki OAuth 2.0 :lle oli ''experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä valmis. % 6.2.2012
+
   Identiteetin ja pääsyoikeuksien hallinta ovat läpileikkaavia haasteita SOA-järjestelmissä.
   Auktorisointi ja autentikointi ovat perustavanlaatuisia vaatimuksia verkkopalveluille. Pelkkä autentikointi ei riitä, jos käytöoikeuksia halutaan rajata tarkemmin kuin ''kaikki kaikille''. Kertakirjautuminen tarkoittaa autentikoitumisen tilan siirtämistä järjestelmästä toiselle. Identiteetin federaatiolla loppukäyttäjän identiteetti voidaan jakaa itsenäisten palvelujen ja toisistaan riippumattomien organisaatioiden kesken.
 
     OpenID:n käytäjäkeskeisyys toteutuisi, jos sitä voisi käyttää kuten iki.fi:n sähköpostiohjausta. Nyt näyttää siltä että OpenID:stä yleistyy ainoastaan hajautettu autentikointi ilman käyttäjäkeskeisyyttä. Tällöin etuja OAuthiin vähden on vaikea sanoa, koska OAuth tarjoaa myös auktorisoinnin. Toivottavasti tuleva OpenID Connect tarjoaa jotain merkittävästi parempaa tai OAuth syrjäyttää OpenID:n kokonaan. Käytännössä: NYt google tarjoaa sekä openid2.0+oauth1.0 että oauth 2.0, jatkossa vain oauth2.0 jos openid syrjäytyy.
 
- Microsoft InfoCardsin tavoitteena olla internet-skaalan identiteetin meta-framework. Kuitenkaan ei ole saanut riittävästi jalansijaa ja vaikuttaa kuolevan pois. OpenID + InfoCards toimivat yhteen. Ongelma on, että muille kuin Microsoft Windowsille ei ole kunnollista InfoCards-clienttiä. Kenen intresseissä sellaisen rakentaminen olisi? Entä mobiilissa? Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
+  Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
 
  %http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
 

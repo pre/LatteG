@@ -157,3 +157,8 @@ http://factoryjoe.com/blog/2010/05/16/combing-openid-and-oauth-with-openid-conne
 
 http://seriouslyidentity.com/
 http://www.planetidentity.org/
+
+
+----------
+
+ Microsoft InfoCardsin tavoitteena olla internet-skaalan identiteetin meta-framework. Kuitenkaan ei ole saanut riittävästi jalansijaa ja vaikuttaa kuolevan pois. OpenID + InfoCards toimivat yhteen. Ongelma on, että muille kuin Microsoft Windowsille ei ole kunnollista InfoCards-clienttiä. Kenen intresseissä sellaisen rakentaminen olisi? Entä mobiilissa?

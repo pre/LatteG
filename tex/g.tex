@@ -116,7 +116,7 @@
   \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/mooc-autentikointirajapinnat.jpg}
-    \caption{MOOC-palveluun toteutettavat autentikointirajapinnat}
+    \caption{MOOC-palveluun soveltuvat autentikointirajapinnat}
     \label{fig:mooc-autentikointirajapinnat}
   \end{figure}
 
@@ -217,8 +217,8 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   \begin{quote}
     ''Your identity is your most valuable possession. Protect it.
     And if anything goes wrong, use your powers!''
-    \\--- Elasticgirl\footnote{
-      Elasticgirl on elokuvan \emph{The Incredibles} hahmo, jonka supervoimana on täydellinen venyvyys erilaisiin muotoihin:
+    \\--- Elastigirl\footnote{
+      Elastigirl on elokuvan \emph{The Incredibles} hahmo, jonka supervoimana on täydellinen venyvyys erilaisiin muotoihin:
       \url{http://en.wikipedia.org/wiki/List_of_The_Incredibles_characters}
     }
   \end{quote}
@@ -660,27 +660,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \end{figure}
 
 
-  % http://hueniverse.com/2009/04/introducing-sign-in-with-twitter-oauth-style-connect/
-  %
-  % OpenID is often described as a single-sign-on solution, or “the last username and password you will ever need”. OpenID is a federated authentication protocol – a protocol where users can use credentials from any compatible provider who can “speak” the OpenID protocol. But in this case, not any account will do. Twitter applications need Twitter accounts.
-  %
-  % It is important to understand that there are two different kind of single-sign-on solutions: delegated and federated. All the recent comparisons between OpenID and Facebook Connect failed to appreciate this fundamental difference. Facebook Connect is a delegated authentication service, while OpenID is a federated authentication service. They might offer very similar features, but they are very different.
-  %
-  % A delegated solution means that one site is simply outsourcing its authentication needs to another pre-selected site. If your site uses Facebook Connect, you are delegating your authentication facilities to Facebook. Visitors to your site cannot use any other accounts, only accounts from the vendors you have pre-selected.
-  %
-  % A federated solution means that visitors to your site can use any account they have, as long as it is compatible. It makes no difference to the site which account is being used, as long as it can interoperate. At its core, OpenID is a federated solution because its most important feature is the ability to use any OpenID account with any OpenID-enabled service.
-  %
-  %A good example is stores accepting credit cards. A store that accepts any Visa card is using federated payments – payments from any account that “speaks Visa”. But a store that accepts only credit cards issued by a specific vendor, for example, a department store branded card, use delegated payments. The reason why you no longer see many stores accepting only their own credit cards, is because it is bad for business.
-  %
-  % But not every OpenID implementation is federated, and this is the big dilemma OpenID has to resolve.
-  %   -- linkki http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/
-  %
-  % The question is, can users use any account they want? If a site uses the Yahoo! OpenID service by using the Yahoo! button: xx
-  %   but does not offer the ability to use other vendors, it is really just another delegated solution, even if it is powered by OpenID under the hood. In this case, OpenID becomes just a technical detail of the implementation, not part of its design.
-  %
-  % Much of the recent discussion about OpenID usability centers around using brands as a way to make the service more usable. But the problem with this approach is that is takes away most of the federated value out of OpenID, leaving it simply as a common protocol to implement proprietary delegated services. When implemented this way, OpenID adds no real value to services with an OAuth API.
-  %
-  % The question which solution to use for sign-in, OpenID or OAuth, is very much application specific. If you are building a brand new site that needs accounts, and want to leverage existing accounts from services such as Google, Yahoo!, and Microsoft, OpenID is a great option that will give your users a lot of flexibility. But if you are extending an existing service, implementing a specific API and building a site that has great dependencies on another service, OAuth gives you everything you need, for very little extra work.
+
 
   Miksi juuri nämä tekniikat ovat valikoituneet.
 
@@ -728,7 +708,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % ''Best practice is to conform to the SAML v2 Web Profile. But the problem there is that the Web Profile relies on sessions, typically managed by cookies. Sessions are a stateful artifact that are contrary to REST.'' -- puristien mielestä joo, mutta Fielding eri mieltä: sessio on sama käyttäjälle itselleen, jolloin saman käyttäjän peräkkäiset requestit on aina restin mukaisia (sama uri+parametrit antaa aina saman vastineen).
   % OAuth 2.0 sen sijaan (by design) hyödyntää HTTP-otsakkeita eikä vaadi sessiota.
 
-  Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Vaikka vertailu on laadittu vuonna 2010, nuoremman sukupolven OAuth ei ole mukana.
+  Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Vaikka vertailu on laadittu vuonna 2010, nuoremman sukupolven OAuth ei ole mukana ... koska OAuth ei ole federoidun id:n standardi!
 
   \begin{figure}
     \centering
@@ -858,13 +838,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \end{figure}
 
   OpenID 2.0 -autentikointi (kuva~\ref{fig:basic_openid_flow}) sisältää seuraavat vaiheet.
-
-  \newenvironment{testiasdf}
-  {\begin{description}
-    \setlength{\itemsep}{6pt}
-    \setlength{\parskip}{6pt}
-    \setlength{\parsep}{0pt}}
-  {\end{description}}
 
   \begin{enumerate}
 
@@ -1270,7 +1243,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % subsection autentikointi_helsingin_yliopiston_identiteetillä (end)
 
 
-  \subsection{Facebook-identiteetin autentikoiminen} % (fold)
+  \subsection{Facebook-identiteetin yhdistäminen MOOC-palveluun} % (fold)
   \label{ssub:mooc_fb_auth}
 
   Facebook Platform\footnote{
@@ -1284,7 +1257,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   Ensimmäinen vaihe on rekisteröidä identiteetinkuluttajana ja resurssin asiakkaana toimiva MOOC-palvelu Facebook Platform -identiteetintarjoajan asiakkaaksi~\cite{facebook_oauth2_doc}. Rekisteröintiprosessissa resurssin asiakkaalle määritetään yksilöivänä tunnisteena \verb!client_id!, jaettuna salaisuutena \verb!client_secret! sekä palautusosoite \verb!redirect_uri!, johon identiteetintarjoaja uudelleenohjaa loppukäyttäjän auktorisointitapahtuman jälkeen. Rekisteröinnin jälkeen MOOC-palvelun sisäänkirjautumissivulle lisätään Facebook-sisäänkirjautumisen linkki.
 
 
-  \subsubsection{Autentikoinnin vaiheet Facebook Platform -palveluun} % (fold)
+  \subsubsection{Prosessin kuvaus} % (fold)
   \label{ssub:autentikoinnin_vaiheet_facebook_platform_palveluun}
 
   Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisäänkirjautumisen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myötämisestä ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
@@ -1293,23 +1266,24 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \begin{figure}
     \centering
     \includegraphics[width=0.8\textwidth]{images/fb_auth_sekvenssi.jpg}
-    \caption{OAuth-auktorisointikoodin virtaus}
+    \caption{Pääsyoikeuspoletin noutaminen Facebookista MOOC-palveluun.}
     \label{fig:oauth_auth_code_flow}
   \end{figure}
 
   \begin{description}
   \item[(A)]
    Loppukäyttäjä on klikannut MOOC-palvelun sisäänkirjautumissivulta Facebook-autentikoinnin linkkiä.
-   MOOC ohjaa käyttäjäagentin Facebook Platformin auktorisointipäätepisteeseen ja liittää pyyntöön oman tunnisteensa (\verb!client_id!) sekä paluuosoitteen (\verb!redirect_uri!).
+   MOOC ohjaa käyttäjäagentin Facebook Platformin auktorisointipalvelimelle ja liittää pyyntöön oman tunnisteensa (\verb!client_id!) sekä paluuosoitteen (\verb!redirect_uri!).
     % https://www.facebook.com/dialog/oauth?
     %      client_id=YOUR_APP_ID&redirect_uri=YOUR_URL
 
-  \item[(B) TODO TSEKKAA ETTÄ VASTAA KUVAA]
-  Facebook Platform ottaa käyttäjäagentin vastaan ja autentikoi käyttäjän.
-  Jos käyttäjä on jo sisäänkirjautunut, Facebook validoi käyttäjän session voimassaolon  käyttäjäagenttiin Facebookin tallettaman keksin perusteella (todo keksi vai eväste)~\cite{facebook_oauth2_doc}. Jos sessio ei ole voimassa, Facebook kysyy käyttäjätunnusta ja salasanaa.
-  OAuth-standardi ei määrittele, kuinka autentikointi täytyy suorittaa~\cite{ietf_oauth2}.
+  \item[(B)]
+  Facebook Platform ottaa käyttäjäagentin vastaan ja autentikoi resurssin asiakkaana toimivan loppukäyttäjän. Jos käyttäjä on jo sisäänkirjautunut, Facebook validoi käyttäjän session voimassaolon  käyttäjäagenttiin Facebookin tallettaman keksin perusteella (todo keksi vai eväste)~\cite{facebook_oauth2_doc}. Jos sessio ei ole voimassa, Facebook kysyy käyttäjätunnusta ja salasanaa.
 
-  Autentikoitumisen jälkeen Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli, profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten MOOC asettaa \verb!scope!-parametrin arvoksi \emph{email}\footnote{
+  Käyttäjän autentikoitumisen jälkeen\footnote{
+    Kuvaa~\ref{fig:oauth_auth_code_flow} on yksinkertaisesttu autentikointiin ja käyttäjän suostumukseen liittyvien kommunikaatiovaiheiden osalta. Kohdassa (B) kuvattu lenkki resurssin omistajan, käyttäjäagentin ja auktorisointipalvelimen välillä suoritetaan molempien vaiheiden aikana.
+  }
+  Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli ja profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten MOOC asettaa \verb!scope!-parametrin arvoksi \emph{email}\footnote{
     Kattava listaus Facebook Platformin tarjoamista käyttöoikeuksista saatavilla osoitteesta:
     \url{https://developers.facebook.com/docs/reference/api/permissions/}
   }.
@@ -1348,16 +1322,20 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
 
   \item[(E)]
-  Facebook Platform luo pääsyoikeuspoletin (\verb!access_token!) ja lähettää sen MOOC-palvelun kohdassa (D) annettuun paluuosoitteeseen. MOOC käyttää pääsyoikeuspolettia, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa. Tämän vaiheen jälkeen MOOC tuntee käyttäjän perustiedot ja sähköpostiosoitteen.
+  Facebook Platform luo pääsyoikeuspoletin (\verb!access_token!) ja lähettää sen MOOC-palvelun kohdassa (D) annettuun paluuosoitteeseen. MOOC esittää pääsyoikeuspoletin aina, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa.
+
+  Tämän vaiheen jälkeen MOOC hakee käyttäjän identiteetin tiedot Facebook Platformin käyttäjäresurssilta.
 
   \end{description}
 
   % subsubsection autentikoinnin_vaiheet_facebook_platform_palveluun (end)
 
-  \subsubsection{Ensimmäisen auktorisoinnin jälkeen} % (fold)
+  \subsubsection{Pääsyoikeuspoletin soveltaminen} % (fold)
   \label{ssub:ensimmäisen_auktorisoinnin_jälkeen}
 
-  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin ja MOOC voi kysyä käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}. Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pääsyoikeuspyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä hyväksyntää uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa sen. Jos auktorisoinnin lisäksi myös käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, käyttäjä voidaan autentikoida MOOC-palveluun kysymättä salasanaa.
+  Prosessin viimeisen vaiheen \verb!(E)! jälkeen käyttäjä on hyväksynyt MOOC-palvelulle pääsyoikeuden oman Facebook-profiilinsa perustietoihin ja MOOC voi kysyä käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}. Vaiheen \verb!(E)! jälkeen MOOC-palvelulla on vasta pääsyoikeuspoletti ilman käyttäjän identiteettitietoja. Pääsyoikeuspoletti valtuuttaa kysymään tietoja käyttäjän suostusmusvaiheessa määritellyistä resursseista (ks. kuva~\ref{fig:oauth_abstract_flow}). OAuth-protokolla ei määrittele yhtenäistä tapaa siihen, kuinka käyttäjän identiteetin tietoja kysytään auktorisoinnin jälkeen. Aiheeseeen palataan luvussa~\ref{mooc_google_auth}.
+
+   Käyttäjän suostumusvaihessa \verb!(C)! Facebook Platform hyväksyy pääsyoikeuspyynnön käyttäjän aiemmin myöntämää auktorisointia vastaan. Käyttäjältä ei kysytä hyväksyntää uudelleen, ennen kuin auktorisointi vanhenee tai käyttäjä poistaa sen. Jos auktorisoinnin lisäksi myös käyttäjän oma Facebook-sessio on voimassa vaiheessa \verb!(B)!, käyttäjä voidaan autentikoida MOOC-palveluun kysymättä salasanaa.
 
   Facebook Platformin myöntämä pääsyoikeuspoletti on voimassa vain rajallisen ajan -- oletusarvoisesti kaksi tuntia. Vanhenemisen lisäksi pääsyoikeuspoletti mitätöityy myös, jos käyttäjä vaihtaa salasanaansa, kirjautuu ulos Facebookista tai poistaa sovelluksen auktorisoinnin~\cite{facebook_oauth2_expired_tokens}. Pääsyoikeuspoletin uusiminen edellyttää OAuth-virtauksen suorittamista uudelleen. Tämä puolestaan edellyttää käyttäjän läsnäoloa, jotta Facebook Platform myöntää auktorisointikoodin käyttäjän suostumusvaiheessa \verb!(C)!.
 
@@ -1372,7 +1350,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % subsection mooc_fb_auth (end)
 
   \subsection{Autentikoituminen Google-identiteetillä} % (fold)
-  \label{sub:autentikoituminen_facebook}
+  \label{sub:mooc_google_auth}
   \begin{quote}
     ''OpenID is a referral letter, OAuth is a valet key.''
     \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
@@ -1402,7 +1380,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
   Käytetään OpenID:tä googlen kanssa google oauth2: \cite{google_oauth2_doc}
 
-  % subsection autentikoituminen_facebook (end)
+  % subsection mooc_google_auth (end)
 
 
 

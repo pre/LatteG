@@ -23,7 +23,7 @@
 %    - tarkista viitteet: etsi ?? previewissä ja katso sanooko latex undefined references
 %    - tarkista että http-urlit rivittyvät oikein
 %    - kuvatekstien riviväli: nyt ei erotu leipätekstistä
-
+%    - Kerro blogien pitäjistä, miksi ovat merkittäviä lähteitä.
 
 % Termistö, yhdenmukaista:
 %  - identiteetinkuluttaja, yhdyssanana
@@ -215,14 +215,17 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   \label{sub:identiteetti_internetissä}
 
   \begin{quote}
-    ''We will begin by defining a digital identity as a set of claims
-    made by one digital subject about itself or another digital subject.''
-    \\--- Kim Cameron (todo viite lawd of id)
+    ''Your identity is your most valuable possession. Protect it.
+    And if anything goes wrong, use your powers!''
+    \\--- Elasticgirl\footnote{
+      Elasticgirl on elokuvan \emph{The Incredibles} hahmo, jonka supervoimana on täydellinen venyvyys erilaisiin muotoihin:
+      \url{http://en.wikipedia.org/wiki/List_of_The_Incredibles_characters}
+    }
   \end{quote}
 
-  Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä monessa eri web-palvelussa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Digitaalinen identiteetti on siten kontekstisidonnainen, koska jokaisen palvelun käyttäjäprofiili muodostaa omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun asiayhteyksissä.
+  Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä monessa eri web-palvelussa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Digitaalinen identiteetti on siten kontekstisidonnainen, koska jokaisen palvelun käyttäjäprofiili muodostaa omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun asiayhteyksissä~\cite{idwoman_identity_gplus_2011, guardianblog_gplus_id_2011}.
 
-  Käyttäjäprofiili on digitaalinen identiteetti~\cite{sakimura_identity_2011}. Identiteetin käyttäjälle myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän antamia tietoja. Tällöin on kyse käyttäjän itsensä myöntämästä identiteetistä~\cite{cameron_id_arch_2006}.
+  Digitaalinen identiteetti on joukko väitteitä, jotka digitaalinen kohde on tehnyt itsestänsä tai toisesta digitaalisesta kohteesta~\cite{cameron_laws_of_id_2005, sakimura_identity_2011}. Identiteetin myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi~\cite{cameron_id_arch_2006}. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän väitteitä itsestään.
 
   \emph{Federaatioksi} kutsutaan joukkoa toimijoita, jotka luottavat tietynlaiseen toisiltansa saaman tietoon~\cite{id_in_federation_systems_2005, federated_auth_case_2008}. Identiteetinkuluttaja on federaation jäsen, jota kutsutaan usein \emph{luottavaksi osapuoleksi} (\emph{relying party}), koska se on valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana eli tarjoamaan federoidun identiteetin. Identiteetinkuluttaja siten luottaa identiteetintarjoajan viestiin siitä, että käyttäjä todistanut hallitsevansa esittämäänsä käyttäjätunnusta. Web-palvelujen kasvavan suosion (todo termi) myötä korostuu tarve digitaalisen identiteetin jakamiselle eri palvelujen ja organisaatioiden kesken. Tätä kutsutaan \emph{federoiduksi identiteetinhallinnaksi} (\emph{federated identity management})~\cite{id_in_federation_systems_2005}.
 
@@ -465,6 +468,16 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta;
   HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
 
+  % DigiNotar CA:n tietomurto: luotiin Googlelle feikkisertifikaatti jota käytettiin mitm-hyökkäyksiin Iranissa. http://en.wikipedia.org/wiki/DigiNotar#cite_note-googleonlinesecurity-10
+  % http://googleonlinesecurity.blogspot.com/2011/08/update-on-attempted-man-in-middle.html
+  % http://news.cnet.com/8301-27080_3-20098894-245/fraudulent-google-certificate-points-to-internet-attack/
+  % "The list of certificate issuers has ballooned over the years to approximately 650 organizations, which may not always follow the strictest security procedures. And each one has a copy of the Web's master keys"
+    % Certificate Authorities are nothing but a money-making scam. They provide us with no protection whatsoever.
+    %  http://www.links.org/?p=1196
+
+    % selainvalmistajilla valtava vastuu sertifikaattien varmistamisessa
+    % http://news.cnet.com/8301-31921_3-20047729-281.html?tag=mncol;txt
+
   % subsection sertifikaatit_webissä (end)
 
 
@@ -669,12 +682,18 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   %
   % The question which solution to use for sign-in, OpenID or OAuth, is very much application specific. If you are building a brand new site that needs accounts, and want to leverage existing accounts from services such as Google, Yahoo!, and Microsoft, OpenID is a great option that will give your users a lot of flexibility. But if you are extending an existing service, implementing a specific API and building a site that has great dependencies on another service, OAuth gives you everything you need, for very little extra work.
 
+  Miksi juuri nämä tekniikat ovat valikoituneet.
 
 
   % paragraph yleisnäkymä_ilmakuva_overview (end)
 
   \subsection{SAML v2.0} % (fold)
   \label{sub:saml_v2_0}
+
+  % http://jkemp.net/docs/saml-overview.html
+  % http://iiw.idcommons.net/Liberty_Alliance_ID-WSF
+  % http://iiw.idcommons.net/XRI
+
   SAML ja SOAP.   SAML ja OpenID -vertailu \cite{venn_of_identity_2008}
 
   SAML on monipuolisempi ja sitä kautta monimutkaisempi kuin OAuth ja OpenID. Viimeksimainitut toimivat lähtökohtaisesti HTTP:n avulla. SAML mahdollistaa myös muita tapoja \emph{bindings}.
@@ -1218,6 +1237,15 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sub:tutkimusongelma}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
   todo Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
+  % Openid connectista hyväksytty 16.2.2012 implementer's draft:
+  % http://openid.net/2012/02/16/openid-connect-implementers-drafts-approved/
+  % differences in openid connect: http://www.apparently.me.uk/openid/
+
+  % If you don’t even know what I’m talking about,  you need to go find out.  OpenID Connect is an identity layer on top of OAuth 2.0.   It abandons the redirect-based structure of OpenID 2.0 completely, and instead embraces the API security layer.   While OAuth 2.0 takes care of the mechanism of asking for a token and using that token,  OpenID Connect creates a scope that protects a standardized set of identity services:  these services provide roughly the same set of attributes, authentication context, and session expiry information that you would get in a SAML assertion.
+  %
+  % SAML, OAuth 2.0, and OpenID Connect, when taken together, allow identity and issuer/session information to become a known common quantity, traded either on the front channel or the back channel, consumable by the largest enterprises and the simplest mobile applications, and secured at any level of assurance.
+  %
+  % http://eternallyoptimistic.com/2012/02/10/time-to-act/
 
   todo yhteenvetokappale jossa edut ja haitat. Painota, että tärkeintä on tarjota abstraktio sisäisen rajapinnan eteen, jotta sisäinen toteutus ei ole tiukasti kytketty kolmansien osapuolten käyttäjänä rajapintaan. Käytettävä standardi ei ole ykkösjuttu, vaan abstraktio. Tutkielma suosittelee OAuthin tarjoamista koska se on emergentti pilviratkaisu. Ylläpitdettävyyden kannalta voi olla kätevää tarjota vain yksi ulkoinen rajapinta. Toisaalta voi olla sisäisiä vaatimuksia joiden vuoksi kannattaa tarjota saml myös ulkoisena rajapintana.
 
@@ -1369,6 +1397,14 @@ parts as they pass through the user-agent.
     ''OpenID is a referral letter, OAuth is a valet key.''
     \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
   \end{quote}
+
+  Tehdään OAuthilla. Osoitetaan että menee samalla lailla kuin fb.
+  Myöhemmin openid connect + oauth 2: oauth2 on jo valmiina, openid connect rakentuu päälle
+  % openid connect demo http://oauthssodemo.appspot.com/step/1
+
+  %  Among them are: support for native client applications, identifiers using e-mail address format, standard UserInfo endpoint for retrieving basic claims about the end-user, being designed to work well on mobile phones, use of JSON/REST rather than XML, support for encryption and higher LoAs, and support for distributed and aggregated claims.
+  % ---------- standard userinfo endpoint !!!
+  % http://self-issued.info/?p=619
 
   % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
   Google tarjoaa OpenID 2.0 + OAuth 1.0 -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
@@ -1613,7 +1649,7 @@ parts as they pass through the user-agent.
 
   todo
   OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
-  Nurinmeneminen on ongelma jota ei voi ratkaista tekniikalla. Jokaisella ulkoistetulla identiteetintarjoajalla on riski palvelun lopettamisesta.
+  % Nurinmeneminen on ongelma jota ei voi ratkaista tekniikalla. Jokaisella ulkoistetulla identiteetintarjoajalla on riski palvelun lopettamisesta.
   % http://nat.sakimura.org/2010/09/04/re-openid-provider-imploding-chaos-coming/
   % tätä varten xdi.org ja tietojen escrow:
 

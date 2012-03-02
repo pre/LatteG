@@ -137,3 +137,23 @@ Delegation no longer supported. Normaalikäyttäjällä ei ole omaa verkkotunnus
 
 OpenID Connect gives you three choices: use an identifier issued by an existing provider, use a provider that provides white-label OpenID services under your domain, or run your own provider. The first and second of these options are reasonable for your average user and the last is for us nerds.
 http://www.apparently.me.uk/2010/05/important-changes-in-openid-connect.html
+
+
+---------
+
+OpenID in its current incarnation failed to get traction because of the anti-pattern of using urls instead of email addresses/usernames not because of a lack of personal information identifiers.
+--
+What seems to be missing from conversations around OpenID, and from the digital identity conversation in general, is a stated position on what we think online identity should look like in 2020. We should clarify not only the vision for the social web, but why normals should support that vision.
+
+Given that most of the designers/coders/entrepreneurs involved in OpenID come from a similar pedigree, it may be useful to take a step back and consider the assumptions embedded in the digital details –
+
+why does choice matter? why does privacy matter? why should online interaction mimic the offline world? is the goal to augment or replace offline connections, or are watching the creation of a new category of connection?
+
+In trying to explain the vision for OpenID over the last few months I’ve had a hard time 1) locating it and 2) explaining WHY it matters. We ought to spend as much time on simplicity and clarity of vision as simplicity and clarity of button.
+http://factoryjoe.com/blog/2010/05/16/combing-openid-and-oauth-with-openid-connect/
+
+
+-------
+
+http://seriouslyidentity.com/
+http://www.planetidentity.org/

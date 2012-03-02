@@ -1049,12 +1049,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   OAuth on ensisijaisesti auktorisointiprotokolla. Mahdollisuus autentikoida käyttäjä on ikään kuin auktorisoinnin sivutuote, koska käyttäjäidentiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa. Autentikoinnin ja auktorisoinnin käsitteiden suhteen tulee silti olla tarkkana. Resurssin asiakkaan vastaanottama pääsyoikeuspoletti ei vielä sisällä käyttäjän tietoja: pääsyoikeuspoletti on ainoastaan valtakirja käyttäjätietojen kysymiseksi resurssin tarjoajalta. Siksi resurssin asiakkaan täytyy pääsyoikeuspoletin vastaanottamisen jälkeen vielä erikseen pyytää käyttäjän identiteettitiedot Facebookin käyttäjäprofiiliresurssista~\cite{facebook_graph_api_user}. OAuth ei siten tarjoa varsinaista autentikointiprosessia, vaan pääsyoikeuspoletin käyttämisellä ''simuloidaan autentikointia''~\cite{sakimura_dummydiff_oauth_openid_2011}.
 
-  % One of my goals is getting OAuth 2.0 to the point – fairly quickly – where we can start to architect the next version of OpenID on top of it. WebFinger + OAuth 2.0 + identity would be sweet and finally give us a consistent story for both authentication and authorization. I'd love whatever help I could get with all of this as well!
-  % - David Recordon 03/2010: http://daveman692.livejournal.com/349384.html
-  %
-  % "Since Facebook provides both identity as well as authorization, it’s critical that we get this piece right in order to have a complete solution."
-  % - Luke Shepard
-  % http://www.sociallipstick.com/?p=239
 
   Jaettu salaisuus luotettava ja ennen kaikkea yksinekrtainen toteutus vs signaturet ja assertiot. Mahdollista tehdä turvallisesti koska https suojaa kuljetuskerroksen. (ei applikaatiokerroksen tehtävä) Joinssain tapauksissa vaikeaa tai laskennallisesti liian työlästä käyttää ssl/tls, silloin signaturet. Käytännössä hyödyt ssl/tls:n soveltamisesta ovat suuremmat kuin haittapuolet~\cite{oauthwg_ssl_discussion_2010}.
 
@@ -1067,13 +1061,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   %
   % openid connect: http://openid.net/2011/05/20/openids-second-act-openid-connect/
 
-
-  % OpenID Connect is a new generation of the internet identity protocol. Technically, it is fundamentally different than OpenID 2.0. From the point of view of the non-technical end user, however, it would be hard to see the difference.  (=nat )
-  % http://nat.sakimura.org/2012/01/26/scopes-and-claims-in-openid-connect/
-
-  % OAuth 1.0a edellytti laajennoksen käyttämistä, jotta sen pystyi yhdistämään OpenID 2.0:aan. OpenID Connectissa OAuth 2.0:n toiminnallisuudet on rakennettu suoraan protokollaan.
-  % http://openid.net/connect/
-  % Current Status: NWIP → Working Draft → Implementer’s Draft Review Period (Dec.24, 2011-Feb.6, 2012) → Implementer’s Draft Voting (Feb.7-13, 2012)→ Implementer’s Draft (Feb. 14, 2012) → Final Review Period → Final Voting → OIDF Standard
 
 
 
@@ -1349,25 +1336,50 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   % subsection mooc_fb_auth (end)
 
-  \subsection{Autentikoituminen Google-identiteetillä} % (fold)
+  \subsection{Autentikoituminen Google-identiteetillä: OpenID vai OAuth?} % (fold)
   \label{sub:mooc_google_auth}
   \begin{quote}
     ''OpenID is a referral letter, OAuth is a valet key.''
     \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
   \end{quote}
 
-  oauthissa ja openid 2.0:ssa samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. oauthissa käyttäjä antaa valtakirjan/auktorisoinnin suojattuihin resursseihin ja openid:ssä identiteettiin. muuta yhteistä niillä ei ole. kummallakin protokollalla omanlaisensa vaatimukset 3-osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen/vastausten autenttisuus (ettei ole väärennetty eli laskea signature). openid connect rakentuu oauth 2.0:n päälle.
+  Google on tarjonnut vuodesta 2008 lähtien autentikointirajapinnan OpenID 2.0 ja OAuth 1.0 -protokollien yhdistelmällä. Keväällä 2011 Google julkisti myös kokeellisen tuen\footnote{
+  Tätä tutkielmaa kirjoitettaessa merkintä ''experimental'' katosi Googlen OAuth 2.0 -rajapintadokumentaatiosta tammikuussa 2012.
+  } itsenäiselle OAuth 2.0 -rajapinnalle~\cite{google_oauth2_announcement_2011}. Facebook-identiteetin tapauksessa sovellettavan standardin valinta oli suoraviivaista, koska Facebook tarjoaa ainoastaan OAuth 2.0:n ainoana vaihtoehtona. Google-identiteetin osalta valintaa kahden protokollan väliltä täytyy perustella.
+
+  Loppukäyttäjän kannalta ei ole merkitystä, mitä standardia MOOC-palvelu soveltaa yksittäisen identiteetintarjoajan suhteen. Loppukäyttäjä näkee MOOC-palvelun sisäänkirjautumissivulla Googlen sisäänkirjautumislinkin ja syöttää Googlen palveluun oman salasanansa. Sovellettavan tekniikan erot näkyvät sen sijaan ohjelmistokehittäjälle.
+
+  Molemmissa protokollissa, OAuth 2.0:ssa ja OpenID 2.0:ssa, on samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. OAuthissa käyttäjä myöntää valtakirjan minkä tahansa tyyppisiin resursseihin ja identiteetti on yhdenlainen resurssi muiden joukossa. OpenID 2.0 puolestaan jakaa ainoastaan identiteettiin liittyvät tiedot. Muuta yhteistä näillä kahdella protokollalla ei ole: kummallakin on omanlaisensa vaatimukset kolmannen osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen autenttisuus. Vuonna 2007 julkaistu OpenID 2.0 tukee auktorisointikerroksella vain OAuth 1.0 -laajennoksen käyttämistä.
+
+  OpenID Connect on OpenID 2.0:n seuraaja, jossa OAuth 2.0:n auktorisointikerros on rakennettu suoraan sisään protokollaan. OpenID Connect on edeltäjäänsä yhteensopivampi ohjelmoitavien rajapintojen suhteen, mutta se ei ole taaksepäin yhteensopiva OpenID 2.0:n kanssa~\cite{sakimura_openid_connect_scopes_2011}. Koska OAuth 2.0 ei ole vielä lopullinen standardi, sen päälle rakentuva OpenID Connect on vielä sitäkin varhaisemmassa määrittelyvaiheessa\footnote{
+  OpenID Connectin alustavat toteuttamisperiaatteet sisältävä ''Implementer's Draft'' hyväksyttiin 14.2.2012: \url{http://openid.net/connect/}
+  }.
 
   emergentti paradigmanmuutos: first authenticate then transfer authenticated subject information -- tästä tulee pian default approact. vrt vanha jossa auth/authz samassa. decoupling.
   openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
   oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.
 
-  oauth sopii paremmin auktorisointiin koska autentikoinnin jälkeinen toiminta eri resurssien välillä on rakennettu suoraan protokollaan. openid 2.0 edellyttää laajennoksen käyttämistä (esim openid+oauth1.0) jotta voi käyttää auktorisointiin. openid connect rakentaa identiteettikerroksen oauth2.0:n päälle. koska moocissa auktorisointitarpeita (jatkokehitysideat), valitaan oauth2.0 ensisijaiseksi protokollaksi.
 
+  % One of my goals is getting OAuth 2.0 to the point – fairly quickly – where we can start to architect the next version of OpenID on top of it. WebFinger + OAuth 2.0 + identity would be sweet and finally give us a consistent story for both authentication and authorization. I'd love whatever help I could get with all of this as well!
+  % - David Recordon 03/2010: http://daveman692.livejournal.com/349384.html
+  %
+  % "Since Facebook provides both identity as well as authorization, it’s critical that we get this piece right in order to have a complete solution."
+  % - Luke Shepard
+  % http://www.sociallipstick.com/?p=239
+
+  % http://code.google.com/apis/accounts/docs/OAuth2.html
+  %OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
+  google oauth2: \cite{google_oauth2_doc}
+
+
+
+
+koska moocissa auktorisointitarpeita (jatkokehitysideat), valitaan oauth2.0 ensisijaiseksi protokollaksi.
+
+Myöhemmin openid connect + oauth 2: oauth2 on jo valmiina, openid connect rakentuu päälle
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  Tehdään OAuthilla. Osoitetaan että menee samalla lailla kuin fb.
-  Myöhemmin openid connect + oauth 2: oauth2 on jo valmiina, openid connect rakentuu päälle
+
   % openid connect demo http://oauthssodemo.appspot.com/step/1
 
   %  Among them are: support for native client applications, identifiers using e-mail address format, standard UserInfo endpoint for retrieving basic claims about the end-user, being designed to work well on mobile phones, use of JSON/REST rather than XML, support for encryption and higher LoAs, and support for distributed and aggregated claims.
@@ -1375,10 +1387,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % http://self-issued.info/?p=619
 
   % http://code.google.com/apis/accounts/docs/OAuth2WebServer.html
-  Google tarjoaa OpenID 2.0 + OAuth 1.0 -yhdistelmän. Myös itsenäinen OAuth 2.0!  Autentikointi OpenID:llä, auktorisointi OAuthilla. Koska ei tutkita auktorisointia, tässä esitellään vain OpenID.
-  % http://code.google.com/apis/accounts/docs/OAuth2.html
-  OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
-  Käytetään OpenID:tä googlen kanssa google oauth2: \cite{google_oauth2_doc}
 
   % subsection mooc_google_auth (end)
 

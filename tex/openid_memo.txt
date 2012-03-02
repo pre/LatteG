@@ -25,7 +25,7 @@ a standard way to get a HTML document from them.
 -- A survey on OpenID identiﬁers
 
 
-XRI on yhdentyyppinen URI
+XRI on yhdentyyppinen URI. XRI on URN-tyypin skeema?
 
 
 
@@ -104,13 +104,6 @@ OpenID Connect: yhdistää tiedon jakamisen (oauth) ja autentikoitumisen (openid
 http://www.webmonkey.com/2010/05/new-openid-connect-proposal-could-solve-many-of-the-social-webs-woes/
 
 
-Mitä eroa on OpenID Connect ja OAuth 2.0 ?
-OAuth - palvelujen täytyy tuntea toisensa. Täytyykö OpenID-C:ssa?
-Onko OpenID-C edelleen user-centric id?
-
-Mikä on OpenID Abstract Binding ? (https://www.pingidentity.com/resource-center/openid.cfm)
-
-The current OpenID version is 2.0. However a new version, OpenID AB/C, merges two different next-generation standards efforts, OpenID Abstract Binding and OpenID Connect, and is under construction. OpenID is a profiled protocol for the Federal ICAM initiative. OpenID 2.0 is only profiled for the lowest level of assurance described by the government guidance set out in NIST 800-63. Hopefully, the next generation of OpenID will be capable of all four assurance levels used today.
 
 Federal Identity, Credentialing, and Access Management % http://www.idmanagement.gov/documents/ICAM_OpenID20Profile.pdf
 
@@ -162,3 +155,28 @@ http://www.planetidentity.org/
 ----------
 
  Microsoft InfoCardsin tavoitteena olla internet-skaalan identiteetin meta-framework. Kuitenkaan ei ole saanut riittävästi jalansijaa ja vaikuttaa kuolevan pois. OpenID + InfoCards toimivat yhteen. Ongelma on, että muille kuin Microsoft Windowsille ei ole kunnollista InfoCards-clienttiä. Kenen intresseissä sellaisen rakentaminen olisi? Entä mobiilissa?
+
+
+ ----------
+
+ % http://hueniverse.com/2009/04/introducing-sign-in-with-twitter-oauth-style-connect/
+ %
+ % OpenID is often described as a single-sign-on solution, or “the last username and password you will ever need”. OpenID is a federated authentication protocol – a protocol where users can use credentials from any compatible provider who can “speak” the OpenID protocol. But in this case, not any account will do. Twitter applications need Twitter accounts.
+ %
+ % It is important to understand that there are two different kind of single-sign-on solutions: delegated and federated. All the recent comparisons between OpenID and Facebook Connect failed to appreciate this fundamental difference. Facebook Connect is a delegated authentication service, while OpenID is a federated authentication service. They might offer very similar features, but they are very different.
+ %
+ % A delegated solution means that one site is simply outsourcing its authentication needs to another pre-selected site. If your site uses Facebook Connect, you are delegating your authentication facilities to Facebook. Visitors to your site cannot use any other accounts, only accounts from the vendors you have pre-selected.
+ %
+ % A federated solution means that visitors to your site can use any account they have, as long as it is compatible. It makes no difference to the site which account is being used, as long as it can interoperate. At its core, OpenID is a federated solution because its most important feature is the ability to use any OpenID account with any OpenID-enabled service.
+ %
+ %A good example is stores accepting credit cards. A store that accepts any Visa card is using federated payments – payments from any account that “speaks Visa”. But a store that accepts only credit cards issued by a specific vendor, for example, a department store branded card, use delegated payments. The reason why you no longer see many stores accepting only their own credit cards, is because it is bad for business.
+ %
+ % But not every OpenID implementation is federated, and this is the big dilemma OpenID has to resolve.
+ %   -- linkki http://hueniverse.com/2009/02/does-openid-have-an-identity-crisis/
+ %
+ % The question is, can users use any account they want? If a site uses the Yahoo! OpenID service by using the Yahoo! button: xx
+ %   but does not offer the ability to use other vendors, it is really just another delegated solution, even if it is powered by OpenID under the hood. In this case, OpenID becomes just a technical detail of the implementation, not part of its design.
+ %
+ % Much of the recent discussion about OpenID usability centers around using brands as a way to make the service more usable. But the problem with this approach is that is takes away most of the federated value out of OpenID, leaving it simply as a common protocol to implement proprietary delegated services. When implemented this way, OpenID adds no real value to services with an OAuth API.
+ %
+ % The question which solution to use for sign-in, OpenID or OAuth, is very much application specific. If you are building a brand new site that needs accounts, and want to leverage existing accounts from services such as Google, Yahoo!, and Microsoft, OpenID is a great option that will give your users a lot of flexibility. But if you are extending an existing service, implementing a specific API and building a site that has great dependencies on another service, OAuth gives you everything you need, for very little extra work.

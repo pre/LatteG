@@ -115,7 +115,7 @@
 
   \begin{figure}
     \centering
-    \includegraphics[width=0.8\textwidth]{images/mooc-autentikointirajapinnat.jpg}
+    \includegraphics[width=0.6\textwidth]{images/mooc-autentikointirajapinnat.jpg}
     \caption{MOOC-palveluun soveltuvat autentikointirajapinnat}
     \label{fig:mooc-autentikointirajapinnat}
   \end{figure}
@@ -218,8 +218,9 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
     ''Your identity is your most valuable possession. Protect it.
     And if anything goes wrong, use your powers!''
     \\--- Elastigirl\footnote{
-      Elastigirl on elokuvan \emph{The Incredibles} hahmo, jonka supervoimana on täydellinen venyvyys erilaisiin muotoihin:
-      \url{http://en.wikipedia.org/wiki/List_of_The_Incredibles_characters}
+      Elastigirl on supersankari \emph{The Incredibles} -elokuvassa.
+      %, jonka supervoimana on täydellinen venyvyys erilaisiin muotoihin.
+      % \url{http://en.wikipedia.org/wiki/List_of_The_Incredibles_characters}
     }
   \end{quote}
 
@@ -387,7 +388,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   \label{sub:salasanat}
 
   \begin{quote}
-    ''Jopa ihmiset, joiden pitäisi tietää paremmin, kuten minä, käyttävät samoja salasanoja liian pitkään'', huokaisee Tatu Ylönen\footnote{Tietoturvayhtiö SSH Communications Securityn perustaja Tatu Ylönen Taloussanomien haastattelussa 28.11.2011}.
+    ''Jopa ihmiset, joiden pitäisi tietää paremmin, kuten minä, käyttävät samoja salasanoja liian pitkään'', huokaisee Tatu Ylönen\footnote{Tietoturvayhtiö SSH Communications Security Oyj:n perustaja Tatu Ylönen Taloussanomien haastattelussa 28.11.2011}.
   \end{quote}
 
   Salasana on jaetun salaisuuden toteutus, ja salasanat ovat yleisin tapa tunnistautua palveluihin internetissä~\cite{study_of_passwords_07, passpet_06, password_management_strategies_06, pwdhash_extension_05}. Salasana on palveluntarjoajan kannalta kustannustehokas tunnistamisväline, ja siksi salasana-autentikointi on pysynyt vallitsevana tunnistamistapana vuosikymmenten ajan~\cite{pw_auth_system_perspective_08}.
@@ -575,7 +576,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \begin{quote}
       ''The fool saith, 'Put not all thy eggs in one basket' ...
       but the wise man saith, 'Put all your eggs in one basket, and watch that basket!' ''
-      \\--- Mark Twain~\cite{twain_eggs_1894}
+      \\--- Pudd'nhead Wilson~\cite{twain_eggs_1894}
   \end{quote}
 
   Historia, miksi keskitetty kertakirjautumissysteemi on tarpeellinen.
@@ -623,13 +624,15 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   Autentikointipalvelujen keskittyminen. Soundcloud ei suosittele enää 3rd party devaajille password auth flowta, koska ''With the introduction of Login with Facebook we discourage the use of this flow since a lot of users simply don't have a password set anymore and thus can't use this flow.''
 
 
-  Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
-  \begin{figure}
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
-    \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista~\cite{NIST_SP800-63-1} (todo selitä kuva) }
-    \label{fig:kertakirjautumisarkkitehtuurin_yleiskuva}
-  \end{figure}
+  % Ei selitetä abstraktia arkkitehtuuria.
+  %
+  % Selitä kertakirjautumisarkkitehtuuri, kuva~\ref{fig:kertakirjautumisarkkitehtuurin_yleiskuva}.
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=1.0\textwidth]{images/NIST_authentication_architectural_model.jpg}
+  %   \caption{NIST-organisaation suositus autentikoinnin arkkitehtuurimallista~\cite{NIST_SP800-63-1} (todo selitä kuva) }
+  %   \label{fig:kertakirjautumisarkkitehtuurin_yleiskuva}
+  % \end{figure}
 
 
   % Onko Shibboleth relevantti? % https://wiki.shibboleth.net/confluence/display/SHIB2/UnderstandingShibboleth
@@ -1249,10 +1252,9 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisäänkirjautumisen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myötämisestä ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
 
-
-  \begin{figure}
+  \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/fb_auth_sekvenssi.jpg}
+    \includegraphics[width=0.85\textwidth]{images/fb_auth_sekvenssi.jpg}
     \caption{Pääsyoikeuspoletin noutaminen Facebookista MOOC-palveluun.}
     \label{fig:oauth_auth_code_flow}
   \end{figure}
@@ -1336,7 +1338,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   % subsection mooc_fb_auth (end)
 
-  \subsection{Autentikoituminen Google-identiteetillä: OpenID vai OAuth?} % (fold)
+  \subsection{Autentikoituminen Google-identiteetillä: OpenID vai \\OAuth?} % (fold)
   \label{sub:mooc_google_auth}
   \begin{quote}
     ''OpenID is a referral letter, OAuth is a valet key.''

@@ -116,7 +116,7 @@
   \begin{figure}
     \centering
     \includegraphics[width=0.6\textwidth]{images/mooc-autentikointirajapinnat.jpg}
-    \caption{MOOC-palveluun soveltuvat autentikointirajapinnat}
+    \caption{Hypoteesi MOOC-palveluun soveltuvista autentikointirajapinnoista}
     \label{fig:mooc-autentikointirajapinnat}
   \end{figure}
 
@@ -1275,7 +1275,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   Käyttäjän autentikoitumisen jälkeen\footnote{
     Kuvaa~\ref{fig:oauth_auth_code_flow} on yksinkertaisesttu autentikointiin ja käyttäjän suostumukseen liittyvien kommunikaatiovaiheiden osalta. Kohdassa (B) kuvattu lenkki resurssin omistajan, käyttäjäagentin ja auktorisointipalvelimen välillä suoritetaan molempien vaiheiden aikana.
   }
-  Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli ja profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten MOOC asettaa \verb!scope!-parametrin arvoksi \emph{email}\footnote{
+  Facebook kysyy käyttäjän suostumuksen MOOC-palvelun pyytämien tietojen luovuttamiseksi eteenpäin (kuva~\ref{fig:facebook_auth_dialog}). Pyydettävien tietojen laajuus määritetään \verb!scope!-parametrilla. Oletusarvoisesti valtuutuspyyntö koskee Facebookissa vain käyttäjän perustietoja kuten nimi, sukupuoli ja profiilikuva~\cite{facebook_oauth2_doc}. MOOC-palvelu tarvitsee perustietojen lisäksi sähköpostiosoitteen, joten \verb!scope!-parametrin arvoksi asetetaan \emph{email}\footnote{
     Kattava listaus Facebook Platformin tarjoamista käyttöoikeuksista saatavilla osoitteesta:
     \url{https://developers.facebook.com/docs/reference/api/permissions/}
   }.
@@ -1341,36 +1341,58 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   % subsection mooc_fb_auth (end)
 
-  \subsection{Autentikoituminen Google-identiteetillä: OpenID vai \\OAuth?} % (fold)
+  \subsection{Autentikoituminen Google-identiteetillä} % (fold)
   \label{sub:mooc_google_auth}
   \begin{quote}
     ''OpenID is a referral letter, OAuth is a valet key.''
-    \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja.}
+    \\--- Nat Sakimura~\cite{sakimura_dummydiff_oauth_openid_2011}\footnote{Nat Sakimura on OpenID Foundation -säätiön puheenjohtaja (2011--).}
   \end{quote}
 
-  Google on tarjonnut vuodesta 2008 lähtien autentikointirajapinnan OpenID 2.0 ja OAuth 1.0 -protokollien yhdistelmällä. Keväällä 2011 Google julkisti myös kokeellisen tuen\footnote{
-  Tätä tutkielmaa kirjoitettaessa merkintä ''experimental'' katosi Googlen OAuth 2.0 -rajapintadokumentaatiosta tammikuussa 2012.
-  } itsenäiselle OAuth 2.0 -rajapinnalle~\cite{google_oauth2_announcement_2011}. Facebook-identiteetin tapauksessa sovellettavan standardin valinta oli suoraviivaista, koska Facebook tarjoaa ainoastaan OAuth 2.0:n ainoana vaihtoehtona. Google-identiteetin osalta valintaa kahden protokollan väliltä täytyy perustella.
+  Facebook-identiteetin tapauksessa MOOC-palvelussa sovellettavan kertakirjautumisstandardin valinta oli suoraviivaista, koska Facebook tarjoaa ainoana vaihtoehtona OAuth 2.0 -rajapinnan. Google-identiteetin osalta valintaa OAuth 2.0:n ja OpenID 2.0:n väliltä täytyy perustella.
+  Google on tarjonnut vuodesta 2008 lähtien autentikointirajapinnan OpenID 2.0 ja OAuth 1.0 -protokollien yhdistelmällä. Keväällä 2011 Google julkisti kokeellisen tuen\footnote{
+  Tätä tutkielmaa kirjoitettaessa merkintä ''experimental'' katosi Googlen OAuth 2.0 -rajapintadokumentaatiosta~\cite{google_oauth2_doc} tammikuussa 2012.
+  } itsenäiselle OAuth 2.0 -rajapinnalle~\cite{google_oauth2_announcement_2011}.
 
-  Loppukäyttäjän kannalta ei ole merkitystä, mitä standardia MOOC-palvelu soveltaa yksittäisen identiteetintarjoajan suhteen. Loppukäyttäjä näkee MOOC-palvelun sisäänkirjautumissivulla Googlen sisäänkirjautumislinkin ja syöttää Googlen palveluun oman salasanansa. Sovellettavan tekniikan erot näkyvät sen sijaan ohjelmistokehittäjälle.
+  Molemmissa protokollissa, OAuth 2.0:ssa ja OpenID 2.0:ssa, on samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. OAuth on auktorisointistandardi, jossa käyttäjä myöntää valtakirjan minkä tahansa tyyppisiin resursseihin, ja identiteetti on vain yhdenlainen resurssi muiden joukossa~\cite{sakimura_dummydiff_oauth_openid_2011}. Autentikointistandardina OpenID 2.0 puolestaan jakaa ainoastaan identiteettiin liittyvät tiedot. Autentikoinnin lisäksi näillä kahdella protokollalla ei ole muuta yhteistä: kummallakin on omanlaisensa vaatimukset kolmannen osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen autenttisuus. Vuonna 2007 julkaistun OpenID 2.0:n tuki auktorisoinnille edellyttää erillisen OAuth 1.0 -laajennoksen käyttämistä~\cite{openid_2.0_oauth_hybrid_2009}.
 
-  Molemmissa protokollissa, OAuth 2.0:ssa ja OpenID 2.0:ssa, on samantyyppinen uudelleenohjauksiin perustuva arkkitehtuuri. OAuthissa käyttäjä myöntää valtakirjan minkä tahansa tyyppisiin resursseihin ja identiteetti on yhdenlainen resurssi muiden joukossa. OpenID 2.0 puolestaan jakaa ainoastaan identiteettiin liittyvät tiedot. Muuta yhteistä näillä kahdella protokollalla ei ole: kummallakin on omanlaisensa vaatimukset kolmannen osapuolen rekisteröimiselle ja kummallakin on erilainen tapa varmistaa pyyntöjen autenttisuus. Vuonna 2007 julkaistu OpenID 2.0 tukee auktorisointikerroksella vain OAuth 1.0 -laajennoksen käyttämistä.
-
-  OpenID Connect on OpenID 2.0:n seuraaja, jossa OAuth 2.0:n auktorisointikerros on rakennettu suoraan sisään protokollaan. OpenID Connect on edeltäjäänsä yhteensopivampi ohjelmoitavien rajapintojen suhteen, mutta se ei ole taaksepäin yhteensopiva OpenID 2.0:n kanssa~\cite{sakimura_openid_connect_scopes_2011}. Koska OAuth 2.0 ei ole vielä lopullinen standardi, sen päälle rakentuva OpenID Connect on vielä sitäkin varhaisemmassa määrittelyvaiheessa\footnote{
+  OpenID Connect on OpenID 2.0:n seuraaja, jossa tuki OAuth 2.0:n auktorisointikerrokselle on rakennettu suoraan sisään protokollaan. OpenID Connect on edeltäjäänsä yhteensopivampi ohjelmoitavien rajapintojen suhteen, mutta se ei ole taaksepäin yhteensopiva~\cite{sakimura_openid_connect_scopes_2011}. Koska OAuth 2.0 ei ole vielä lopullinen standardi, sen päälle rakentuva OpenID Connect on vielä sitäkin varhaisemmassa määrittelyvaiheessa\footnote{
   OpenID Connectin alustavat toteuttamisperiaatteet sisältävä ''Implementer's Draft'' hyväksyttiin 14.2.2012: \url{http://openid.net/connect/}
-  }.
+  }. OAuth 2.0:n määrittelytyössä vaikuttaa olleen alusta lähtien tavoitteena saada aikaiseksi autentikoinnista itsenäinen auktorisointikerros, ja vasta standardin valmisteluvaiheen stabiloitumisen jälkeen alkaa auktorisointikerroksen päälle rakentuvan OpenID Connect -autentikointikerroksen suunnittelu~\cite{recordon_oauth20_initial_2010, shepard_oauth_facebook_2010}.
+
+  Loppukäyttäjän kannalta ei ole merkitystä, mitä standardia MOOC-palvelu soveltaa yksittäisen identiteetintarjoajan kanssa. Loppukäyttäjä näkee MOOC-palvelun sisäänkirjautumissivulla Googlen sisäänkirjautumislinkin ja syöttää Googlen palveluun oman salasanansa. Sovellettavan tekniikan erot näkyvät sen sijaan MOOC-palvelun ohjelmistokehittäjälle. Koska MOOC-palvelu jo soveltaa OAuth 2.0 -standardia Facebook-sisäänkirjautumisessa, voidaan Google-identiteetti ottaa käyttöön samalla kirjastotuella. Yhteisen kirjastotuen avulla säästyvän ylläpitotyön vuoksi Google-sisäänkirjautumiseen sovelletaan OAuth 2.0 -standardia.
+
+  \subsubsection{Prosessin kuvaus} % (fold)
+  \label{ssub:prosessin_kuvaus}
+
+  Käyttäjän autentikoitumisprosessi OAuth 2.0 -standardilla Googleen on identtinen Facebook-autentikoitumisprosessin kanssa. Tämä on avoimen standardin perimmäinen idea: kun standardin implementointiperusteet ovat julkiset, organisaatiosta ja ohjelmistototeutuksesta riippumatta monenlaiset järjestelmät voivat kommunikoida keskenään. MOOC-palvelun osalta yhteiskäyttöisyyden kiistämättömänä etuna on eri palveluntarjoajien hyödyntäminen samalla ohjelmistoimplementaatiolla.
+
+  Eroina Googlen ja Facebook Platformin OAuth 2.0 -rajapintojen ovat ainoastaan päätepisteiden osoitteet ja yksittäisten parametrien arvot; OAuth-virtauksen vaiheet ovat täsmälleen samat kuin kuvassa~\ref{fig:oauth_auth_code_flow}. Koska OAuth 2.0 on auktorisointistandardi, sillä ei ole standardin määrittämää tapaa käyttäjän identiteettitietojen kysymiseksi. Tästä johtuen vaiheessa \verb!(B)! pyydettävien tietojen laajuutta kuvaavan \verb!scope!-parametrin arvo on Facebookilla \emph{email}, mutta Googlella \emph{\url!https://www.googleapis.com/auth/userinfo.email!}. Vastaavasti vaiheen \verb!(E)! jälkeen tapahtuva käyttäjän identiteettitietojen resurssi on kummallakin palveluntarjoajalla eri niminen.
+
+  % ---------- standard userinfo endpoint !!!
+  Vakioidun käyttäjätietojen päätepisteen määritteleminen on yksi OpenID Connect -standardin merkittävimmistä kontribuutioista. Käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta resurssin asiakas saa sen tietoonsa dynaamisesti. Kuvassa~\ref{fig:oauth_auth_code_flow} esitetystä OAuth 2.0 -prosessista saa tehtyä OpenID Connect -autentikointipyynnön siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}.
+
+   % To turn an OAuth 2.0 request into an OpenID Connect request, simply include openid as one of the requested scopes. The openid scope means that the client is requesting an identifier for the user as well as the authentication context. If you want user’s profile URL, name, and picture etc., you can add the additional scope: profile. The server (and user) may choose to make more or less profile information available to the client. If the client also wants the user’s email address, it should include the scope email. The same goes for address (address) and phone (phone).
+   %
+   % http://nat.sakimura.org/2012/01/20/openid-connect-nutshell/
+
+
+  % subsubsection prosessin_kuvaus (end)
+
 
   emergentti paradigmanmuutos: first authenticate then transfer authenticated subject information -- tästä tulee pian default approact. vrt vanha jossa auth/authz samassa. decoupling.
   openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
   oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.
 
+%
+% We are currently focused on getting OAuth 2.0 to be amazing on its own. One way in which Facebook Connect is different from the OpenID stack is that identity is built into with authorization - when a user signs into your site, you get a session key and a user identifier together. Similarly, I think the next version of OpenID should be built on top of OAuth, so that when you sign in with OAuth, you can also request an identifier to go along with it.
+% - Luke Shepard
+% http://www.quora.com/How-will-OAuth-2.0-and-OpenID-work-together
 
-  % One of my goals is getting OAuth 2.0 to the point – fairly quickly – where we can start to architect the next version of OpenID on top of it. WebFinger + OAuth 2.0 + identity would be sweet and finally give us a consistent story for both authentication and authorization. I'd love whatever help I could get with all of this as well!
-  % - David Recordon 03/2010: http://daveman692.livejournal.com/349384.html
-  %
-  % "Since Facebook provides both identity as well as authorization, it’s critical that we get this piece right in order to have a complete solution."
-  % - Luke Shepard
-  % http://www.sociallipstick.com/?p=239
+  % openid:n yleinen ongelma että login-tunnus on url
+  % http://www.quora.com/OpenID/What-s-wrong-with-OpenID
+
+  % Resurssin asiakkaana toimiva identiteetinkuluttaja varmistuu käyttäjän identiteetistä kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja esitetyn valtakirjan.
+
 
   % http://code.google.com/apis/accounts/docs/OAuth2.html
   %OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
@@ -1401,6 +1423,11 @@ Myöhemmin openid connect + oauth 2: oauth2 on jo valmiina, openid connect raken
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
 
   Tässä esitellään OpenID-toteutus.
+
+  EIpä esitelläkään! vaan kerrotaan että ei oteta sitä vapaavalintaista openid:tä koska sitä ei kuitenkana kukaan käytä. vrt 37signals luopuu openid:stä. jatketaan omien käyttäjätunnusten käyttämistä ainakin toistaiseksi. sitten kun myöhemmin alkaa tulla vitusti käyttäjiä, voidaan luopua uusista omista tunnuksista ja tarjota OPENID CONNECT. Kumpikaan ei ole tapahtumassa heti joten ei kannata yliengineerata.
+
+  % On vaikeaa löytää openid-tarjoaja joka ei ole google/fb
+  % http://openid.net/get-an-openid/
 
   Riskinä, että vapaa openid idp katoaa. Tämä on openid foundationin pj:n mielestä openid:n suurin riski.
   % "With several OP going away recently, this is the reality."

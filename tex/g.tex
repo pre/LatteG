@@ -1368,8 +1368,12 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   Eroina Googlen ja Facebook Platformin OAuth 2.0 -rajapintojen ovat ainoastaan päätepisteiden osoitteet ja yksittäisten parametrien arvot; OAuth-virtauksen vaiheet ovat täsmälleen samat kuin kuvassa~\ref{fig:oauth_auth_code_flow}. Koska OAuth 2.0 on auktorisointistandardi, sillä ei ole standardin määrittämää tapaa käyttäjän identiteettitietojen kysymiseksi. Tästä johtuen vaiheessa \verb!(B)! pyydettävien tietojen laajuutta kuvaavan \verb!scope!-parametrin arvo on Facebookilla \emph{email}, mutta Googlella \emph{\url!https://www.googleapis.com/auth/userinfo.email!}. Vastaavasti vaiheen \verb!(E)! jälkeen tapahtuva käyttäjän identiteettitietojen resurssi on kummallakin palveluntarjoajalla eri niminen.
 
-  % ---------- standard userinfo endpoint !!!
-  Vakioidun käyttäjätietojen päätepisteen määritteleminen on yksi OpenID Connect -standardin merkittävimmistä kontribuutioista. Käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta resurssin asiakas saa sen tietoonsa dynaamisesti. Kuvassa~\ref{fig:oauth_auth_code_flow} esitetystä OAuth 2.0 -prosessista saa tehtyä OpenID Connect -autentikointipyynnön siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}.
+  Vakioidun käyttäjätietojen päätepisteen määritteleminen on yksi OpenID Connect -standardin merkittävimmistä kontribuutioista. Käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta siinä missä OAuth 2.0 edellyttää päätepisteen tuntemista etukäteen, OpenID Connect mahdollistaa sen löytämisen dynaamisesti. Kuvassa~\ref{fig:oauth_auth_code_flow} esitetyssä OAuth 2.0 -prosessissa muodostetaan OpenID Connect -autentikointipyyntö siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}. Tällöin vaiheessa \verb!(E)! auktorisointipalvelin palauttaa pääsyoikeuspoletin lisäksi myös \emph{identiteettipoletin} (\verb!id_token!).
+
+  Identiteettipoletin ansiosta resurssin asiakas saa käyttäjän
+  % Resurssin asiakkaana toimiva identiteetinkuluttaja varmistuu käyttäjän identiteetistä kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja esitetyn valtakirjan. Pseudoautentikaatio koska kyseessä autentikointiprosessin simuloiminen. vrt annat jollekin kotiavaimesi, ja avainten saaja varmistuu että olet asunnon omistaja koska sinulla oli asunnon avaimet. openid:ssa taloyhtiön isännöitsijä allekirjoittaa valtakirjan jossa kerrotaan sinun olevan asunnon omistaja.
+
+  % Googlella lisäksi virkistyspoletti, vrt facebook jolla vain pitkäikäinen accesstoken.
 
    % To turn an OAuth 2.0 request into an OpenID Connect request, simply include openid as one of the requested scopes. The openid scope means that the client is requesting an identifier for the user as well as the authentication context. If you want user’s profile URL, name, and picture etc., you can add the additional scope: profile. The server (and user) may choose to make more or less profile information available to the client. If the client also wants the user’s email address, it should include the scope email. The same goes for address (address) and phone (phone).
    %
@@ -1391,7 +1395,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % openid:n yleinen ongelma että login-tunnus on url
   % http://www.quora.com/OpenID/What-s-wrong-with-OpenID
 
-  % Resurssin asiakkaana toimiva identiteetinkuluttaja varmistuu käyttäjän identiteetistä kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja esitetyn valtakirjan.
 
 
   % http://code.google.com/apis/accounts/docs/OAuth2.html

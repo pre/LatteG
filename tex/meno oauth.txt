@@ -340,3 +340,79 @@ Bearer:
 - In order to log the user into your site, three things need to happen. First, Facebook needs to authenticate the user. This ensures that the user is who they say they are. Second, Facebook needs to authenticate your website. This ensures that the user is giving their information to your site and not someone else. Lastly, the user must explicitly authorize your website to access their information. This ensures that the user knows exactly what data they are disclosing to your site.
 - auktorisointipäätös käyttäjälle itselleen (ei automaatille)
 
+
+
+---------------------------------
+
+Poistettua kamaa:
+
+
+% OAuth ja assertiot jos jaettu salaisuus client_id ja client_secret eivät tarpeeksi turvallisia.
+%
+% We modified our OAuth2 webserver flow implementation to accept assertions from the OAuth client,
+% instead of sending client_id&client_secret. This is useful in some cases where long-lived
+% client_id&client_secret are not considered strong enough. Here are the steps to use it:
+% https://sites.google.com/site/oauthgoog/Home/google-oauth2-assertion-flow
+
+
+%%%
+implicit flow vs openid connect
+
+mooc säilöö access tokeneita. jos maailmalla on asiakkaita jotka käyttävät implicit flowta autentikointiin, moocin säilömillä tiedoilla voi autentikoitua käyttäjän nimissä näihin palveluihin. access token ei sisällä tietoa siitä kenelle se on tarkoitettu. facebook tästä syystä signed request.
+%
+Ongelmana siis se, että jos mulla on jonkun muun access token (niin
+kuin mulla on jos pidän palvelua johon sellaisella kirjaudutaan), niin
+voin käyttää tuota access tokenia kenen tahansa muun palvelussa, jossa
+autentikoidaan käyttäjä implicit flow'lla.
+%
+Implicit flow'ssa
+web-selain välittää access tokenin http-pyynnön
+authorization-headerissa, eli selain voi itse vaihtaa access coden.
+Implicit flow'ssa resurssin palvelin ei pysty mitenkään tarkistamaan,
+esittääkö access tokenin se tyyppi jolle se on alunperin myönnetty.
+%
+Facebook on fiksannut ongelman OAuth-standardista poikkeavalla
+ratkaisulla. OpenID Connectin autentikointikerros rakentuu suoraan
+OAuthin auktorisointikerroksen päälle ja korjaa tämän ongelman.
+Spekuloin tässä, että kun openid connect valmistuu, facebook vaihtaa
+nykyisestä oauth-standardista poikkeavan tavan openid connectiin.
+Google ainakin vaikuttaa dokumentaationsa perusteella tekevänsä niin.
+Nykyinen OpenID 2.0 on tuomittu, mutta OpenID Connect tulee!
+
+
+
+% http://www.sakimura.org/2012/02/1487/
+% \cite{sakimura_oauth_authentication_problem_2012}
+% google translatella
+%
+% [2] signed_request, whereas the signature scheme are taking their own Facebook, OpenID Connect is using JWS has been standardized by the IETF JOSE WG. In addition, signed_request, but has put itself in the signed_request access_token, in OpenID Connect, consider the OAuth compatible with other 2.0 sites, we have to go out.
+% Actually, this is Facebook have also noticed, Signed_request have a API called. This is almost the same as OpenID Connect [2]. In order to log in on Facebook, I do not have to use here. What I do is no scope = signed_request. But people who are using, how much do you stay? You do that? Most of the access token to get the client Side flow You do have I spent on behalf of authentication (the default of Facebook)? ! [7]
+%  rather than writing code in their own (added 2/17), if you use a Javascript SDK of Facebook, is configured to use it signed_request. In addition, the difference from last year's July, and document, signed request had turned to enter that code rather than access_token. If using JS SDK is a lot of people, and if you did not write a code on their own, with respect to FB is that damage will not excessively so. However, Android SDK and iOS SDK is because it has no such measures, dangerous. This is, @ nov is raising an incident report to apple.
+
+
+
+% Now you understand that it is very dangerous to randomly authenticate yourself to the sites using plain OAuth [*1]. Then, what should we do to authenticate safely and properly using OAuth? What about just handing a valet key to a locker that only has a copy of the letter of referral instead to your apartment?
+% http://nat.sakimura.org/2011/05/15/dummys-guide-for-the-difference-between-oauth-authentication-and-openid/
+% [*1] Indeed, twitter allowed any apps that the user authorized to read all his direct messages (DMs) until the end of June, 2011.
+%
+% In this case, even the worst happens, you only lose the copy of referral letter. The damage is not so different than the case of OpenID. This indeed is the basic idea behind “OpenID Connect.”
+% OpenID Connect is a distributed identity framework on top of OAuth that not only allows safe authentication but also make it possible for the sites to move the distributed data in the internet and provide better services.
+
+
+
+% OAuth-checklist http://oauthchecklist.org/:
+% UX:
+% Remove passwords from API calls
+% Offer an easy way to revoke applications
+% Offer detailed permissions, or scopes
+%
+% Development:
+% Use a well tested OAuth library
+% Offer the appropriate OAuth dance
+% Document your OAuth implementation
+%
+% Security:
+% Encrypt all OAuth credentials
+% Generate verifiable consumer keys
+% Throttle undesired usage
+

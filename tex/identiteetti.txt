@@ -1,3 +1,11 @@
+
+users must be in control of their identity interactions (see Laws 1 \& 2, cameron). Among other things, this means that users must be given the choice of which identities to use at which services, they must know what information (which claims) will be disclosed to those services if they use them, and they must be informed how those services will use the information disclosed
+Part of being in control that’s all too often overlooked is that to be in control, you must be able to understand the choices you’re presented with (see Laws 6 \& 7).
+
+
+
+
+
 % Sisäänkirjautumisen historia:
 % https://docs.google.com/document/pub?id=1O7jyQLb7dW6EnJrFsWZDyh0Yq0aFJU5UJ4i5QzYlTjU#h.fvyllnfjm3eo
 % http://goo.gl/R8pMP

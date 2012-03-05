@@ -180,3 +180,93 @@ http://www.planetidentity.org/
  % Much of the recent discussion about OpenID usability centers around using brands as a way to make the service more usable. But the problem with this approach is that is takes away most of the federated value out of OpenID, leaving it simply as a common protocol to implement proprietary delegated services. When implemented this way, OpenID adds no real value to services with an OAuth API.
  %
  % The question which solution to use for sign-in, OpenID or OAuth, is very much application specific. If you are building a brand new site that needs accounts, and want to leverage existing accounts from services such as Google, Yahoo!, and Microsoft, OpenID is a great option that will give your users a lot of flexibility. But if you are extending an existing service, implementing a specific API and building a site that has great dependencies on another service, OAuth gives you everything you need, for very little extra work.
+
+
+
+ Käyttäjän oma verkkotunnus ja delegoitu autentikointi esim googleen (luotettavampaa)
+ % http://stackoverflow.com/questions/2541526/delegate-openid-to-google-not-google-apps/2545245#2545245
+ % <link rel="openid2.provider" href="https://www.google.com/accounts/o8/ud?source=profiles">
+ % <link rel="openid2.local_id" href="https://profiles.google.com/[YOUR PROFILE ID]">
+
+
+
+ % openid connect: http://openid.net/2011/05/20/openids-second-act-openid-connect/
+
+
+ % OpenID Connect separates the user identifier from the user's profile URL
+ % http://web.archive.org/web/20110720081501/http://openidconnect.com/
+% profile url endpointista, user identifier on se minkä käyttäjä syöttää, verified identifier on se minkä idp palauttaa
+
+
+
+
+Jaettu salaisuus luotettava ja ennen kaikkea yksinekrtainen toteutus vs signaturet ja assertiot. Mahdollista tehdä turvallisesti koska https suojaa kuljetuskerroksen. (ei applikaatiokerroksen tehtävä) Joinssain tapauksissa vaikeaa tai laskennallisesti liian työlästä käyttää ssl/tls, silloin signaturet. Käytännössä hyödyt ssl/tls:n soveltamisesta ovat suuremmat kuin haittapuolet~\cite{oauthwg_ssl_discussion_2010}.
+
+
+
+
+
+
+Google
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.9\textwidth]{images/google_openid_diagram.png}
+%   \caption{Sekvenssikaavio OpenID-autentikoinnista; Googlen suosittelema autentikointiprosessi (todo viite http://code.google.com/apis/accounts/docs/OpenID.html)}
+%   \label{fig:sekvenssikaavio_google_openid}
+% \end{figure}
+%
+% Kuva:
+% 1. The web application asks the end user to log in by offering a set of log-in options, including using their Google account.
+% 2. The user selects the "Sign in with Google" option. See Designing a Login User Interface for more options.
+% 3. The web application sends a "discovery" request to Google to get information on the Google login authentication endpoint.
+% 4. Google returns an XRDS document, which contains the endpoint address.
+% 5. The web application sends a login authentication request to the Google endpoint address.
+% 6. This action redirects the user to a Google Federated Login page, either in the same browser window or in a popup window, and the user is asked to sign in.
+% Once logged in, Google displays a confirmation page (redirect version / popup version) and notifies the user that a third-party application is requesting authentication. The page asks the user to confirm or reject linking their Google account login with the web application login. If the web application is using OpenID+OAuth, the user is then asked to approve access to a specified set of Google services. Both the login and user information sharing must be approved by the user for authentication to continue. The user does not have the option of approving one but not the other.
+% Note: If the user is already logged into their Google account, or has previously approved automatic login for this web application, the login step or the approval step (or both) may be skipped.
+%
+% 7. If the user approves the authentication, Google returns the user to the URL specified in the openid.return_to parameter of the original request. A Google-supplied identifier, which has no relationship to the user's actual Google account name or password, is appended as the query parameter openid.claimed_id. If the request also included attribute exchange, additional user information may be appended. For OpenID+OAuth, an authorized OAuth request token is also returned.
+%
+% 9. The web application uses the Google-supplied identifier to recognize the user and allow access to application features and data. For OpenID+OAuth, the web application uses the request token to continue the OAuth sequence and gain access to the user's Google services.
+% Note: OpenID authentication for Google Apps (hosted) accounts requires an additional discovery step. See OpenID API for Google Apps accounts.
+
+
+
+% User and idp discovery: http://hueniverse.com/2009/09/openid-and-lrdd/
+
+
+% OpenID Connect, NIST LoA 2 tai 3
+% http://www.thread-safe.com/2012/01/ficam-saml-20-web-sso-profile-updated.html
+
+% Identiteetinkuluttaja voi vaatia OpenID idp:ltä PAPE-laajennoksen avulla tietyn turvallisuustason, esim. 2-factor autentikoinnin.
+
+
+
+openid provider white list? jottei epäluotettavia idp:itä.
+tekniseltä toimintavarmuudeltaan google ja facebook ovat erinomaisia koska takana suuri yhtiö, tavoite avoimiin standardeihin (oauth ja openid) ja valtava käyttäjämassa.
+
+
+
+%: openid uses anonymous diffie-helman for an ad-hoc association establishment. Tämän seurauksena openid haavoittuvainen impersonointi ja man-in-the-middlelle. sertifikaatit eivät ole täydellinnen turva, ca-tietomurrot ja epärehelliset/valtion painostamat ca:t.
+
+
+
+OpenID on single point of failure jos idp menee nurin. Tällöin idp:n käyttäjät eivät voi sisäänkirjautua palveluun. IDP:tä ei voi myöskään vaihtaa ilman että pääsee kirjautumaan sisään. Kannattaa tukea mahdollisuutta liittää monta identiteettiä samaan käyttäjätunnukseen (mutta se on epäkäytännöllistä). Ongelman välttämiseksi voi olla käytännöllistä tukea ainoastaan esivalittuja suuria identiteetintarjoajia. Jos kurssilla 10.000 opiskelijaa ja käyttäjäkunnasta 0,1~\% käyttää kaatunutta identiteetintarjoajaa, seurauksena 10 potentiaalista support-viestiä, jotka jonkun täytyy käsitellä kaiken muun kiireensä keskellä.
+% Nurinmeneminen on ongelma jota ei voi ratkaista tekniikalla. Jokaisella ulkoistetulla identiteetintarjoajalla on riski palvelun lopettamisesta.
+% http://nat.sakimura.org/2010/09/04/re-openid-provider-imploding-chaos-coming/
+% tätä varten xdi.org ja tietojen escrow:
+
+% http://nat.sakimura.org/2006/10/23/identity-20-and-mydentity/
+% We would also have to think about the cases when this company gets bankrupt etc. What XDIORG does is to put the legal and contractual as well as technical infrastructure to cover such cases, such as creating the minimum standard of the service implementation, creating the rules so that one can move to another hosting company when needed, setting up escrow relationships so that people will not get caught by the sudden death of the hosting provider, determining what kind of insurance plan that hosting provider must purchase, etc. We need to vigorously think about those social fabrics. Technical considerations alone is not enough.
+%
+% By the way, technically, to achieve this kind of infrastructure, SAML alone is not enough and we have to have other technologies that assists the resolution of the authentication provider and determine the reputation of such. One candidate for such technology is XRI/XDI which is being standerdized at Oasis Open, the same institution that SAML got standerdized. XRI is a URN scheme that has built in delegation framework and a portion of it (XRDS) is being used as the centerpiece of a href=”http://www.yadis.org/”>Yadis, which is being used by OpenID, LID, and inames.
+
+
+
+todo
+Toinen single point of failure: jos joku pöllii salasanan. Yksi tunnus kaikkiin palveluihin. Yksi pölliminen johtaa moneen pöllimiseen. OpenID:n idc ja idp eivät tunne toisiaan--> openid-idp:n haltuunsa palauttanut käyttäjä ei voi poistaa oikeuksia idc:ltä (kuten oauthissa). Tällöin myöskään sessiot hyökkääjän ja idc:n välillä ei vanhene jos hyökkääjä ehtinyt avata sellaisen (toisin kuin oauthissa).
+
+
+
+openid tarkoitettu federoitua autentikointia varten: asiakas vastaanottaa identity assertion miltä tahansa tarjoajalta (asiakas voi käyttää whitelistiä vai blacklistiä).
+oauth tarkoitettu degoituun auktorisointiin: asiakas rekisteröityy tarjoajalle, joka tarjoaa käyttöoikeuspoletin joka valtuuttaa 3-osapuolen toimimaan loppukäyttäjän puolesta.

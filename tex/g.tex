@@ -806,9 +806,13 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % todo Määrittele termit speksistä:
   %    identifier, claimed identifier, verified identifier, identity provider.
 
-  OpenID 2.0 on vuonna 2007 (todo) alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä seurauksena monella internet-käyttäjällä on tietämättään OpenID-käyttätunnus. Esimerkiksi jokainen Googlen GMail-sähköpostin käyttäjätunnus toimii  OpenID-käyttäjätunnuksena.
+  % Kaiken alkuna livejournal:
+  % http://lj-dev.livejournal.com/683939.html
+  % http://brad.livejournal.com/2120086.html
 
-  OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla toteuttaa \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voi periaatteessa käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa.
+  OpenID 2.0 on vuonna 2007 alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä seurauksena monella internet-käyttäjällä on tietämättään OpenID-käyttätunnus. Esimerkiksi jokainen Googlen GMail-sähköpostin käyttäjätunnus toimii  OpenID-käyttäjätunnuksena.
+
+  OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla on yhteensopiva \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen kanssa, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voi periaatteessa käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa.
   % Käytännössä palveluntuottaja kuitenkin usein hyväksyy vain etukäteen määritetyn identiteetintarjoajan: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan.
   Monesti palveluntuottaja kuitenkin hyväksyy identiteetintarjoajana ainoastaan oman organisaationsa tai suppean listan esivalittuja identiteetintarjoajia (kuva~\ref{fig:yahoo_login}).
 
@@ -1109,9 +1113,22 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
     \item[nonce:] Pyyntöön liitetty kertakäyttöinen satunnaismerkkijono, jolla estetään saman pyynnön esittäminen kahteen kertaan.
   \end{description}
 
-  OpenID:ssä samat virtaukset (auth code ja implicit) kuin OAuth 2.0:ssa. (onko myös client ja resource owner) TODO TODO TODO
+  OpenID:ssä on kaksi rinnakkaista autentikointivirtausta: auktorisointikoodi ja epäsuora virtaus. Virtausten vaiheet ovat identtiset vastaavien OAuth-virtausten kanssa. Ainoana erona on identiteettipoletin käyttö edellä esitettyyn tapaan. OpenID Connect -virtukaset on esitetty tarkemmin liitteessä XXX (todo viite tähän), mutta samankaltaisuudesta johtuen niitä ei esitellä tarkemmin tässä.
+
+  \subsubsection{Uuden autentikointitekniikan lupaus} % (fold)
+  \label{ssub:uuden_autentikointitekniikan_lupaus}
+
+  OpenID 2.0 on vuonna 2007 julkaistu standardi, joka ei lupauksistaan huolimatta onnistunut ratkaisemaan internet-identiteetin ongelmaa~\cite{openid_most_successful_failure_2011, openid_failure_obasanjo_2011, openid_failure_edge_2011}. Monet palveluntarjoajat ovat lopettaneet tuen vapaavalintaisen OpenID 2.0 -identiteetintarjoajan käytölle eikä edes OpenID:n omalla ''Get an OpenID''\footnote{http://openid.net/get-an-openid/} -sivulla ole kuin muutama kaikille avoin identieetintarjoaja. OpenID:n menestymistarinana mainitaan usein \url{StackOverflow.com}-palvelu~\cite{openid_success_stackoverflow_2010}, mutta kyseisen palvelun ensisijaisena kohderyhmänä ovat teknisesti suuntautuneet henkilöt.
+
+  Flaky providers. mistä löydän openid-tarjoajan? google: logo. facebook: logo. yahoo: logo. muita?
+  epäluotettava idp: et pääse sisään idc :lle
+
+  käyttäjätunnus urlina. ei hyvä
 
 
+
+
+  % subsubsection uuden_autentikointitekniikan_lupaus (end)
   % subsubsection identiteettipoletti (end)
 
   % subsection openid_connect (end)
@@ -1120,7 +1137,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   \begin{quote}
-    ''Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenID Connect, for authentication. We need to keep hammering away on this point both so IDPs realize the security problems they are creating for their partners, ---. Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
+    ``Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenID Connect, for authentication. We need to keep hammering away on this point both so IDPs realize the security problems they are creating for their partners, [...] Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
     \\--- Googlen identiteettipalvelusta vastaava johtaja Eric Sachs
      kommentoi~\cite{sachs_comment_on_oauth_authentication_2012}
      John Bradleyn blogikirjoitusta OAuthin käyttämisestä

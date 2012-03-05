@@ -1080,58 +1080,39 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   OpenID Connect määrittelee vakioidun tavan käyttäjän identiteettitietojen kysymiseksi. OAuth 2.0 edellyttää käyttäjätietojen resurssin tuntemista etukäteen, jolloin resurssin asiakkaan täytyy konfiguroida jokainen palveluntarjoaja erikseen. OpenID Connectin käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta protokolla mahdollistaa sen löytämisen dynaamisesti. OpenID Connect on määrittelyltään kehittyvässä vaiheessa, joten etsintävaiheen yksityiskohtia ei tässä esitellä tarkemmin.
 
-  OpenID Connect rakentuu suoraan OAuth 2.0 auktorisointikerroksen päälle, joten OpenID Connectin autentikointivaihe tapahtuu OAuth 2.0 -auktorisointipyynnön yhteydessä. Kun asiakas asettaa poletin hankkimisvaiheessa oikeuksien laajutta kuvaavan \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}, OpenID Connect -standardia tukeva auktorisointipalvelin käynnistää OpenID Connect -autentikointivaiheen.
+  OpenID Connect rakentuu suoraan OAuth 2.0 auktorisointikerroksen päälle, joten OpenID Connectin autentikointivaihe tapahtuu OAuth 2.0 -auktorisointipyynnön yhteydessä. Kun asiakas asettaa poletin hankkimisvaiheessa oikeuksien laajutta kuvaavan \verb!scope!-parametrin arvoksi \verb!openid!, OpenID Connect -standardia tukeva auktorisointipalvelin käynnistää OpenID Connect -autentikointivaiheen~\cite{sakimura_openid_c_nutshell_2012}.
 
-  Auktorisointipalvelin palauttaa abstraktin OAuth-virtauksen (kuva~\ref{fig:oauth_abstract_flow}) vaiheessa \verb!(D)! pääsyoikeuspoletin lisäksi myös \emph{identiteettipoletin} (\verb!id_token!)~\cite{bradley_openid_c_id_token_2012}. Identiteettipoletti valtuuttaa asiakkaan ainoastaan käyttäjän identiteettiin liittyviin tietoihin, mikä mahdollistaa autentikoinnin ja auktorisoinnin löyhän kytkennän. OAuth 2.0 -standardi ei puolestaan määrittele autentikointia lainkaan, vaan pääsyoikeuspoletti toimii valtakirjana mihin tahansa resurssiin, johon asiakas on valtuutettu.
+  Auktorisointipalvelin palauttaa kuvassa~\ref{fig:oauth_abstract_flow} esitetyn abstraktin OAuth-virtauksen vaiheessa \verb!(D)! pääsyoikeuspoletin lisäksi myös \emph{identiteettipoletin} (\verb!id_token!)~\cite{bradley_openid_c_id_token_2012}. Identiteettipoletti valtuuttaa asiakkaan ainoastaan käyttäjän identiteettiin liittyviin tietoihin, mikä mahdollistaa autentikoinnin ja auktorisoinnin löyhän kytkennän. OAuth 2.0 -standardi ei puolestaan määrittele autentikointia lainkaan, vaan pääsyoikeuspoletti toimii valtakirjana mihin tahansa resurssiin, johon se on auktorisointivaiheessa valtuutettu.
 
-  OAuth 2.0 -auktorisointipalvelin ei missään vaiheessa kerro resurssin asiakkaalle käyttäjän identiteettiä. Resurssin asiakas \emph{luottaa} käyttäjän autentikoinnin onnistuneen, koska auktorisointipalvelin myönsi pääsyoikeuspoletin, jonka perusteella asiakas saa delegoidun pääsyoikeuden käyttäjäidentiteetin tietoihin. Siten asiakas saa tietoonsa käyttäjän identiteetin vasta sen jälkeen, kun se vastaanottaa identiteettiresurssin palvelimelta pääsyoikeuspoletin valtuuttamat käyttäjätiedot (kuva~\ref{fig:oauth_abstract_flow}, vaihe \verb!(F)!).
+  OAuth 2.0 -auktorisointipalvelin ei missään vaiheessa kerro resurssin asiakkaalle loppukäyttäjän identiteettiä. Resurssin asiakas \emph{luottaa} käyttäjän autentikoinnin onnistuneen, koska auktorisointipalvelin myönsi pääsyoikeuspoletin. Pääsyoikeuspoletti tarjoaa ainoastaan delegoidun pääsyoikeuden käyttäjäidentiteetin resurssiin. Siten asiakas saa tietoonsa käyttäjän identiteetin vasta sen jälkeen, kun se vastaanottaa identiteettiresurssin palvelimelta pääsyoikeuspoletin valtuuttamat käyttäjätiedot (kuva~\ref{fig:oauth_abstract_flow}, vaihe \verb!(F)!).
 
-  Pääsyoikeuspoletti sisältää ainoastaan \emph{epäsuoran viitteen} siihen, että sen kantaja on resurssin omistaja~\cite{bradley_oauth_authentication_problem_2012}. Tämän vuoksi OAuth 2.0 ei ole autentikointistandardi, vaan OAuth ainoastaan simuloi autentikointiprosessia. OpenID Connect on puolestaan standardi nimenomaan autentikoinnin tarpeisiin.
+  Pääsyoikeuspoletti on vain ja ainoastaan \emph{epäsuora väittämä} siitä, että sen kantaja on resurssin omistaja~\cite{bradley_oauth_authentication_problem_2012}. OAuth 2.0 -resurssin asiakas ei milloinkaan vastaanota suoraa väittämää käyttäjän identiteetistä, vaan sillä on hallussaan ainoastaan resurssin palvelimelle tarkoitettu pääsyoikeuspoletti. Tämän vuoksi OAuth 2.0 ei ole autentikointistandardi, vaan OAuth ainoastaan simuloi autentikointiprosessia. OpenID Connect on puolestaan standardi nimenomaan autentikoinnin tarpeisiin.
 
   % subsection virtaukset (end)
 
   \subsubsection{Identiteettipoletti} % (fold)
   \label{ssub:identiteettipoletti}
 
+  Identiteettipoletti mahdollistaa identiteettitietojen välittämisen suoraan osana identiteettipolettia (ks. luku~\ref{sec:autentikoituminen_ja_web}). OpenID Connect -identiteettipoletti koodataan JSON Web Token (JWT) -muodossa~\cite{json_web_token_2011} käyttäen kryptografisena avaimena asiakkaan ja autentikointipalvelimen tuntemaa jaettua salaisuutta (\verb!client_secret!). Identiteettipolettin soveltaminen loppukäyttäjän autentikointiin edellyttää siten jaetun salaisuuden tuntemista, jonka tuntevat vain asiakas ja autentikointipalvelin.
 
-Identiteettipolettiin kytketään tieto sen tarkoitetusta vastaanottajasta, joten sen soveltaminen loppukäyttäjän autentikointiin edellyttää asiakkaan ja autentikointipalvelimen jaetun salaisuuden (\verb!client_secret!) tuntemista.
-
-  Identiteettipoletti mahdollistaa identiteettitietojen välittämisen suoraan osana identiteettipolettia. Kuten luvussa~\ref{sec:autentikoituminen_ja_web} esiteltiin, poletti voi olla viite identiteettitietoon tai se voi kryptografisin menetelmin sisältää identiteettitiedon itsessään. OpenID Connect -identiteettipoletti koodataan JSON Web Token (JWT) -muodossa käyttäen avaimena asiakkaan ja autentikointipalvelimen tuntemaa jaettua salaisuutta (\verb!client_secret!).  Identiteettipoletti sisältää seuraavat tiedot~\cite{sakimura_openid_c_nutshell_2012}:
-
-% You could say the audience for the OAuth token is the protected resource and the audience for a authentication token is the RP.   They are not the same endpoint! \cite{bradley_oauth_authentication_problem_2012}.
+  Identiteettipoletti on tarkoitettu vain resurssin asiakkaana toimivan identiteetinkuluttajan käyttöön, toisin kuin resurssin palvelimelle tarkoitettu pääsyoikeuspoletti~\cite{bradley_oauth_authentication_problem_2012}. Identiteettipoletti sisältää seuraavat tiedot~\cite{sakimura_openid_c_nutshell_2012}:
 
   \begin{description}
-    \item[aud (audience)]: Poletin vastaanottajan \verb!client_id!.
+    \item[aud (audience):] Poletin vastaanottajan \verb!client_id!.
 
-    \item[exp (expiration)]: Aikaleima, jonka jälkeen polettia ei saa hyväksyä.
+    \item[exp (expiration):] Aikaleima, jonka jälkeen polettia ei saa hyväksyä.
 
-    \item[user_id]: Identiteetintarjoajan kontekstissa pysyvästi yksilöllinen käyttäjätunniste. Identiteetintarjoaja ei saa koskaan antaa aiemmin myönnettyä tunnistetta toiselle käyttäjälle.
+    \item[user\_id:] Identiteetintarjoajan kontekstissa pysyvästi yksilöllinen käyttäjätunniste. Identiteetintarjoaja ei saa koskaan antaa aiemmin myönnettyä tunnistetta toiselle käyttäjälle.
 
-    \item[iss (issuer)]: \verb!https:!-skeeman mukainen URI, joka määrittää identiteetintarjoajan internet-osoitteen. Käyttäjätunnisteen \verb!user_id! on oltava pysyvästi yksilöllinen identiteetintarjoajan tunnisteen \verb!iss! määrittämässä nimiavaruudessa.
+    \item[iss (issuer):] \verb!https:!-skeeman mukainen URI, joka määrittää identiteetintarjoajan internet-osoitteen. Käyttäjätunnisteen \verb!user_id! on oltava pysyvästi yksilöllinen identiteetintarjoajan tunnisteen \verb!iss! määrittämässä nimiavaruudessa.
 
-    \item[nonce]: Pyyntöön liitetty kertakäyttöinen satunnaismerkkijono, jolla estetään saman pyynnön esittäminen kahteen kertaan.
+    \item[nonce:] Pyyntöön liitetty kertakäyttöinen satunnaismerkkijono, jolla estetään saman pyynnön esittäminen kahteen kertaan.
   \end{description}
 
- %%%
+  OpenID:ssä samat virtaukset (auth code ja implicit) kuin OAuth 2.0:ssa. (onko myös client ja resource owner) TODO TODO TODO
 
- % http://www.thread-safe.com/2012/01/problem-with-oauth-for-authentication.html
- % The disadvantage is that they have no security.  Not to put too fine a point on it, they have not Authenticated the User.  They have gotten delegated access to the users information.
- %
- % The problem is that in the authentication case Websites do have a motivation to inappropriately reuse the access token.
- %
- % Traditionally authentication involves three parties User, Relying party Web Site, and Authentication server.  The Authentication server produces some sort of token/assertion for the consumption of the Relying Party (RP).  This assertion in OpenID 2.0 and SAML 2.0 contain a way to identify who (what RP) the token was created for.  The RP only accepts tokens addressed to it.  This prevents RP's and others from replaying tokens at different RP.
- % In OAuth the token is intended for the consumption of the protected resource, and intentionally opaque to the client (RP).  The RP has no way to tell from the token if it was generated for it or another RP.
- %
- % One thing OAuth 2.0 allows is defining new Response Types. Based on OAuth 2.0 Multiple Response Type Encoding Practices by Google and Facebook, we decided to use a separate id_token parameter in the response rather than overload the access_token. That allows the tokens to have separate audience restrictions and formats. Facebook is doing the same thing but are using signed_request rather than id_token as the response type. We both return the extra token fragment encoded win an additional parameter, in Facebooks case signed_request and in openID's id_token.
- %
- %   kommenteista: Eran believes MAC tokens are the solution. I however think there are probably better ways to solve it by being explicit about what endpoints a token is good for.
 
- OpenID:ssä samat virtaukset (auth code ja implicit) kuin OAuth 2.0:ssa. (onko myös client ja resource owner)
-
- Protected resources must be sure the access token is for them, that is sort of the point of them.
- Oauthissa accesscode mihin tahansa resurssiin ja aina käyttäjä on mukamas autentikoitu. Koska accesstoken ei rajattu sillä pääsee aina käsiksi käyttäjän perustietoihin.
-
- % subsubsection identiteettipoletti (end)
+  % subsubsection identiteettipoletti (end)
 
   % subsection openid_connect (end)
 
@@ -1139,8 +1120,8 @@ Identiteettipolettiin kytketään tieto sen tarkoitetusta vastaanottajasta, jote
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   \begin{quote}
-    ''Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenIDConnect, for authentication. We need to keep hammering away on this point both so IDPs realize the security problems they are creating for their partners, and to get RPs to realize how easily they can compromise their own security just because of the lack of a few additional lines of code. Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
-    \\Googlen identiteettipalvelusta vastaava johtaja Eric Sachs
+    ''Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenID Connect, for authentication. We need to keep hammering away on this point both so IDPs realize the security problems they are creating for their partners, ---. Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
+    \\--- Googlen identiteettipalvelusta vastaava johtaja Eric Sachs
      kommentoi~\cite{sachs_comment_on_oauth_authentication_2012}
      John Bradleyn blogikirjoitusta OAuthin käyttämisestä
      autentikointiin~\cite{bradley_oauth_authentication_problem_2012}.
@@ -1158,6 +1139,25 @@ Identiteettipolettiin kytketään tieto sen tarkoitetusta vastaanottajasta, jote
   implicit flow vs openid connect
 
   mooc säilöö access tokeneita. jos maailmalla on asiakkaita jotka käyttävät implicit flowta autentikointiin, moocin säilömillä tiedoilla voi autentikoitua käyttäjän nimissä näihin palveluihin. access token ei sisällä tietoa siitä kenelle se on tarkoitettu. facebook tästä syystä signed request.
+  %
+  Ongelmana siis se, että jos mulla on jonkun muun access token (niin
+  kuin mulla on jos pidän palvelua johon sellaisella kirjaudutaan), niin
+  voin käyttää tuota access tokenia kenen tahansa muun palvelussa, jossa
+  autentikoidaan käyttäjä implicit flow'lla.
+  %
+  Implicit flow'ssa
+  web-selain välittää access tokenin http-pyynnön
+  authorization-headerissa, eli selain voi itse vaihtaa access coden.
+  Implicit flow'ssa resurssin palvelin ei pysty mitenkään tarkistamaan,
+  esittääkö access tokenin se tyyppi jolle se on alunperin myönnetty.
+  %
+  Facebook on fiksannut ongelman OAuth-standardista poikkeavalla
+  ratkaisulla. OpenID Connectin autentikointikerros rakentuu suoraan
+  OAuthin auktorisointikerroksen päälle ja korjaa tämän ongelman.
+  Spekuloin tässä, että kun openid connect valmistuu, facebook vaihtaa
+  nykyisestä oauth-standardista poikkeavan tavan openid connectiin.
+  Google ainakin vaikuttaa dokumentaationsa perusteella tekevänsä niin.
+  Nykyinen OpenID 2.0 on tuomittu, mutta OpenID Connect tulee!
 
 
   % http://www.sakimura.org/2012/02/1487/

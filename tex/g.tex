@@ -33,6 +33,7 @@
 %  - OAuthissa,
 %      identiteetinkuluttaja vs. resurssin asiakas
 %      identiteetintarjoaja  vs. auktorisointipalvelin
+%      VAI: identiteettiresurssin asiakas
 %  - OpenID:ssä,
 %      identiteetinkuluttaja vs. luottava osapuoli
 %  - "Tutkielma ei ota kantaa": tutkielma ei ole tekijä, ei kantaa --> jättää määrittelemättä
@@ -102,7 +103,7 @@
 
   Kurssin avoimen luonteen ansiosta virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri aiotaan siksi ulkoistaa sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
-  Tutkielmassa esittellään kolme \emph{yhteiskäytön standardia} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID 2.0 ja OAuth 2.0 sekä sisäverkoissa suosittu SAML 2.0. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}).
+  Tutkielmassa esittellään kolme \emph{yhteiskäytön standardia} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID ja OAuth sekä sisäverkoissa suosittu SAML. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}).
 
   Tutkielmaan liittyvän keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen GMail-palveluun. GMail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka tuntee käyttäjän identiteetin yksilöivän tunnisteen (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, joka ei kuulu tämän tutkielman piiriin.
 
@@ -119,6 +120,8 @@
     \caption{Hypoteesi MOOC-palveluun soveltuvista autentikointirajapinnoista}
     \label{fig:mooc-autentikointirajapinnat}
   \end{figure}
+
+  Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, parhaat blogikirjoitukset ovat myös vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ''OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
 
 
 % section johdanto (end)
@@ -232,6 +235,10 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   Tietoturvan (todo termi: security) olemassaolon tarkoituksena on luottamuksen mahdollistaminen eri toimijoiden kesken (todo viite secrets and lies). Luottamus on päämäärä, ja turvatoimet ovat keino sen saavuttamiseksi. Tässä luvussa käsiteltiin digitaalista identiteettiä eli käyttäjän henkilöllisyyttä internetissä. Seuraavassa luvussa käsitellään autentikointia eli keinoja varmistaa käyttäjän digitaalinen identiteetti ja saavuttaa luottamus autentikointitapahtuman toimijoiden kesken.
 
+  % FYI, ISO and ITU-T defines "identity" as the "set of attributes about an
+  % entity".
+  % We should stick to that definition.
+  % http://liveweb.archive.org/http://lists.openid.net/pipermail/openid-specs-ab/Week-of-Mon-20111212/001338.html
 
   % subsection identiteetti_internetissä (end)
 
@@ -255,6 +262,8 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   %
   % % todo
   % Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns. XRI on URN-skeema (http://nat.sakimura.org/2006/10/23/identity-20-and-mydentity/) jota hallinnoi xdi.org
+  % XRI epäonnistui, kukaan ei käytä sitä. epäselkeä, mikä ihmeen =repo??
+  % -----> acct-skeema, jonka avulla sähköpostiosoite on tunnus: acct:petrus.repo@iki.fi
   %
   % \begin{figure}
   %   \centering
@@ -898,7 +907,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   OAuth 1.0 syntyi vuonna 2007 sosiaalisen median tarpeesta jakaa käyttäjän dataa eri palvelujen kesken. Ennen OAuthia oli yleistä, että esimerkiksi Facebookista käyttäjän tietoja hakenut palvelu kysyi käyttäjän omaa Facebook-salasanaa ja käytti sitä tietojen noutamiseen. Tällaista voidaan kutsua jopa salasana-antipatterniksi, koska käyttäjän salasana ei ole jakamisen jälkeen enää salainen, vaan jokainen Facebookista tietoa hakeva palvelu tuntee käyttäjän salasanan. OAuthin myötä sisäänkirjautuminen oli mahdollista rajoittaa dataa hallinnoivaan palveluun eikä salasanaa tarvinnut enää jakaa kolmannelle osapuolelle. Tällöin esimerkiksi pääsyoikeutta käyttäjän kuviin halunnut palvelu ohjasi käyttäjän Facebookiin, jossa käyttäjä autentikoitumisen jälkeen hyväksyi kolmannen osapuolen esittämän käyttöoikeuspyyntön.
 
   %Kolmannen osapuolen palvelu K voi siis pyytää käyttäjän tietoja palvelusta P ilman että P:n salasanaa tarvitsee syöttää K:hon. Käyttäjän täytyy hyväksyä tietojen pyytäminen, eli K ei saa noudetuksi P:n tietoja ilman käyttäjän lupaa. Kolmannen osapuolen palvelua kutsutaan OAuth-protokollassa asiakkaaksi (\emph{client}), mutta yhdenmukaisuuden vuoksi tässä tutkielmassa käytetään käytetään aina nimeä identiteetinkuluttaja.
-  OAuth 2.0 on edeltäjiinsä nähden uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 -standardi on vielä tätä tutkielmaa kirjoitettaessa luonnosvaiheessa\footnote{Helmikuussa 2012 OAuth 2.0 -standardin luonnosvaiheen versionumero on 23}, mutta lopullinen versio valmistunee vuoden 2012 aikana. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut edeltäjänsä lisäksi merkittävästi vaikutteita Facebookilta, jonka valtaisan tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt.
+  OAuth 2.0 on edeltäjiinsä nähden uusi protokolla, joka ei ole taaksepäin yhteensopiva aiempien versioidensa kanssa. OAuth 2.0 -standardin ydin on tätä tutkielmaa kirjoitettaessa IETF:n lopullista hyväksyntää odottavassa luonnosvaiheessa\footnote{Helmikuussa 2012 OAuth 2.0 -standardin luonnosvaiheen versionumero on 23}, ja lopullinen versio valmistunee vielä vuoden 2012 aikana~\cite{fontana_oauth_closer_to_finish_2012, jones_oauth_closer_to_finish_2012}. OAuth 1.0 syntyi pitkälti Twitterin ja Googlen omien auktorisointiprotokollien pohjalta. OAuth 2.0 on saanut edeltäjänsä lisäksi merkittävästi vaikutteita Facebookilta, jonka valtavan käyttäjä- ja tietomäärän eri käyttötapauksiin aiempi OAuth 1.0 -standardi ei millään riittänyt.
 
   OAuth 1.0 synnytti alkujaan runsaasti vastutusta web-kehittäjien keskuudessa~\cite{developers_like_hypermedia_but_2010}. Ennen OAuthia esimerkiksi kolmannen osapuolen Twitter-integraatio onnistui HTTP Basic -autentikaatiolla, mikä mahdollisti käyttäjätietojen välittämisen yhdellä HTTP-pyynnöllä\footnote{HTTP Basic Auth mahdollistaa käyttäjätunnuksen ja salasanan välittämisen osana URL:a, esimerkiksi \url!https://tunnus:salasana@palvelu.com/polku!.}. OAuth 1.0 monimutkaisti järjestelyä merkittävästi, koska ulkopuolisella kehittäjällä ei ollut enää pääsyä käyttäjän salasanaan ja erityisesti sen vuoksi, että tietoja ei pystynyt enää hakemaan ilman käyttäjän lupaa.
 
@@ -1065,8 +1074,11 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % In this case, even the worst happens, you only lose the copy of referral letter. The damage is not so different than the case of OpenID. This indeed is the basic idea behind “OpenID Connect.”
   % OpenID Connect is a distributed identity framework on top of OAuth that not only allows safe authentication but also make it possible for the sites to move the distributed data in the internet and provide better services.
   %
+  %
   % openid connect: http://openid.net/2011/05/20/openids-second-act-openid-connect/
 
+  % OpenID Connect separates the user identifier from the user's profile URL
+  % http://web.archive.org/web/20110720081501/http://openidconnect.com/
 
 
 
@@ -1333,8 +1345,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   OAuth-standardin mukaan auktorisointipalvelin tarjoaa virkistyspoletin (\verb!refresh_token!), kun asiakaalle myönnetään pääsy käyttäjän tietoihin silloinkin, kun käyttäjä ei ole läsnä~\cite{ietf_oauth2}. Asiakas voi virkistyspoletin avulla pyytää uuden pääsyoikeuspoletin ilman käyttäjän suostumusvaihetta. OAuthin yhtenä perusajatuksena on pitkäikäinen auktorisointi ja lyhytikäinen pääsyoikeuspoletti.
 
-  Facebook ei standardista poiketen tarjoa virkistyspolettia, vaan myöntää sen sijaan ikuisesti voimassa olevan pääsyoikeuspoletin~\cite{facebook_oauth2_doc}. Jos MOOC tarvitsee käyttäjästä riippumattoman pääsyn resurssiin, sen on pyydettävä käyttäjän suostumusvaiheessa Facebook Platformilta \verb!scope!-parametrin välityksellä \verb!offline_access!-käyttöoikeutta~\cite{facebook_oauth2_doc}. Facebookin suunnitelmissa on lopettaa ikuisesti voimassa olevat pääsyoikeuspoletit. Vuoden 2012 aikana Facebook päättää tuen \verb!offline_access!-käyttöoikeudelle ja korvaa sen pidentämällä pääsyoikeuspoletin voimassaoloaikaa joka kerralla, kun käyttäjä palaa asiakaspalveluun~\cite{facebook_oauth2_deprecate_offline}.
-
+  Facebook ei standardista poiketen tarjoa virkistyspolettia~\cite{bradley_facebook_refresh_tokens_2012}, vaan myöntää ikuisesti voimassa olevan pääsyoikeuspoletin~\cite{facebook_oauth2_doc}, jota asiakas pyytää \verb!scope!-parametrin arvolla \verb!offline_access!. Myöhemmin vuoden 2012 aikana Facebook tulee lopettamaan ikuisesti voimassa olevat pääsyoikeuspoletit ja tuen \verb!offline_access!-käyttöoikeudelle. Korvaavana tekniikkana on 60 vuorokautta voimasa oleva pääsyoikeuspoletti, jonka voimassaoloaikaa pidennetään joka kerralla, kun käyttäjä palaa asiakaspalveluun~\cite{facebook_oauth2_deprecate_offline, facebook_oauth2_deprecate_offline_mailinglist}. Syy Facebookin päätökseen olla käyttämättä OAuth standardin mukaisia virkistyspoletteja on epäselvä~\cite{sakimura_facebook_refresh_tokens_2012}.
 
   % subsubsection ensimmäisen_auktorisoinnin_jälkeen (end)
 
@@ -1370,7 +1381,8 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   Vakioidun käyttäjätietojen päätepisteen määritteleminen on yksi OpenID Connect -standardin merkittävimmistä kontribuutioista. Käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta siinä missä OAuth 2.0 edellyttää päätepisteen tuntemista etukäteen, OpenID Connect mahdollistaa sen löytämisen dynaamisesti. Kuvassa~\ref{fig:oauth_auth_code_flow} esitetyssä OAuth 2.0 -prosessissa muodostetaan OpenID Connect -autentikointipyyntö siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}. Tällöin vaiheessa \verb!(E)! auktorisointipalvelin palauttaa pääsyoikeuspoletin lisäksi myös \emph{identiteettipoletin} (\verb!id_token!).
 
-  Identiteettipoletin ansiosta resurssin asiakas saa käyttäjän
+  Identiteettipoletin mahdollistaa autentikoinnin ja auktorisoinnin löyhän kytkennän. OAuth 2.0:n pääsyoikeuspoletti toimii valtakirjana mihin tahansa resurssiin, johon asiakas on valtuutettu. OpenID Connectin identiteettipoletti toimii valtakirjana ainoastaan identiteettitietojen resurssiin. Kun identiteettitietojen resurssin päätepiste on riippumaton muista resursseista, identiteettiresurssin palvelin voi olla itsenäisen muiden resurssien suhteen.
+
   % Resurssin asiakkaana toimiva identiteetinkuluttaja varmistuu käyttäjän identiteetistä kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja esitetyn valtakirjan. Pseudoautentikaatio koska kyseessä autentikointiprosessin simuloiminen. vrt annat jollekin kotiavaimesi, ja avainten saaja varmistuu että olet asunnon omistaja koska sinulla oli asunnon avaimet. openid:ssa taloyhtiön isännöitsijä allekirjoittaa valtakirjan jossa kerrotaan sinun olevan asunnon omistaja.
 
   % Googlella lisäksi virkistyspoletti, vrt facebook jolla vain pitkäikäinen accesstoken.
@@ -1379,6 +1391,9 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
    %
    % http://nat.sakimura.org/2012/01/20/openid-connect-nutshell/
 
+   % google ja facebook ajavat openid connect -standardia eteenpäin
+   % http://liveweb.archive.org/http://lists.openid.net/pipermail/openid-specs-ab/Week-of-Mon-20120220/001609.html
+   %
 
   % subsubsection prosessin_kuvaus (end)
 

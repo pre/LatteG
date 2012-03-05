@@ -1,3 +1,17 @@
+OAuth flow diagram:
+
+http://liveweb.archive.org/http://lists.openid.net/pipermail/openid-specs-ab/Week-of-Mon-20120206/001545.html
+
+OAuth 2.0 diagram:
+https://github.com/jricher/OpenID-Connect-Java-Spring-Server/blob/master/docs/OAuth2.0_Diagrams.pdf?raw=true
+
+OpenID Connect diagram:
+https://github.com/jricher/OpenID-Connect-Java-Spring-Server/blob/master/docs/OpenID_Connect_Diagrams.pdf?raw=true
+
+
+
+
+
 % oauth 1.0a:
 % oauth_callback: url johon idp ohjaa käyttäjän autentikoinnin/auktorisoinnin jälkeen
 % out of band: ei url callbackia, mutta oauth_verifier haaste

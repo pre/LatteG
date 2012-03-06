@@ -50,7 +50,7 @@
 
 \author{Petrus Repo}
 \date{\today}
-\level{G!}
+\level{G! (beta)}
 \maketitle
 
 \onehalfspacing
@@ -61,7 +61,7 @@
 \subject{Tietojenkäsittelytiede}
 \numberofpagesinformation{\numberofpages\ sivua}
 
-\keywords{OpenID, OAuth, SAML, internet, autentikointi, identiteetti}
+\keywords{OpenID, OAuth, internet, autentikointi, auktorisointi, identiteetti, kertakirjautuminen}
 
 \begin{abstract}
   \begin{singlespacing}
@@ -1229,57 +1229,6 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % subsection autentikointi_helsingin_yliopiston_verkkoympäristössä (end)
 
 
-  \subsection{Autentikointi Helsingin yliopiston verkkoympäristössä} % (fold)
-  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
-
-  Helsingin yliopistolla (HY) on hallinnollinen päätös keskittää kaikki autentikointi Active Directory (AD) -palveluun\footnote{Lähde: Keskustelu Tietojenkäsittelytieteen laitoksen tietotekniikka-asiantuntija XXX:n kanssa 26.1.2012, todo kysy lupa käyttää nimeä}. Vaikka Tietojenkäsittelytieteen laitoksen ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, historiallisista syistä johtuen Tietojenkäsittelytieteen laitoksella (TKTL) on lukuisa määrä omia erilaisia autentikointipalveluja.
-
-  Tietojenkäsittelytieteen laitoksen palvelujen käyttäjätiedot pidetään synkronissa kopioimalla tiedot säännöllisin väliajoin eräajona Helsingin yliopiston käyttäjärekisteristä. Esimerkiksi Tietojenkäsittelytieteen laitoksen kurssi-ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu yliopiston Active Directory -palvelun käyttäjärekisteristä. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatisi paljon työtä. Käytännössä Tietojenkäsittelytieteen laitoksen käyttäjätunnukset ovat siis itsenäiset ja erillään Helsingin yliopiston ensisijaisen käyttäjärekisterin toteutuksesta.
-
-  Autentikointinsa puolesta MOOC-järjestelmän ei ole suotavaa ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan Helsingin yliopiston hallinnollista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi.
-
-  \subsection{Autentikointi Helsingin yliopiston identiteetillä} % (fold)
-  \label{sub:autentikointi_helsingin_yliopiston_identiteetillä}
-
-  Tutkielma suosittele, että Helsingin yliopisto perustaisi identiteetintarjoajapalvelun, joka toimisi abstraktiokerroksena yliopiston käyttäjärekisterin ja kolmannen osapuolten toteuttamien palvelujen välillä.  Kuva~\ref{fig:mooc_hy_idp} esittelee identiteetintarjoajan, johon kolmannen osapuolen toteuttama identiteetinkuluttaja saa käyttöönsä ulkoisen OAuth-rajapinnan. Autentikoinnin sisäisenä rajapintana toimii SAML, jolla identiteetintarjoaja yhdistää Helsingin yliopiston Active Directoryssä olevaan käyttäjärekisteriin. Kuvassa kuluttajana toimii MOOC-palvelu, mutta sen lisäksi mikä tahansa muukin palvelu olisi mahdollista rekisteröidä identiteetinkuluttajaksi.
-
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
-    \caption{MOOC-järjestelmän autentikointirajapinnat. Helsingin yliopistolla on kolmansien osapuolten toteuttamia palveluja -- kuten MOOC -- varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.)}
-    \label{fig:mooc_hy_idp}
-  \end{figure}
-
-  Vaikka kuluttajapalveluja olisi useita, identiteetintarjoajan sisäinen SAML-rajapinta käyttäjärekisteriin ei koskaan ole suoraan kuluttajapalvelun saatavilla. Tämän ansiosta sisäinen rajapinta on tarvittaessa mahdollista vaihtaa ilman, että yhteenkään kuluttajapalveluun tarvitsee sen vuoksi tehdä muutoksia. Lisäksi identiteetintarjoajan sisäisen rajapinnan yhdistämää käyttäjärekisteriä on mahdollista vaihtaa myös väliaikaisesti, koska ulkoinen OAuth-rajapinta ei välitä käyttäjärekisterin autentikoinnin sisäisestä toteutuksesta. Tämän ansiosta käyttäjä voisi valita identiteetiksi Helsingin yliopiston käyttäjätunnuksen sijasta myös Tietojenkäsittelytieteen laitoksen tai Tietotekniikan tutkimuslaitoksen (HIIT) käyttäjätunnuksella -- samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
-
-  % todo: muoto "tutkielma suosittelee", "tämän tutkimuksen perusteella"
-  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee palvelun perustamista ja ulkoisen OAuth 2.0 -rajapinnan tarjoamista kolmannen osapuolen sovelluksille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sub:tutkimusongelma}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä? Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei ole, vaan lukuisat palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
-
-  todo Selitä miksi suositellaan OAuth: koska laajennosvara auktorisointiin, OpenID tällä hetkellä pääasiassa vain autentikointiin (ei openid+oauth-hybridiä ja openid connect on lapsenkengissään). Helpompi tukea ulkoisesti vain yhtä standardia, koska myöhemmin tulee kuitenkin myös uusia versioita ja legacy-support työlästä. Jos kaksi standardia, niin kahden standardin eri versiot eli tupla-legacy-support. Jos idp + OpenID, niin yliopiston tunnus toimisi OpenID:nä maailmalle, toisaalta leviäisikö se jos nyt jo voi käyttää googlea openid:nä. maksaisi silti jos pitäisi ylläpitää kahta rajapintaa.
-  % Openid connectista hyväksytty 16.2.2012 implementer's draft:
-  % http://openid.net/2012/02/16/openid-connect-implementers-drafts-approved/
-  % differences in openid connect: http://www.apparently.me.uk/openid/
-
-  % If you don’t even know what I’m talking about,  you need to go find out.  OpenID Connect is an identity layer on top of OAuth 2.0.   It abandons the redirect-based structure of OpenID 2.0 completely, and instead embraces the API security layer.   While OAuth 2.0 takes care of the mechanism of asking for a token and using that token,  OpenID Connect creates a scope that protects a standardized set of identity services:  these services provide roughly the same set of attributes, authentication context, and session expiry information that you would get in a SAML assertion.
-  %
-  % SAML, OAuth 2.0, and OpenID Connect, when taken together, allow identity and issuer/session information to become a known common quantity, traded either on the front channel or the back channel, consumable by the largest enterprises and the simplest mobile applications, and secured at any level of assurance.
-  %
-  % http://eternallyoptimistic.com/2012/02/10/time-to-act/
-
-  todo yhteenvetokappale jossa edut ja haitat. Painota, että tärkeintä on tarjota abstraktio sisäisen rajapinnan eteen, jotta sisäinen toteutus ei ole tiukasti kytketty kolmansien osapuolten käyttäjänä rajapintaan. Käytettävä standardi ei ole ykkösjuttu, vaan abstraktio. Tutkielma suosittelee OAuthin tarjoamista koska se on emergentti pilviratkaisu. Ylläpitdettävyyden kannalta voi olla kätevää tarjota vain yksi ulkoinen rajapinta. Toisaalta voi olla sisäisiä vaatimuksia joiden vuoksi kannattaa tarjota saml myös ulkoisena rajapintana.
-
-  % Sisäiset toteutukset: vrt aika ennen hardware abstraktioita, kun ohjelmoijan piti tietää
-  % millainen näytonohjain tai tallennusmedia loppukäyttäjällä on. HW-abstraktio mahdollisti koodin
-  % kirjoittamisen ulkoista rajapintaa vasten, kunhan näytönohjain tms toteutti sisäisesti
-  % ulkoisen rajapinnan (vrt directx). hardwaresta tuli löyhästi kytkettyä tietokonelaitteistoon, mikä mahdollisti raudan entistä nopeamman kehityksen koska softaa ei tarvinnut uudelleenkirjoittaa uudelle raudalle kun ulkoinen rajapinta pysyi samana. vastaavasti uudet ominaisuudet pystyi ottamaan käytöön koska niitä varten uusi rajapinta. (cameron 7 laws of id)
-
-  % Sisäinen toteutus voisi olla henkilökohtaiset Kerberos-sertifikaatit (todo termi), mutta sellainen ratkaisu ei olisi yhteensopiva yliopiston AD-päätöksen kanssa, eikä se olisi siksi toteuttamiskelpoinen.
-  % LDAP-sisältää käyttäjän henkilötietojen lisäksi myös hashatun (todo termi) salasanan, jota vastaan autentikoniti suoritetaan.
-
-
-
-  % subsection autentikointi_helsingin_yliopiston_identiteetillä (end)
-
 
   \subsection{Facebook-identiteetin yhdistäminen MOOC-palveluun} % (fold)
   \label{ssub:mooc_fb_auth}
@@ -1466,6 +1415,50 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
+  \subsection{Käyttäjätunnukset Helsingin yliopiston verkkoympäristössä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
+
+  Helsingin yliopistolla (HY) on hallinnollinen päätös keskittää käyttäjärekisteri Active Directory (AD) -palveluun\footnote{Lähde: Keskustelu Tietojenkäsittelytieteen laitoksen tietotekniikka-asiantuntija XXX:n kanssa 26.1.2012, todo kysy lupa käyttää nimeä}. Vaikka Tietojenkäsittelytieteen laitoksen ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, historiallisista syistä johtuen Tietojenkäsittelytieteen laitoksella (TKTL) on lukuisa määrä omia erilaisia autentikointipalveluja, joissa on itsenäinen käyttäjälähde.
+
+  Tietojenkäsittelytieteen laitoksen palvelujen käyttäjätiedot pidetään synkronissa kopioimalla tiedot säännöllisin väliajoin eräajona Helsingin yliopiston ensisijaisesta käyttäjärekisteristä. Esimerkiksi Tietojenkäsittelytieteen laitoksen kurssi-ilmoittautumisjärjestelmä autentikoi TKTL:n LDAP-palveluun, johon käyttäjätiedot on kopioitu ensisijaisesta käyttäjälähteestä. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatisi paljon työtä. Käytännössä Tietojenkäsittelytieteen laitoksen myöntämät käyttäjätunnukset ovat itsenäiset ja erillään Helsingin yliopiston ensisijaisen käyttäjärekisterin toteutuksesta.
+
+  Autentikointinsa puolesta MOOC-järjestelmän ei ole suotavaa ylläpitää ongelmaa, vaan olla ennemmin osa sen ratkaisua. Siksi tämän tutkielman puitteissa noudatetaan Helsingin yliopiston hallinnollista päätöstä ja valitaan Active Directory yliopiston sisäisen käyttäjätunnuksen autentikointilähteeksi.
+
+
+  \subsection{Autentikoituminen Helsingin yliopiston identiteetillä} % (fold)
+  \label{sub:autentikointi_helsingin_yliopiston_identiteetillä}
+
+  Palveluperusteisen arkkitehtuurin mukaisesti järjestelmän sisäinen toteutus on tärkeää abstraktoida sovellettavaksi ainoastaan ulkoisen rajapinnan kautta. Vielä 1990-luvulla peliohjelmoijan täytyi tyypillisesti tietää, millainen näytönohjainlaitteisto loppukäyttäjällä on. Pelin grafiikkakomponentit täytyi ohjelmoida jokaiselle näytönohjaimelle erikseen, eikä peli välttämättä tukenut kaikkien asiakkaidensa laitteistoa. Laitteistoabstraktiot kuten Microsoft DirectX\footnote{http://en.wikipedia.org/wiki/DirectX} mahdollisti ohjelmistokoodin kirjoittamisen ulkoista rajapintaa vasten, kunhan näytönohjaimen oma laiteajuri toteutti sisäisesti abstraktion määrittelemän rajapinnan. Tämä mahdollisti laitteiston löyhän kytkennän sitä hyödyntäviin sovelluksiin. Löyhän kytkennän ansiosta valmistajat pystyivät tuomaan uusia laitteita nopeammin markkinoille, koska sovelluksia ei tarvinnut uudelleenkirjoittaa uudelle laitteistolle, kun laitteistoabstraktion ulkoinen rajapinta pysyi samana.
+
+  Sisäisen toteutuksen abstraktoiminen ulkoisen rajpainnan taakse on perusteltua myös autentikoinnissa. Autentikointia pyytävän identiteetinkuluttajan ei tule koskaan ottaa yhteyttä suoraan Helsingin yliopiston käyttäjärekisterin sisäiseen rajapintaan. Tämä mahdollistaa käyttäjärekisterin löyhän kytkennän sitä hyödyntäviin kolmannen osapuolen toteuttamiin palveluihin kuten Tietojenkäsittelytieteen laitoksen MOOC.
+
+  Vaikka yliopiston käyttäjärekisterin sisäinen rajapinta myöhemmin muuttuisi, yhteenkään kolmannen osapuolen palveluun ei tarvitse tehdä muutoksia. Yliopiston identiteetintarjoajan sisäisen rajapinnan käyttäjärekisteriä on mahdollista vaihtaa myös tilannekohtaisesti, koska ulkoinen rajapinta ei välitä käyttäjärekisterin autentikoinnin sisäisestä toteutuksesta. Tämän ansiosta loppukäyttäjä voisi autentikoitua Helsingin yliopiston käyttäjätunnuksen sijasta myös Tietojenkäsittelytieteen laitoksen, Tietotekniikan tutkimuslaitoksen (HIIT) tai vaikka Itä-Suomen yliopiston käyttäjätunnuksella -- samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
+
+  Kuva~\ref{fig:mooc_hy_idp} esittelee Helsingin yliopiston identiteetintarjoajan, johon kolmannen osapuolen toteuttama identiteetinkuluttaja saa käyttöönsä ulkoisen OAuth-rajapinnan. Autentikoinnin sisäisenä rajapintana toimii SAML\footnote{Microsoft Active Directorystä seuraava vaatimus.}, jolla identiteetintarjoaja yhdistää Helsingin yliopiston keskitettyyn käyttäjärekisteriin. Kuvassa identiteetinkuluttajana toimii MOOC-palvelu, mutta sen lisäksi mikä tahansa muu soveltuva palvelu on mahdollista rekisteröidä identiteetinkuluttajaksi. Abstraktion ansiosta kolmannen osapuolen identiteetinkuluttajia voisi siten olla parhaimmillaan satoja ilman, että Helsingin yilopiston tietotekniikkaosastolle syntyy ongelmaa perinnejärjestelmien tukemisesta.
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
+    \caption{MOOC-järjestelmän autentikointirajapinnat. Helsingin yliopistolla on kolmansien osapuolten toteuttamia palveluja -- kuten MOOC -- varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.)}
+    \label{fig:mooc_hy_idp}
+  \end{figure}
+
+  Yksityiskohtainen suunnitelma Helsingin yliopiston identiteetintarjoajan perustamisesta rajataan tämän tutkielman ulkopuolelle. Tutkielman pohdintojen perusteella tekijä suosittelee identiteetintarjoajapalvelun perustamista siten, että käyttäjärekisterin ulkoisena rajapintana tarjotaan OAuth 2.0 ja OpenID Connect -rajapinta kolmansille osapuolille. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei kuitenkaan ole, vaan lukuisat laitosten omat web-palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
+
+  Tutkielmassa suositellaan ulkoisen rajapinnan toteuttamista OAuth 2.0 ja OpenID Connect -standardeilla. Perimmäinen syy on julkisen pilven tarjoama: käyttäjämäärältään suurista palveluntarjoajista Facebook ja Google ovat sitoutuneet näiden avoimien standardien kehittämiseen. Runsaasta käyttäjämassasta johtuen myös niiden ohjelmistokirjastotuki on hyvä ja kehittyy jatkuvasti. Web-palvelun ylläpidon kannalta on edullista ylläpitää vain yhtä autentikointirajapintaa. MOOC on hyvä esimerkki web-palvelusta, johon olisi hienoa voida autentikoitua joko Googlen, Facebookin tai Helsingin yliopiston käyttäjätunnuksella. Tämä on mahdollista yhteisen standardin avulla, jos Helsingin yliopiston identiteetintarjoaja soveltaa OAuth 2.0 ja OpenID Connect -standardeja.
+
+  %Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sub:tutkimusongelma}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä?
+
+  % OpenID Connect is an identity layer on top of OAuth 2.0. While OAuth 2.0 takes care of the mechanism of asking for a token and using that token,  OpenID Connect creates a scope that protects a standardized set of identity services:  these services provide roughly the same set of attributes, authentication context, and session expiry information that you would get in a SAML assertion.
+  %
+  % SAML, OAuth 2.0, and OpenID Connect, when taken together, allow identity and issuer/session information to become a known common quantity, traded either on the front channel or the back channel, consumable by the largest enterprises and the simplest mobile applications, and secured at any level of assurance.
+  %
+  % http://eternallyoptimistic.com/2012/02/10/time-to-act/
+
+
+  % subsection autentikointi_helsingin_yliopiston_identiteetillä (end)
+
+
   % \subsection{Uuden käyttäjän rekisteröityminen} % (fold)
   % \label{sub:uuden_käyttäjän_rekisteröityminen}
   %
@@ -1625,12 +1618,14 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
 
   Auktorisointi: Käyttäjän yhteystiedot, profiilikuva jne Facebookista. Tai koodi, pull requestit, changelog jne githubista vrt nyt eclipsestä.
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/facebook_authorization_contact_info.png}
-    \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
-    \label{fig:luvan_kysyminen_oauth_fb}
-  \end{figure}
+  % TODO: lopullinen poistopäätös. OAuth-luvan kysymisestä on kuvia jo aiemmin.
+  %
+  % \begin{figure}
+  %   \centering
+  %   \includegraphics[width=0.9\textwidth]{images/facebook_authorization_contact_info.png}
+  %   \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
+  %   \label{fig:luvan_kysyminen_oauth_fb}
+  % \end{figure}
 
   \end{description}
 

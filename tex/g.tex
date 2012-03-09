@@ -28,6 +28,7 @@
 %    - tarkista että on kerrottu blogien pitäjistä, miksi ovat merkittäviä lähteitä.
 %    - sivunvaihto ennen päälukua
 %    - tavutusvirheet oikeasta marginaalista
+%    - palvelukeskeinen vs. -orientoitunut tai -suuntautunut
 %
 %  Backlog
 %    - liitteisiin hyvät vuokaaviot openid connect ja oauth 2.0
@@ -45,6 +46,9 @@
 %      identiteetinkuluttaja vs. luottava osapuoli
 %  - "Tutkielma ei ota kantaa": tutkielma ei ole tekijä, ei kantaa --> jättää määrittelemättä
 %  - SOA = Palveluperusteinen vai palvelusuuntautunut arkkitehtuuri?
+%  - todo linkitä mooc eroista cornierin ja tktl:n toteutuksesta lähteisiin
+%  - tarkista ettei tutkielmassa 'suositella'
+
 \begin{document}
 
 \title{Internet-skaalan identiteetti
@@ -106,30 +110,45 @@
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
-  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää kaikille avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa (todo alaviite), jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssiin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
+  Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää kaikille avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa~\cite{chamberlin_mooc_2011}, jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
-  Kurssin avoimen luonteen ansiosta virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri aiotaan siksi ulkoistaa sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
+  MOOC-opetuksen avoimen luonteen vuoksi virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri halutaan siksi ulkoistaa osittain tai kokonaan sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
-  Tutkielmassa esittellään kolme \emph{yhteiskäytön standardia} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän identiteetin varmistamisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta järjestelmien sisäisen toteutus rajataan sen ulkopuolelle. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID ja OAuth sekä sisäverkoissa suosittu SAML. Jokaiseen standardiin esitellään sopiva identiteetintarjoaja, jolle voidaan ulkoistaa käyttäjän autentikointi (kuva~\ref{fig:mooc-autentikointirajapinnat}).
+  TODO TODO tähän kohtaa yleistysjohdantokappale
 
-  Tutkielmaan liittyvän keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen GMail-palveluun. GMail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka tuntee käyttäjän identiteetin yksilöivän tunnisteen (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Varmenteen vahvistaminen on identiteetintarjoajan sisäinen toteutus, joka ei kuulu tämän tutkielman piiriin.
 
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/auth_yleiskuva.jpg}
-    \caption{Tutkielman keskeisen termistön väliset suhteet}
-    \label{fig:yleiskuva_termien_suhteista}
-  \end{figure}
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.6\textwidth]{images/mooc-autentikointirajapinnat.jpg}
-    \caption{Hypoteesi MOOC-palveluun soveltuvista autentikointirajapinnoista}
-    \label{fig:mooc-autentikointirajapinnat}
-  \end{figure}
+\subsection{Tutkimuskysymys} % (fold)
+\label{sub:tutkimuskysymys}
 
-  Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, parhaat blogikirjoitukset ovat myös vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+Tutkielman tehtävänä on selvittää, kuinka Tietojenkäsittelytieteen laitoksen MOOC-palvelussa kannattaa toteuttaa käyttäjien sisäänkirjautuminen, kun virtuaalikurssien opiskelijamäärä kasvaa. Tutkielmassa esitellään \emph{yhteentoimivuuden standardeja} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
 
+Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palvelun avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+
+Tutkielman hypoteesina on, että MOOC-palvelu voi hyödyntää suoraan Helsingin yliopiston käyttäjärekisteriä sekä Googlen ja Facebookin identiteettipalveluja. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID ja OAuth sekä sisäverkoissa suosittu SAML (kuva~\ref{fig:mooc-autentikointirajapinnat}).
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{images/mooc-autentikointirajapinnat.jpg}
+  \caption{Hypoteesi MOOC-palveluun soveltuvista autentikointirajapinnoista.}
+  \label{fig:mooc-autentikointirajapinnat}
+\end{figure}
+
+
+% subsection tutkimuskysymys (end)
+
+
+\subsection{Tutkielman rakenne} % (fold)
+\label{sub:tutkielman_rakenne}
+
+Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, parhaat blogikirjoitukset ovat myös vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+
+Lukija tutustutetaan webin, identiteetin ja autentikoinnin peruskäsitteisiin, ennen kuin tutkielmassa kerrotaan laajemmin sisäänkirjautumiseen liittyvistä yhteentoimivuuden standardeista. Lukijalle esitellään taustatietona internetin nykyinen \emph{de facto} -tunnistautumismenetelmä -- salasana-autentikointi -- sekä siihen liittyvät ongelmat. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat implisiittisesti läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto välitetään. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta.
+
+Tutkielman tehtävänä on selvittää, mitkä yhteentoimivuuden standardit ovat relevantteja ja millaisia vaatimuksia ne asettavat MOOC-järjestelmälle. Sovellettava standardi määräytyy kunkin ulkopuolisen identiteetintarjoajan mukaan. Helsingin yliopiston käyttäjärekisteri tarvitsee SAML:n, Facebook OAuthin ja Google joko OpenID:n tai OAuthin. Tutkielman lopputuloksena on suositus siitä, kuinka näitä identiteetintarjoajia hyödyntävä autentikointiratkaisu toteutettaisiin.
+
+
+% subsection tutkielman_rakenne (end)
 
 % section johdanto (end)
 
@@ -137,14 +156,22 @@
 \section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
-Tutkielman fokuksena on selvittää, kuinka Tietojenkäsittelytieteen laitoksen \emph{Massive Online Open Course} (MOOC) -virtuaalikurssilla kannattaa soveltaa identiteetin varmistamiseen sopivia yhteiskäytön standardeja. Kurssin perusajatuksena on nimensä mukaisesti olla valtava (\emph{massive}), joten käyttäjien sisäänkirjautumistietojen hallinta ei saa muodostua pullonkaulaksi.  Valtavuuden vuoksi tutkielma suosittelee, että identiteetin varmistaminen ulkoistetaan kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle ja Facebookille.
 
-Tutkielmassa suositellaan identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Tällöin saavutetaan merkittävä joukko potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielma suosittelee huomioimaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Heitä varten suositellaan, että MOOC-järjestelmä mahdollistaa vapaasti valittavan identiteetintarjoajan. Kolmanneksi suositellaan, että Helsingin yliopisto perustaa oman identiteetintarjoajan. Tällöin Helsingin yliopiston identiteettiä voisi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+%Kurssin perusajatuksena on nimensä mukaisesti olla valtava (\emph{massive}), joten käyttäjien sisäänkirjautumistietojen hallinta ei saa muodostua pullonkaulaksi.
+%Valtavuuden vuoksi tutkielma suosittelee, että identiteetin varmistaminen ulkoistetaan kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle ja Facebookille.
 
 
-% todo tsekkaa rivitys
-\subsection{Tutkimusongelmana sisäänkirjautuminen MOOC-\\järjestelmään} % (fold)
-\label{sub:tutkimusongelma}
+Tutkielmaan liittyvän keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen Gmail-palveluun. Gmail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka tuntee käyttäjän identiteetin yksilöivän tunnisteen (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Gmailin identiteetintarjoaja on Google Accounts, joka vahvistaa tarjotun varmenteen kelpoisuuden.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/auth_yleiskuva.jpg}
+  \caption{Tutkielman keskeisen termistön väliset suhteet}
+  \label{fig:yleiskuva_termien_suhteista}
+\end{figure}
+
+
+% todo tsekkaa linkkien rivitys
 
 Vuoden 2012 alussa Helsingin yliopistolla oli yhteensä noin 40.000 käyttäjätunnusta\footnote{
   Helsingin yliopistolla 35.000 opiskelijaa ja 4.000 henkilökunnan jäsentä:
@@ -155,15 +182,9 @@ Vastaavasti Facebookilla ja Googlella oli yhteensä yli 1,2 miljardia käyttäj�
   Googlen Gmail-palvelulla 350 miljoonaa käyttäjää:
   \url!http://thenextweb.com/google/2012/01/19/gmail-closes-in-on-hotmail-with-350-mm-active-users/!},
 ja internet-käyttäjiä oli maailmassa yhteensä 2,3 miljardia\footnote{Maailmassa 2.267 miljoonaa internet-käyttäjää: \url!http://www.internetworldstats.com/stats.htm!}.
-Sisäänkirjautumisen mahdollistaminen Googlen ja Facebookin käyttäjätunnuksilla tarkoittaisi, että merkittävä osuus internetin käyttäjistä voisi ilmoittautua kaikille avoimeen Tietojenkäsittelytieteen laitoksen MOOC-virtuaaliopetukseen ilman uuden käyttäjätunnuksen rekisteröimistä. Ulkoisen identiteetintarjoajan käyttäminen vaikuttaa siten erittäin houkuttelevalta mahdollisuudelta.
-
-Ennen kuin tutkielmassa voidaan kertoa laajemmin sisäänkirjautumiseen liittyvistä yhteentoimivuuden standardeista, lukija täytyy tutustuttaa webin, identiteetin ja autentikoinnin peruskäsitteisiin. Lukijalle esitellään taustatietona internetin nykyinen \emph{de facto} -tunnistautumismenetelmä -- salasana-autentikointi -- sekä siihen liittyvät ongelmat. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat implisiittisesti läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto välitetään. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta.
-
-Tutkielman tehtävänä on selvittää, millaisia vaatimuksia (todo termi) kolme yhteentoimivuuden standardia -- SAML 2.0, OpenID 2.0 ja OAuth 2.0 -- asettavat MOOC-järjestelmälle. Standardit ovat valikoituneet tutkimukseen ulkoisten syiden vuoksi, koska sovellettava standardi määräytyy kunkin ulkopuolisen identiteetintarjoajan mukaan. Helsingin yliopiston käyttäjärekisteri tarvitsee SAML:n, Facebook OAuthin ja Google joko OpenID:n tai OAuthin. Tutkimuskysymyksenä on, kuinka Tietojenkäsittelytieteen laitoksen MOOC-palvelu saisi ideaalitilanteessa autentikoitua virtuaalikurssiensa kaikki opiskelijat Helsingin yliopiston, Facebookin ja Googlen käyttäjärekisterin avulla. Tutkielman lopputuloksena on suositus siitä, kuinka tällainen autentikointiratkaisu toteutettaisiin.
+Googlen ja Facebookin identiteettipalvelujen soveltamisesta kolmannen osapuolen palvelussa seuraa, että merkittävä osuus internetin käyttäjistä voi sisäänkirjautua ilman uuden käyttäjätunnuksen rekisteröimistä. Ulkoisen identiteetintarjoajan käyttäminen vaikuttaa siten erittäin houkuttelevalta mahdollisuudelta.
 
 Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä SaaS- että web-palvelu, joten taustoittaminen on luontevaa aloittaa webin historiasta.
-
-% subsection tutkimusongelmana_kertakirjautuminen (end)
 
 \subsection{Web ja SaaS ilmiöinä} % (fold)
 
@@ -184,7 +205,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   SaaS on pilven kulma, jonka teesinä on ohjelmiston tarjoaminen palveluna loppukäyttäjälle. Web-ohjelmistojärjestelmä on SaaS-ajatusmallissa palvelu, jonka asiakkaana toimii joko toinen palvelu tai loppukäyttäjän \emph{käyttäjäagentti} (\emph{user-agent}). Käyttäjäagentti on loppukäyttäjää edustava sovellus kuten web-selain tai muu natiivi työpöytä- tai mobiiliohjelmisto. SaaS-mallin  hyötynä on ylläpitotyön keskittyminen palveluntuottajan omaan ympäristöön: palveluntuottajan riittää varmistaa yhteensopivuus eri käyttäjäagenttien kesken ja asentaa ohjelmistopäivitykset ainoastaan itsensä hallinnoimaan ohjelmistoympäristöön. Loppukäyttäjän vastuulla on vain käyttäjäagentin ylläpito.
 
-  Palveluntuottajalle SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa ydintehtävien kehittämiseen, kun ohjelmiston epäolennaiset osa-alueet voidaan hankkia palveluna. Usein SaaS-ajatusmaailmassa tietyn palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille eli palvelu on \emph{multitenantti} (\emph{multi-tenant}). Palvelun ylläpidon kustannukset per asiakas saadaan madallutettua sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua, ja käyttömaksua vastaan palveluntuottaja takaa palvelun ylläpidon ja ohjelmistopäivitykset.
+  Palveluntuottajalle SaaS tarjoaa mahdollisuuden käyttää valmista ja \emph{ylläpidettyä} ratkaisua oman toteutuksen sijaan. Ohjelmistokehittäjä voi keskittää ajankäyttönsä oman palvelunsa ydintehtävien kehittämiseen, kun ohjelmiston epäolennaiset osa-alueet voidaan hankkia palveluna. Usein SaaS-ajatusmaailmassa tietyn palvelun toimintalogiikka on samanlainen kaikille sen asiakkaille eli palvelu on \emph{multitenantti} (\emph{multi-tenant}) (todo viite). Palvelun ylläpidon kustannukset per asiakas saadaan madallutettua sitä pienemmäksi, mitä vähemmän palvelussa on asiakaskohtaisia muutoksia. Perinteisen ohjelmistolisenssin sijasta asiakas maksaa siis käyttömaksua, ja käyttömaksua vastaan palveluntuottaja takaa palvelun ylläpidon ja ohjelmistopäivitykset.
 
   SaaS-ohjelmistojärjestelmä koostuu siten kokoelmasta palveluja, ja jokainen palvelu koostuu joukosta toimintoja, joita palvelun asiakas kutsuu jonkin rajapinnan kautta. Ohjelmistokehittäjälle pilvi tarjoaa myös kaksi muuta relevanttia kulmaa -- IaaS (\emph{Infrastructure-as-a-Service}) ja PaaS (\emph{Platform-as-a-Service}) -- mutta niihin ei pureuduta tässä tutkielmassa. Tutkielman ytimessä on ulkoisen identiteetintarjoajan eli SaaS-palvelun käyttöönotto ja sen määrittelemät rajapinnat.
 
@@ -206,11 +227,11 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   % Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä (todo poista tai täsmennä, esim eri asia torrentit ja web). Toistaiseksi web-selaimet ovat yleisin käyttäjäagentti. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
 
-  Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palvelun asiakkaiden välillä. Loppukäyttäjänä toimivan ihmisen rajapinta web-palveluun ovat esimerkiksi web-sivulla olevat klikattavat linkit. Rajapinnan asiakas voi kuitenkin olla ihmisen sijasta myös palvelu. Tällaisesta ohjelmoitavasta rajapinnasta käytetään nimeä \emph{API} (\emph{Application Programming Interface}). Ohjelmoitava pajapinta helpottaa palveluntuottajan suhteen itsenäisen toimijan pääsyä tietoon, koska tieto on ohjelmistokehittäjän käytettävissä valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta.
+  Rajapinta mahdollistaa vuorovaikutuksen palveluntuottajan ja palvelun asiakkaiden välillä. Loppukäyttäjänä toimivan ihmisen rajapinta web-palveluun ovat esimerkiksi web-sivulla olevat klikattavat linkit. Rajapinnan asiakas voi kuitenkin olla ihmisen sijasta myös palvelu. Tällaisesta ohjelmoitavasta rajapinnasta käytetään nimeä \emph{API} (\emph{Application Programming Interface}). Ohjelmoitava rajapinta helpottaa palveluntuottajan suhteen itsenäisen toimijan pääsyä tietoon, koska rajapinta tarjoaa tiedon valmiiksi jäsennellyssä muodossa eikä tietoa tarvitse suodattaa esimerkiksi suuresta rakenteettomasta tekstimassasta.
 
   Ohjelmoitavan rajapinnan avulla palveluntuottajasta riippumattomat ohjelmistokehittäjät voivat luoda yhdistelmiä (\emph{mashups}) eri palvelujen tarjoamista tiedoista. Tiedon hankkiminen ohjelmoitavan rajapinnan kautta mahdollistaa uusien palvelujen ja parhaimmillaan kokonaisen ekosysteemin kehittymisen palveluntuottajan ympärille. Rajapinta voi tarjota tietoa ilmaiseksi tai kaupallisella lisenssillä. Rajpaintojen kautta voidaan jakaa kaikki mahdollinen data tai tietoa voidaan tarjota vain rajoitetusti. Tiedon näkyvyyttä ja käyttötapaa hallinnoidaan pääsyoikeuksilla.
 
-  Ohjelmistoon kohdistuvat vaatimukset muuttuvat sekä kehityksen että ylläpitovaiheen aikana. Palveluorientoitunut arkkitehtuuri on voimakas tapa varautua muuttuviin vaatimuksiin. Tavoitteena on, että tietyn palvelun sisäiset muutokset eivät vaikuta palvelun asiakkaisiin, kun ulkoinen rajapinta säilyy muuttumattomana. SOA-arkkitehtuurin periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa~\cite{soa_in_practise_2007}. Tutkielman kannalta on tärkeää ymmärtää, että kun loppukäyttäjän autentikointi ulkoistetaan MOOC-palvelusta, niin käyttäjän autentikointi kuuluu tältä osin ulkoisen identiteetintarjoajan vastuualueelle.
+  Ohjelmistoon kohdistuvat vaatimukset muuttuvat sekä kehityksen että ylläpitovaiheen aikana. Palveluokeskeinen arkkitehtuuri on voimakas tapa varautua muuttuviin vaatimuksiin. Sen tavoitteena on, että tietyn palvelun sisäiset muutokset eivät vaikuta palvelun asiakkaisiin, kun ulkoinen rajapinta säilyy muuttumattomana. SOA-arkkitehtuurin periaatteena on toteuttaa yhden monoliittisen kokonaisuuden sijasta lukuisia pienempiä palveluja, joista jokaisella on oma tiukasti rajattu vastuualueensa~\cite{soa_in_practise_2007}. Tutkielman kannalta on tärkeää ymmärtää, että kun loppukäyttäjän autentikointi ulkoistetaan MOOC-palvelusta, niin käyttäjän autentikointi kuuluu tältä osin ulkoisen identiteetintarjoajan vastuualueelle.
 
   %Kun toimintojen vastuualueet on SOA-mallin mukaan jaettu omiksi palveluikseen, skaalaminen on monoliittista järjestelmää suoraviivaisempaa.
 
@@ -234,13 +255,13 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
     }
   \end{quote}
 
-  Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä monessa eri web-palvelussa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Digitaalinen identiteetti on siten kontekstisidonnainen, koska jokaisen palvelun käyttäjäprofiili muodostaa omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun asiayhteyksissä~\cite{idwoman_identity_gplus_2011, guardianblog_gplus_id_2011}.
+  Tyypillisellä internet-käyttäjällä on monta digitaalista identiteettiä monessa eri web-palvelussa. On hyvin yleistä, että LinkedIn-yhteisöpalvelussa käyttäjäprofiilin verkostoon hyväksytään työkontakteja, joiden kanssa henkilö on ainoastaan jakanut käyntikortin. Facebook-käyttäjäprofiilin kavereiksi sen sijaan ei liitetä etäisempiä työkavereita, jos vapaa-ajan tekemiset halutaan pitää erillään työpaikasta. Vastaavasti opiskeluihin on tyypillistä käyttää oppilaitoksen myöntämää sähköpostiosoitetta, johon yleensä kirjaudutaan oppilaitoksen myöntämällä käyttäjätunnuksella. Digitaalinen identiteetti on siten kontekstisidonnainen, koska jokaisen palvelun käyttäjäprofiili muodostaa omanlaisensa hahmon käyttäjästään esimerkiksi työpaikan, vapaa-ajan ja opiskelun asiayhteyksissä~\cite{idwoman_identity_gplus_2011, guardianblog_gplus_id_2011}.
 
-  Digitaalinen identiteetti on joukko väitteitä, jotka digitaalinen kohde on tehnyt itsestänsä tai toisesta digitaalisesta kohteesta~\cite{cameron_laws_of_id_2005, sakimura_identity_2011}. Identiteetin myöntänyttä toimijaa kutsutaan identiteetintarjoajaksi~\cite{cameron_id_arch_2006}. Digitaalisia identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jolla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän väitteitä itsestään.
+  Digitaalinen identiteetti on joukko väitteitä, jotka digitaalinen kohde esittää itsestänsä tai toisesta digitaalisesta kohteesta~\cite{cameron_laws_of_id_2005, sakimura_identity_2011, cameron_id_arch_2006}. Identiteetin myöntäneitä toimijoita eli identiteetintarjoajia ovat esimerkiksi luottokorttiyhtiöt ja pankit, jotka tarjoavat asiakkailleen identiteetin verkkomaksamiseen. Valtio voi myöntää kansalaisilleen sirullisen henkilötietokortin, joka toimii käyttäjän digitaalisena henkilöllisyystodistuksena. Helsingin yliopiston tietotekniikkaosasto myöntää digitaalisen identiteetin, jonka avulla voi opiskelija voi asioida opintorekisterin verkkopalvelussa. Sen sijaan kuka tahansa voi rekisteröityä julkisiin web-palveluihin eikä palveluntarjoaja välttämättä tarkista käyttäjän väitteitä itsestään.
 
   \emph{Federaatioksi} kutsutaan joukkoa toimijoita, jotka luottavat tietynlaiseen toisiltansa saaman tietoon~\cite{id_in_federation_systems_2005, federated_auth_case_2008}. Federoitu identiteetinhallinta puolestaan tarkoittaa identiteetin jakamista eri palvelujen ja organisaatioiden kesken. \emph{Luottavaksi osapuoleksi} (\emph{relying party}) kutsutaan federaation jäsentä, joka on valtuuttanut identiteetintarjoajan toimimaan käyttäjiensä identiteetin varmentajana. Identiteetintarjoaja on federoidun identiteetinhallinnan osapuoli, jonka väittämään käyttäjän identiteetistä identiteetinkuluttaja luottaa.
 
-    Luottamus voidaan määritellä riskit ja kannustimet huomioivaksi tahdoksi, jonka puitteissa tietty toimija on valmis osallistumaan tiettyyn toimenpiteeseen toisen osapuolen kanssa~\cite{ruohomaa_kutvonen_trust_management_2005}. Turvatoimien perimmäisenä tarkoituksena on luottamuksen mahdollistaminen eri toimijoiden kesken~\cite{schneier_liars_and_outliers_2012}. Luottamus on päämäärä, ja turvatoimet ovat keino sen saavuttamiseksi. Tässä luvussa käsiteltiin digitaalista identiteettiä eli käyttäjän henkilöllisyyttä internetissä. Seuraavassa luvussa käsitellään autentikointia eli keinoja varmistaa käyttäjän digitaalinen identiteetti ja saavuttaa luottamus autentikointitapahtuman toimijoiden kesken.
+    Luottamus (\emph{trust}) voidaan määritellä riskit ja kannustimet huomioivaksi tahdoksi, jonka puitteissa tietty toimija on valmis osallistumaan tiettyyn toimenpiteeseen toisen osapuolen kanssa~\cite{ruohomaa_kutvonen_trust_management_2005}. Turvatoimien perimmäisenä tarkoituksena on luottamuksen mahdollistaminen eri toimijoiden kesken~\cite{schneier_liars_and_outliers_2012}. Luottamus on päämäärä, ja turvatoimet ovat keino sen saavuttamiseksi. Tässä luvussa käsiteltiin digitaalista identiteettiä eli käyttäjän henkilöllisyyttä internetissä. Seuraavassa luvussa käsitellään autentikointia eli keinoja varmistaa käyttäjän digitaalinen identiteetti ja saavuttaa luottamus autentikointitapahtuman osapuolten kesken.
 
   % FYI, ISO and ITU-T defines "identity" as the "set of attributes about an
   % entity".
@@ -413,7 +434,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
   Yksittäisen salasanan turvallisuus riippuu siitä, kuinka työläs se on arvata joko väkisin\footnote{Niin kutsutussa \emph{brute-force}-menetelmässä kokeillaan vuorotellen kaikkia mahdollisia arvoja.} tai hyödyntäen sosiaalista tiedonkeruuta. Koska pitkät ja vaikeat salasanat ovat vaikeampia muistaa kuin lyhyet ja helpot, käyttäjällä on usein sama salasana monessa eri palvelussa~\cite{study_of_passwords_07}. Saman salasanan tai sen johdannaisten käyttäminen monessa eri palvelussa vaarantaa käyttäjätunnuksen turvallisuuden, mutta eri salasanan muistaminen moneen palveluun on epätoivoinen taakka ihmisille~\cite{password_management_strategies_06, passpet_06, pw_auth_system_perspective_08, users_are_not_the_enemy_99}.
 
-  Salasanan vahvuudesta riippumatta saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi~\cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska monella käyttäjällä oli sama salasana myös muissa palvelussa. Gawker-tietomurron seurauksena muun muassa GMail-, LinkedIn- ja Twitter-palveluissa havaittiin käyttäjätunnuksia valloittanut spämmiaalto (todo tarviiko tähän lähteen).
+  Salasanan vahvuudesta riippumatta saman salasanan käyttäminen monessa palvelussa on riski. Jos käyttäjän salasana päätyy vääriin käsiin yhden palvelun kautta, vaarantuvat samalla kaikki muut palvelut, joissa käyttäjällä on sama salasana. Esimerkiksi joulukuussa 2010 Gawker.com-juorupalvelun tietomurron yhteydessä 1,3 miljoonaa salasanaa päätyi kerralla vääriin käsiin, kun kaikki kerätyt salasanat vuodettiin julkisiksi~\cite{bbc_gawker_12_2010, forbes_gawker_12_2010}. Juorujen kommentoimiseksi luotujen käyttäjätunnusten vuotaminen oli ongelmallista, koska monella käyttäjällä oli sama salasana myös muissa palvelussa. Gawker-tietomurron seurauksena muun muassa Gmail-, LinkedIn- ja Twitter-palveluissa havaittiin käyttäjätunnuksia valloittanut spämmiaalto (todo tarviiko tähän lähteen).
 
   % gawker-lähteitä:
   % http://news.cnet.com/8301-1009_3-20025424-83.html?tag=mncol;txt
@@ -809,7 +830,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % http://lj-dev.livejournal.com/683939.html
   % http://brad.livejournal.com/2120086.html
 
-  OpenID 2.0 on vuonna 2007 alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä seurauksena monella internet-käyttäjällä on tietämättään OpenID-käyttätunnus. Esimerkiksi jokainen Googlen GMail-sähköpostin käyttäjätunnus toimii  OpenID-käyttäjätunnuksena.
+  OpenID 2.0 on vuonna 2007 alkunsa saanut yhteiskäytön standardi, jonka tavoitteena on mahdollisuus käyttää samaa identiteettiä (käyttäjätunnusta) kaikissa web-palveluissa. OpenID-yhteisöstä ja -teknologian kehittämisestä vastaa OpenID Foundation\footnote{\url{http://openid.net/foundation/}} -niminen voittoa tavoittelematon järjestö. Järjestöön on sitoutunut pysyvinä jäseninä lukuisia suuria kansainvälisiä yrityksiä\footnote{\url{http://openid.net/foundation/sponsoring-members/}} kuten Google, Microsoft, Symantec ja Yahoo!. Monet järjestön suurimmista tukijoista toimivat asiakkailleen OpenID-identiteetintarjoajana, minkä seurauksena monella internet-käyttäjällä on tietämättään OpenID-käyttätunnus. Esimerkiksi jokainen Googlen Gmail-sähköpostin käyttäjätunnus toimii  OpenID-käyttäjätunnuksena.
 
   OpenID-protokolla on suunniteltu siten, ettei identiteetinkuluttajan tarvitse tuntea identiteetintarjoajaa etukäteen. Tämän ansiosta protokolla on yhteensopiva \emph{käyttäjäkeskeisen identiteetin} (\emph{user centric identity}) periaatteen kanssa, jossa käyttäjä voi vapaasti valita oman identiteetintarjoajansa~\cite{openid_recordon_2009}. Tällöin käyttäjä voi periaatteessa käyttää itse valitsemaansa identiteetintarjoajaa kaikissa OpenID:tä tukevissa palveluissa.
   % Käytännössä palveluntuottaja kuitenkin usein hyväksyy vain etukäteen määritetyn identiteetintarjoajan: maailman XXX suosituimmasta OpenID:tä tukevasta web-palvelusta ainoastaan XXX hyväksyy vapaavalintaisen OpenID-identiteetintarjoajan.

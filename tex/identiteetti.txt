@@ -117,3 +117,28 @@ declaration of identity
 http://nat.sakimura.org/2011/07/04/declaration-of-identity/
 http://nat.sakimura.org/wp-content/uploads/2011/07/Declaration-Final-Draft.pdf
 
+
+-----------
+
+%
+% Before 1982, the networking world was
+% fragmented.  If you wanted to write a networkenabled application you had to choose what network to write it for:  Ethernet, Token Ring, ArcNet, X.25, etc.  The invention of a Network Metasystem,  the Internet Protocol (IP), changed all
+% that.  It made it possible to write networking applications that worked across networks without
+% knowing the particulars of each network.  It even
+% enabled those applications to work with new
+% networks that hadn't been invented yet, such as
+% 802.11 wireless networks
+% Digital identity is similarly fragmented today.  If you want to write an identity-enabled application, you have to choose which identity system to write it for, such as  Kerberos, SAML,
+% X.509, Liberty, custom username/password systems, etc.  The Identity Metasystem is intended
+% change all that, just as IP did for networking.  It
+% will make it possible to write identity-enabled
+% applications that can work across multiple identity systems and can even use new identity systems
+% as they are invented and connected to the Identity
+% Metasystem.
+% This analogy holds true in another way.  IP
+% didn’t compete with or replace the individual
+% networks such as Ethernet — it used them.  Similarly, the  Identity Metasystem doesn’t compete
+% with or replace individual identity technologies
+% such as Kerberos, Liberty, X.509, SAML, etc. —
+% it uses them.
+% http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on

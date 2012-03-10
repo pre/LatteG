@@ -1,3 +1,9 @@
+% Onko Shibboleth relevantti? % https://wiki.shibboleth.net/confluence/display/SHIB2/UnderstandingShibboleth
+% Miten Shibboleth ja SAML eroavat toisistaan? % http://shibboleth.internet2.edu/Shibboleth-SAML-FAQ.html
+% - ''AD FS can interact with other WS-* and SAML 2.0 compliant federation services as federation partners.''
+%   % http://en.wikipedia.org/wiki/Active_Directory_Federation_Services
+
+
 
 SAML Single Sign-On (SSO) Service for Google Apps
 http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html

@@ -535,14 +535,14 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % subsection sertifikaatit_webissä (end)
 
 
-  \subsection{Selain-, sisältö- ja applikaatiokonteksti} % (fold)
+  \subsection{Selain- ja sisältökonteksti} % (fold)
   \label{sub:selainkonteksti_vs_applikaatiokonteksti}
 
-  Tähän johdantokappale, jossa kerrotaan että käyttäjän täytyy tietää, että hän syöttää salasanansa oikeaan palveluun. Oleellista, kun hajautettu verkkoympäristö, monta eri palvelua ja ulkoinen identiteetintarjoaja. Käyttäjäagentin on oltava siis luotettu. Käyttäjä tietää että hän autentikoituu esim Facebook-tunnuksilla. Käyttäjälle pitää näyttää facebookin sivu luotetussa kontekstissa. oleellista kun ulkoinen identiteetintarjoaja ja random-identiteetinkuluttajia (Jenni Vartiainen -app kysyy facebook-salasanaa suoraan.)
+  Hajautetussa verkkoympäristössä käyttäjän täytyy voida varmistua siitä, että hän syöttää salasanansa oikeaan palveluun. Kun jokin palvelu haluaa soveltaa autentikointiin Facebook-tunnuksia, Facebookin sisäänkirjautumissivu täytyy näyttää loppukäyttäjälle luotetussa kontekstissa. Käyttäjä luottaa lähtökohtaisesti identiteetintarjoajaansa ja käyttäjäagenttiinsa, mutta lähtökohtaisesti käyttäjä ei luota ennalta tuntemattomaan kolmannen osapuolen palveluun. Käyttäjän täytyy siksi voida varmistua siitä, että hän syöttää salasanansa todella identiteetintarjoajalle.
 
-  todo
-  Määrittele selainkonteksti.
-  Selainkontekstissa käyttäjä voi luottaa siihen, mitä osoiterivillä lukee\footnote{Luottamus edellyttää, että käyttäjäagentti ja sitä suorittava laitteisto oletetaan turvallisiksi.}. Selaimen oman ulkonäön ja turvallisuustoimien väärentäminen erittäin työlästä. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen URL-osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko (A) ilmaisee, että yhteys selaimen ja palvelimen välillä on suojattu. Selainkontekstissa käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Selaimen osoiterivillä täytyy olla palvelua vastaava URL-osoite (B). Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Tämä edellyttää, että osoiterivi on näkyvissä selainkontekstissa.
+  Selainkontekstia ovat kaikki selaimen elementit, joihin web-sivu ei voi tuottaa sisältöä itse~\cite{why_phishing_works_06}. Selainkontekstissa käyttäjä voi luottaa siihen, mitä osoiterivillä lukee\footnote{Luottamus edellyttää, että käyttäjäagentti ja sitä suorittava laitteisto oletetaan turvallisiksi.}. Selainkontekstin täydellinen imitoiminen ei käytännössä ole mahdollista, ja parhaimmillaankin selainkontekstin ulkonäön ja turvallisuusilmoitusten väärentäminen erittäin työlästä.
+
+  Selainkontekstin tärkeimpiä käyttäjälle näkyviä ilmaisimia ovat osoiterivi ja yhteyden turvallisuutta kuvaava lukko. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko \verb!(A)! ilmaisee, että yhteys selaimen ja palvelun osoitteen \verb!(B)! välillä on suojattu. Selainkontekstin perusteella käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Tämä edellyttää, että osoiterivi on näkyvissä selainkontekstissa.
 
   \begin{figure}
     \centering
@@ -551,8 +551,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     \label{fig:facebook_reauth_ab}
   \end{figure}
 
-  todo
-  Sisältökontekstia ovat kaikki selaimen elementit, joihin web-sivun on mahdollista tuottaa sisältöä itse. Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selaimen turvallisuusilmoituksiin tai niiden puutteeseen~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} web-palvelu ilmoittaa sisältökontekstissa olevansa turvallinen (D). Ilmoitus on hyväntahtoinen, mutta turvallisuuden kannalta väite on perusteeton. Käyttäjä voi luottaa ainoastaan selainkontekstin turvallisuusilmoituksiin (C).
+  Sisältökontekstia ovat kaikki selaimen elementit, joihin web-sivun on mahdollista tuottaa sisältöä itse. Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selainkontekstin turvallisuusilmoituksiin tai niiden puutteeseen, koska ilmoitukset on yksinkertaista väärentää sisältökontekstissa~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} web-palvelu ilmoittaa sisältökontekstissa olevansa turvallinen \verb!(D)!. Ilmoitus on hyväntahtoinen, mutta turvallisuuden kannalta väite on perusteeton. Käyttäjä voi luottaa ainoastaan selainkontekstin turvallisuusilmoituksiin \verb!(C)!.
 
   \begin{figure}
     \centering

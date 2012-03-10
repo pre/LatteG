@@ -5,13 +5,26 @@
 \usepackage{color}
 \usepackage{graphicx}
 
+\newcommand{\gradutableofcontents}{%
+  \tableofcontents
+  \newpage
+  \listoffigures
+  \newpage
+  \pagenumbering{arabic}
+  \if@emptyfirstpagenumber
+    \thispagestyle{empty}
+  \fi
+}
+
 % MEMO:
 %   Teksti etenee kuin haluaisi hyvän oppikirjan etenevän.
 %   Käsitteet määritellään.
 %   Kun käsite ekaa kertaa: italics.
 %
 % TODO:
-%   TÄRKEÄ: Parempi kuva OpenID-vaiheista.
+%   - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
+%   - OAuth-virtausten yksilöivät kuvat
+%   - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
 %
 %   Kiitokset!
 %    - ESO
@@ -107,7 +120,7 @@
 \end{abstract}
 
 \setcounter{tocdepth}{3}
-\mytableofcontents
+\gradutableofcontents
 
 \section{Johdanto} % (fold)
 \label{sec:johdanto}

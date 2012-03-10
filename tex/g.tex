@@ -25,7 +25,8 @@
 %   - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
 %   - OAuth-virtausten yksilöivät kuvat
 %   - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
-%
+%   - ACM-luokittelu
+
 %   Kiitokset!
 %    - ESO
 %    - TKTL, CSP-TiViT
@@ -138,7 +139,7 @@
 
 Tutkielman tehtävänä on selvittää, kuinka Tietojenkäsittelytieteen laitoksen MOOC-palvelussa kannattaa toteuttaa käyttäjien sisäänkirjautuminen, kun virtuaalikurssien opiskelijamäärä kasvaa. Tutkielmassa esitellään \emph{yhteentoimivuuden standardeja} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
 
-Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palvelun avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Lisäksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palvelun avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Toiseksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
 
 Tutkielman hypoteesina on, että MOOC-palvelu voi hyödyntää suoraan Helsingin yliopiston käyttäjärekisteriä sekä Googlen ja Facebookin identiteettipalveluja. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID ja OAuth sekä sisäverkoissa suosittu SAML (kuva~\ref{fig:mooc-autentikointirajapinnat}).
 
@@ -156,7 +157,7 @@ Tutkielman hypoteesina on, että MOOC-palvelu voi hyödyntää suoraan Helsingin
 \subsection{Tutkielman rakenne} % (fold)
 \label{sub:tutkielman_rakenne}
 
-Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, parhaat blogikirjoitukset ovat myös vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, myös parhaat blogikirjoitukset ovat vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
 
 Lukija tutustutetaan webin, identiteetin ja autentikoinnin peruskäsitteisiin, ennen kuin tutkielmassa kerrotaan laajemmin sisäänkirjautumiseen liittyvistä yhteentoimivuuden standardeista. Lukijalle esitellään taustatietona internetin nykyinen \emph{de facto} -tunnistautumismenetelmä -- salasana-autentikointi -- sekä siihen liittyvät ongelmat. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat implisiittisesti läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto välitetään. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta.
 

@@ -607,23 +607,27 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 \subsection{Evästeiden käyttö autentikoinnissa} % (fold)
 \label{ssub:keksien_käyttö_autentikoinnissa}
 
-todo
+  \emph{Eväste} (\emph{cookie}) on dataa, jonka web-palvelu tallettaa käyttäjän selaimeen. HTTP on tilaton protokolla, joten peräkkäisillä HTTP-pyynnöillä ei lähtökohtaisesti ole mitään yhteistä keskenään. Evästeitä käytetään tilan säilyttämiseen HTTP-pyyntöjen välillä. Käyttäjän sisäänkirjautuneisuus on yhdenlainen tila: sisäänkirjautuneella käyttäjällä on evästeessään tunniste, jonka perusteella palvelu yksilöi käyttäjän. Käyttäjäagentti lähettää evästeen tiedot web-palveluun jokaisen HTTP-pyynnön otsakkeissa.
 
-Selitä mikä on cookie, keksi, eväste: dataa jonka web-palvelin tallettaa käyttäjän selaimeen. HTTP on tilaton protokolla, joten keksiä käytetään tilan säilyttämiseen eri http-pyyntöjen välillä. Sisäänkirjautuneisuus on yksi tila: sisäänkirjautuneella käyttäjällä on keksissä tunniste, jonka perusteella palvelu päättelee onko käyttäjän sessio voimassa eli onko autentikoitunut.
- Selaimen omat turvatoimet sallivat pääsyoikeudet keksiin vain sille verkkotunnukselle, joka keksin on tallettanut. Verkkotunnuksen voi määritellä tarkasti tai löysästi (domain.com, secure.domain.com).
+  Sisäänkirjautuneisuuden tilaa kutsutaan \emph{sessioksi}. Kun sisäänkirjautuneella käyttäjällä on sessio voimassa, käyttäjäagentilla on hallussaan eväste, jonka perusteella web-palvelu pystyy yksilöimään saapuvan HTTP-pyynnön tietyn käyttäjän tekemäksi. Eväste salataan siten, että ainoastaan web-palvelu itse pääsee lukemaan tai muokkaamaan sen sisältämiä tietoja. Jos kolmas osapuoli tai käyttäjä itse pääsisi muokkaamaan evästeen tietoja, evästeeseen liitettyä käyttäjän yksilöivää tunnistetta muuttamalla käyttäjäagentti voisi esiintyä toisen käyttäjän nimissä. Siksi on erittäin tärkeää, että web-palvelu salakirjoittaa evästeen turvallisesti.
 
-Selaimen tietoturvamalli estää keksien jakamisen eri domainien kesken. Keksi mahdollista jakaa *.domain.com. Keksin käyttäminen eri palvelujen integraatiopisteenä ei ole suositeltavaa koska silloin palvelut eivät ole enää löyhästi kytkettyjä. Vertaa SOA: ennemmin rajapinta palvelujen välille, jolloin jokainen palvelu voi itse ylläpitää omaa tilaansa. Sama kuin tietokannan käyttäminen integraatiopisteenä: muutokset yhteen palveluun vaikuttavat myös muihin palveluihin.
+  Selaimen omat turvatoimet sallivat pääsyoikeudet evästeeseen vain siitä verkkotunnuksesta, josta on talletettu tieto evästeeseen. Web-palvelu määrittelee sallitun verkkotunnuksen evästeen tallennushetkellä ja voi käyttää määrittelyssä vain omaa verkkotunnustaan. Sallittu verkkotunnus voidaan määritellä eri tarkkuusasteilla, joten verkkotunnus voi olla esimerkiksi \url!tarkka.osoite.com! tai \url!*.osoite.com!. Selaimen omat turvatoimet estävät evästeen määrittelemisen päätason verkkotunnuksille\footnote{
+  Esimerkiksi Chrome, Firefox ja Opera -selaimet määrittelevät kielletyt päätason verkkotunnukset Public Suffix List -projektin kieltolistan perusteella: \url!http://publicsuffix.org/learn/!
+ }, koska esimerkiksi alueelle \url!*.com! määritelty eväste olisi muutoin jaettu kaikille \verb!com!-päätteessä oleville web-palveluille. Osoitteen täsmällinen määrittäminen ja evästeen asetukset ovat web-palvelun vastuulla.
 
-Secure-täppä joka estää selainta lähettämästä keksiä suojaamattoman yhteyden yli. Tärkeä.
+  Selaimen tietoturvamalli estää evästeen jakamisen eri verkkotunnusten kesken. Vaikka eväste on mahdollista jakaa samaa verkkotunnusta käyttävien palvelujen kesken, evästeen käyttäminen toisistaan rippumattomien palvelujen integraatiopisteenä ei ole suositeltavaa. Palvelut eivät ole enää löyhästi kytköksissä toisiinsa, jos ne kommunikoivat evästeen välityksellä. Palveluperusteisen arkkitehtuurin perusteella palvelujen välille on ennemmin syytä määritellä rajapinta, jolloin jokainen palvelu voi käyttää itsenäistä evästettä. Tällöin yhdessä palvelussa tehdyt muutokset evästeiden käsittelytapaan eivät vaikuta muihin palveluihin.
 
-Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käyttää sisäänkirjautuneisuuden tilan välittämiseen toisistaan riippumattomien palvelujen kesken. Seuraavassa luvussa esitellään tapaa jakaa autentikoinnin tila palvelujen kesken autentikoinnin yhteentoimivuuden standardeilla.
+  Palvelusta uloskirjautuminen tapahtuu tyypillisesti siten, että web-palvelu joko muuttaa evästeeseen tallettamaansa sisäänkirjautumistietoa tai käskee selainta poistamaan evästeen kokonaan. Web-palvelu voi myös liittää evästeeseen vanhenemisajan, jonka umpeuduttua sisäänkirjautuminen täytyy suorittaa uudelleen. Jos evästeeseen ei aseteta vanhenemisaikaa lainkaan, eväste on voimassa niin kauan, kunnes käyttäjä sulkee web-selaimen.
+
+  Yhteentoimivuuden standardien tarve perustuu siihen, että evästettä ei voi jakaa eri verkkotunnusten kesken. Vaikka jakaminen olisi mahdollista, evästeitä ei ole suotavaa soveltaa tilan välittämiseen toisistaan riippumattomien palvelujen kesken. Seuraavassa luvussa esitellään yhteentoimivuuden standardeja, jotka mahdollistavat sisäänkirjautumisen tilan jakamisen itsenäisten palvelujen kesken.
+
 
 % subsection keksien_käyttö_autentikoinnissa (end)
 
 % section kakkosluku (end)
 
 
-\section{Yhteiskäyttöiset kertakirjautumisen autentikointistandardit} % (fold)
+\section{Kertakirjautumisen autentikointistandardit} % (fold)
 \label{sec:Kertakirjautumisstandardit}
   \begin{quote}
       ``Behold, the fool saith, `Put not all thine eggs in the one basket'
@@ -1617,6 +1621,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   % \end{figure}
 
 
+
   %OAuth- tai OpenID-spesifikaatio ei määrittele, kuinka identiteetintarjoajan on autentikoitava käyttäjä: on siis mahdollista tehdä identiteetintarjoaja, joka ei autentikoi lainkaan vaan varmentaa minkä tahansa tunnisteen. luottamuksen saavuttamiseksi kuluttajan voi olla syytä hyväksyä ainoastaan ennaltamääritetty joukko OpenID-identiteetintarjoajia.
   %std ei määrittele kuinka autentikointi suoritetaan
 
@@ -1630,7 +1635,7 @@ Yhteentoimivuuden standardien tarve perustuu siihen, että keksiä ei voi käytt
   Käytä Facebook SDK:ta, älä tee käsin.
   % https://developers.facebook.com/docs/guides/web/#login
 
-    aina https
+    aina https,  evästeisiin Secure-täppä joka estää selainta lähettämästä keksiä suojaamattoman yhteyden yli. Tärkeä.
 
   Kuinka luotettavia tunnisteet ovat?
   Facebook tai Google takaavat ainoastaan sen, että tiettyä käyttäjäprofiilia pääsee käyttämään vain tietty käyttäjä (joka tuntee salasanan). Identiteetti on kuitenin henkliön itsensä myöntämä: Facebook ei tarkista tietojen oikeellisuutta mitenkään. Federaatio.

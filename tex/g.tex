@@ -172,14 +172,17 @@ Tutkielman hypoteesina on, että MOOC-palvelu tulee hyödyntämään Helsingin y
 % subsection tutkimuskysymys (end)
 
 
-\subsection{Tutkielman rakenne (todo)} % (fold)
+\subsection{Tutkielman rakenne} % (fold)
 \label{sub:tutkielman_rakenne}
 
-Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, myös parhaat blogikirjoitukset ovat vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+  Ongelmakentän taustoittaminen alkaa lukija tutustuttamisesta webin, identiteetin ja rajapintojen peruskäsitteisiin luvussa~\ref{sec:kakkosluku}. Sisäänkirjautumisen menetelmiin tutustutaan luvussa~\ref{sec:autentikoituminen_ja_web}, jossa käsitellään erityisesti internetin \emph{de facto} -tunnistautumismenetelmänä sovellettua salasana-autentikointia sekä siihen liittyviä ongelmia. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään.
 
-Lukija tutustutetaan webin, identiteetin ja autentikoinnin peruskäsitteisiin, ennen kuin tutkielmassa kerrotaan laajemmin sisäänkirjautumiseen liittyvistä yhteentoimivuuden standardeista. Lukijalle esitellään taustatietona internetin nykyinen \emph{de facto} -tunnistautumismenetelmä -- salasana-autentikointi -- sekä siihen liittyvät ongelmat. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat implisiittisesti läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto välitetään. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta.
+  Hajautetussa verkkoympäristössä tarvitaan hyvin määriteltyjä rajapintoja. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto voidaan välittää. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta. Identiteettitietojen jakamiseen hajautetussa verkkoympäristössä soveltuvia yhteentoimivuuden standardeja esitellään luvussa~\ref{sec:Kertakirjautumisstandardit}.
 
-Tutkielman tehtävänä on selvittää, mitkä yhteentoimivuuden standardit ovat relevantteja ja millaisia vaatimuksia ne asettavat MOOC-järjestelmälle. Sovellettava standardi määräytyy identiteetintarjoajan perusteella. Helsingin yliopiston käyttäjärekisteri tarvitsee SAML:n, Facebook OAuthin ja Google joko OpenID:n tai OAuthin. Tutkielman lopputuloksena on suositus siitä, kuinka näitä identiteetintarjoajia hyödyntävä autentikointiratkaisu toteutettaisiin.
+  Lopulta luvussa~\ref{sec:mooc_palvelun_autentikointiratkaisun_arkkitehtuuri} käydään identiteettitietojen jakamiseen soveltuvat standardit läpi MOOC-palvelun näkökulmasta. Luvussa esitelään, kuinka standardeja tulee soveltaa ja millaisia vaatimuksia ne asettavat MOOC-järjestelmälle. Sovellettava standardi määräytyy identiteetintarjoajan tarjoaman autentikointirajapinnan perusteella. Luvussa~\ref{sub:suunnitelman_arviointi} esitellään suositus siitä, kuinka valittuja identiteetintarjoajia hyödyntävä autentikointiratkaisu toteutettaisiin.
+
+  Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, myös parhaat blogikirjoitukset ovat vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on paras saatavilla oleva johdanto OpenID Connect -protokollaan, ja se käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+
 
 
 % subsection tutkielman_rakenne (end)
@@ -533,7 +536,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % subsection kaksivaiheinen_autentikointi (end)
 
 
-  \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä} % (fold)
+  \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä (todo)} % (fold)
   \label{sub:sertifikaatit_webissä}
   todo tähän intro mihin näita käytetään.
   HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS: epäsymmetriset avaimet

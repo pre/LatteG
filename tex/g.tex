@@ -25,7 +25,13 @@
 %   - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
 %   - OAuth-virtausten yksilöivät kuvat
 %   - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
-%   - ACM-luokittelu
+%   - ACM-luokittelu, esim
+%        ACM Computing Classification System (CCS):
+%        K.6.5 [Security and Protection],
+%        C.2.4 [Distributed Systems],
+%        H.4.1 [Information Systems],
+%        K4.1. [Public policy issues: Privacy]
+%
 %   - Lähteiden muotoilu
 %
 %   Kiitokset!
@@ -191,16 +197,12 @@ Tutkielman hypoteesina on, että MOOC-palvelu tulee hyödyntämään Helsingin y
 
 
 \newpage
-\section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa (todo)} % (fold)
+\section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
+  Hajautetussa verkkoympäristössä itsenäiset palvelut voivat jakaa hallitsemaansa tietoa toisille palveluille. 2010-luvun internet-palveluille on tyypillistä komposiittimallinen arkkitehtuuri, jossa useiden eri palvelujen tietoja yhdistellään keskenään. Esimerkiksi blogipalvelussa voi olla tarpeen liittää valokuvia teksteihin, mutta valokuvien tallennus ja jakaminen eivät ole blogipalvelun ydintehtäviä. Tällöin oman toteutuksen sijasta voi olla kannattavaa tuoda valokuvat ulkoisen rajapinnan avulla esimerkiksi Flickr-kuvapalvelusta. Tällaista rajapinnan välityksellä käytettävää kohdetta kutsutaan resurssiksi.
 
-%Kurssin perusajatuksena on nimensä mukaisesti olla valtava (\emph{massive}), joten käyttäjien sisäänkirjautumistietojen hallinta ei saa muodostua pullonkaulaksi.
-%Valtavuuden vuoksi tutkielma suosittelee, että identiteetin varmistaminen ulkoistetaan kolmannelle osapuolelle kuten Helsingin yliopistolle, Googlelle ja Facebookille.
-
-TODO TODO tähän lyhyt intro
-
-Tutkielmaan liittyvän keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen Gmail-palveluun. Gmail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka tuntee käyttäjän identiteetin yksilöivän tunnisteen (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Gmailin identiteetintarjoaja toimii Google Accounts, joka vahvistaa tarjotun varmenteen kelpoisuuden.
+  Tutkielman kannalta mielenkiintoista on identiteetin käyttäminen ulkoisena resurssina. Tutkielman keskeisen termistön väliset suhteet on esitetty kuvassa~\ref{fig:yleiskuva_termien_suhteista}. Kuvassa ylimpänä on identiteettiään hallinnoiva loppukäyttäjä, eli ihminen, joka ottaa käyttäjäagentillaan yhteyden esimerkiksi Googlen Gmail-palveluun. Gmail-palvelu on \emph{identiteetinkuluttaja} (\emph{identity consumer}), joka tuntee käyttäjän identiteetin yksilöivän tunnisteen (\emph{identifier}). Identiteetinkuluttaja ei kuitenkaan tunne loppukäyttäjän identiteetin vahvistavaa varmennetta (\emph{credentials}). Varmenne voi olla esimerkiksi salasana, jonka oikeellisuus tarkistetaan yhteentoimivuuden standardin avulla \emph{identiteetintarjoajan} (\emph{identity provider}) palvelussa. Esimerkissä Gmailin identiteetintarjoajana toimii Google Accounts, joka vahvistaa esitetyn varmenteen kelpoisuuden.
 
 \begin{figure}[h!]
   \centering

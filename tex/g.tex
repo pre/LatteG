@@ -1531,34 +1531,26 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   %
   % % subsection uuden_käyttäjän_rekisteröityminen (end)
 
-  \subsection{Uloskirjautuminen ja kertauloskirjautuminen (todo)} % (fold)
+  \subsection{Uloskirjautuminen ja kertauloskirjautuminen} % (fold)
   \label{sub:kertauloskirjautuminen}
     \begin{quote}
       ``The Shibboleth 2 IdP does not support SLO [Single Log Out]. Period. Don't bother looking. This document is NOT a recipe for implementing SLO. It's a warning to those who think they understand SLO. They probably do not understand it and need to think about it long and hard before they even begin to contemplate it at some future point in time.''
-    \\--- Shibboleth 2:n Wiki-sivulla oleva varoitus kertauloskirjautumisesta  todo viite
-    % viite https://wiki.shibboleth.net/confluence/display/SHIB2/SLOIssues
+    \\--- Shibboleth 2:n dokumentaation toteamus kertauloskirjautumisesta~\cite{shibboleth_wiki_slo}.
     \end{quote}
 
-  Kerrotaan lyhyesti kertauloskirjautumisen idea ja toteutusperiaate. Miksi hyvä juttu.
+  Evästeisiin perustuvassa autentikoinnissa web-palvelu pyytää käyttäjäagenttia tallettamaan salakirjoitetun evästeen. Eväste pitää sisällään käyttäjäsession yksilöivään tunnisteen, ja ainoastaan web-palvelu itse voi lukea tai muokata salakirjoitetun evästeen sisältöä. MOOC-palvelu soveltaa evästeisiin perustuvaa autentikointia, joten uloskirjautuminen MOOC-palvelusta voidaan tehdä joko pyytämällä käyttäjäagenttia poistamaan eväste kokonaan tai muuttamalla evästeeseen talletettua sisäänkirjautumisen tilaa.
 
-  MOOC-sessio nullataan kun uloskirjautuu moocista. IDP-sessio jää voimaan. Jos palvelusta logout, niin logout myös idp:ltä. Koska jos käyttää julkiselta koneelta, niin muuten jäisi huomaamatta sessio auki idp:hen! Vastaavasti, jos logout idp:ltä, niin idc:n sessio ei enää voimassa. IDC:llä user-consent-vastuu, kun ei refresh-tokenia. HUOM! OpenID v2.0:ssa tämä ei toteudu!
+  Käyttjän sessio identiteetintarjoajalle jää voimaan, vaikka sessio MOOC-palveluun lopetetaan. Kun sessio on voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Uloskirjautumisesta ei siten ole hyötyä, jollei MOOC-palvelun lisäksi myös identiteetintarjoajan sessiota lopeteta. MOOC-palvelulla on siten kolme vaihtoehtoa uloskirjautumisen toteuttamiseksi~\cite{shepard_logout_2009}:
 
-  Webissä palveluja joihin kirjaudutaan ainoastaan fb-tunnareilla. Tällaisesta palvelusta logout kirjaa käyttäjän ulos myös facebookista. uloskirjautuminen voi tulla yllätyksenä (minulle tuli kun kokeilin, urheilusaitti se jonka nimeä en koskaan muista).
+  \begin{enumerate}
+    \item Käyttäjä kirjataan ulos MOOC-palvelusta.
+    \item Käyttäjä kirjataan ulos MOOC-palvelusta ja identiteetintarjoajalta.
+    \item Anentaan käyttäjän valita vaihtoehdoista 1 ja 2. Tällöin käyttäjä saattaa valita vahingossa turvattoman vaihtoehdon, jolloin sessio identiteetintarjoajalle jää voimaan käyttäjän sitä tiedostamatta.
+  \end{enumerate}
 
-  Kolme vaihtoehtoa:
-  1) Käyttäjä kirjataan ulos MOOC-palvelusta (poistetaan MOOC-verkkotunnukseen liitetyt keksit)
-  2) Kirjataan käyttäjä ulos MOOC-palvelusta ja identiteetintarjoajalta (poistetaan keksit ja ohjataan käyttäjä identiteetintarjoajan uloskirjautumisosoitteeseen)
-  3) Anentaan käyttäjän valita vaihtoehdoista 1 ja 2. Tällöin käyttäjä saattaa valita vahingossa turvattoman vaihtoehdon, jolloin sessio identiteetintarjoajalle jää voimaan esimerkiksi jaetulla työasemalla.
-  % For #1 or #3 (which involve clearing cookies on just the current domain), we leave the user in a logically inconsistent state, which exposes them to security and usability problems.
-  % http://www.sociallipstick.com/2008/10/theres-three-types-of-sites-out-there/
+  Uloskirjautumisen huolellinen toteutus on tärkeää, koska monesti työasema on jaettu usean henkilön kesken. Siksi tutkielmassa suositellaan, että uloskirjauduttaessa MOOC-palvelun sessio päätetään ja käyttäjäagentti ohjataan identiteetintarjoajan uloskirjautumisrajapintaan. Vastaavasti, kun käyttäjä saapuu MOOC-palvelun etusivulle, MOOC-palvelun on aina tarkistettava, että käyttäjällä on voimassaoleva sessio identiteetintarjoajan palvelussa. Session voimassaolon tarkistaminen tapahtuu suorittamalla auktorisointikoodin OAuth-virtaus.
 
-
-  Kun sessio on voimassa identiteetintarjoajalla, sisäänkirjautuminen MOOC-palveluun onnistuu ilman salasanaa. Uloskirjautumisesta ei siten ole hyötyä, jollei MOOC-palvelun lisäksi myös identiteetintarjoajan sessiota päätetä. Identiteetintarjoajan täytyy tarjota uloskirjautumisen rajapinta. (Facebook: FB.Connect.logout()). OpenID:ssä ei protokollatasolla ole uloskirjautumista (viite http://www.sociallipstick.com/?p=189)
-
-  Kertauloskirjautuminen on erittäin monimutkainen ja haastava ongelma, kun identiteetinkuluttajia on useita (viite shibbo). Jos MOOC-palvelu lopettaa sekä käyttäjän paikallisen session että Facebook-session, muiden identiteetinkuluttajien sessio on yhä voimassa, kunnes niiden pääsyoikeuspoletti tai muu varmenne vanhenee. Tämä tutkielma rajataan yksinkertaisuuden puolesta siten, että MOOC on ainoa identiteetinkuluttaja.
-  % https://wiki.shibboleth.net/confluence/display/SHIB2/SLOIssues
-
-
+  Käyttäjän uloskirjautuminen identiteetintarjoajalta ei kirjaa käyttäjää ulos MOOC-palvelusta. Kertauloskirjautuminen, \emph{single-log out}, on erittäin monimutkainen tutkimusongelma~\cite{shibboleth_wiki_slo}, kun identiteetinkuluttajia on useita. Vaikka MOOC-palvelu lopettaa sekä käyttäjän paikallisen session että identiteetintarjoajan session, muiden samaa identiteetintarjoajaa käyttävien identiteetinkuluttajien sessio on yhä voimassa, kunnes niiden pääsyoikeuspoletti tai muu varmenne vanhenee. Monimutkaisuutensa vuoksi kertauloskirjautuminen rajataan tämän tutkielman ulkopuolelle.
 
   % subsection kerta (end)
 
@@ -1615,7 +1607,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Uloskirjautuminen} \hfill % (fold)
   \label{par:uloskirjautumisesta}
 
-  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu esimerkiksi poistamalla käyttäjäagenttiin talletettu eväste. Tällöin MOOC ohjaa sisäänkirjautumista pyytävän käyttäjän identiteetintarjoajan palveluun, ja käyttäjä autentikoituu identiteetintarjoajalle päästäkseen takaisin MOOC-palveluun.
+  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu poistamalla käyttäjäagenttiin talletettu eväste. Tällöin MOOC ohjaa sisäänkirjautumista pyytävän käyttäjän identiteetintarjoajan palveluun, ja käyttäjä autentikoituu identiteetintarjoajalle päästäkseen takaisin MOOC-palveluun.
 
   Session päättäminen yksistään MOOC-palvelussa ei kuitenkaan riitä. Jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
 
@@ -1632,11 +1624,21 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Tunnisteiden tallettaminen} \hfill % (fold)
   \label{par:tietoturva}
 
-  Omien käyttäjätunnustensa osalta MOOC varastoi käyttäjien autentikointitiedot esimerkiksi tiivisteenä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia autentikointitietoja.
+  Omien käyttäjätunnustensa osalta MOOC-palvelun tulee varastoida käyttäjien salasanat suolattuina tiivisteinä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia salasanoja.
 
-  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja. MOOC-palvelun tallettamat pääsyoikeuspoletit on myös suositeltavaa vaihtaa, koska ne toimivat avoimena valtakirjana implisiittistä virtausta käyttäviin muihin palveluihin. MOOC-palvelulle ne eivät kuitenkaan muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta.
+  % paragraph tunnisteet (end)
 
-  % paragraph tietoturva (end)
+  \paragraph{Tietomurrosta toipuminen} % (fold)
+  \label{par:tietomurrosta_toipuminen}
+
+  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja.
+
+  Myös talletetut pääsyoikeuspoletit on suositeltavaa vaihtaa, koska ne toimivat avoimena valtakirjana implisiittistä virtausta käyttäviin muihin palveluihin. MOOC-palvelulle ne eivät muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta autentikointiin. Tässä tutkielmassa suositeltiin ainoastaan auktorisointikoodin virtaukseen perustuvaa autentikointia.
+
+  Evästeiden salakirjoittamiseen käytetty salakirjoitusavain on ensisijaisen tärkeää vaihtaa. Jos salakirjoitusavain on vuotanut ulkopuolisille, kolmannen osapuolen on mahdollista väärentää MOOC-palvelun evästeitä. Koska kaikkien käyttäjien sessionhallinta perustuu evästeiden käyttämiseen, kolmas osapuoli voi esiintyä kenen tahansa käyttäjän nimissä, kunnes evästeiden salakirjoitusavain on vaihdettu. Salakirjoitusavainta ei luonnollisesti pidä myöskään tallettaa versionhallintaan, jos versionhallinta on julkisesti luettavissa.
+
+  % paragraph tietomurrosta_toipuminen (end)
+
 
   \paragraph{SDK-sovelluskehitysvälineistö} \hfill % (fold)
   \label{par:sdk_sovelluskehitysvälineistö}

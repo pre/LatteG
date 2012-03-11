@@ -1448,10 +1448,10 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
-  \subsection{Käyttäjätunnukset Helsingin yliopiston verkkoympäristössä (todo)} % (fold)
+  \subsection{Käyttäjätunnukset Helsingin yliopiston verkkoympäristössä} % (fold)
   \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
 
-  todo muistuta,pehmitä alkua.
+  MOOC-palvelun kohderyhmää ovat myös yliopistossa jo opiskelevat henkilöt. Tämän vuoksi osalla opiskelijoista on Helsingin yliopiston myöntämä käyttäjätunnus, jota olisi käytännöllistä soveltaa MOOC-palvelun sisäänkirjautumisessa. Palvelun ensisijainen kohderyhmä ovat silti Helsingin yliopiston ulkopuoliset henkilöt, koska palvelun yhtenä tehtävänä on uusien opiskeluoikeuksien myöntäminen. Siksi sisäänkirjautuminen Helsingin yliopiston käyttäjätunnuksella ei ole ensisijaisen tärkeää.
 
   Helsingin yliopisto on tehnyt hallinnollisen päätöksen keskittää käyttäjärekisteri Active Directory (AD) -palveluun\footnote{Lähde: Keskustelu nimettömänä pysyttelevän Tietojenkäsittelytieteen laitoksen tietotekniikka-asiantuntijan kanssa 26.1.2012, todo kysy lupa käyttää nimeä}. Vaikka Tietojenkäsittelytieteen laitoksen ensisijainen käyttäjätietojen lähde on Helsingin yliopiston tietotekniikkaosaston käyttäjärekisteri, historiallisista syistä johtuen Tietojenkäsittelytieteen laitoksella (TKTL) on lukuisa määrä omia erilaisia autentikointipalveluja, joissa on itsenäinen käyttäjälähde.
 
@@ -1480,14 +1480,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   Tutkielman pohdintojen perusteella tekijä suosittelee sellaisen identiteetintarjoajapalvelun perustamista, joka mahdollistaa yliopiston käyttäjätunnusten autentikoimisen kolmannen osapuolen web-palveluun. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei kuitenkaan ole, vaan lukuisat laitosten omat web-palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
   Tutkielmassa suositellaan yliopiston identiteetintarjoajan ulkoisen rajapinnan toteuttamista OAuth 2.0 ja OpenID Connect -standardeilla. Perimmäinen syy on julkisen pilven tarjoama: käyttäjämäärältään suurista palveluntarjoajista Facebook ja Google ovat sitoutuneet näiden avoimien standardien kehittämiseen. Runsaasta käyttäjämassasta johtuen myös niiden ohjelmistokirjastotuki on hyvä ja kehittyy jatkuvasti. Web-palvelun ylläpidon kannalta on edullista ylläpitää vain yhtä autentikointirajapintaa. MOOC on hyvä esimerkki web-palvelusta, johon olisi käytännöllistä voida autentikoitua joko Googlen, Facebookin tai Helsingin yliopiston käyttäjätunnuksella. Tämä on mahdollista yhteisen standardin avulla, jos Helsingin yliopiston identiteetintarjoaja soveltaa OAuth 2.0 ja OpenID Connect -standardeja.
-
-  %Jos kuitenkin Facebookin 845 miljoonan käyttäjän\footnote{Ks. luku~\ref{sub:tutkimusongelma}} identiteetti ja resurssit on mahdollista tarjota julkisen OAuth-rajapinnan kautta kolmansien osapuolten toteuttamien sovellusten armoille, niin mikä on sellainen syy, jonka vuoksi vastaavaa ei voisi toteuttaa hallitusti 40.000 käyttäjän ympäristössä?
-
-  % OpenID Connect is an identity layer on top of OAuth 2.0. While OAuth 2.0 takes care of the mechanism of asking for a token and using that token,  OpenID Connect creates a scope that protects a standardized set of identity services:  these services provide roughly the same set of attributes, authentication context, and session expiry information that you would get in a SAML assertion.
-  %
-  % SAML, OAuth 2.0, and OpenID Connect, when taken together, allow identity and issuer/session information to become a known common quantity, traded either on the front channel or the back channel, consumable by the largest enterprises and the simplest mobile applications, and secured at any level of assurance.
-  %
-  % http://eternallyoptimistic.com/2012/02/10/time-to-act/
 
 
   % subsection autentikointi_helsingin_yliopiston_identiteetillä (end)

@@ -1422,26 +1422,27 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
 
-  \subsection{Autentikoituminen vapaasti valittavalla identiteetintarjoajalla (todo)} % (fold)
+  \subsection{Autentikoituminen ilman ulkoista identiteetintarjoajaa} % (fold)
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
 
-  todo
-  On vaikeaa löytää openid-tarjoaja joka ei ole google/fb
-  OpenID-sisäänkirjautuminen on mystinen käyttäjälle joka ei tunne openid:tä etukäteen. Käyttäjä näkee vain sisäänkirjautumisformin ilman rekisteröintiä. Koska vapaa idp, ei voi tarjota rekisteröintilinkkiä. Rekisteröintilinkki tarjotaan vain esivalittuihin google/facebookiin.
-  % http://openid.net/get-an-openid/
+  OpenID 2.0 -sisäänkirjautuminen on mystinen sellaiselle käyttäjälle, joka ei tunne OpenID:tä etukäteen~\cite{google_usability_federated_login_2008, yahoo_usability_openid_2008}. OpenID 2.0:n etsintävaihe mahdollistaa vapaavalintaisen identiteetintarjoajan, eikä identiteetinkuluttajan siten tarvitse tuntea identiteetintarjoaa etukäteen. Internetistä on kuitenkin työlästä löytää OpenID-identiteetintarjoajaa Googlen, Yahoon ja MyOpenID:n lisäksi\footnote{
+    Mainittujen palvelujen lisäksi OpenID-säätiön ``Get an OpenID'' -sivulla on neljä englanninkielistä identiteetintarjoajapalvelua, joiden rekisteröitymissivu ei ollut epäkunnossa, kun kirjoittaja yritti rekisteröidä itselleen tunnusta maaliskuussa 2012: \url!http://openid.net/get-an-openid/!
+  }.
 
-  todo
-  Eipä siis esitelläkään OpenID-toteutusta! vaan kerrotaan että ei oteta sitä vapaavalintaista openid:tä koska sitä ei kuitenkana kukaan käytä. vrt 37signals luopuu openid:stä. jatketaan omien käyttäjätunnusten käyttämistä ainakin toistaiseksi. sitten kun myöhemmin alkaa tulla vitusti käyttäjiä, voidaan luopua uusista omista tunnuksista ja tarjota OPENID CONNECT. Kumpikaan ei ole tapahtumassa heti joten ei kannata yliengineerata.
+  MOOC-palvelun sisäänkirjautumissivulle tarvitaan keino rekisteröityä uudeksi käyttäjäksi. Koska avoimista OpenID-palveluntarjoajista ei ole saatavilla kattavaa listaa, sisäänkirjautumissivulla voidaan suositella rekisteröitymistä käytännössä ainoastaan suurten palveluntarjoajien palveluun. Tällöin vapaavalintaisen identiteetintarjoajan soveltaminen edellyttäisi, että loppukäyttäjä osaa omatoimisesti hankkia itselleen OpenID-identiteetin.
 
-  todo
-  Riskinä, että vapaa openid idp katoaa. Tämä on openid foundationin pj:n mielestä openid:n suurin riski. Tästä seuraa myös säätöä vrt salasanojen unohtuminen. MOOC-palvelulla ei ole välittömästi valtavaa määrää käyttäjiä, joten OAuth 2.0 Googlen ja Facebookin kanssa auttaa pitkälle. Niitä käyttäjiä varten, jotka eivät halua kuulua kummankaan yrityksen verkostoon, tarjotaan vaihtoehtona nykyinen MOOC-palvelun oma käyttäjätunnus. Sitä suositellaan käyttäjälle vasta viimeisenä vaihtoehtona.
+  Jos web-palvelu tarjoaa jo esivalittuina identiteetintarjoajina Googlen ja Facebookin palvelut, OpenID 2.0 ei nykyisessä tilassaan tuo paljoakaan lisää käyttäjäpotentiaalia. OpenID 2.0:n soveltaminen edellyttäisi kuitenkin itsenäistä kirjastotukea jo aiemmin valitun OAuth 2.0:n lisäksi, mikä lisää MOOC-palvelun henkilöstölle koituvan ylläpitotyön määrää. OpenID 2.0 vaikuttaa kuolevalta standardilta ja jopa siitä aiemmin innoissaan ollut \url!37signals.com! on luopunut sen tukemisesta~\cite{openid_failure_37signals_2011}.
+
+  MOOC-palvelussa on jo nykyisellään palvelun omat käyttäjätunnukset ja toiminto uuden käyttäjätilin rekisteröimiseksi. Tutkielman pohdintojen perusteella suositellaan, että MOOC-palvelu jatkaa omien käyttäjätunnusten tarjoamista Facebook- ja Google-identiteetin rinnalla ainakin toistaiseksi. Myöhemmin, kun opiskelijamäärä kasvaa, voidaan selvittää omien käyttäjätunnusten hallinnasta koituva todellinen työmäärä.
+
+  Koska MOOC-kurssien opiskelijamäärän räjähdysmäinen kasvu ei todennäköisesti tapahdu yhden lukuvuoden aikana, OpenID Connect -standardi saattaa jo olla käyttäjämäärän kasvun alkaessa stabiloitunut. Jos OpenID Connect onnistuu luomaan riittävät puitteet vapaavalintaiselle identiteetintarjoajalle, voidaan harkita MOOC-palvelun omista käyttäjätunnuksista luopumista. On suositeltavaa, että MOOC-palvelussa on aina vaihtoehto niitä opiskelijoita varten, jotka eivät halua käyttää minkään suuren yrityksen myöntämää digitaalista identiteettiä.
+
+  % Riskinä, että vapaa openid idp katoaa. Tämä on openid foundationin pj:n mielestä openid:n suurin riski. Tästä seuraa myös säätöä vrt salasanojen unohtuminen. MOOC-palvelulla ei ole välittömästi valtavaa määrää käyttäjiä, joten OAuth 2.0 Googlen ja Facebookin kanssa auttaa pitkälle. Niitä käyttäjiä varten, jotka eivät halua kuulua kummankaan yrityksen verkostoon, tarjotaan vaihtoehtona nykyinen MOOC-palvelun oma käyttäjätunnus. Sitä suositellaan käyttäjälle vasta viimeisenä vaihtoehtona.
   % "With several OP going away recently, this is the reality."
   % http://nat.sakimura.org/2009/06/15/identity-loss-with-openid-20/
 
-  todo
-  ylläpito- ja ohjelmistokehitystyötä (ja siten rahaa) säästyy kun yksi ja sama OAuth 2.0 -kirjasto riittää. idp:n katoamisen lisäksi riskinä epäluotettavat idp:t, esim idp joka vastaa kaikkeen `kyllä'. Ongelma jos opinto-oikeus myönnetään mooc-suoritusten perusteella.
-  Erään tutkimuksen mukaan OpenID-tunnisteista 98~\% on http ja vain 2~\% https~\cite{openid_identifier_survey_2011}.
-  Koska user-agenttia uudelleenohjataan identiteetinkuluttajan ja identiteetintarjoajan välillä, suojaamaton yhteys on haavoittuvainen DNS- ja man-in-the-middle -hyökkäyksille.
+  % Erään tutkimuksen mukaan OpenID-tunnisteista 98~\% on http ja vain 2~\% https~\cite{openid_identifier_survey_2011}.
+  % Koska user-agenttia uudelleenohjataan identiteetinkuluttajan ja identiteetintarjoajan välillä, suojaamaton yhteys on haavoittuvainen DNS- ja man-in-the-middle -hyökkäyksille.
 
 
 

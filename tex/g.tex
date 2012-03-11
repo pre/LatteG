@@ -26,7 +26,8 @@
 %   - OAuth-virtausten yksilöivät kuvat
 %   - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
 %   - ACM-luokittelu
-
+%   - Lähteiden muotoilu
+%
 %   Kiitokset!
 %    - ESO
 %    - TKTL, CSP-TiViT
@@ -64,6 +65,8 @@
 %  - SOA = Palveluperusteinen vai palvelusuuntautunut arkkitehtuuri?
 %  - todo linkitä mooc eroista cornierin ja tktl:n toteutuksesta lähteisiin
 %  - tarkista ettei tutkielmassa 'suositella'
+%  - käyttäjän suostumusvaihe, käyttäjäsuostumuksen vaihe
+%  - resurssin isäntä, resurssin palvelin
 
 \begin{document}
 
@@ -130,7 +133,7 @@
 
   MOOC-opetuksen avoimen luonteen vuoksi virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri halutaan siksi ulkoistaa osittain tai kokonaan sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
-  TODO TODO tähän kohtaa yleistysjohdantokappale
+  TODO TODO tähän kohtaa yleistysjohdantokappale, pehmeä johdanto siihen miksi tarve sso:lle. motivation.
 
 
 
@@ -1037,16 +1040,18 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % http://iiw.idcommons.net/Liberty_Alliance_ID-WSF
   % http://iiw.idcommons.net/XRI
 
-  SAML on organisaatioiden sisäverkoissa suosittu federoidun identiteetinhallinnan standardi. SAML on standardina monipuolisempi ja sitä kautta monimutkaisempi kuin OAuth ja OpenID.
-  SAMLia sovelletaan erityisesti Web Services (WS-*) ja Simple Object Access Protocol (SOAP) -standardeihin perustuvassa ohjelmistoarkkitehtuurissa, ja SAML tukee HTTP:n lisäksi myös muita kuljetuskerroksen protokollia kuin HTTP~\cite{venn_of_identity_2008}.
+  SAML 2.0 on organisaatioiden sisäverkoissa suosittu federoidun identiteetinhallinnan standardi. SAML on standardina monipuolisempi ja sitä kautta monimutkaisempi kuin OAuth ja OpenID.
+  SAMLia sovelletaan erityisesti Web Services (WS-*) ja Simple Object Access Protocol (SOAP) -standardeihin perustuvassa ohjelmistoarkkitehtuurissa, ja SAML tukee HTTP:n lisäksi myös muita kuljetuskerroksen protokollia kuin HTTP~\cite{venn_of_identity_2008}. SAML tarjoaa autentikointikerroksen lisäksi myös XACML-nimisen auktorisointikerroksen.
 
   % EI mainita näitä:
   % OpenID ja OAuth vastaavasti toimivat ensisijaisesti vain HTTP:n avulla, ja WS-*-arkkitehtuurityylin sijasta ne ovat saavuttaneet suosiota erityisesti REST-arkkitehtuurityyliä soveltavissa palveluissa.
 
-  Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. OpenID ja OAuth ovat SAMLiin verrattuna nuoria avoimia standardeja. Internetin suuret yritykset, kuten Facebook, Google ja Microsoft, ovat olleet niiden kehittämisessä vahvasti mukana. Google ja Facebook ovat lisäksi tehneet valinnan tarjota ulkoinen autentikointirajapinta OAuth ja OpenID -standardeilla.
+  Merkittävä syy SAMLin suosioon on sen stabiloituneisuus standardina. Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Shibboleth on Internet2-hankkeen\footnote{
+  Internet2 on tutkimusprojekti, jonka tavoitteena on määritellä uusi vallankumouksellinen internet-standardisto: \url!http://www.internet2.edu/!}
+  autentikointi- ja auktorisointikerroksen ytimessä, ja SAML 2.0 puolestaan on saanut runsaasti vaikutteita Shibboleth-standardista. OpenID ja OAuth ovat SAMLiin verrattuna nuoria standardeja, ja ne vastaavat erityisesti julkisen internetin tarpeisiin. Jälkimmäisten kehittämisessä ovat olleet vahvasti mukana internetin suuret yritykset kuten Facebook, Google, Yahoo ja Microsoft. Google, Yahoo ja Facebook ovat lisäksi päättäneet tarjota julkisen autentikointirajapinnan OAuth ja OpenID -standardeilla.
 
   Tutkielman ensisijainen tehtävä on selvittää Facebook- ja Google-identiteetin käyttötapa.
-  Tästä johtuen tutkielma rajaa SAML:n käyttämisen autentikointistandardina pois, koska tutkielma esittelee. Tässä tutkielmassa SAML kuitenkin esitellään Helsingin yliopiston käyttäjärekisterin yhteydessä luvussa~\ref{sub:autentikointi_helsingin_yliopiston_id}.
+  Tästä johtuen tutkielmasta rajataan pois SAML:n käyttäminen autentikointistandardina. Tutkielmassa SAML esitellään Helsingin yliopiston käyttäjärekisterin yhteydessä luvussa~\ref{sub:autentikointi_helsingin_yliopiston_id}.
 
   \begin{figure}
     \centering

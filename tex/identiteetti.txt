@@ -142,3 +142,10 @@ http://nat.sakimura.org/wp-content/uploads/2011/07/Declaration-Final-Draft.pdf
 % such as Kerberos, Liberty, X.509, SAML, etc. —
 % it uses them.
 % http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
+
+
+
+
+% Many identity attacks succeed because the user was fooled by something presented on the screen, not because of insecure  communication technologies. Monet identiteettihuijaukset/-hyökkäykset onnistuvat, koska käyttäjä meni lankaan johonkin hänelle näytettyyn huijaukseen (phishing). Tiedonsiirtoon käytetty protokolla, väylä, laite jne voi olla täysin turvallinen mutta phishing silti onnistuu. Autentikointi on kaksisuuntaista: idp:n ja idc:n täytyy kyetä tunnistautumaan käyttäjälle päin käyttäjän ymmärtämässä muodossa.
+% One key to securing the whole system is presenting an easy-to-learn, predictable user interface that looks and works the same no matter which underlying identity technologies are employed.
+% http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on

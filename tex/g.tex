@@ -43,7 +43,6 @@
 %    - tarkista että http-urlit rivittyvät oikein
 %    - kuvatekstien riviväli: nyt ei erotu leipätekstistä
 %    - tarkista että on kerrottu blogien pitäjistä, miksi ovat merkittäviä lähteitä.
-%    - sivunvaihto ennen päälukua
 %    - tavutusvirheet oikeasta marginaalista
 %    - palvelukeskeinen vs. -orientoitunut tai -suuntautunut
 %
@@ -137,6 +136,8 @@
   TODO
   Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
 
+  TODO
+    Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Suurten yritysten liiketoiminta edellyttää käyttäjien luottamusta turvallisuuteen. MOOC-palvelun ylläpito ei pysty samaan, joten on todennäköisempää että jokin tietoturvareikä jää korjaamatta MOOC-palvelussa kuin Googlessa. Siksi XXYXYXYXXY
 
   Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää kaikille avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa~\cite{chamberlin_mooc_2011}, jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
@@ -181,6 +182,7 @@ Tutkielman tehtävänä on selvittää, mitkä yhteentoimivuuden standardit ovat
 % section johdanto (end)
 
 
+\newpage
 \section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
 \label{sec:kakkosluku}
 
@@ -388,6 +390,7 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
 
 % section 2-luku (end)
 
+\newpage
 \section{Sisäänkirjautuminen web-palveluissa} % (fold)
 \label{sec:autentikoituminen_ja_web}
 
@@ -653,6 +656,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 % section kakkosluku (end)
 
 
+\newpage
 \section{Internet-skaalan kertakirjautumisstandardit} % (fold)
 \label{sec:Kertakirjautumisstandardit}
   \begin{quote}
@@ -1234,7 +1238,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
 
-
+\newpage
 \section{MOOC-palvelun autentikointiratkaisun arkkitehtuuri} % (fold)
 \label{sec:mooc_palvelun_autentikointiratkaisun_arkkitehtuuri}
 
@@ -1387,7 +1391,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Poikkeavuutena Googlen ja Facebook Platformin OAuth 2.0 -rajapinnoissa on Googlen standardinmukainen tapa käyttää virkistyspolettia~\cite{google_oauth2_doc}, kun taas Facebook jakaa virkistyspoletin sijasta pitkäikäisen pääsyoikeuspoletin~\cite{bradley_facebook_refresh_tokens_2012}. Muita MOOC-palvelun kannalta relevantteja eroja ei ole, vaan ainoastaan päätepisteiden osoitteet ja yksittäisten parametrien arvot poikkeavat toisistansa. OAuth-virtauksen vaiheet ovat siten täsmälleen samat kuin kuvassa~\ref{fig:oauth_auth_code_flow}.
 
-  \subsection{Laajennosvarana OpenID Connect} % (fold)
+  \subsection{Laajennosvarana OpenID Connect (todo)} % (fold)
   \label{sub:laajennosvarana_openid_connect}
 
   Koska OAuth 2.0 on auktorisointistandardi, se ei määrittele tapaa käyttäjän identiteettitietojen kysymiseksi\cite{bradley_facebook_id_tokens_2012, bradley_oauth_authentication_problem_2012}. Tästä johtuen vaiheessa \verb!(B)! pyydettävien tietojen laajuutta kuvaavan \verb!scope!-parametrin arvo on Facebookilla \verb!email!, mutta Googlella \url!https://www.googleapis.com/auth/userinfo.email!~\cite{google_oauth2_doc}. Vastaavasti vaiheen \verb!(E)! jälkeen tapahtuva käyttäjän identiteettitietojen resurssi on kummallakin palveluntarjoajalla eri niminen.
@@ -1425,7 +1429,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
 
-  \subsection{Autentikoituminen vapaasti valittavalla identiteetintarjoajalla} % (fold)
+  \subsection{Autentikoituminen vapaasti valittavalla identiteetintarjoajalla (todo)} % (fold)
   \label{sub:autentikoituminen_käyttäjäkeskeisellä_identiteetillä}
 
   todo
@@ -1450,7 +1454,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % subsection autentikoituminen_käyttäjäkeskeisellä_identiteetillä (end)
 
-  \subsection{Käyttäjätunnukset Helsingin yliopiston verkkoympäristössä} % (fold)
+  \subsection{Käyttäjätunnukset Helsingin yliopiston verkkoympäristössä (todo)} % (fold)
   \label{sub:autentikointi_helsingin_yliopiston_verkkoympäristössä}
 
   todo muistuta,pehmitä alkua.
@@ -1527,7 +1531,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   %
   % % subsection uuden_käyttäjän_rekisteröityminen (end)
 
-  \subsection{Uloskirjautuminen ja kertauloskirjautuminen} % (fold)
+  \subsection{Uloskirjautuminen ja kertauloskirjautuminen (todo)} % (fold)
   \label{sub:kertauloskirjautuminen}
     \begin{quote}
       ``The Shibboleth 2 IdP does not support SLO [Single Log Out]. Period. Don't bother looking. This document is NOT a recipe for implementing SLO. It's a warning to those who think they understand SLO. They probably do not understand it and need to think about it long and hard before they even begin to contemplate it at some future point in time.''
@@ -1559,19 +1563,99 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % subsection kerta (end)
 
 
-
-  \subsection{Suunnitelman arviointi} % (fold)
+  %Tässä vastataan kaikkiin kriteereihin, jotka nostetaan esiin kakkos- ja kolmosluvussa.
+  \subsection{Suunnitelman yhteenveto} % (fold)
   \label{sub:suunnitelman_arviointi}
 
-  Autentikointi suositellaan ulkoistettavaksi käyttäen Facebookin ja Googlen julkista autentikointirajapintaa. Niille opiskelijoille, jotka eivät halua yhdistää Facebook- tai Google-identiteettiään, suositellaan tarjottavaksi MOOC-palvelun omaa käyttäjätunnusta. Helsingin yliopiston käyttäjätunnusta ei suositella yhdistettäväksi MOOC-palveluun suoraan. Tutkielma suosittelee, että Helsingin yliopisto perustaa oman identiteetintarjoajapalvelun, joka abstraktoi yliopiston käyttäjärekisterin sisäisen toteutuksen julkisesti tarjottavan ulkoisen rajapinnan taakse.
+  \subsubsection{Ratkaisun suuret linjat} % (fold)
+  \label{ssub:ratkaisun_suuret_linjat}
+
+  \paragraph{Autentikoinnin ulkoistaminen} \hfill  % (fold)
+  \label{par:autentikoinnin_ulkoistaminen}
+
+  % Autentikoinnin ulkoistaminen
+  Autentikointi suositellaan ulkoistettavaksi käyttäen Facebookin ja Googlen julkista autentikointirajapintaa. Niille opiskelijoille, jotka eivät halua yhdistää Facebook- tai Google-identiteettiään, rekisteröidään MOOC-palvelun oma käyttäjätunnus. Helsingin yliopiston käyttäjätunnusta yhdistetään MOOC-palveluun tulevaisuudessa, jos yliopisto perustaa oman identieetintarjoajapalvelun, joka abstraktoi yliopiston käyttäjärekisterin sisäisen toteutuksen julkisesti tarjottavan ulkoisen rajapinnan taakse.
+
+  \underline{Suositellaan}: Autentikoinnin osittainenkin ulkoistaminen säästää käyttäjähallinnan ylläpitoon käytettävää työaikaa.
+  % paragraph autentikoinnin_ulkoistaminen (end)
+
+  \paragraph{MOOC-palvelun omat käyttäjätunnukset} \hfill % (fold)
+  \label{par:mooc_palvelun_omat_käyttäjätunnukset}
 
   Tutkielma suosittelee MOOC-palvelun omien käyttäjätunnusten säilyttämistä varauksin. Ratkaisu ei ulkoista käyttäjätietokantaan liittyviä ylläpitotyötä, vaan käyttäjähallinta tuottaa edelleen tehtävää MOOC-palvelun henkilöstölle. Oman MOOC-käyttäjätunnuksen tarjoaminen mahdollistaa kuitenkin sen, että käyttäjä voi rekisteröityä suoraan MOOC-palvelussa eikä Helsingin yliopiston ulkopuolisen opiskelijan ole välttämätöntä olla Googlen tai Facebookin asiakas.
 
-  Vaihtoehtona MOOC-palvelun omille käyttäjätunnuksille on vapaavalinainen OpenID-palveluntarjoaja. Tähän liittyy kuitenkin ongelmia tunnistautumisen luotettavuuden suhteen. OpenID-etsintävaiheen ansiosta kuka tahansa voi ryhtyä identiteetintarjoajaksi. Etsintävaiheen kääntöpuolena kuitenkin on, että kaikki OpenID-palveluntarjoajat eivät ole luotettavia. Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle.
+  \underline{Suositellaan varauksin}: Nykyistä toteutusta ei tarvitse muuttaa, mutta ulkoistetun identiteetintarjoajan käyttämisestä on tehtävä käyttäjille riittävän houkuttelevaa.
+
+  % paragraph mooc_palvelun_omat_käyttäjätunnukset (end)
 
 
+  \paragraph{Vapaavalintainen identiteetintarjoaja} \hfill % (fold)
+  \label{par:vapaavalintainen_identiteetintarjoaja}
 
-  %Tässä vastataan kaikkiin kriteereihin, jotka nostetaan esiin kakkos- ja kolmosluvussa.
+  Vaihtoehtona MOOC-palvelun omille käyttäjätunnuksille on vapaavalinainen OpenID-palveluntarjoaja. Tähän liittyy kuitenkin ongelmia tunnisteiden luotettavuuden suhteen, koska OpenID-etsintävaiheen ansiosta kuka tahansa voi ryhtyä identiteetintarjoajaksi. Etsintävaiheen kääntöpuolena on, että kaikki OpenID-palveluntarjoajat eivät ole riittävän luotettavia.
+
+  Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle. Facebook ja Google sen sijaan varmistavat, että kerran myönnettyä autentikoinnissa käytettävää tunnistetta ei enää myöhemmin myönnetä kenellekään muulle. Julkiseen palveluun luotu identiteetti on silti henkliön itsensä laatima: Facebook tai Google eivät tarkista tietojen paikkaansapitävyyttä mitenkään.
+
+  \underline{Ei suositella}: OpenID 2.0 -identiteetintarjoajia ei juurikaan ole, ja OpenID Connect ei ole vielä valmis tuotantokäyttöön.
+
+  % paragraph vapaavalintainen_identiteetintarjoaja (end)
+
+  % subsubsection ratkaisun_suuret_linjat (end)
+
+  \subsubsection{Ratkaisun yksityiskohdat} % (fold)
+  \label{ssub:toteutuksen_yksityiskohdat}
+
+  \paragraph{Sisäänkirjautuminen} \hfill % (fold)
+  \label{par:sisäänkirjautuminen}
+
+  Selainkontekstin osoiterivin tulee olla aina käyttäjän näkyvissä, kun käyttäjäagentti ohjataan identiteetintarjoajan palveluun. Selainkontekstin osoiterivi on ainoa käyttäjälle näkyvä tunniste, jolla käyttäjä voi luotettavasti varmistua identiteetintarjoajan autenttisuudesta. MOOC-palvelu ei saa koskaan kysyä käyttäjän salasanaa siten, että selainkontekstin osoiterivillä näkyisi jokin muu kuin identieetintarjoajan osoite.
+
+  % paragraph sisäänkirjautuminen (end)
+
+  \paragraph{Uloskirjautuminen} \hfill % (fold)
+  \label{par:uloskirjautumisesta}
+
+  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu esimerkiksi poistamalla käyttäjäagenttiin talletettu eväste. Tällöin MOOC ohjaa sisäänkirjautumista pyytävän käyttäjän identiteetintarjoajan palveluun, ja käyttäjä autentikoituu identiteetintarjoajalle päästäkseen takaisin MOOC-palveluun.
+
+  Session päättäminen yksistään MOOC-palvelussa ei kuitenkaan riitä. Jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
+
+  % paragraph uloskirjautumisesta (end)
+
+  \paragraph{Uudelleenautentikoinnin pyytäminen} \hfill % (fold)
+  \label{par:pakotettu_uudelleenautentikointi}
+  % https://developers.facebook.com/docs/reauthentication/
+
+  MOOC-palvelun on syytä määritellä merkittävät muutokset, joiden kanssa on erityisen tärkeää, ettei käyttäjätunnusta väärinkäytetä. Tällaisia ovat esimerkiksi käyttöoikeuksien muokkaaminen tai muutokset käyttäjäprofiilin identiteettitietoihin. Ennen merkittävien muutosten hyväksymistä MOOC-palvelun tulee pyytää identiteetintarjoajalta käyttäjän autentikoimista uudelleen~\cite{facebook_oauth2_reauth, google_oauth2_webserver}. Tämä pienentää riskiä väärinkäytöksiin, jos käyttäjä on esimerkiksi unohtanut kirjautua ulos työasemalta, jolla on muitakin käyttäjiä.
+
+  % paragraph pakotettu_uudelleenautentikointi (end)
+
+  \paragraph{Tunnisteiden tallettaminen} \hfill % (fold)
+  \label{par:tietoturva}
+
+  Omien käyttäjätunnustensa osalta MOOC varastoi käyttäjien autentikointitiedot esimerkiksi tiivisteenä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia autentikointitietoja.
+
+  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja. MOOC-palvelun tallettamat pääsyoikeuspoletit on myös suositeltavaa vaihtaa, koska ne toimivat avoimena valtakirjana implisiittistä virtausta käyttäviin muihin palveluihin. MOOC-palvelulle ne eivät kuitenkaan muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta.
+
+  % paragraph tietoturva (end)
+
+  \paragraph{SDK-sovelluskehitysvälineistö} \hfill % (fold)
+  \label{par:sdk_sovelluskehitysvälineistö}
+
+  Autentikoinnissa ulkoiselle identiteetintarjoajalle tulee soveltaa valmiita OAuth-ohjelmistokirjastoja sekä palveluntarjoajan omaa SDK-sovelluskehitysvälineistöä. Autentikointistandardin omatoiminen toteutus vie työaikaa ja turvallisuus vaarantuu pienestäkin implementointivirheestä. Esimerkiksi OAuthin implisiittistä virtausta ei sellaisenaan pidä soveltaa autentikointiin tietoturvaongelman vuoksi (ks. luku~\ref{ssub:oauth_virtaukset}). Facebook SDK kuitenkin toteuttaa virtauksen siten, ettei tietoturvaongelmaa synny.
+
+  % paragraph sdk_sovelluskehitysvälineistö (end)
+
+  \paragraph{HTTP-yhteyden suojaaminen} \hfill % (fold)
+  \label{par:http_yhteyden_suojaaminen}
+
+  HTTP-yhteys on syytä aina suojata käyttäen HTTPS-skeemaa. OAuth 2.0:n turvallisuus edellyttää suojattua HTTP-yhteyttä, koska muutoin pääsyoikeuspoletit ovat näkyvissä kolmansille osapuolille. Samoin evästeisiin perustuva sessionhallinta on turvatonta ilman suojattua yhteyttä, koska käyttäjäagentti lähettää evästeen jokaisen HTTP-pyynnön yhteydessä. Jos HTTP-yhteyttä ei ole suojattu, kaikki sen kuljettama tieto on luettavissa kolmansille osapuolille, jotka pääsevät tietoliikenneyhteyden väliin. MOOC-palvelun on syytä liittää käyttämiinsä evästeisiin \verb!secure!-asetus, joka estää käyttäjäagenttia lähettämästä evästettä suojaamattoman HTTP-yhteyden yli.
+
+  % paragraph http_yhteyden_suojaaminen (end)
+
+  % subsubsection toteutuksen_yksityiskohdat (end)
+
+  % Monesti haasteet ovat mahdollisuuksia valepuvussa.
+
 
   % Tähän kuva MOOC-palvelun sisäänkirjautumissivusta. Selitä kuva~\ref{fig:mooc_login_luonnos}.
   % \begin{figure}
@@ -1581,49 +1665,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   %   \label{fig:mooc_login_luonnos}
   % \end{figure}
 
-  %Yksityisyys? % http://www.google.com/policies/
-
-  \subsubsection{Toteutuksesta} % (fold)
-  \label{ssub:toteutuksesta}
-
-  Omien käyttäjätunnustensa osalta MOOC varastoi käyttäjien autentikointitiedot esimerkiksi tiivisteenä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia autentikointitietoja.
-
-  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja. MOOC-palvelun tallettamat pääsyoikeuspoletit on myös suositeltavaa vaihtaa, koska ne toimivat avoimena valtakirjana implisiittistä virtausta käyttäviin muihin palveluihin. MOOC-palvelulle ne eivät kuitenkaan muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta.
-
-  Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Suurten yritysten liiketoiminta edellyttää käyttäjien luottamusta turvallisuuteen. MOOC-palvelun ylläpito ei pysty samaan, joten on todennäköisempää että jokin tietoturvareikä jää korjaamatta MOOC-palvelussa kuin Googlessa.
-
-  MOOC-palvelun kannattaa soveltaa Google- ja Facebook-autentikoinnisa valmiita OAuth-ohjelmistokirjastoja sekä palveluntarjoajan omaa SDK-sovelluskehitysvälineistöä. Autentikointistandardin omatoiminen toteutus vie työaikaa ja turvallisuus vaarantuu pienestäkin implementointivirheestä. Esimerkiksi OAuthin implisiittistä virtausta ei sellaisenaan pidä soveltaa autentikointiin tietoturvaongelman vuoksi (ks. luku~\ref{ssub:oauth_virtaukset}). Facebook SDK kuitenkin toteuttaa virtauksen siten, ettei tietoturvaongelmaa synny.
-
-  Yhteys on syytä suojata aina HTTPS:llä. OAuth 2.0:n turvallisuus edellyttää suojattua HTTP-yhteyttä, koska muutoin pääsyoikeuspoletit ovat näkyvissä kolmansille osapuolille. Samoin evästeisiin perustuva sessionhallinta on turvatonta ilman suojattua yhteyttä, koska käyttäjäagentti lähettää evästeen jokaisen HTTP-pyynnön yhteydessä. Jos HTTP-yhteyttä ei ole suojattu, kaikki sen kuljettama tieto on luettavissa kolmansille osapuolille. MOOC-palvelun on syytä liittää käyttämiinsä evästeisiin \verb!secure!-asetus, joka estää käyttäjäagenttia lähettämästä evästettä suojaamattoman HTTP-yhteyden yli.
-
-  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu esimerkiksi poistamalla käyttäjäagenttiin talletettu eväste. Tällöin käyttäjä joutuu autentikoitumaan uudelleen identiteetintarjoajalle päästäkseen takaisin MOOC-palveluun. Session päättäminen yksistään MOOC-palvelussa ei kuitenkaan riitä: jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio lopetetaan myös identiteetintarjoajan palvelussa.
-
-Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus siltä varalta, että käyttäjän fb-sessio on jäänyt auki.
-  % https://developers.facebook.com/docs/reauthentication/
-
-
-  % subsubsection toteutuksesta (end)
-
-  % https://developers.facebook.com/docs/guides/web/#login
-
-  Kuinka luotettavia tunnisteet ovat?
-  %Facebook tai Google takaavat ainoastaan sen, että tiettyä käyttäjäprofiilia pääsee käyttämään vain tietty käyttäjä (joka tuntee salasanan). Identiteetti on kuitenin henkliön itsensä myöntämä: Facebook ei tarkista tietojen oikeellisuutta mitenkään. Federaatio.
-
-  %Kuka luottaa keneen?
-  %idc luottaa idp:hen muttei toisinpäin.
-
-  % Monesti haasteet ovat mahdollisuuksia valepuvussa.
-
-
-  Käyttäjän nähtävillä selainkonteksti, ei kysytä salasanaa mooc-palvelussa. tarviiko käyttäjän ymmärtää? jos käyttäjä lähtökohtaisesti on valmis syöttämään salasanansa sinne, missä ikinä kysytäänkin.
-  Many identity attacks succeed because the user was fooled by something presented on the screen, not because of insecure  communication technologies. Monet identiteettihuijaukset/-hyökkäykset onnistuvat, koska käyttäjä meni lankaan johonkin hänelle näytettyyn huijaukseen (phishing). Tiedonsiirtoon käytetty protokolla, väylä, laite jne voi olla täysin turvallinen mutta phishing silti onnistuu. Autentikointi on kaksisuuntaista: idp:n ja idc:n täytyy kyetä tunnistautumaan käyttäjälle päin käyttäjän ymmärtämässä muodossa.
-  One key to securing the whole system is presenting an easy-to-learn, predictable user interface that looks and works the same no matter which underlying identity technologies are employed.
-  % http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on
-
-
-
-  % ks luku tekniikoiden soveltuvuus
-
 
 
   % subsection suunnitelman_arviointi (end)
@@ -1631,8 +1672,9 @@ Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus s
   \subsection{Jatkokehitysideoita} % (fold)
   \label{sub:jatkokehitysideoita}
 
-  \begin{description}
-    \item[Pääsyoikeuksien myöntäminen ohjelmakoodin palauttamiseksi] \hfill \\
+  \paragraph{Pääsyoikeuksien myöntäminen kurssitehtävien palauttamiseksi} \hfill % (fold)
+  \label{par:pääsyoikeuksien_myöntäminen_ohjelmakoodin_palauttamiseksi}
+
     Kurssisuoritus edellyttää tehtävien hyväksyttyä suorittamista. Tehtävien tarkistaminen tarkistaminen on automatisoitu. Ohjelmointitehtävistä annetaan opiskelijoille yksikkötestit, joiden täytyy suorittua hyväksytysti, jotta opiskelijan ohjelmointitehtävä hyväksytään. Opiskelijalla on yksikkötestit käytettävissä omassa kehitysympäristössänsä. Opiskelijan IDE-kehitysohjelmaan on toteutettu erillinen lisäosa (plugin), joka lähettää opiskelijan ohjelmointitehtävien ratkaisut HTTP-rajapinnan kautta MOOC-palveluun. Sen jälkeen MOOC-palvelu suorittaa taustalla yksikkötestit ja kirjaa tehtävät hyväksytyiksi, jos testit menevät läpi.
 
     Tehtäväpalautusten rajapinta tarvitse pääsyoikeudet. Nykyinen toteutus on HTTP Basic Authilla, jossa opiskelija antaa käyttäjätunnuksensa ja salasanansa IDE-ohjelmistoon. Tämä ei hyvä, koska salasana monessa eri paikassa. Yksinkertainen ratkaisu: MOOC-palvelu luo käyttäjälle API-keyn joka syötetään IDE:hen. Parempi ratkaisu: Sopiva OAuth-flow, jolla auktorisoidaan työpöytäsovellus.
@@ -1640,8 +1682,11 @@ Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus s
     Sisäänkirjautuminen github-tunnuksella? Mahdollistaa integroitumisen koodinkääntäjään. Tämä jatkokehitysideoihin. Ei pakko sisäänkirjautua github-tunnarilla jotta voi käyttää github-resursseja. Jos tehtäviä paljon, github-integraatio voi olla sukkelampi kuin Netbeans-plugin. Tosin edellyttää käyttäjältä versionhallintakokemusta.
   % http://develop.github.com/p/oauth.html
 
+  % paragraph pääsyoikeuksien_myöntäminen_ohjelmakoodin_palauttamiseksi (end)
 
-  \item[Pääsyoikeuksien myöntäminen ulkopuoliselle palvelulle] \hfill \\
+  \paragraph{Pääsyoikeuksien myöntäminen ulkopuoliselle palvelulle} \hfill % (fold)
+  \label{par:pääsyoikeuksien_myöntäminen_ulkopuoliselle_palvelulle}
+
   mooc-koodinpalautusrajapinnan autentikointi: koska sso niin käyttäjillä ei ole enää salasanaa mooc-järjestelmään. sen vuoksi nykyinen käyttäjäsalasanaan perustuva http basic auth ei enää toimi. nopea ratkaisu on käyttäjäkohtainen api-key, parempi ratkaisu oauth.
 
   MOOC tarjoaa mahdollisuuden antaa opintosuoritusote lukioon. MOOC hakee suoritusotteen Oodista. Auktorisointiin käytetään OAuthia: luvan antaminen edellyttää että käyttäjä itse sallii MOOC-järjestelmän pääsyn Oodissa oleviin käyttäjätietoihinsa.
@@ -1650,16 +1695,9 @@ Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus s
 
   Auktorisointi: Käyttäjän yhteystiedot, profiilikuva jne Facebookista. Tai koodi, pull requestit, changelog jne githubista vrt nyt eclipsestä.
 
-  % TODO: lopullinen poistopäätös. OAuth-luvan kysymisestä on kuvia jo aiemmin.
-  %
-  % \begin{figure}
-  %   \centering
-  %   \includegraphics[width=0.9\textwidth]{images/facebook_authorization_contact_info.png}
-  %   \caption{Luvan kysyminen OAuthilla tietojen noutamiseksi Facebookista (todo viite https://developers.facebook.com/blog/post/446)}
-  %   \label{fig:luvan_kysyminen_oauth_fb}
-  % \end{figure}
 
-  \end{description}
+  % paragraph pääsyoikeuksien_myöntäminen_ulkopuoliselle_palvelulle (end)
+
 
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
 
@@ -1671,7 +1709,8 @@ Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus s
 % section mooc_palvelun_autentikointiratkaisun_arkkitehtuuri (end)
 
 
-\section{Yhteenveto} % (fold)
+\newpage
+\section{Yhteenveto (todo)} % (fold)
 \label{sec:yhteenveto}
 
   Jo osittaisella autentikoinnin ulkoistamisella MOOC-palvelun henkilöstöltä säästyy ylläpito- ja kehitystyötä ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Toisin sanoen MOOC-projektille myönnettyä apurahaa on mahdollista kohdistaa enemmän opetuksen kehittämiseen kuin ohjelmistojen ylläpitoon.
@@ -1698,6 +1737,8 @@ Pakotettu uudelleenautentikointi, jos tehdään jotain dramaattista. Varmistus s
 
 % section yhteenveto (end)
 
+
+\newpage
 
 \bibliographystyle{tktl}
 \bibliography{g}

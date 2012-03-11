@@ -1401,39 +1401,22 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Poikkeavuutena Googlen ja Facebook Platformin OAuth 2.0 -rajapinnoissa on Googlen standardinmukainen tapa käyttää virkistyspolettia~\cite{google_oauth2_doc}, kun taas Facebook jakaa virkistyspoletin sijasta pitkäikäisen pääsyoikeuspoletin~\cite{bradley_facebook_refresh_tokens_2012}. Muita MOOC-palvelun kannalta relevantteja eroja ei ole, vaan ainoastaan päätepisteiden osoitteet ja yksittäisten parametrien arvot poikkeavat toisistansa. OAuth-virtauksen vaiheet ovat siten täsmälleen samat kuin kuvassa~\ref{fig:oauth_auth_code_flow}.
 
-  \subsection{Laajennosvarana OpenID Connect (todo)} % (fold)
+  \subsection{Laajennosvarana OpenID Connect} % (fold)
   \label{sub:laajennosvarana_openid_connect}
 
   Koska OAuth 2.0 on auktorisointistandardi, se ei määrittele tapaa käyttäjän identiteettitietojen kysymiseksi\cite{bradley_facebook_id_tokens_2012, bradley_oauth_authentication_problem_2012}. Tästä johtuen vaiheessa \verb!(B)! pyydettävien tietojen laajuutta kuvaavan \verb!scope!-parametrin arvo on Facebookilla \verb!email!, mutta Googlella \url!https://www.googleapis.com/auth/userinfo.email!~\cite{google_oauth2_doc}. Vastaavasti vaiheen \verb!(E)! jälkeen tapahtuva käyttäjän identiteettitietojen resurssi on kummallakin palveluntarjoajalla eri niminen.
 
   Vakioidun käyttäjätietojen päätepisteen määritteleminen on yksi OpenID Connect -standardin merkittävistä kontribuutioista. Käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta siinä missä OAuth 2.0 edellyttää päätepisteen tuntemista etukäteen, OpenID Connect mahdollistaa sen löytämisen dynaamisesti. Tämä on edellytys käyttäjän profiilitietojen auktorisoimille, kun identiteetinkuluttaja ei tunne identiteetintarjoajaa etukäteen.
 
-  TODO
-  Kuvassa~\ref{fig:oauth_auth_code_flow} esitetyssä OAuth 2.0 -prosessissa muodostetaan OpenID Connect -autentikointipyyntö siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}. Tällöin vaiheessa \verb!(E)! auktorisointipalvelin palauttaa pääsyoikeuspoletin lisäksi myös identiteettipoletin (\verb!id_token!). Identiteetinkuluttajana toimiva MOOC autentikoi käyttäjän XXJXJXJXXJ TODO
+  Kuvassa~\ref{fig:oauth_auth_code_flow} esitetyssä OAuth 2.0 -prosessissa muodostetaan OpenID Connect -autentikointipyyntö siten, että asiakas määrittää \verb!scope!-parametrin arvoksi \verb!openid!~\cite{sakimura_openid_c_nutshell_2012}. Tällöin vaiheessa \verb!(E)! auktorisointipalvelin palauttaa pääsyoikeuspoletin lisäksi myös identiteettipoletin (\verb!id_token!). MOOC-palvelu autentikoi käyttäjän identiteettipoletin sisältämien tietojen perusteella. Identiteettipoletti on salattu käyttäen jaettua salaisuutta (\verb!client_secret!), joten ainoastaan jaetun salaisuuden tuntevat osapuolet voivat lukea poletin sisällön.
+
+  Ilman identiteettipolettia käyttäjän identiteetti voidaan varmistaa ainoastaan kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja pääsyoikeuspoletin valtakirjana käyttäjän tietoihin. Tällöin kyseessä on pseudoautentikaatio eli autentikointiprosessin simuloiminen. Tilanne on sama, jos esimerkiksi asunnon ostaja varmistuisi asunnon myyjän omistusoikeudesta pelkästään ulko-oven avainten perusteella. OAuth 2.0:n implisiittisen virtauksen käyttäminen autentikointiin kärsii nimenomaan tällaisesta ongelmasta: pääsyoikeuspoletin vastaanottaja ei voi mitenkään varmistua, kuka on poletin oikea omistaja.
+
+  OpenID Connectin määrittelemä identiteettipoletti vastaa edellisessä esimerkissä taloyhtiön isännöitsijän allekirjoittaman asiakirjan esittämistä. Tällaisen asiakirjan hallussapito ei yksinään todista asunnon omistamista, mutta jos isännöitsijää pidetään luotettuna osapuolena, asiakirja on ulko-oven avaimia luotettavampi todiste omistajuudesta. Vastaavasti pääsyoikeuspoletin joutuminen ulkopuolisiin käsiin mahdollistaa pääsyoikeuden ulkopuoliselle taholle, mutta identiteettipolettia voi hyödyntää ainoastaan jaetun salaisuuden tunteva osapuoli. Sama päätee asuntovertaukseen: ulko-oven avaimien kadottaminen mahdollistaa luvattoman pääsyn asuntoon, mutta yksistään isännöitsijän allekirjoittamalla todistuksella ei voi avata ulko-ovea eikä todistaa asunnon omistajuutta.
+
+  Facebookin ja Googlen nykyinen tapa soveltaa OAuth 2.0 -standardia auktorisointikerroksen lisäksi myös autentikointikerroksella on luultavasti väliaikainen ilmiö. Tutkielman pohdintojen perusteella on todennäköistä, että Facebook ja Google alkavat noudattaa OpenID Connect -standardia, kunhan standardi ensin stabiloituu.
 
   % subsection laajennosvarana_openid_connect (end)
-
-  % Resurssin asiakkaana toimiva identiteetinkuluttaja varmistuu käyttäjän identiteetistä kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja esitetyn valtakirjan. Pseudoautentikaatio koska kyseessä autentikointiprosessin simuloiminen. vrt annat jollekin kotiavaimesi, ja avainten saaja varmistuu että olet asunnon omistaja koska sinulla oli asunnon avaimet. openid:ssa taloyhtiön isännöitsijä allekirjoittaa valtakirjan jossa kerrotaan sinun olevan asunnon omistaja.
-
-  % Googlella lisäksi virkistyspoletti, vrt facebook jolla vain pitkäikäinen accesstoken.
-
-   % To turn an OAuth 2.0 request into an OpenID Connect request, simply include openid as one of the requested scopes. The openid scope means that the client is requesting an identifier for the user as well as the authentication context. If you want user’s profile URL, name, and picture etc., you can add the additional scope: profile. The server (and user) may choose to make more or less profile information available to the client. If the client also wants the user’s email address, it should include the scope email. The same goes for address (address) and phone (phone).
-   %
-   % http://nat.sakimura.org/2012/01/20/openid-connect-nutshell/
-
-   % google ja facebook ajavat openid connect -standardia eteenpäin
-   % http://liveweb.archive.org/http://lists.openid.net/pipermail/openid-specs-ab/Week-of-Mon-20120220/001609.html
-   %
-
-
-%
-% We are currently focused on getting OAuth 2.0 to be amazing on its own. One way in which Facebook Connect is different from the OpenID stack is that identity is built into with authorization - when a user signs into your site, you get a session key and a user identifier together. Similarly, I think the next version of OpenID should be built on top of OAuth, so that when you sign in with OAuth, you can also request an identifier to go along with it.
-% - Luke Shepard
-% http://www.quora.com/How-will-OAuth-2.0-and-OpenID-work-together
-
-
-  % http://code.google.com/apis/accounts/docs/OAuth2.html
-  %OpenID attribute exchange mahdollistaa käyttäjätietojen välittämisen autentikoinnin yhteydessä. Tällaisia esim sähköpostiosoite tai henkilön koko nimi. Suppea. Mutta vain identiteetille, hyvä!
 
   % subsection mooc_google_auth (end)
 

@@ -125,36 +125,41 @@
 \setcounter{tocdepth}{3}
 \gradutableofcontents
 
-\section{Johdanto (todo)} % (fold)
+\section{Johdanto} % (fold)
 \label{sec:johdanto}
 
-  TODO tähän kohtaa yleistysjohdantokappale, pehmeä johdanto siihen miksi tarve sso:lle. motivation.
-  TODO
-  Identiteetin ja pääsyoikeuksien hallinta ovat läpileikkaavia haasteita SOA-järjestelmissä.
-  Auktorisointi ja autentikointi ovat perustavanlaatuisia vaatimuksia verkkopalveluille. Pelkkä autentikointi ei riitä, jos käytöoikeuksia halutaan rajata tarkemmin kuin ``kaikki kaikille''. Kertakirjautuminen tarkoittaa autentikoitumisen tilan siirtämistä järjestelmästä toiselle. Identiteetin federaatiolla loppukäyttäjän identiteetti voidaan jakaa itsenäisten palvelujen ja toisistaan riippumattomien organisaatioiden kesken.
+  Identiteetin ja pääsyoikeuksien hallinta ovat läpileikkaavia haasteita internet-palveluissa, koska auktorisointi ja autentikointi ovat perustavanlaatuisia vaatimuksia verkkopalveluille. Pelkkä autentikointi ei riitä, jos pääsyoikeuksia halutaan rajata tarkemmin kuin ``kaikki kaikille''. Vastaavasti auktorisointi eli pääsyoikeuksien hallinta edellyttää luotettavaa keinoa käyttäjän identiteetin tunnistamiseksi.
 
-  TODO
-  Jos client-puolella voidaan käyttää user-agenttina webselainta ilman lisäosia, ei tarvita ylimääräistä asennettavaa, päivitettävää ja ylläpidettävää client-softaa. Tämä on ydin! Facebookilla kova intressi kehittää OAuthia koska facebookin intresseissä on jakaa käyttäjätietojansa rajapintojen kautta kolmansien osapuolten palveluihin. Kaikilla käyttäjillä on selain jo valmiiksi, jolloin oauth-''valmius'' on myös jo valmiiksi kaikilla.
+  Kertakirjautuminen tarkoittaa käyttäjän sisäänkirjautuneisuuden tilan siirtämistä järjestelmästä toiselle. Soveltuvien rajapintojen avulla käyttäjän identiteetti voidaan jakaa itsenäisten palvelujen ja toisistaan riippumattomien organisaatioiden kesken. Kun loppukäyttäjää edustaa internetissä käyttäjäagenttina toimiva web-selain, HTTP-protokollaa hyödyntävät autentikointirajapinnat ovat käytettävissä ilman, että loppukäyttäjän tarvitsee selaimen lisäksi asentaa muuta sovellusta.
 
-  TODO
-    Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Suurten yritysten liiketoiminta edellyttää käyttäjien luottamusta turvallisuuteen. MOOC-palvelun ylläpito ei pysty samaan, joten on todennäköisempää että jokin tietoturvareikä jää korjaamatta MOOC-palvelussa kuin Googlessa. Siksi XXYXYXYXXY
+  Internetin suurten yhtiöiden, kuten Googlen ja Facebookin, intresseissä on jakaa käyttäjiensä dataa, koska kiinnostava sisältö houkuttelee asiakkaita ja tuottaa sitä kautta yhtiölle mainostuloja. Käyttäjien dataa ei kuitenkaan voida jakaa tuntemattomalle kolmannelle osapuolelle ilman käyttäjän suostumusta. Tätä varten suuret yhtiöt ovat olleet aktiivisesti mukana internet-skaalan autentikoinnin ja auktorisoinnin avoimien standardien, erityisesti OpenID:n ja OAuthin, valmistelutyössä.
+
+  Sekä Googlella että Facebookilla yksistään on valtava määrä käyttäjiä\footnote{
+    Facebookilla 845 miljoonaa ja Googlella 350 miljoonaa käyttäjää, ks. luku~\ref{sec:kakkosluku}.
+  }. Jos Facebook olisi valtio, se olisi väkimäärältään maailman kolmanneksi suurin Kiinan ja Intian jälkeen. Google olisi Facebookin jälkeen jaetulla neljännellä sijalla, mutta suunnilleen tasoissa Yhdysvaltojen väkiluvun kanssa\footnote{
+  Vuonna 2009 Kiinan väestömäärä oli 1.339 miljoonaa, Intian 1.155 miljoonaa ja USA:n 308 miljoonaa henkeä. Väkiluvut on tarkistettu Kansainvälisen energiajärjestön (IEA) laatimasta hiilidioksidipäästöraportista: \url!http://iea.org/co2highlights/co2highlights.pdf!
+  }. Suuren käyttäjäpotentiaalinsa vuoksi Facebookin ja Googlen tekemät valinnat tiettyjen autentikointistandardien tukemisesta ovat suurin yksittäinen syy siihen, kuinka käyttäjiän identiteettitietoja tullaan yleisesti jakamaan internetissä.
+
+  \subsection{Tutkielman motivaatio} % (fold)
+  \label{sub:tutkielman_motivaatio}
 
   Helsingin yliopiston tietojenkäsittelytieteen laitos järjestää kaikille avointa virtuaaliopetusta. Opetus tapahtuu niin sanotussa \emph{Massive Online Open Course} (MOOC) -formaatissa~\cite{chamberlin_mooc_2011}, jossa kuka tahansa ja mistä päin maailmaa tahansa voi hyväksytysti suorittaa kurssin. Opiskelijalla ei tarvitse olla Helsingin yliopiston opiskeluoikeutta eikä siten myöskään Helsingin yliopiston verkkoympäristön käyttäjätunnusta. Tietojenkäsittelytieteen laitoksen tavoitteena on myöntää opiskeluoikeuksia MOOC-kurssisuoritusten perusteella, joten järjestelmä tarvitsee luotettavan tavan käyttäjän identiteetin varmistamiseksi eli käyttäjän \emph{autentikoimiseksi}.
 
   MOOC-opetuksen avoimen luonteen vuoksi virtuaalikurssille odotetaan runsaasti enemmän opiskelijoita kuin vastaaville peruskursseille. MOOC-järjestelmän käyttäjärekisteri ei saa muodostua pullonkaulaksi, kun opiskelijamäärä kasvaa. Käyttäjärekisteri halutaan siksi ulkoistaa osittain tai kokonaan sopivalle kolmannelle osapuolelle, jotta kurssin vastuuhenkilöille koituvaa ylläpitotyötä saadaan vähennettyä. Tällöin MOOC-kurssin vastuuhenkilöt voivat keskittyä ydintehtäviinsä eli virtuaaliopetuksen tarjoamiseen ja varsinaisen virtuaaliopetusalustan toteuttamiseen.
 
 
+  % subsection tutkielman_motivaatio (end)
 
 
 
-\subsection{Tutkimuskysymys (todo)} % (fold)
+\subsection{Tutkimuskysymys} % (fold)
 \label{sub:tutkimuskysymys}
 
 Tutkielman tehtävänä on selvittää, kuinka Tietojenkäsittelytieteen laitoksen MOOC-palvelussa kannattaa toteuttaa käyttäjien sisäänkirjautuminen, kun virtuaalikurssien opiskelijamäärä kasvaa. Tutkielmassa esitellään \emph{yhteentoimivuuden standardeja} (\emph{interoperability standards}), jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
 
 Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palvelun avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Toiseksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla Facebookin tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
 
-Tutkielman hypoteesina on, että MOOC-palvelu voi hyödyntää suoraan Helsingin yliopiston käyttäjärekisteriä sekä Googlen ja Facebookin identiteettipalveluja. Esiteltävät standardit ovat julkisissa web-palveluissa yleistyneet OpenID ja OAuth sekä sisäverkoissa suosittu SAML (kuva~\ref{fig:mooc-autentikointirajapinnat}).
+Tutkielman hypoteesina on, että MOOC-palvelu tulee hyödyntämään Helsingin yliopiston käyttäjärekisterin SAML-rajapintaa, Googlen identiteettipalvelun OpenID-rajapintaa ja Facebookin identiteettipalvelun OAuth-rajapintaa (kuva~\ref{fig:mooc-autentikointirajapinnat}).
 
 \begin{figure}
   \centering
@@ -183,7 +188,7 @@ Tutkielman tehtävänä on selvittää, mitkä yhteentoimivuuden standardit ovat
 
 
 \newpage
-\section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa} % (fold)
+\section{Ulkoinen identiteetintarjoaja web-palvelun sisäänkirjautumisessa (todo)} % (fold)
 \label{sec:kakkosluku}
 
 
@@ -1724,6 +1729,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   Haasteina ulkoisen identiteetintarjoajan käytössä ovat myös yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa ylioiston tietoja ei lain mukaan saa säilyttää kotimaan rajojen ulkopuolella, joskus tietoja saa säilyttää ainoastaan oman organisaation omistamassa verkkoympäristössä. MOOC-järjestelmän nykyinen palvelinlaitteisto on jo USA:ssa, joten ulkopuolisen identiteetintarjoajan käyttäminen ei vie mitään uutta tietoa Suomen rajojen ulkopuolelle.
 
   Ylläpidollisena haasteena on kehittyvien standardien emergenttiys. Kun aloitin tutkielman kirjoittamisen tammikuussa 2012, Googlen tuki OAuth 2.0 :lle oli ``experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä IETF:n hyväksymä. % 6.2.2012
+Toivottavasti tuleva OpenID Connect yleistyy ja FB+Google ottavat sen käyttöön.
 
   % oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
 
@@ -1731,8 +1737,10 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % molemmat, sekä openid että oauth, uudelleenohjaavat käyttäjän jonnekin muualle ja käyttäjä palaa sieltä varmistetun assertion/väitteen kanssa. OpenID tarjoaa identiteettiassertion/väitteen, kun taas oauth palauttaa pääsyoikeuspoletin jonka suomin valtuuksin kolmas osapuoli voi sen jälkeen kysyä oauth-tarjoajalta kysymyksiä. openid:ssä discovery, oauthissa joutuu kovakoodaamaan tuetut idp:t. discovery tosin myös yksi openid:n ongelmista koska käyttäjät eivät ymmärrä URI:a käyttäjätunnuksena.
 
 
-  Toivottavasti tuleva OpenID Connect yleistyy ja FB+Google ottavat sen käyttöön.
 
+
+  % TODO
+  %   Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Suurten yritysten liiketoiminta edellyttää käyttäjien luottamusta turvallisuuteen. MOOC-palvelun ylläpito ei pysty samaan, joten on todennäköisempää että jokin tietoturvareikä jää korjaamatta MOOC-palvelussa kuin Googlessa. Siksi XXYXYXYXXY
 
 
  %http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on

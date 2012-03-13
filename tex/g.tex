@@ -57,6 +57,7 @@ Release Candidate 2:
 TODO:
 - Luku 3.4 HTTPS
 - Luku 6 Yhteenveto
+- Tiivistelmä
 - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
 - OAuth-virtausten yksilöivät kuvat
 - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
@@ -1192,7 +1193,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   \begin{quote}
-    ``Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenID Connect, for authentication. We need to keep hammering away on this point both so IDPs realize the security problems they are creating for their partners, [...] Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
+    ``Great post by John Bradley on the huge security hole many IDPs have created by using plain OAuth, instead of OpenID Connect, for authentication. [...] Years ago when Google first launched its proprietary equivalent of OAuth, called AuthSub, we had a big section at the bottom warning people not to use it for authentication for exactly this reason.''
     \\
     \\--- Googlen identiteettipalvelusta vastaava johtaja Eric Sachs
      kommentoi~\cite{sachs_comment_on_oauth_authentication_2012}
@@ -1210,7 +1211,8 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Facebookin intresseissä on sen sijaan toimia identiteetintarjoajana eli mahdollistaa sisäänkirjautuminen Facebook-tunnuksella mahdollisimman moneen palveluun internetissä. Facebook tarjoaa toistaiseksi autentikointiin ainoastaan OAuth 2.0 \mbox{-rajapinnan}, joten Facebook on joutunut tekemään OAuth-standardista poikkeavan ratkaisun muun muassa implisiittisen virtauksen soveltamisessa autentikointiin (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Tästä johtuen on hyvin mahdollista, että Facebook alkaa toimia OpenID Connect -identiteetintarjoajana, kun sen standardi alkaa olla stabiloitunut. Google puolestaan ilmoittaa OAuth 2.0 -dokumentaatiossaan suoraan aikovansa tukea OpenID Connect -standardia~\cite{google_oauth2_doc}.
 
-  Taulukossa~\ref{tbl:sso_vertailu} on esitelty internet-skaalan kertakirjautumisstandardien soveltuvuusalueet ja standardeja tukevat palvelut. SAML 2.0:n osalta on mielenkiintoista havaita, että Google voi toimia SAML-identiteetinkuluttajana~\cite{google_saml_doc} ja Helsingin yliopisto voi toimia SAML-identiteetintarjoajana. Helsingin yliopisto voisi siten toteuttaa kolmannen osapuolen sovellusten käytettävissä olevan identiteetintarjoapalvelun Googlen ylläpitämän SaaS-palvelun avulla.
+  % wontfix: viittaus ~\ref{tab:sso_soveltuvuudet} antaa numeron 4.5 ???
+  Taulukossa~1 on esitelty internet-skaalan kertakirjautumisstandardien soveltuvuusalueet ja standardeja tukevat palvelut. SAML 2.0:n osalta on mielenkiintoista havaita, että Google voi toimia SAML-identiteetinkuluttajana~\cite{google_saml_doc} ja Helsingin yliopisto voi toimia SAML-identiteetintarjoajana. Helsingin yliopisto voisi siten toteuttaa kolmannen osapuolen sovellusten käytettävissä olevan identiteetintarjoapalvelun Googlen ylläpitämän SaaS-palvelun avulla.
 
   Helsingin yliopiston käyttäjätunnusta olisi siten mahdollista käyttää sisäänkirjautumisessa kaikkiin niihin internet-palveluihin, jotka tukevat autentikotumista Googlen identiteetintarjoajalle~\cite{google_shibboleth_doc}. Googlen identiteetintarjoajapalvelu voisi tarjota autentikoinnin ulkoisen rajapinnan, ja autentikoinnin sisäinen rajapinta yhdistäisi Helsingin yliopiston käyttäjärekisteriin. Aiheeseen palataan luvuissa~\ref{sub:autentikointi_helsingin_yliopiston_id} ja~\ref{sub:jatkokehitysideoita}.
 
@@ -1237,7 +1239,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     \cline{2-5}
     \end{tabular}
 
-    \label{tbl:sso_vertailu}
+    \label{tab:sso_soveltuvuudet}
     \caption{Vertailu standardien soveltuvuusalueista. Lyhenne \emph{idc} tarkoittaa identiteetinkuluttajaa ja \emph{idp} identiteetintarjoajaa.}
 
   \end{table}

@@ -49,9 +49,14 @@
 \begin{singlespacing}
 \begin{verbatim}
 
-Release Candidate 1:
+Muutokset 13.3.2012:
+- DONE: Luku 4.5, Tekniikoiden soveltuvuus
+
+Release Candidate 2:
 
 TODO:
+- Luku 3.4 HTTPS
+- Luku 6 Yhteenveto
 - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
 - OAuth-virtausten yksilöivät kuvat
 - Lyhyet kuvaselitteet kuvalistaukseen: \caption[Short caption]{Long caption}
@@ -1046,7 +1051,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OpenID Connect voi onnistua, koska se hyödyntää suoraan OAuth 2.0:n auktorisointintikerrosta. Vastaavasti autentikointi on tarkoituksellisesti jätetty täysin OAuth 2.0 -standardin ulkopuolelle. Auktorisointikerrokselle tarkoitetun OAuth 2.0:n käyttämisessä autentikointiin on haasteita~\cite{bradley_oauth_authentication_problem_2012, bradley_oauth_implicit_flow_vulnerability_2012}, jotka esimerkiksi Facebook on ratkaissut OAuth 2.0 -standardista poikkeavalla ratkaisulla~\cite{bradley_facebook_id_tokens_2012, facebook_oauth2_signed_request}.
 
-  OpenID Connectin soveltaminen autentikointikerroksena ratkaisee nämä haasteet tyylikkäästi identiteetipoletin avulla~\cite{bradley_openid_c_id_token_2012, bradley_facebook_for_authentication_2012 sakimura_oauth_authentication_problem_2012}\footnote{Nat Sakimuran japaninkielisen blogitekstin kääntämiseen on käytetty Google Translatea.}. On varsin mahdollista, että Facebook vaihtaa OAuth 2.0 -standardin kanssa epäyhteensopivan oman ratkaisunsa~\cite{bradley_facebook_id_tokens_2012, facebook_oauth2_signed_request} myöhemmin OpenID Connect -autentikointikerrokseen. Myös Google ilmoittaa OAuth 2.0 -dokumentaatiossaan huolehtivansa OpenID Connect -yhteensopivuudesta sitä mukaa kuin standardi kehittyy~\cite{google_oauth2_login}.
+  OpenID Connectin soveltaminen autentikointikerroksena ratkaisee nämä haasteet tyylikkäästi identiteetipoletin avulla~\cite{bradley_openid_c_id_token_2012, bradley_facebook_for_authentication_2012, sakimura_oauth_authentication_problem_2012}\footnote{Nat Sakimuran japaninkielisen blogitekstin kääntämiseen on käytetty Google Translatea.}. On varsin mahdollista, että Facebook vaihtaa OAuth 2.0 -standardin kanssa epäyhteensopivan oman ratkaisunsa~\cite{bradley_facebook_id_tokens_2012, facebook_oauth2_signed_request} myöhemmin OpenID Connect -autentikointikerrokseen. Myös Google ilmoittaa OAuth 2.0 -dokumentaatiossaan huolehtivansa OpenID Connect -yhteensopivuudesta sitä mukaa kuin standardi kehittyy~\cite{google_oauth2_login}.
 
   %Toinen OpenID 2.0:n levinneisyyden esteenä on ollut käyttäjien vierastaman \verb!URL!:n soveltaminen käyttäjätunnuksena. OpenID Connect mahdollistaa sähköpostiosoitteen käyttäjätunnuksena, muutos jota Google on suositellut käyttäjätutkimuksessaan jo vuonna 2008~\cite{google_usability_federated_login_2008}.
   % http://www.quora.com/OpenID/What-s-wrong-with-OpenID
@@ -1070,7 +1075,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % http://iiw.idcommons.net/XRI
 
   SAML 2.0 on organisaatioiden sisäverkoissa suosittu federoidun identiteetinhallinnan standardi. SAML on standardina monipuolisempi ja sitä kautta monimutkaisempi kuin OAuth ja OpenID.
-  SAMLia sovelletaan erityisesti Web Services (WS-*) ja Simple Object Access Protocol (SOAP) -standardeihin perustuvassa ohjelmistoarkkitehtuurissa, ja SAML tukee HTTP:n lisäksi myös muita kuljetuskerroksen protokollia kuin HTTP~\cite{venn_of_identity_2008}. SAML tarjoaa autentikointikerroksen lisäksi myös XACML-nimisen auktorisointikerroksen.
+  SAMLia sovelletaan erityisesti Web Services (WS-*) ja Simple Object Access Protocol (SOAP) -standardeihin perustuvassa ohjelmistoarkkitehtuurissa, ja SAML tukee HTTP:n lisäksi myös muita kuljetuskerroksen protokollia kuin HTTP~\cite{venn_of_identity_2008}. SAML-standardi määrittelee autentikointikerroksen ja auktorisointikerroksen. Lisäksi SAML mahdollistaa standardin määrittelemän toiminnallisen monipuolistamisen laajennosten avulla.
 
   % EI mainita näitä:
   % OpenID ja OAuth vastaavasti toimivat ensisijaisesti vain HTTP:n avulla, ja WS-*-arkkitehtuurityylin sijasta ne ovat saavuttaneet suosiota erityisesti REST-arkkitehtuurityyliä soveltavissa palveluissa.
@@ -1182,8 +1187,8 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % % subsubsection saml_autentikoinnin_vaiheet (end)
   %
 
-
-  \subsection{Tekniikoiden soveltuvuus (todo)} % (fold)
+  \newpage
+  \subsection{Tekniikoiden soveltuvuus} % (fold)
   \label{sub:tekniikoiden_yhtäläisyydet}
 
   \begin{quote}
@@ -1195,56 +1200,47 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
      autentikointiin~\cite{bradley_oauth_authentication_problem_2012}.
   \end{quote}
 
-  Sen jälkeen kun eri tekniikat on selitetty, yhteenvetolukuun taulukko jossa parilla lauseella selitetään jokainen.
-
-  OAuth on ensisijaisesti auktorisointiprotokolla, jota voi varauksin soveltaa myös loppukäyttäjän autentikointiin. Mahdollisuus autentikoida käyttäjä on ikään kuin auktorisoinnin sivutuote, koska käyttäjäidentiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa. OAuth-autentikointiväite perustuu siihen että tähän isännöitsijältä avaimet vertaus XXYXYXYXS.
-
-  OAuthin soveltuvuus autentikointiin:
-  % http://www.thread-safe.com/2012/01/solutions-for-using-oauth-20-for.html
-  % bradley_oauth_implicit_flow_vulnerability_2012
-
-  openid 2.0: kannattaa tukea vain varauksin.
-
-  OAuth ja sisäänkirjautumisen toteutus: joko redirect pääikkunassa tai popup. Pelkkä javascript-overlay ei riitä, koska selaimen osoiteriville (selainkontekstiin) täytyy saada näkyville identiteetintarjoajan tiedot (lukko ja osoite). Kuva~\ref{fig:facebook_oauth_login}.
-  \begin{figure}
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/facebook_popup_login.jpg}
-    \caption{OAuth-sisäänkirjautuminen Facebook-tunnuksilla kolmannen osapuolen palveuun. Identiteetintarjoajan osoite sekä turvallista yhteyttä kuvaava lukko ovat näkyvissä selainkontekstissa. todo tarkista että kuva on selitetty auki tekstissä}
-    \label{fig:facebook_oauth_login}
-  \end{figure}
-
-  % Esimerkiksi Facebookin SDK pyrkii ensisijaisesti avaamaan virallisen Facebook-applikaation, kun kolmannen osapuolen applikaatio pyytää käyttäjää autentikoitumaan Facebook-tunnuksillaan tai pyytää käyttöoikeutta hänen Facebook-tietoihinsa (kuva~\ref{fig:trust_context_mobile_fb}). Jos virallista Facebook-applikaatiota ei ole asennettu, SDK:n toissijainen menetelmä on avata autentikointitapahtuma järjestelmätason web-selaimessa (kuva~\ref{fig:trust_context_mobile_unknown_secure}), jolloin käyttäjä voi varmistua palvelun autenttisuudesta selaimen osoiterivin perusteella. Vasta viimeisenä vaihtoehtona, jos mobiililaite ei tue useamman sovelluksen rinnakkaista suorittamista (\emph{multi-tasking}), Facebook SDK suorittaa autentikoinnin applikaatiokontekstissa (viite \verb=https://developers.facebook.com/docs/mobile/ios/build/#implementsso=).
-  %
-  Facebook SDK estää tietoturvaongelman, joka syntyy, jos implisiittistä virtausta käytetään sisäänkirjautumiseen. Älä toteuta itse. Käytä valmista auth-kirjastoa, ja käytä valmista SDK:ta.
+  OAuth on ensisijaisesti auktorisointiprotokolla ja sen tarjoama mahdollisuus käyttäjän autentikointiin on ikään kuin auktorisoinnin sivutuote~\cite{bradley_facebook_for_authentication_2012}. Identiteetti on OAuthin kannalta vain yksi resurssi muiden joukossa, minkä johdosta OAuth-autentikointia kutsutaan jopa ``pseudoautentikaatioksi''~\cite{sakimura_dummydiff_oauth_openid_2011}. Toisin sanoen OAuth ei mahdollista suoraa väittämää autentikoitavan käyttäjän identiteetistä, joten identiteetti määräytyy sen mukaan, mitä tietoja identiteettiresurssi tarjoaa pääsyoikeuspolettia vastaan~\cite{bradley_oauth_implicit_flow_vulnerability_2012}. Aiheeseen palataan tarkemmin alaluvussa~\ref{sub:laajennosvarana_openid_connect}.
 
 
-  %  ongelmana on, että OpenID:tä tuetaan tosi harvassa
-  % paikassa. Ja sitä ei tueta, koska sitä ei käytetä.
-  %
-  % OpenID Connectia aletaan stabiloida vasta sen jälkeen, kun OAuth 2.0
-  % on virallisesti ulkona. OpenID:n entinen päätyyppi David Recordon on
-  % ollut vuodesta 2008 lähtien töissä Facebookilla ja vaikuttanut
-  % voimakkaasti Facebook Connectin (ja sitä kautta OAuth 2.0:n)
-  % kehittämiseen.
-  %
-
-  OpenID:ssä autentikointi ja identifier yleensä tiukasti kytketty toisiinsa. Käyttäjä ei voi vaihtaa idp:tä jos idenfierin verkkotunnus ei ole hänen hallinnassaan. Tällöin identiteetti häviää jos idp menee nurin. OpenID:n suurin heikkous Sakimuran mukaan.
+  %OpenID:ssä autentikointi ja identifier yleensä tiukasti kytketty toisiinsa. Käyttäjä ei voi vaihtaa idp:tä jos idenfierin verkkotunnus ei ole hänen hallinnassaan. Tällöin identiteetti häviää jos idp menee nurin. OpenID:n suurin heikkous Sakimuran mukaan.
   % http://nat.sakimura.org/2009/06/15/identity-loss-with-openid-20/
 
-  OpenID olisi mainio tekniikka jos sillä voisi kirjautua sisään moneen palveluun.
-  Facebook ilmoitti toukokuussa 2009 (viite https://developers.facebook.com/blog/post/246/), että facebookiin voi kirjautua openid:llä. Esimerkissä mainittiin gmail tunnuksella sisäänkirjautuminen. Myöhemmin Facebook pyörsi päätöksensä eikä enää mahdollista openid:tä. Facebook haluaa toimia itse idp:nä, ja siinä sillä on jo valtava valmis käyttäjämassa.
+  OpenID:n visio yhdestä käyttäjätunnuksesta kaikkiin palveluihin edellyttää, että kaikki palvelut tukevat OpenID:tä ja että uuden OpenID-käyttäjätunnuksen rekisteröinti ei ole vaikeaa. Rekisteröitymiselle avoimia OpenID 2.0 -identiteetintarjoajia on kuitenkin niukasti tarjolla eikä uusia näytä syntyvän (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Vastaavasti harva palveluntarjoaja enää vuonna 2012 mahdollistaa sisäänkirjautumisen käyttäjän valitseman identiteetintarjoajan avulla. Jopa Facebook ilmoitti toukokuussa 2009, että Facebook-palveluun voi kirjautua vapaavalintaisella OpenID-tunnuksella~\cite{facebook_openid_idp}, mutta myöhemmin Facebook pyörsi päätöksensä. Vuonna 2012 sisäänkirjautuminen Facebookiin ei ole enää mahdollista OpenID:n avulla.
 
-  %+ Registration / Discovery % ("Discovery is similar to a Web search for an identity.";
+  Facebookin intresseissä on sen sijaan toimia identiteetintarjoajana eli mahdollistaa sisäänkirjautuminen Facebook-tunnuksella mahdollisimman moneen palveluun internetissä. Facebook tarjoaa toistaiseksi autentikointiin ainoastaan OAuth 2.0 \mbox{-rajapinnan}, joten Facebook on joutunut tekemään OAuth-standardista poikkeavan ratkaisun muun muassa implisiittisen virtauksen soveltamisessa autentikointiin (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Tästä johtuen on hyvin mahdollista, että Facebook alkaa toimia OpenID Connect -identiteetintarjoajana, kun sen standardi alkaa olla stabiloitunut. Google puolestaan ilmoittaa OAuth 2.0 -dokumentaatiossaan suoraan aikovansa tukea OpenID Connect -standardia~\cite{google_oauth2_doc}.
 
+  Taulukossa~\ref{tbl:sso_vertailu} on esitelty internet-skaalan kertakirjautumisstandardien soveltuvuusalueet ja standardeja tukevat palvelut. SAML 2.0:n osalta on mielenkiintoista havaita, että Google voi toimia SAML-identiteetinkuluttajana~\cite{google_saml_doc} ja Helsingin yliopisto voi toimia SAML-identiteetintarjoajana. Helsingin yliopisto voisi siten toteuttaa kolmannen osapuolen sovellusten käytettävissä olevan identiteetintarjoapalvelun Googlen ylläpitämän SaaS-palvelun avulla.
 
-    % TODO: Tää on huono kuva.
-    %
-    % \begin{figure}
-    %   \centering
-    %   \includegraphics[width=0.9\textwidth]{images/kertakirkautumistekniikat_venn.jpg}
-    %   \caption{Yleiskuva kertakirjautumistekniikoiden yhtenäisyyksistä. todo kuva piirrettävä selkeämmäksi tai poistettava}
-    %   \label{fig:yleiskuva_sso_yhtenaisyyksista}
-    % \end{figure}
+  Helsingin yliopiston käyttäjätunnusta olisi siten mahdollista käyttää sisäänkirjautumisessa kaikkiin niihin internet-palveluihin, jotka tukevat autentikotumista Googlen identiteetintarjoajalle~\cite{google_shibboleth_doc}. Googlen identiteetintarjoajapalvelu voisi tarjota autentikoinnin ulkoisen rajapinnan, ja autentikoinnin sisäinen rajapinta yhdistäisi Helsingin yliopiston käyttäjärekisteriin. Aiheeseen palataan luvuissa~\ref{sub:autentikointi_helsingin_yliopiston_id} ja~\ref{sub:jatkokehitysideoita}.
+
+  \begin{table}
+    \begin{tabular}{r|c|c|c|c|}
+    \multicolumn{1}{r}{}
+     & \multicolumn{1}{c}{OpenID 2.0}
+     & \multicolumn{1}{c}{OpenID Connect}
+     & \multicolumn{1}{c}{OAuth 2.0}
+     & \multicolumn{1}{c}{SAML 2.0} \\
+                  % OpenID 2.0  :: OpenID C :: OAuth 2.0  :: SAML 2.0
+    \cline{2-5}
+    Autentikointi  & kyllä       & kyllä       & pseudo       & kyllä \\
+    \cline{1-5}
+    Auktorisointi  & OAuth 1.0   & OAuth 2.0   & kyllä        & kyllä \\
+    \cline{1-5}
+    Dynaaminen idp & kyllä       & kyllä       & ei           & ei \\
+    \cline{1-5}
+    Facebook       & ei          & idp (ehkä)  & idp          & ei \\
+    \cline{1-5}
+    Google         & idp         & idp (ehkä)  & idp          & idc \\
+    \cline{1-5}
+    HY             & ei          & ei          & ei           & idp \\
+    \cline{2-5}
+    \end{tabular}
+
+    \label{tbl:sso_vertailu}
+    \caption{Vertailu standardien soveltuvuusalueista. Lyhenne \emph{idc} tarkoittaa identiteetinkuluttajaa ja \emph{idp} identiteetintarjoajaa.}
+
+  \end{table}
 
 
   % subsection tekniikoiden_yhtäläisyydet (end)
@@ -1418,7 +1414,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Ilman identiteettipolettia käyttäjän identiteetti voidaan varmistaa ainoastaan kokeilemalla, hyväksyykö identiteettiresurssin tarjoaja pääsyoikeuspoletin valtakirjana käyttäjän tietoihin. Tällöin kyseessä on pseudoautentikaatio eli autentikointiprosessin simuloiminen. Tilanne on sama, jos esimerkiksi asunnon ostaja varmistuisi asunnon myyjän omistusoikeudesta pelkästään ulko-oven avainten perusteella. OAuth 2.0:n implisiittisen virtauksen käyttäminen autentikointiin kärsii nimenomaan tällaisesta ongelmasta: pääsyoikeuspoletin vastaanottaja ei voi mitenkään varmistua, kuka on poletin oikea omistaja.
 
-  OpenID Connectin määrittelemä identiteettipoletti vastaa edellisessä esimerkissä taloyhtiön isännöitsijän allekirjoittaman asiakirjan esittämistä. Tällaisen asiakirjan hallussapito ei yksinään todista asunnon omistamista, mutta jos isännöitsijää pidetään luotettuna osapuolena, asiakirja on ulko-oven avaimia luotettavampi todiste omistajuudesta. Vastaavasti pääsyoikeuspoletin joutuminen ulkopuolisiin käsiin mahdollistaa pääsyoikeuden ulkopuoliselle taholle, mutta identiteettipolettia voi hyödyntää ainoastaan jaetun salaisuuden tunteva osapuoli. Sama päätee asuntovertaukseen: ulko-oven avaimien kadottaminen mahdollistaa luvattoman pääsyn asuntoon, mutta yksistään isännöitsijän allekirjoittamalla todistuksella ei voi avata ulko-ovea eikä todistaa asunnon omistajuutta.
+  OpenID Connectin määrittelemä identiteettipoletti vastaa edellisessä esimerkissä taloyhtiön isännöitsijän allekirjoittaman todistuksen esittämistä. Tällaisen asiakirjan hallussapito ei yksinään todista asunnon omistamista, mutta jos isännöitsijää pidetään luotettuna osapuolena, asiakirja on ulko-oven avaimia luotettavampi todiste omistajuudesta. Vastaavasti pääsyoikeuspoletin joutuminen ulkopuolisiin käsiin mahdollistaa pääsyoikeuden ulkopuoliselle taholle, mutta identiteettipolettia voi hyödyntää ainoastaan jaetun salaisuuden tunteva osapuoli. Sama päätee asuntovertaukseen: ulko-oven avaimien kadottaminen mahdollistaa ulkopuoliselle luvattoman pääsyn asuntoon, mutta toisen henkilön nimiin myönnetyllä isännöitsijän allekirjoittamalla todistuksella ei voi avata ulko-ovea eikä todistaa asunnon omistajuutta.
 
   Facebookin ja Googlen nykyinen tapa soveltaa OAuth 2.0 -standardia auktorisointikerroksen lisäksi myös autentikointikerroksella on luultavasti väliaikainen ilmiö. Tutkielman pohdintojen perusteella on todennäköistä, että Facebook ja Google alkavat noudattaa OpenID Connect -standardia, kunhan standardi ensin stabiloituu.
 
@@ -1692,6 +1688,15 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % paragraph pääsyoikeuksien_myöntäminen_ulkopuoliselle_palvelulle (end)
 
+  \paragraph{Helsingin yliopiston identiteettipalvelu} % (fold)
+  \label{par:helsingin_yliopiston_identiteettipalvelu}
+
+  Helsingin yliopiston ei tarvitse perustaa identiteetintarjoajaa omatoimisesti. Identiteettipalvelu voidaan ulkoistaa Googlelle, viite: \url{http://code.google.com/apis/apps/articles/shibboleth2.0.html}
+
+  Tällöin HY:n käyttäjärekisteriin SAML 2:lla ja Googleen OpenID/OAuthilla. Tällöin mikä tahansa Googlea tukeva autentikointipalvelu voi autentikoida loppukäyttäjän Helsingin ylioipston käyttäjätunnuksella.
+
+  Selitä SAML-kuva % http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html
+  % paragraph helsingin_yliopiston_identiteettipalvelu (end)
 
   % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
 

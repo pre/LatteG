@@ -49,13 +49,16 @@
 \begin{singlespacing}
 \begin{verbatim}
 
+Muutokset 16.3.2012:
+- Poistettu HTTPS-luku, sisällytetty asia julkisen avaimen alalukuun.
+Pilkottu ko. alaluku kahteen osaan.
+
 Muutokset 13.3.2012:
 - DONE: Luku 4.5, Tekniikoiden soveltuvuus
 
-Release Candidate 2:
+Release Candidate 3:
 
 TODO:
-- Luku 3.4 HTTPS
 - Luku 6 Yhteenveto
 - Tiivistelmä
 - TÄRKEÄ: Parempi kuva OpenID-vaiheista.
@@ -439,23 +442,31 @@ Tietojenkäsittelytieteen laitoksen MOOC-järjestelmä on luonteeltaan sekä Saa
   Web-palvelun asiakas autentikoituu todistamalla, että hänellä on hallinnassaan \emph{poletti} (\emph{token})~\cite{NIST_SP800-63-1}. Poletti on rekisteröity ennakkoon web-palvelun käyttämälle identiteetintarjoajalle, ja sitä vastaan web-palvelu voi varmistua poletin \emph{kantajan} (\emph{bearer}) eli asiakkaan identiteetistä. Poletin kantajana toimivaa asiakasta kutsutaan \emph{väittäjäksi} (\emph{claimant}), koska asiakkaan identiteetti perustuu yksipuoliseen väittämään, kunnes autentikointitapahtuma on suoritettu ja väittäjä on todistanut identiteettinsä. Polettiin liittyy \emph{salaisuus} (\emph{secret}), jolla väittäjä osoittaa, että hän on poletin rekisteröimisen yhteydessä palveluun määritetty toimija. Salaisuus perustuu joko \emph{julkiseen avainpariin} (\emph{public key-pair}) tai \emph{jaettuun salaisuuteen} (\emph{shared secret}).
 
 
-  \subsection{Jaetut salaisuudet ja epäsymmetriset avaimet} % (fold)
+  \subsection{Epäsymmetriset avaimet ja sertifikaatit} % (fold)
   \label{sub:pki}
 
   \emph{Julkinen avain} ja sitä vastaava \emph{yksityinen avain} muodostavat \emph{julkisen avainparin} (\emph{public key pair})~\cite{NIST_SP800-63-1}. Julkinen avainpari on epäsymmetrinen, eli avainparin julkisella avaimella salakirjoitetun tiedon pystyy avaamaan ainoastaan avainparin yksityisellä avaimella. Vastaavasti yksityisellä avaimella salakirjoitetun tiedon voi avata ainoastaan julkisella avaimella. Julkisen avaimen perusteella ei ole käytännössä mahdollista päätellä avainparin yksityistä avainta, kun avainpari on matemaattisesti riittävän vahva.
 
-  Epäsymmetrisiä avaimia voidaan soveltaa digitaalisessa allekirjoituksessa ja autentikoinnissa. Tyypillinen menetelmä on varastoida julkinen avain polettina toimivaan \emph{sertifikaattiin} ja tallettaa se identiteetintarjoajalle. Vastaavasti väittävällä osapuolella on yksityinen sertifikaatti, joka sisältää avainparin yksityisen komponentin. Tällöin identiteetintarjoaja voi soveltaa julkiseen avainpariin perustuvaa autentikointiprotokollaa ja esittää väittäjälle haasteen, jonka vastaus edellyttää pääsyä yksityiseen sertifikaattiin. Kun yksityinen sertifikaatti on ainoastaan väittäjän hallinnassa, vain hän voi tarjota kelvollisen vastineen esitettyyn haasteeseen.
+  Epäsymmetrisiä avaimia voidaan soveltaa digitaalisessa allekirjoituksessa ja autentikoinnissa. Tyypillinen menetelmä on varastoida julkinen avain polettina toimivaan \emph{sertifikaattiin} ja tallettaa se identiteetintarjoajalle~\cite{NIST_SP800-63-1}. Vastaavasti väittävällä osapuolella on yksityinen sertifikaatti, joka sisältää avainparin yksityisen komponentin. Tällöin identiteetintarjoaja voi soveltaa julkiseen avainpariin perustuvaa autentikointiprotokollaa ja esittää väittäjälle haasteen, jonka vastaus edellyttää pääsyä yksityiseen sertifikaattiin. Kun yksityinen sertifikaatti on ainoastaan väittäjän hallinnassa, vain hän voi tarjota kelvollisen vastineen esitettyyn haasteeseen.
+
+  Web-palveluntarjoaja voi todentaa oman identiteettinsä loppukäyttäjälle esittämällä sertifikaatin, jonka tietoihin on kytketty web-palvelun verkko-osoite. Kaupalliset palveluntarjoajat kuten Thawte ja VeriSign toimivat käyttäjäagentin tuntemina sertifikaattiauktoriteetteina (\emph{certificate authority, CA}) eli luotettuna kolmantena osapuolena. Käyttäjäagentti esittää tyypillisesti varoituksen, jos web-palveluntarjoajan esittämä sertifikaatti ei ole luotetun kolmannen osapuolen myöntämä tai mikäli sertifikaatin sisältämät tiedot eivät vastaa web-palvelun verkko-osoitetta.
+
+  HTTP-yhteys web-palvelimen ja käyttäjäagentin välillä voidaan suojata Secure Socekts Layer (SSL) tai Transport Layer Security (TLS) -protokollalla, kun web-palveluntarjoaja autentikoidaan sertifikaatin avulla. Tällöin web-palvelin ja käyttäjäagentti neuvottelevat keskenään sertifikaatin sisältämän epäsymmetrisen avaimen perusteella jaetun salaisuuden. Jaettuna salaisuutena toimii symmetrinen avain, jonka perusteella kaikki HTTP-protokollan siirtämät tiedot salakirjoitetaan. Tällaisesta suojatusta kommunikaatiokanavasta web-palvelimen ja käyttäjäagentin välillä käytetään nimitystä \emph{HTTPS-yhteys}~\cite{rfc_https_2818}.
+
+  % subsubsection julkisen_avaimen_infrastruktuuri (end)
+
+  \subsection{Jaetut salaisuudet} % (fold)
+  \label{sub:jaetut_salaisuudet}
 
   \emph{Jaettu salaisuus} on joko \emph{symmetrinen avain} (\emph{symmetric key}) tai salassa pidettävä merkkijono~\cite{NIST_SP800-63-1}. Näitä kahta voidaan käyttää samankaltaisissa autentikointiprotokollissa, mutta niiden välisenä erona on se, mitä niiden soveltaminen edellyttää loppukäyttäjältä. Symmetrinen avain on tyypillisesti tallennettu johnonkin käyttäjän hallinnoimaan laitteeseen tai ohjelmistoon, mutta salasana käyttäjän täytyy muistaa ulkoa. Muistettavuuden vuoksi salasanamerkkijono on pituudeltaan lyhyempi kuin kryptografinen avain, joten salasanalla on vähemmän erilaisia mahdollisia arvoja kuin avaimella. Menetelmät voidaan myös yhdistää: yksityinen avain voidaan suojata salasanalla, jolloin avaimen tuntemisen lisäksi täytyy tuntea myös avaimen salasana.
 
   Jaetun salaisuuden salaista merkkijonoa ei aina kutsuta salasanaksi. Tutkielmassa esitellään myöhemmin autentikointistandardeja, joissa osapuolten tunnistaminen perustuu jaetun salaisuuden periaatteeseen. Esimerkiksi OpenID:ssä saman viestin uudelleenlähetys torjutaan \emph{nonssilla} (\emph{nonce, number used only once}), joka on nimensä mukaisesti kertakäyttöinen satunnainen numero tai merkkijono. OAuthissa auktorisointipalvelin jakaa resurssin asiakkaalle \emph{pääsyoikeuspoletin} (\emph{access token}), joka on kummankin osapuolen tuntema merkkijono, jolla asiakkaalle myönnetään käyttöoikeus tiettyyn resurssiin.
 
-  Yleinen salasana-autentikoinnin toteutustapa on tallettaa käyttäjätunnukseen liitetystä salasanasta \emph{tiiviste} (\emph{digest}). Tällöin käyttäjärekisteriin ei koskaan talleteta varsinaista salasanaa vaan ainoastaan siitä hajautusfunktion avulla laskettu tiiviste. Kun käyttäjä autentikoidaan, käyttäjän syöttämästä salasanasta lasketaan tiiviste uudelleen samalla tavalla kuin sen tallettamishetkellä. Jos käyttäjärekisteriin aiemmin talletettu sekä myöhemmin uudelleenlaskettu tiiviste ovat samat, käyttäjän antama salasana on oikea. Tiiviste toimii siten autentikointitapahtuman polettina.
+  Yleinen salasana-autentikoinnin toteutustapa on tallettaa käyttäjätunnukseen liitetystä salasanasta \emph{tiiviste} (\emph{digest}). Tällöin käyttäjärekisteriin ei koskaan talleteta varsinaista salasanaa vaan ainoastaan siitä hajautusfunktion avulla laskettu tiiviste. Kun käyttäjä autentikoidaan, käyttäjän syöttämästä salasanasta lasketaan tiiviste uudelleen samalla tavalla kuin sen tallettamishetkellä. Jos käyttäjärekisteriin aiemmin talletettu sekä myöhemmin uudelleenlaskettu tiiviste ovat samat, käyttäjän antama salasana on oikea. Tiiviste toimii siten autentikointitapahtuman polettina, ja käyttäjä voi todentaa hallitsevansa polettia esittämällä jaettuna salaisuutena toimivan salasanan.
 
   Symmetristä avainta käytetään usein tilanteissa, joissa tarvitaan vahvaa salausta eikä käyttäjän tarvitse muistaa avainta ulkoa. Salaisen merkkijonon käyttötarkoitus riippuu vastaavasti merkkijonon pituudesta, voimassaoloajasta ja satunnaisuudesta. Salasana on palveluntarjoajan kannalta kustannustehokas tunnistamisväline, ja siksi salasana-autentikointi on pysynyt vallitsevana tunnistamistapana vuosikymmenten ajan~\cite{pw_auth_system_perspective_08}.
 
-
-  % subsubsection julkisen_avaimen_infrastruktuuri (end)
+  % subsection jaetut_salaisuudet (end)
 
   % Identity Management and Trust Services: Foundations for Cloud Computing
   % http://www.educause.edu/EDUCAUSE+Review/EDUCAUSEReviewMagazineVolume44/IdentityManagementandTrustServ/178410
@@ -550,40 +561,34 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % subsection kaksivaiheinen_autentikointi (end)
 
 
-  \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä (todo)} % (fold)
-  \label{sub:sertifikaatit_webissä}
-  todo tähän intro mihin näita käytetään.
-  HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS: epäsymmetriset avaimet
-  % Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
-  Kun epäsymmetriset avaimet + sertifikaatit + CA: julkisen avaimen infrastruktuuri.
-  Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}.
-
-  Kaupalliset palveluntarjoajat kuten Thawte ja VeriSign toimivat luotettuna kolmantena osapuolena eli sertifikaattiauktoriteettina (\emph{CA, certificate authority}). CA:n oma juurisertifikaatti (\emph{root certificate}) on käyttäjäagentin (web-selaimen) ennalta tuntemien ja luotettavaksi merkittyjen sertifikaattien listalla.
-
-  todo kömpelö:
-  Sertifikaattiauktoriteetti todentaa juurisertifikaattinsa luottamusketjun avulla, että sen jollekin yritykselle myöntämä julkinen varmenne kuuluu sitä esittävälle web-palvelulle. Web-kontekstissa sertifikaatti kytketään URL:n verkko-osoitteeseen, jonka täytyy täsmätä sertifikaattiin kytketyn nimitiedon kanssa.
-
-  todo
-  Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Koko PKI perustuu luotettuun kolmanteen osapuoleen eli CA:han. Jos luottamusta CA:han väärinkäytetään (ks diginotar-tietomurto), koko sertifikaatteihin perustuva luottamusketju rikkoutuu. PKI on siten haavoittuvainen luottamusaseman väärinkäytölle, joka voi tapahtua esimerkiksi valtion painostuksesta tai rikollisista syistä.
-
-   PKI:lla voidaan autentikoida myös loppukäyttäjä. Tällöin 2-suuntainen tls. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}. Salasanat vallitseva käytäntö.
-
-  todo
-  Yhteyden suojaus (https) välttämätöntä jotta turvallista. Erityisesti DNS spoofing ja man-in-the-middle mahdollisia suojaamattomassa yhteydessä.
-  HTTPS:n käyttäminen suojaa todella monelta tietoturvauhkalta;
-  HTTPS aina kaikelle sensitiiviselle. API-avaimen, OAuth-tokenin tai muun pystyy kaappaamaan verkkoliikenteestä ilman HTTPS:ää.  Suojauksen implementointi on transport layerin tehtävä. Transport layerin on oltava turvallinen!
-
-  % DigiNotar CA:n tietomurto: luotiin Googlelle feikkisertifikaatti jota käytettiin mitm-hyökkäyksiin Iranissa. http://en.wikipedia.org/wiki/DigiNotar#cite_note-googleonlinesecurity-10
-  % http://googleonlinesecurity.blogspot.com/2011/08/update-on-attempted-man-in-middle.html
-  % http://news.cnet.com/8301-27080_3-20098894-245/fraudulent-google-certificate-points-to-internet-attack/
-  % "The list of certificate issuers has ballooned over the years to approximately 650 organizations, which may not always follow the strictest security procedures. And each one has a copy of the Web's master keys"
-    % Certificate Authorities are nothing but a money-making scam. They provide us with no protection whatsoever.
-    %  http://www.links.org/?p=1196
-
-    % selainvalmistajilla valtava vastuu sertifikaattien varmistamisessa
-    % http://news.cnet.com/8301-31921_3-20047729-281.html?tag=mncol;txt
-
-  % subsection sertifikaatit_webissä (end)
+  % \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä (todo)} % (fold)
+  % \label{sub:sertifikaatit_webissä}
+  % todo tähän intro mihin näita käytetään.
+  % HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS: epäsymmetriset avaimet
+  % % Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
+  % Kun epäsymmetriset avaimet + sertifikaatit + CA: julkisen avaimen infrastruktuuri.
+  % Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}.
+  %
+  %
+  %
+  % todo
+  % Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Koko PKI perustuu luotettuun kolmanteen osapuoleen eli CA:han. Jos luottamusta CA:han väärinkäytetään (ks diginotar-tietomurto), koko sertifikaatteihin perustuva luottamusketju rikkoutuu. PKI on siten haavoittuvainen luottamusaseman väärinkäytölle, joka voi tapahtua esimerkiksi valtion painostuksesta tai rikollisista syistä.
+  %
+  %  PKI:lla voidaan autentikoida myös loppukäyttäjä. Tällöin 2-suuntainen tls. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}. Salasanat vallitseva käytäntö.
+  %
+  % todo
+  %
+  % % DigiNotar CA:n tietomurto: luotiin Googlelle feikkisertifikaatti jota käytettiin mitm-hyökkäyksiin Iranissa. http://en.wikipedia.org/wiki/DigiNotar#cite_note-googleonlinesecurity-10
+  % % http://googleonlinesecurity.blogspot.com/2011/08/update-on-attempted-man-in-middle.html
+  % % http://news.cnet.com/8301-27080_3-20098894-245/fraudulent-google-certificate-points-to-internet-attack/
+  % % "The list of certificate issuers has ballooned over the years to approximately 650 organizations, which may not always follow the strictest security procedures. And each one has a copy of the Web's master keys"
+  %   % Certificate Authorities are nothing but a money-making scam. They provide us with no protection whatsoever.
+  %   %  http://www.links.org/?p=1196
+  %
+  %   % selainvalmistajilla valtava vastuu sertifikaattien varmistamisessa
+  %   % http://news.cnet.com/8301-31921_3-20047729-281.html?tag=mncol;txt
+  %
+  % % subsection sertifikaatit_webissä (end)
 
 
   \subsection{Selain- ja sisältökonteksti} % (fold)
@@ -1640,7 +1645,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{HTTP-yhteyden suojaaminen} \hfill % (fold)
   \label{par:http_yhteyden_suojaaminen}
 
-  HTTP-yhteys on syytä aina suojata käyttäen HTTPS-skeemaa. OAuth 2.0:n turvallisuus edellyttää suojattua HTTP-yhteyttä, koska muutoin pääsyoikeuspoletit ovat näkyvissä kolmansille osapuolille. Samoin evästeisiin perustuva sessionhallinta on turvatonta ilman suojattua yhteyttä, koska käyttäjäagentti lähettää evästeen jokaisen HTTP-pyynnön yhteydessä. Jos HTTP-yhteyttä ei ole suojattu, kaikki sen kuljettama tieto on luettavissa kolmansille osapuolille, jotka pääsevät tietoliikenneyhteyden väliin. MOOC-palvelun on syytä liittää käyttämiinsä evästeisiin \verb!secure!-asetus, joka estää käyttäjäagenttia lähettämästä evästettä suojaamattoman HTTP-yhteyden yli.
+  HTTP-yhteys on syytä aina suojata käyttäen HTTPS-skeemaa. OAuth 2.0:n turvallisuus edellyttää suojattua HTTP-yhteyttä, koska muutoin pääsyoikeuspoletit ovat näkyvissä kolmansille osapuolille. Samoin evästeisiin perustuva sessionhallinta on turvatonta ilman suojattua yhteyttä, koska käyttäjäagentti lähettää evästeen jokaisen HTTP-pyynnön yhteydessä. Jos HTTP-yhteyttä ei ole suojattu, kaikki sen kuljettama tieto on luettavissa kolmansille osapuolille, jotka pääsevät tietoliikenneyhteyden väliin. MOOC-palvelun on syytä liittää käyttämiinsä evästeisiin \verb!secure!-asetus, joka estää käyttäjäagenttia lähettämästä evästettä suojaamattoman HTTP-yhteyden yli. Hyödyt suojatun HTTPS-yhteyden käyttämisestä ovat aina suuremmat kuin siitä aiheutuvat haittapuolet~\cite{oauthwg_ssl_discussion_2010}.
 
   % paragraph http_yhteyden_suojaaminen (end)
 

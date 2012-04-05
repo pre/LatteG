@@ -1482,7 +1482,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
-    \caption{MOOC-järjestelmän autentikointirajapinnat. Helsingin yliopistolla on kolmannen osapuolen palveluja -- kuten MOOC -- varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse. todo selitä openid-rajapinta.}
+    \caption{Mahdolliset MOOC-palvelun autentikointirajapinnat. Kuvassa Helsingin yliopistolla on MOOC-palvelun kaltaisia kolmannen osapuolen toteuttamia palveluja varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.}
     \label{fig:mooc_hy_idp}
   \end{figure}
 
@@ -1543,9 +1543,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     \item Annetaan käyttäjän valita vaihtoehdoista 1 ja 2. Tällöin käyttäjä saattaa valita vahingossa turvattoman vaihtoehdon, jolloin sessio identiteetintarjoajalle jää voimaan käyttäjän sitä tiedostamatta.
   \end{enumerate}
 
-  Uloskirjautumisen huolellinen toteutus on tärkeää, koska monesti työasema on jaettu usean henkilön kesken. Siksi tutkielmassa suositellaan, että uloskirjauduttaessa MOOC-palvelun sessio päätetään ja käyttäjäagentti ohjataan identiteetintarjoajan uloskirjautumisrajapintaan. Vastaavasti, kun käyttäjä saapuu MOOC-palvelun etusivulle, MOOC-palvelun on aina tarkistettava, että käyttäjällä on voimassaoleva sessio identiteetintarjoajan palvelussa. Session voimassaolon tarkistaminen tapahtuu suorittamalla auktorisointikoodin OAuth-virtaus.
+  Uloskirjautumisen huolellinen toteutus on tärkeää, koska monesti työasema on jaettu usean henkilön kesken. Siksi tutkielmassa suositellaan, että uloskirjauduttaessa MOOC-palvelun sessio päätetään ja käyttäjäagentti ohjataan identiteetintarjoajan uloskirjautumisrajapintaan. Lisäksi käyttäjän evästeeseen on suositeltavaa tallentaa aikaleima, jonka kuluttua MOOC-palvelun täytyy tarkistaa käyttäjän session voimassaolo identiteetintarjoajalta. Session voimassaolon tarkistaminen tapahtuu suorittamalla auktorisointikoodin OAuth-virtaus.
 
-  Käyttäjän uloskirjautuminen identiteetintarjoajalta ei kirjaa käyttäjää ulos MOOC-palvelusta. Kertauloskirjautuminen, \emph{single-log out}, on erittäin monimutkainen tutkimusongelma~\cite{shibboleth_wiki_slo}, kun identiteetinkuluttajia on useita. Vaikka MOOC-palvelu lopettaa sekä käyttäjän paikallisen session että identiteetintarjoajan session, muiden samaa identiteetintarjoajaa käyttävien identiteetinkuluttajien sessio on yhä voimassa, kunnes niiden pääsyoikeuspoletti tai muu varmenne vanhenee. Monimutkaisuutensa vuoksi kertauloskirjautuminen rajataan tämän tutkielman ulkopuolelle.
+  Käyttäjän uloskirjautuminen identiteetintarjoajalta ei kirjaa käyttäjää ulos MOOC-palvelusta. Kertauloskirjautuminen (\emph{single-log out}) on erittäin monimutkainen tutkimusongelma~\cite{shibboleth_wiki_slo}, kun identiteetinkuluttajia on useita. Vaikka MOOC-palvelu lopettaa sekä käyttäjän paikallisen session että identiteetintarjoajan session, muiden samaa identiteetintarjoajaa käyttävien identiteetinkuluttajien sessio on yhä voimassa, kunnes niiden pääsyoikeuspoletti tai muu varmenne vanhenee. Monimutkaisuutensa vuoksi kertauloskirjautuminen rajataan tämän tutkielman ulkopuolelle.
 
   % subsection kerta (end)
 
@@ -1553,6 +1553,8 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   %Tässä vastataan kaikkiin kriteereihin, jotka nostetaan esiin kakkos- ja kolmosluvussa.
   \subsection{Suunnitelman yhteenveto} % (fold)
   \label{sub:suunnitelman_arviointi}
+
+  Autentikointiratkaisun ulkoiset rajapinnat on esitetty kuvassa~\ref{fig:mooc_hy_idp}, ja valinnat on taustoitettu edeltävissä alaluvuissa. XXX TODO toinen virke vielä XXX
 
   \subsubsection{Ratkaisun suuret linjat} % (fold)
   \label{ssub:ratkaisun_suuret_linjat}
@@ -1569,9 +1571,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{MOOC-palvelun omat käyttäjätunnukset} \hfill % (fold)
   \label{par:mooc_palvelun_omat_käyttäjätunnukset}
 
-  Tutkielma suosittelee MOOC-palvelun omien käyttäjätunnusten säilyttämistä varauksin. Ratkaisu ei ulkoista käyttäjätietokantaan liittyviä ylläpitotyötä, vaan käyttäjähallinta tuottaa edelleen tehtävää MOOC-palvelun henkilöstölle. Oman MOOC-käyttäjätunnuksen tarjoaminen mahdollistaa kuitenkin sen, että käyttäjä voi rekisteröityä suoraan MOOC-palvelussa eikä Helsingin yliopiston ulkopuolisen opiskelijan ole välttämätöntä olla Googlen tai Facebookin asiakas.
+  Tutkielmassa suosittellaan MOOC-palvelun omien käyttäjätunnusten säilyttämistä varauksin. Ratkaisu ei ulkoista käyttäjätietokantaan liittyvää ylläpitotyötä, vaan käyttäjähallinta tuottaa edelleen tehtävää MOOC-palvelun henkilöstölle. Oman MOOC-käyttäjätunnuksen tarjoaminen mahdollistaa kuitenkin sen, että käyttäjä voi rekisteröityä suoraan MOOC-palvelussa eikä Helsingin yliopiston ulkopuolisen opiskelijan ole välttämätöntä olla Googlen tai Facebookin asiakas.
 
-  \underline{Suositellaan varauksin}: Nykyistä toteutusta ei tarvitse muuttaa, mutta ulkoistetun identiteetintarjoajan käyttämisestä on tehtävä käyttäjille riittävän houkuttelevaa.
+  \underline{Suositellaan varauksin}: MOOC-palvelun nykyistä toteutusta ei tarvitse muuttaa, mutta ulkoistetun identiteetintarjoajan käyttämisestä on tehtävä käyttäjille riittävän houkuttelevaa.
 
   % paragraph mooc_palvelun_omat_käyttäjätunnukset (end)
 
@@ -1579,9 +1581,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Vapaavalintainen identiteetintarjoaja} \hfill % (fold)
   \label{par:vapaavalintainen_identiteetintarjoaja}
 
-  Vaihtoehtona MOOC-palvelun omille käyttäjätunnuksille on vapaavalinainen OpenID-palveluntarjoaja. Tähän liittyy kuitenkin ongelmia tunnisteiden luotettavuuden suhteen, koska OpenID-etsintävaiheen ansiosta kuka tahansa voi ryhtyä identiteetintarjoajaksi. Etsintävaiheen kääntöpuolena on, että kaikki OpenID-palveluntarjoajat eivät ole riittävän luotettavia.
+  Vaihtoehtona MOOC-palvelun omille käyttäjätunnuksille on vapaavalintainen OpenID-palveluntarjoaja. Tähän liittyy kuitenkin ongelmia tunnisteiden luotettavuuden suhteen, koska OpenID-etsintävaiheen ansiosta kuka tahansa voi ryhtyä identiteetintarjoajaksi. Etsintävaiheen kääntöpuolena on, että kaikki OpenID-palveluntarjoajat eivät ole riittävän luotettavia.
 
-  Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle. Facebook ja Google sen sijaan varmistavat, että kerran myönnettyä autentikoinnissa käytettävää tunnistetta ei enää myöhemmin myönnetä kenellekään muulle. Julkiseen palveluun luotu identiteetti on silti henkliön itsensä laatima: Facebook tai Google eivät tarkista tietojen paikkaansapitävyyttä mitenkään.
+  Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle. Facebook ja Google sen sijaan varmistavat, että kerran myönnettyä autentikoinnissa käytettävää tunnistetta ei enää myöhemmin myönnetä kenellekään muulle. Julkiseen palveluun luotu identiteetti on silti henkliön itsensä laatima: Facebook tai Google eivät tarkista väitettyjen tietojen paikkaansapitävyyttä.
 
   \underline{Ei suositella}: OpenID 2.0 -identiteetintarjoajia ei juurikaan ole, ja OpenID Connect ei ole vielä valmis tuotantokäyttöön.
 
@@ -1602,9 +1604,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Uloskirjautuminen} \hfill % (fold)
   \label{par:uloskirjautumisesta}
 
-  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu poistamalla käyttäjäagenttiin talletettu eväste. Tällöin MOOC ohjaa sisäänkirjautumista pyytävän käyttäjän identiteetintarjoajan palveluun, ja käyttäjä autentikoituu identiteetintarjoajalle päästäkseen takaisin MOOC-palveluun.
+  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu poistamalla käyttäjäagenttiin talletettu eväste. Tämän jälkeen MOOC ohjaa käyttäjäagentin identiteetintarjoajan uloskirjautumisrajapintaan, jotta käyttäjän sessio päätetään myös identiteetintarjoajallaadsfasdfadsf XXX TODO TÄHÄN JÄIN XXX.
 
-  Session päättäminen yksistään MOOC-palvelussa ei kuitenkaan riitä. Jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
+  Session päättäminen yksistään MOOC-palvelussa ei riitä. Jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
 
   % paragraph uloskirjautumisesta (end)
 

@@ -1012,7 +1012,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
   \subsubsection{Miksei OAuth 2.0 riitä?} % (fold)
-  \label{ssub:virtaukset}
+  \label{ssub:miksei_oauth_riita}
 
   OpenID Connect määrittelee vakioidun tavan käyttäjän identiteettitietojen kysymiseksi. OAuth 2.0 edellyttää käyttäjätietojen resurssin tuntemista etukäteen, jolloin resurssin asiakkaan täytyy konfiguroida jokainen palveluntarjoaja erikseen. OpenID Connectin käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta protokolla mahdollistaa sen löytämisen dynaamisesti. OpenID Connect on määrittelyltään kehittyvässä vaiheessa, joten etsintävaiheen yksityiskohtia ei tässä esitellä tarkemmin.
 
@@ -1024,7 +1024,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Pääsyoikeuspoletti on vain ja ainoastaan epäsuora väittämä siitä, että sen kantaja on resurssin omistaja~\cite{bradley_oauth_authentication_problem_2012}. OAuth 2.0 -resurssin asiakas ei milloinkaan vastaanota suoraa väittämää käyttäjän identiteetistä, vaan sillä on hallussaan ainoastaan resurssin palvelimelle tarkoitettu pääsyoikeuspoletti. Pääsyoikeuspoletti ei sisällä mitään tietoa käyttäjän identiteetistä, vaan asiakas hyväksyy minkä tahansa identiteettitiedon, jonka se saa polettia vastaan noudettua identiteetin resurssista. Tämän vuoksi OAuth 2.0 ei ole autentikointistandardi, vaan OAuth ainoastaan simuloi autentikointiprosessia. OpenID Connect on puolestaan standardi nimenomaan autentikoinnin tarpeisiin.
 
-  % subsection virtaukset (end)
+  % subsection ssub:miksei_oauth_riita (end)
 
   \subsubsection{Identiteettipoletti} % (fold)
   \label{ssub:identiteettipoletti}
@@ -1700,7 +1700,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % paragraph pääsyoikeuksien_myöntäminen_ulkopuoliselle_palvelulle (end)
 
-  \paragraph{Helsingin yliopiston identiteettipalvelu (todo)} % (fold)
+  \paragraph{Helsingin yliopiston identiteettipalvelu (todo)} \hfill % (fold)
   \label{par:helsingin_yliopiston_identiteettipalvelu}
 
   Helsingin yliopiston ei tarvitse perustaa identiteetintarjoajaa omatoimisesti. Identiteettipalvelu voidaan ulkoistaa Googlelle, viite: \url{http://code.google.com/apis/apps/articles/shibboleth2.0.html}
@@ -1721,30 +1721,27 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
 \newpage
-\section{Yhteenveto (todo)} % (fold)
+\section{Yhteenveto} % (fold)
 \label{sec:yhteenveto}
 
-  Jo osittaisella autentikoinnin ulkoistamisella MOOC-palvelun henkilöstöltä säästyy ylläpito- ja kehitystyötä ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Toisin sanoen MOOC-projektille myönnettyä apurahaa on mahdollista kohdistaa enemmän opetuksen kehittämiseen kuin ohjelmistojen ylläpitoon.
+  MOOC-suoritusten käyttäminen opinto-oikeuksien myöntämiseen edellyttää, että identiteetintarjoajaan voidaan luottaa. Tunnettujen palveluntarjoajajien, kuten Facebookin, Googlen tai Helsingin yliopiston, intresseissä on varmistaa autentikoinnin luotettavuus ja tarjota turvatoimia väärinkäytösyrityksiä vastaan. Siksi niiden myöntämä käyttäjäidentiteetti on lähtökohtaisesti vain henkilön itsensä hallinnassa, vaikka mikään ei estäkään käyttäjää itse jakamasta omaa salasanaansa ulkopuolisille joko tarkoituksellisesti tai huolimattomuuttaan.
 
-  MOOC-suoritusten käyttäminen opinto-oikeuksien myöntämiseen edellyttää, että identiteetintarjoajaan voidaan luottaa. Tästä syystä tutkielmassa suositellaan vain esivalittujen identiteetintarjoajien käyttämistä. Suurten palveluntarjoajajien, kuten Facebook ja Google, intresseissä on varmistaa autentikoinnin luotettavuus ja tarjota turvatoimia väärinkäytösyrityksiä vastaan. Siksi niiden myöntämä käyttäjäidentiteetti on lähtökohtaisesti paljon varmemmin vain tietyn henkilön hallinnassa kuin käytettäessä käyttäjän itsensä valitsemaa identiteetintarjoajaa. Tämäkään ei tosin estä sitä, että käyttäjä omatoimisesti jakaa Helsingin yliopiston, Facebookin tai Googlen käyttäjätunnuksen salasanansa kolmannelle osapuolelle.
+  Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Siksi on todennäköistä, että jokin tietoturvareikä jää ennemmin havaitsematta ja korjaamatta MOOC-palvelussa kuin esimerkiksi Googlessa. Jotta MOOC-palvelu voi luottaa identiteetintarjoajaan, tutkielmassa suositellaan vain esivalittujen identiteetintarjoajien käyttämistä.
 
-  Autentikoinnin osittainen ulkoistaminen identiteetintarjoajalle mahdollistaa MOOC-palvelun entistä suuremman käyttäjäkunnan vähemmällä ylläpidolla. Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä itse ei tahdo olla Facebook-palvelun asiakas. Jotkin henkilöt voivat kokea Facebookin tai Googlen kaltaiset palvelut uhkana, koska ne keräävät käyttäjistään -- tavallisista ihmisistä -- runsaasti henkilökohtaista tietoa. On väitetty, ettei edes KGB:llä tai CIA:lla ei ole koskaan aiemmin ollut yhtä paljon tietoa yhtä monesta keskivertokansalaisesta.
+  Autentikoinnin ulkoistamisella MOOC-palvelun henkilöstöltä säästyy ylläpito- ja kehitystyötä ydintoimintaan eli opetukseen ja kurssien kehittämiseen. Käyttäjämäärältään suuren identiteetintarjoajan soveltaminen mahdollistaa MOOC-palvelun entistä suuremman käyttäjäkunnan vähemmällä työmäärällä kuin jos käyttäjätietokantaa hallinnoitaisiin ja ylläpidettäisiin itse. Toisin sanoen MOOC-projektille myönnettyä apurahaa on mahdollista kohdistaa enemmän opetuksen kehittämiseen kuin ohjelmistojen ylläpitoon.
 
-  Haasteina ulkoisen identiteetintarjoajan käytössä ovat myös yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa ylioiston tietoja ei lain mukaan saa säilyttää kotimaan rajojen ulkopuolella, joskus tietoja saa säilyttää ainoastaan oman organisaation omistamassa verkkoympäristössä. MOOC-järjestelmän nykyinen palvelinlaitteisto on jo USA:ssa, joten ulkopuolisen identiteetintarjoajan käyttäminen ei vie mitään uutta tietoa Suomen rajojen ulkopuolelle.
+   Käyttäjän kannalta ei ole samantekevää, pääseekö web-palveluun kirjautumaan ainoastaan Facebook-tunnuksilla, jos käyttäjä ei itse tahdo olla Facebook-palvelun asiakas. Jotkin henkilöt voivat kokea Facebookin tai Googlen kaltaiset palvelut uhkana, koska ne keräävät käyttäjistään, tavallisista ihmisistä, runsaasti henkilökohtaista tietoa. On väitetty, ettei edes KGB:llä tai CIA:lla ei ole koskaan aiemmin ollut yhtä paljon tietoa yhtä monesta keskivertokansalaisesta kuin 2010-luvun sosoaalisen median yrityksillä.\footnote{
+   EU-direktiiveistä periytyvän lainsäädönnön mukaan Euroopassa toimiva palveluntarjoaja on velvollinen antamaan käyttäjänsä niin vaatiessa kaikki kyseisestä henkilöstä tallettamansa tiedot. Itävaltalainen Max Schrems visualisoi Facebookilta vastaanottamansa datan määrän tulostamalla omat Facebook-tietonsa 1200 paperiarkille: \url{http://www.identityblog.com/?p=1201}
+   }
 
-  Ylläpidollisena haasteena on kehittyvien standardien emergenttiys. Kun aloitin tutkielman kirjoittamisen tammikuussa 2012, Googlen tuki OAuth 2.0 :lle oli ``experimental''. Eräänä päivänä maininta hävisi, vaikkei standardi ole vielä IETF:n hyväksymä. % 6.2.2012
-Toivottavasti tuleva OpenID Connect yleistyy ja FB+Google ottavat sen käyttöön.
+  Haasteina ulkoisen identiteetintarjoajan käytössä ovat muun muassa yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa organisaation tietoja ei lain tai organisaation omien säädösten mukaan saa säilyttää kotimaan rajojen ulkopuolella, ja joskus tietoja saa säilyttää ainoastaan organisaation itsensä hallinnoimassa verkkoympäristössä. MOOC-järjestelmän nykyinen palvelinlaitteisto on jo USA:ssa, joten ulkopuolisen identiteetintarjoajan käyttäminen ei vie mitään uutta tietoa Suomen rajojen ulkopuolelle.
 
-  % oauth ei sanatarkasti pääty autentikointiin vaan tarjoaa pääsyoikeuspoletin jolla 3:s osapuoli varmistuu käyttäjän identiteetistä. jos käyttäjä ei ole varuillaan, kolmannen osapuolen sovellus/palvelu saattaa kysyä ylimääräisiä käyttöoikeuksia (ja esim kieltäytya toimimasta jos niitä ei myönnetä). sen seurauksena käyttäjä saattaa myöntää kolmannelle osapuolelle laajat oikeudet esim facebook/google-tietoihinsa, vaikka kolmannelle osapuolelle riittäisi pelkkä autentikointi. käyttäjät ovat jo nyt huolimattomia salasanojen kanssa joten huolimattomuus on riski oauth-autentikoinnissakin - erityisesti koska kaikki munat samassa korissa. sitä koria pitää myös vahtia.
+  OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yleisin tapa ulkoistaa käyttäjäautentikointi internetissä. OAuth-standardi ei myöskään määrittele käsitettä ``identiteetti'', vaan sisäänkirjautuminen perustuu pääsyoikeuspoletin tarjoamaan valtuutukseen käyttäjän tietoihin. OpenID Connect korjaa tämän puutteen määrittelemällä autentikointikerroksen OAuth 2.0 -auktorisointikerroksen päälle.
 
-  % oauthissa ei ole standardissa käsitettä ``identiteetti'', vaan 3:s osapuoli saa käyttäjän tiedot joko parametrina pääsyoikeuspoletin myöntämisvaiheena tai erikseen rajapintakutsun kautta access tokenilla.
-  % molemmat, sekä openid että oauth, uudelleenohjaavat käyttäjän jonnekin muualle ja käyttäjä palaa sieltä varmistetun assertion/väitteen kanssa. OpenID tarjoaa identiteettiassertion/väitteen, kun taas oauth palauttaa pääsyoikeuspoletin jonka suomin valtuuksin kolmas osapuoli voi sen jälkeen kysyä oauth-tarjoajalta kysymyksiä. openid:ssä discovery, oauthissa joutuu kovakoodaamaan tuetut idp:t. discovery tosin myös yksi openid:n ongelmista koska käyttäjät eivät ymmärrä URI:a käyttäjätunnuksena.
+  Kuten luvussa~\ref{ssub:miksei_oauth_riita} esiteltiin, autentikoinnissa sovellettavan standardin on syytä ottaa kantaa identiteetin määrittämiseen. Googlen mahdollinen tuki OpenID Connect -standardille on toistaiseksi vain hienovarainen vihje OAuth 2.0 -dokumentaatiossa. Facebook ei ole kertonut julkisesti mitään, mutta Facebookin OAuth 2.0 -standardista poikkeava oma toteutus ei ole enää tarpeellinen, jos sen sijaan sovellettaisiin OpenID Connect -identiteettipolettia.
 
-
-
-
-  % TODO
-  %   Google, Facebook ja Helsingin yliopisto panostavat käyttäjiensä tietoturvaan merkittävästi enemmän työtunteja kuin MOOC-palvelun ylläpidon on mahdollista kohdistaa MOOC-palvelun turvaamiseen. Suurten yritysten liiketoiminta edellyttää käyttäjien luottamusta turvallisuuteen. MOOC-palvelun ylläpito ei pysty samaan, joten on todennäköisempää että jokin tietoturvareikä jää korjaamatta MOOC-palvelussa kuin Googlessa. Siksi XXYXYXYXXY
+  Kehittyvien standardien ylläpidollisena haasteena on vakiintumattomuus. Kun aloitin tutkielman kirjoittamisen tammikuussa 2012, Googlen OAuth 2.0 -dokumentaatio kertoi tuen sille olevan oli ``kokeellinen'' (\emph{experimental}). Eräänä päivänä maininta kokeellisuudesta oli kaikessa hiljaisuudessa poistettu, vaikkei itse standardi ollut vielä IETF:n hyväksymä. % 6.2.2012
+  Ennen kuin tutkielman kirjoittaja painaa maisterin sormuksen sormeensa Filosofisen tiedekunnan promootiossa vuonna 2014, merkittävä osa tämän tutkielman sisällöstä onkin jo vanhentunutta.
 
 
  %http://research.microsoft.com/en-us/um/people/mbj/papers/Identity_Metasystem_Design_Rationale.pdf?guid=on

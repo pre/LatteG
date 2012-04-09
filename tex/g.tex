@@ -1225,7 +1225,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OpenID:n visio yhdestä käyttäjätunnuksesta kaikkiin palveluihin edellyttää, että kaikki palvelut tukevat OpenID:tä ja että uuden OpenID-käyttäjätunnuksen rekisteröinti ei ole vaikeaa. Rekisteröitymiselle avoimia OpenID 2.0 -identiteetintarjoajia on kuitenkin niukasti tarjolla eikä uusia näytä syntyvän (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Vastaavasti harva palveluntarjoaja enää vuonna 2012 mahdollistaa sisäänkirjautumisen käyttäjän valitseman identiteetintarjoajan avulla. Jopa Facebook ilmoitti toukokuussa 2009, että Facebook-palveluun voi kirjautua vapaavalintaisella OpenID-tun\-nuksel\-la~\cite{facebook_openid_idp}, mutta myöhemmin Facebook pyörsi päätöksensä. Vuonna 2012 sisäänkirjautuminen Facebookiin ei ole enää mahdollista OpenID:n avulla.
 
-  Facebookin intresseissä on sen sijaan toimia identiteetintarjoajana eli mahdollistaa sisäänkirjautuminen Facebook-tunnuksella mahdollisimman moneen palveluun internetissä. Facebook tarjoaa toistaiseksi autentikointiin ainoastaan \mbox{OAuth 2.0 -raja}\-pinnan, joten Facebook on joutunut tekemään OAuth-standardista poikkeavan ratkaisun muun muassa implisiittisen virtauksen soveltamisessa autentikointiin (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Tästä johtuen on hyvin mahdollista, että Facebook alkaa toimia OpenID Connect -identiteetintarjoajana, kun sen standardi alkaa olla stabiloitunut. Google puolestaan ilmoittaa OAuth 2.0 -dokumentaatiossaan suoraan aikovansa tukea OpenID Connect -standardia~\cite{google_oauth2_doc}.
+  Facebookin intresseissä on sen sijaan toimia identiteetintarjoajana eli mahdollistaa sisäänkirjautuminen Facebook-tunnuksella mahdollisimman moneen palveluun internetissä. Facebook tarjoaa toistaiseksi autentikointiin ainoastaan \mbox{OAuth 2.0 -raja}\-pinnan, joten Facebook on joutunut tekemään OAuth-standardista poikkeavan ratkaisun muun muassa implisiittisen virtauksen soveltamisessa autentikointiin (ks. luku~\ref{ssub:uuden_autentikointitekniikan_lupaus}). Tästä johtuen on hyvin mahdollista, että Facebook alkaa toimia \mbox{OpenID} Connect -identiteetintarjoajana, kun sen standardi alkaa olla stabiloitunut. Google puolestaan ilmoittaa OAuth 2.0 -dokumentaatiossaan suoraan aikovansa tukea \mbox{OpenID} Connect -standardia~\cite{google_oauth2_doc}.
 
   % wontfix: viittaus ~\ref{tab:sso_soveltuvuudet} antaa numeron 4.5 ???
   Taulukossa~1 on esitelty internet-skaalan kertakirjautumisstandardien soveltuvuusalueet ja standardeja tukevat palvelut. SAML 2.0:n osalta on mielenkiintoista havaita, että Google voi toimia SAML-identiteetinkuluttajana~\cite{google_saml_doc} ja Helsingin yliopisto voi toimia SAML-identiteetintarjoajana. Helsingin yliopisto voisi siten toteuttaa kolmannen osapuolen sovellusten käytettävissä olevan identiteetintarjoapalvelun Googlen ylläpitämän SaaS-palvelun avulla.
@@ -1433,7 +1433,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OpenID Connectin määrittelemä identiteettipoletti vastaa edellisessä esimerkissä taloyhtiön isännöitsijän allekirjoittaman todistuksen esittämistä. Tällaisen asiakirjan hallussapito ei yksinään todista asunnon omistamista, mutta jos isännöitsijää pidetään luotettuna osapuolena, asiakirja on ulko-oven avaimia luotettavampi todiste omistajuudesta. Vastaavasti pääsyoikeuspoletin joutuminen ulkopuolisiin käsiin mahdollistaa pääsyoikeuden ulkopuoliselle taholle, mutta identiteettipolettia voi hyödyntää ainoastaan jaetun salaisuuden tunteva osapuoli. Sama päätee asuntovertaukseen: ulko-oven avaimien kadottaminen mahdollistaa ulkopuoliselle luvattoman pääsyn asuntoon, mutta toisen henkilön nimiin myönnetyllä isännöitsijän allekirjoittamalla todistuksella ei voi avata ulko-ovea eikä todistaa asunnon omistajuutta.
 
-  Facebookin ja Googlen nykyinen tapa soveltaa OAuth 2.0 -standardia auktorisointikerroksen lisäksi myös autentikointikerroksella on luultavasti väliaikainen ilmiö. Tutkielman pohdintojen perusteella on todennäköistä, että Facebook ja Google alkavat noudattaa OpenID Connect -standardia, kunhan standardi ensin stabiloituu.
+  Facebookin ja Googlen nykyinen tapa soveltaa OAuth 2.0 -standardia auktorisointikerroksen lisäksi myös autentikointikerroksella on luultavasti väliaikainen ilmiö. Tutkielman pohdintojen perusteella on todennäköistä, että Facebook ja Google alkavat noudattaa OpenID Connect -standardia, kunhan standardi ensin stabiloituu. Kun autentikointiratkaisu toteutetaan noudattaen OAuth-standardia, on erittäin tärkeää ymmärtää, ettei sen implisiittinen virtaus sovellu autentikointiin, vaan se avaa vakavan tietoturvahaavoittuvuuden~\cite{bradley_implicit_followup_2012, bradley_oauth_implicit_flow_vulnerability_2012}.
 
   % subsection laajennosvarana_openid_connect (end)
 
@@ -1563,7 +1563,8 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \subsection{Suunnitelman yhteenveto} % (fold)
   \label{sub:suunnitelman_arviointi}
 
-  Autentikointiratkaisun ulkoiset rajapinnat on esitetty kuvassa~\ref{fig:mooc_hy_idp}, ja valinnat on taustoitettu edeltävissä alaluvuissa. XXX TODO toinen virke vielä XXX
+  MOOC-palvelulle suositeltavat ulkoiset autentikointirajapinnat on esitetty kuvassa~\ref{fig:mooc_hy_idp}. Valinnat on taustoitettu edeltävissä alaluvuissa ja ohessa esitellään yhteenveto ratkaisusta.
+
 
   \subsubsection{Ratkaisun suuret linjat} % (fold)
   \label{ssub:ratkaisun_suuret_linjat}
@@ -1613,9 +1614,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Uloskirjautuminen} \hfill % (fold)
   \label{par:uloskirjautumisesta}
 
-  Uloskirjautuminen MOOC-palvelusta on syytä toteuttaa kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu poistamalla käyttäjäagenttiin talletettu eväste. Tämän jälkeen MOOC ohjaa käyttäjäagentin identiteetintarjoajan uloskirjautumisrajapintaan, jotta käyttäjän sessio päätetään myös identiteetintarjoajallaadsfasdfadsf XXX TODO TÄHÄN JÄIN XXX.
+  Uloskirjautuminen MOOC-palvelusta on toteutetaan kaksivaiheisesti. Uloskirjautuminen MOOC-palvelusta tapahtuu poistamalla käyttäjäagenttiin talletettu eväste. Tämän jälkeen MOOC ohjaa käyttäjäagentin identiteetintarjoajan uloskirjautumisrajapintaan, jotta myös sessio identiteetintarjoajan palveluun päättyy.
 
-  Session päättäminen yksistään MOOC-palvelussa ei riitä. Jos käyttäjän sessio on uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, sisäänkirjautuminen takaisin MOOC-palveluun onnistuu ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
+  Session päättäminen yksistään MOOC-palvelussa ei riitä. Jos käyttäjän sessio on MOOC-uloskirjautumisen jälkeen voimassa identiteetintarjoajan palvelussa, käyttäjä voi luoda uuden session MOOC-palveluun ilman salasanaa. Siksi on tärkeää, että kirjauduttaessa ulos MOOC-palvelusta sessio päätetään myös identiteetintarjoajan palvelussa.
 
   % paragraph uloskirjautumisesta (end)
 
@@ -1623,33 +1624,38 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \label{par:pakotettu_uudelleenautentikointi}
   % https://developers.facebook.com/docs/reauthentication/
 
-  MOOC-palvelun on syytä määritellä merkittävät muutokset, joiden kanssa on erityisen tärkeää, ettei käyttäjätunnusta väärinkäytetä. Tällaisia ovat esimerkiksi käyttöoikeuksien muokkaaminen tai muutokset käyttäjäprofiilin identiteettitietoihin. Ennen merkittävien muutosten hyväksymistä MOOC-palvelun tulee pyytää identiteetintarjoajalta käyttäjän autentikoimista uudelleen~\cite{facebook_oauth2_reauth, google_oauth2_webserver}. Tämä pienentää riskiä väärinkäytöksiin, jos käyttäjä on esimerkiksi unohtanut kirjautua ulos työasemalta, jolla on muitakin käyttäjiä.
+  MOOC-palvelun on syytä määritellä tilanteet, jolloin kanssa on erityisen tärkeää, ettei käyttäjätunnusta väärinkäytetä. Tällaisia ovat esimerkiksi käyttöoikeuksien muokkaaminen tai muutokset käyttäjäprofiilin identiteettitietoihin. Ennen merkittävien muutosten hyväksymistä MOOC-palvelun tulee pyytää identiteetintarjoajalta käyttäjän autentikoimista uudelleen~\cite{facebook_oauth2_reauth, google_oauth2_webserver}. Tämä pienentää riskiä väärinkäytöksiin, jos käyttäjä on esimerkiksi unohtanut kirjautua ulos työasemalta, jolla on muitakin käyttäjiä.
 
   % paragraph pakotettu_uudelleenautentikointi (end)
 
   \paragraph{Tunnisteiden tallettaminen} \hfill % (fold)
   \label{par:tietoturva}
 
-  Omien käyttäjätunnustensa osalta MOOC-palvelun tulee varastoida käyttäjien salasanat suolattuina tiivisteinä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia salasanoja.
+  Omien käyttäjätunnustensa osalta MOOC-palvelun tulee varastoida käyttäjien salasanat tiivisteinä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia salasanoja.
 
   % paragraph tunnisteet (end)
 
   \paragraph{Tietomurrosta toipuminen} \hfill % (fold)
   \label{par:tietomurrosta_toipuminen}
 
-  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja.
+  Jos MOOC-palvelu joutuu tietomurron kohteeksi, ulkoisen identiteetintarjoajan salasanat eivät päädy vääriin käsiin. Tietomurrosta toipumiseksi MOOC-palvelu täytyy kuitenkin vaihtaa identiteetintarjoajan kanssa jaettu salaisuus (\verb!client_secret!), koska sen perusteella myönnetään uusia pääsyoikeus- ja identiteettipoletteja. Myös talletetut pääsyoikeuspoletit on suositeltavaa vaihtaa, vaikka niitä ei voi hyödyntää ilman kelvollista jaettua salaisuutta.
 
-  Myös talletetut pääsyoikeuspoletit on suositeltavaa vaihtaa, koska ne toimivat avoimena valtakirjana implisiittistä virtausta käyttäviin muihin palveluihin. MOOC-palvelulle ne eivät muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta autentikointiin. Tässä tutkielmassa suositeltiin ainoastaan auktorisointikoodin virtaukseen perustuvaa autentikointia.
-
-  Evästeiden salakirjoittamiseen käytetty salakirjoitusavain on ensisijaisen tärkeää vaihtaa. Jos salakirjoitusavain on vuotanut ulkopuolisille, kolmannen osapuolen on mahdollista väärentää MOOC-palvelun evästeitä. Koska kaikkien käyttäjien sessionhallinta perustuu evästeiden käyttämiseen, kolmas osapuoli voi esiintyä kenen tahansa käyttäjän nimissä, kunnes evästeiden salakirjoitusavain on vaihdettu. Salakirjoitusavainta ei luonnollisesti pidä myöskään tallettaa versionhallintaan, jos versionhallinta on julkisesti luettavissa.
+  Evästeiden salakirjoittamiseen käytetty salakirjoitusavain on ensisijaisen tärkeää vaihtaa. Jos avain on vuotanut ulkopuolisille, kolmannen osapuolen on mahdollista väärentää MOOC-palvelun evästeitä. Koska kaikkien käyttäjien sessionhallinta perustuu evästeiden käyttämiseen, kolmas osapuoli voi esiintyä kenen tahansa käyttäjän nimissä, kunnes evästeiden salakirjoitusavain on vaihdettu. Salakirjoitusavainta ei luonnollisesti pidä myöskään tallettaa versionhallintaan, jos versionhallinta on julkisesti luettavissa.
 
   % paragraph tietomurrosta_toipuminen (end)
+
+  \paragraph{Implisiittisen OAuth-virtauksen ei sovellu autentikointiin} % (fold)
+  \label{par:implisiittisen_oauth_virtauksen_ei_sovellu_autentikointiin}
+
+  Pääsyoikeuspoletti toimii avoimena valtakirjana implisiittistä virtausta autentikoinnissaan käyttäviin muihin palveluihin (ks. luku~\ref{sub:laajennosvarana_openid_connect}). MOOC-palvelulle ne eivät muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta autentikointiin. Tässä tutkielmassa suositellaan ainoastaan auktorisointikoodin virtaukseen perustuvaa autentikointia.
+
+  % paragraph implisiittisen_oauth_virtauksen_ei_sovellu_autentikointiin (end)
 
 
   \paragraph{SDK-sovelluskehitysvälineistö} \hfill % (fold)
   \label{par:sdk_sovelluskehitysvälineistö}
 
-  Autentikoinnissa ulkoiselle identiteetintarjoajalle tulee soveltaa valmiita OAuth-ohjelmistokirjastoja sekä palveluntarjoajan omaa SDK-sovelluskehitysvälineistöä. Autentikointistandardin omatoiminen toteutus vie työaikaa ja turvallisuus vaarantuu pienestäkin implementointivirheestä. Esimerkiksi OAuthin implisiittistä virtausta ei sellaisenaan pidä soveltaa autentikointiin tietoturvaongelman vuoksi (ks. luku~\ref{ssub:oauth_virtaukset}). Facebook SDK kuitenkin toteuttaa virtauksen siten, ettei tietoturvaongelmaa synny.
+  Autentikoinnissa ulkoiselle identiteetintarjoajalle tulee soveltaa valmista OAuth-oh\-jelmisto\-kirjastoa sekä palveluntarjoajan omaa SDK-sovel\-lus\-kehitys\-välineistöä. Autentikointistandardin omatoiminen toteutus vie työaikaa ja turvallisuus vaarantuu pienestäkin implementointivirheestä. Esimerkiksi OAuthin implisiittistä virtausta ei sellaisenaan pidä soveltaa autentikointiin tietoturvaongelman vuoksi (ks. luku~\ref{ssub:oauth_virtaukset}). Facebook SDK toteuttaa virtauksen OAuth-standardista poikkeavalla tavalla siten, ettei tietoturvaongelmaa synny.
 
   % paragraph sdk_sovelluskehitysvälineistö (end)
 
@@ -1712,17 +1718,19 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Helsingin yliopiston identiteettipalvelu (todo)} \hfill % (fold)
   \label{par:helsingin_yliopiston_identiteettipalvelu}
 
-  Helsingin yliopiston ei tarvitse perustaa identiteetintarjoajaa omatoimisesti. Identiteettipalvelu voidaan ulkoistaa Googlelle, viite: \url{http://code.google.com/apis/apps/articles/shibboleth2.0.html}
+  Helsingin yliopiston ei tarvitse perustaa tai ylläpitää luvussa~\ref{sub:autentikointi_helsingin_yliopiston_id} esiteltyä identiteetintarjoajapalvelua itse. Palvelu voidaan ulkoistaa esimerkiksi Googlelle, jolloin Google tarjoaa kolmannen osapuolen sovelluksille ulkoisen autentikointirajapinnan (kuva~\ref{fig:google-hy-idp}). Ulkoinen autentikointirajapinta voi Googlen toteutuksessa olla OAuth tai OpenID, ja sisäinen rajapinta Helsingin yliopiston käyttäjärekisteriin kytketään SAML-standardiin pohjautuvalla ratkaisulla~\cite{google_saml_doc}.
 
-  Tällöin HY:n käyttäjärekisteriin SAML 2:lla ja Googleen OpenID/OAuthilla. Tällöin mikä tahansa Googlea tukeva autentikointipalvelu voi autentikoida loppukäyttäjän Helsingin ylioipston käyttäjätunnuksella.
+   Ratkaisu mahdollistaa Helsingin yliopiston käyttäjätunnuksen käyttämisen kaikissa niissä palveluissa, joihin voi kirjautua Google-käyttäjätunnuksella~\cite{google_shibboleth_doc}. Kolmannen osapuolen palvelu näkee ainoastaan Googlen autentikoitumisrajapinnan. Googlen identiteettipalvelu antaa käyttäjän valita, millä käyttäjätunnuksella hän haluaa kirjautua sisään palveluun.
 
-  Selitä SAML-kuva % http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/jatkokehitys-idp.jpg}
+    \caption{todo}
+    \label{fig:google-hy-idp}
+  \end{figure}
+
+
   % paragraph helsingin_yliopiston_identiteettipalvelu (end)
-
-  % Sovella hyvä selitys, myös resurssit: http://developers.soundcloud.com/docs/api/authentication
-
-  % Käyttökokemus: http://benward.me/blog/oauth-flow
-  % Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
 
   % subsection jatkokehitysideoita (end)
 

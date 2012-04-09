@@ -4,6 +4,10 @@ JAtka tästä:
 http://fireeagle.yahoo.net/developer/documentation/web_auth
 http://www.sociallipstick.com/?p=239
 
+% Käyttökokemus: http://benward.me/blog/oauth-flow
+% Best practices: http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
+
+
 Ks. summary, selitetään eri tekniikat parilla lauseella:
 https://sites.google.com/site/oauthgoog/Overlap
 

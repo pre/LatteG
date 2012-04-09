@@ -112,44 +112,52 @@ JÄÄ:
 \keywords{OpenID, OAuth, internet, autentikointi, auktorisointi, identiteetti, kertakirjautuminen}
 
 \begin{abstract}
-  \begin{singlespacing}
-  \begin{verbatim}
+    Tutkielmassa selvitetään, kuinka web-palvelun sisäänkirjautumisessa voidaan hyödyntää ulkoista identiteetintarjoajaa. Esimerkkinä käytetään Tietojenkäsitettytieteen laitoksen MOOC-kurssia, jonka web-palvelun tämänhetkisessä toteutuksessa ovat käytössä ainoastaan palvelun omat käyttäjätunnukset. Tutkielmassa esitellään yhteentoimivuuden standardeja, jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien määrittelemää arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
+
+    Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palveluntarjoajan avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Toiseksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla \mbox{Facebookin} tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+
+    Facebookin ja Googlen teknologiavalinnoista johtuen tutkielman painopisteenä ovat OAuth ja \mbox{OpenID} -standardit. OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yksi yleisimmistä keinoista ulkoistaa käyttäjäautentikointi internetissä. Tutkielmassa havaitaan, että yleistyneisyydestään huolimatta autentikoiminen yksin OAuthin avulla sisältää riskejä. Tutkielman lopuksi esitetään suositus MOOC-palvelun autentikointiratkaisun suurista linjoista, joihin lukeutuu myös tarve OpenID Connect -standardille OAuth-standardin lisäksi.
+
+
+  %   \begin{singlespacing}
+  %   \begin{verbatim}
+  %
+  %                                                       ___
+  %                                                    ,o88888
+  %                                                 ,o8888888'
+  %                           ,:o:o:oooo.        ,8O88Pd8888"
+  %                       ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
+  %                     ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
+  %                    , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
+  %                   , ..:.::o:ooOoOO8O888O8O,COCOO"
+  %                  , . ..:.::o:ooOoOOOO8OOOOCOCO"
+  %                   . ..:.::o:ooOoOoOO8O8OCCCC"o
+  %                      . ..:.::o:ooooOoCoCCC"o:o
+  %                      . ..:.::o:o:,cooooCo"oo:o:
+  %                   `   . . ..:.:cocoooo"'o:o:::'
+  %                   .`   . ..::ccccoc"'o:o:o:::'
+  %                  :.:.    ,c:cccc"':.:.:.:.:.'
+  %                ..:.:"'`::::c:"'..:.:.:.:.:.'
+  %              ...:.'.:.::::"'    . . . . .'
+  %             .. . ....:."' `   .  . . ''
+  %           . . . ...."'
+  %           .. . ."'
+  %          .
+  %
+  % \end{verbatim}
+  % \end{singlespacing}
 
 
 
 
 
-
-                                                        ___
-                                                     ,o88888
-                                                  ,o8888888'
-                            ,:o:o:oooo.        ,8O88Pd8888"
-                        ,.::.::o:ooooOoOoO. ,oO8O8Pd888'"
-                      ,.:.::o:ooOoOoOO8O8OOo.8OOPd8O8O"
-                     , ..:.::o:ooOoOOOO8OOOOo.FdO8O8"
-                    , ..:.::o:ooOoOO8O888O8O,COCOO"
-                   , . ..:.::o:ooOoOOOO8OOOOCOCO"
-                    . ..:.::o:ooOoOoOO8O8OCCCC"o
-                       . ..:.::o:ooooOoCoCCC"o:o
-                       . ..:.::o:o:,cooooCo"oo:o:
-                    `   . . ..:.:cocoooo"'o:o:::'
-                    .`   . ..::ccccoc"'o:o:o:::'
-                   :.:.    ,c:cccc"':.:.:.:.:.'
-                 ..:.:"'`::::c:"'..:.:.:.:.:.'
-               ...:.'.:.::::"'    . . . . .'
-              .. . ....:."' `   .  . . ''
-            . . . ...."'
-            .. . ."'
-           .
-
-  \end{verbatim}
-  \end{singlespacing}
-
-  ACM Computing Classification System (CCS):
-  \\C.2.4 [Distributed Systems]
-  \\D.2.12 [Interoperability]
-  \\K6.3. [Software Management: Software selection]
-  \\K.6.5 [Security and Protection: Authentication]
+\begin{verbatim}
+ACM Computing Classification System (CCS):
+C.2.4  [Distributed Systems]
+D.2.12 [Interoperability]
+K.6.3. [Software Management: Software selection]
+K.6.5  [Security and Protection: Authentication]
+\end{verbatim}
 
 \end{abstract}
 
@@ -1754,7 +1762,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Haasteina ulkoisen identiteetintarjoajan käytössä ovat muun muassa yksityisyys, turvallisuus ja lainsäädäntö. Joissain tapauksissa organisaation tietoja ei lain tai organisaation omien säädösten mukaan saa säilyttää kotimaan rajojen ulkopuolella, ja joskus tietoja saa säilyttää ainoastaan organisaation itsensä hallinnoimassa verkkoympäristössä. MOOC-järjestelmän nykyinen palvelinlaitteisto on jo USA:ssa, joten ulkopuolisen identiteetintarjoajan käyttäminen ei vie mitään uutta tietoa Suomen rajojen ulkopuolelle.
 
-  OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yleisin tapa ulkoistaa käyttäjäautentikointi internetissä. OAuth-standardi ei myöskään määrittele käsitettä ``identiteetti'', vaan sisäänkirjautuminen perustuu pääsyoikeuspoletin tarjoamaan valtuutukseen käyttäjän tietoihin. OpenID Connect korjaa tämän puutteen määrittelemällä autentikointikerroksen OAuth 2.0 -auktorisointikerroksen päälle.
+  OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yksi yleisimmistä keinoista ulkoistaa käyttäjäautentikointi internetissä. OAuth-standardi ei myöskään määrittele käsitettä ``identiteetti'', vaan sisäänkirjautuminen perustuu pääsyoikeuspoletin tarjoamaan valtuutukseen käyttäjän tietoihin. OpenID Connect korjaa tämän puutteen määrittelemällä autentikointikerroksen OAuth 2.0 -auktorisointikerroksen päälle.
 
   Kuten luvussa~\ref{ssub:miksei_oauth_riita} esiteltiin, autentikoinnissa sovellettavan standardin on syytä ottaa kantaa identiteetin määrittämiseen. Googlen mahdollinen tuki OpenID Connect -standardille on toistaiseksi vain hienovarainen vihje OAuth 2.0 -dokumentaatiossa. Facebook ei ole kertonut julkisesti mitään, mutta Facebookin OAuth 2.0 -standardista poikkeava oma toteutus ei ole enää tarpeellinen, jos sen sijaan sovellettaisiin OpenID Connect -identiteettipolettia.
 

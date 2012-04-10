@@ -221,10 +221,6 @@ Tutkielman hypoteesina on, että MOOC-palvelu tulee hyödyntämään Helsingin y
 
   Lopulta luvussa~\ref{sec:mooc_palvelun_autentikointiratkaisun_arkkitehtuuri} käydään identiteettitietojen jakamiseen soveltuvat standardit läpi MOOC-palvelun näkökulmasta. Luvussa esitelään, kuinka standardeja tulee soveltaa ja millaisia vaatimuksia ne asettavat MOOC-järjestelmälle. Sovellettava standardi määräytyy identiteetintarjoajan julkisen autentikointirajapinnan perusteella. Luvussa~\ref{sub:suunnitelman_arviointi} esitellään suositus siitä, kuinka valittuja identiteetintarjoajia hyödyntävä autentikointiratkaisu toteutettaisiin.
 
-  TODO: Siirrä vertaisarviointijuttu lähteisiin ja poista tämä kappale.
-  Tutkielman lähteinä käytetään runsaasti blogikirjoituksia ja sähköpostiviestejä. OAuth ja OpenID ovat kehittyviä avoimia standardeja eikä niistä ole juurikaan saatavilla tieteellistä aineistoa. OAuth- ja OpenID-standardien valmistelutyöhön osallistuvat henkilöt kirjoittavat aktiivisesti blogeihin ja standardityöryhmän sähköpostilistalle. Vaikka tieteellisten artikkelien vertaisarviointiprosessi on omaa luokkaansa, myös parhaat blogikirjoitukset ovat vertaisarvioinnin kohteena. Esimerkiksi OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on paras saatavilla oleva johdanto OpenID Connect -protokollaan, ja se käynyt läpi OpenID Connect -työryhmän sähköpostilistan hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
-
-
 
 % subsection tutkielman_rakenne (end)
 
@@ -610,7 +606,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Väitetyn identiteetin virtauksessa identiteetinkuluttaja etsii identiteetintarjoajan loppukäyttäjän syöttämän henkilökohtaisen OpenID-tunnisteen perusteella. Väitetyn identiteetin OpenID-käyttäjätunnus on yleensä muistettavissa oleva URL-osoite kuten esimerkiksi \url!https://myopenid.com/repo! tai \url{https://petrus.repo.fi}. Sen sijaan esimerkiksi Googlen myöntämä suunnatun identiteetin OpenID-tunniste on muotoa
   \url!https://www.google.com/accounts/o8/id?id=XXX!, jossa \verb!XXX! on yksilöivä satunnaismerkkijono. Googlen toteutuksessa edellä mainittu \verb!XXX!-tunnistemerkkijono luodaan identiteetinkuluttajan ensimmäisen autentikointitapahtuman yhteydessä, ja Google takaa, ettei kerran myönnettyä tunnistetta jaeta kenellekään myöhemmin uudelleen.
-  % TODO tsekkaa rivitys
 
 
   % subsubsection virtaukset (end)
@@ -813,7 +808,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     \label{fig:google_id_and_user_consent}
   \end{figure}
 
-
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
@@ -875,11 +869,24 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OpenID Connect määrittelee vakioidun tavan käyttäjän identiteettitietojen kysymiseksi. OAuth 2.0 edellyttää käyttäjätietojen resurssin tuntemista etukäteen, jolloin resurssin asiakkaan täytyy konfiguroida jokainen palveluntarjoaja erikseen. OpenID Connectin käyttäjätietojen päätepiste on tavanomainen OAuth 2.0 -resurssi, mutta protokolla mahdollistaa sen löytämisen dynaamisesti. OpenID Connect on määrittelyltään kehittyvässä vaiheessa, joten etsintävaiheen yksityiskohtia ei tässä esitellä tarkemmin.
 
-  OpenID Connect -autentikointikerros rakentuu suoraan OAuth 2.0 -auktorisointi\-kerroksen päälle, joten OpenID Connectin autentikointivaihe tapahtuu OAuth 2.0 -auktorisointi\-pyynnön yhteydessä. Kun asiakas asettaa pääsyoikeuspoletin hankkimisvaiheessa oikeuksien laajutta kuvaavan \verb!scope!-para\-metrin arvoksi \verb!openid!, \mbox{OpenID} Connect -stan\-dar\-dia tukeva auktorisointipalvelin käynnistää \mbox{OpenID Connect} -au\-ten\-ti\-kointi\-vaiheen~\cite{sakimura_openid_c_nutshell_2012}.
+  OpenID Connect -autentikointikerros rakentuu suoraan OAuth 2.0 -auktorisointi\-kerroksen päälle, joten OpenID Connectin autentikointivaihe tapahtuu OAuth 2.0 -auktorisointi\-pyynnön yhteydessä. Kun asiakas asettaa pääsyoikeuspoletin hankkimisvaiheessa oikeuksien laajutta kuvaavan \verb!scope!-para\-metrin arvoksi \verb!openid!, \mbox{OpenID} Connect -stan\-dar\-dia tukeva auktorisointipalvelin käynnistää \mbox{OpenID Connect} -au\-ten\-ti\-kointi\-vaiheen~\cite{sakimura_openid_c_nutshell_2012}\footnote{
+  OpenID Foundation -säätiön puheenjohtajan Nat Sakimuran blogikirjoitus ``OpenID Connect in a Nutshell''~\cite{sakimura_openid_c_nutshell_2012} on käynyt läpi OpenID Connect -työryhmän  hedelmällisen vertaisarvioinnin~\cite{openid_c_nutshell_peer_review_1_2012, openid_c_nutshell_peer_review_2_2012}.
+  }.
 
   Auktorisointipalvelin palauttaa kuvassa~\ref{fig:oauth_abstract_flow} esitetyn abstraktin OAuth-virtauksen vaiheessa \verb!(D)! pääsyoikeuspoletin lisäksi \emph{identiteettipoletin} (\verb!id_token!)~\cite{bradley_openid_c_id_token_2012}. Identiteettipoletti antaa asiakkaalle valtuutuksen ainoastaan käyttäjän identiteettiin liittyviin tietoihin, mikä mahdollistaa autentikoinnin ja auktorisoinnin löyhän kytkennän. OAuth 2.0 -standardi ei puolestaan määrittele autentikointia lainkaan, vaan pääsyoikeuspoletti toimii valtakirjana mihin tahansa resurssiin, johon se on auktorisointivaiheessa valtuutettu.
 
-  OAuth 2.0 -auktorisointipalvelin ei missään vaiheessa kerro resurssin asiakkaalle loppukäyttäjän identiteettiä. Resurssin asiakas \emph{luottaa} käyttäjän autentikoinnin onnistuneen, koska auktorisointipalvelin myönsi pääsyoikeuspoletin. Pääsyoikeuspoletti tarjoaa ainoastaan delegoidun pääsyoikeuden käyttäjäidentiteetin resurssiin. Siten asiakas saa tietoonsa käyttäjän identiteetin vasta sen jälkeen, kun se vastaanottaa identiteettiresurssin palvelimelta pääsyoikeuspoletin valtuuttamat käyttäjätiedot (kuva~\ref{fig:oauth_abstract_flow}, vaihe \verb!(F)!).
+  OAuth 2.0 -auktorisointipalvelin ei missään vaiheessa kerro resurssin asiakkaalle loppukäyttäjän identiteettiä. Resurssin asiakas \emph{luottaa} käyttäjän autentikoinnin onnistuneen, koska auktorisointipalvelin myönsi pääsyoikeuspoletin. Pääsyoikeuspoletti tarjoaa siten ainoastaan delegoidun pääsyoikeuden käyttäjäidentiteetin resurssiin. Toisin sanoen asiakas saa käyttäjän identiteetin tietoonsa vasta sen jälkeen, kun se vastaanottaa käyttäjäresurssin palvelimelta pääsyoikeuspoletin valtuuttamat käyttäjätiedot (kuva~\ref{fig:oauth_abstract_flow}, vaihe \verb!(F)!).
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/oauth_implisiittinen_porblem.jpg}
+    \caption[Autentikoituminen OAuth-standardilla]{Autentikoituminen OAuth-standardilla pääsyoikeuspoletin neuvottelemisen jälkeen. Pääsyoikeuspoletti ei sisällä väittämää käyttäjän identiteetistä, joten asiakas tuntee käyttäjän identiteetin vain sen perusteella, mitä käyttäjäresurssi palauttaa pääsyoikeuspoletin valtuutusta vastaan.}
+    \label{fig:oauth_implicit_problem}
+  \end{figure}
+
+  Kuvassa~\ref{fig:oauth_implicit_problem} on visualisoitu OAuth-autentikaatio sen jälkeen, kun asiakas on neuvotellut pääsyoikeuspoletin. Kuvassa on kolme asiakasta: \verb!I!, \verb!II! ja \verb!III!. Asiakkaalla \verb!I! on hallussaan käyttäjän \verb!1! tietoihin valtuutettu pääsyoikeuspoletti. Kun asiakas \verb!I! lähettää poletin käyttäjätietojen resurssiin vaiheessa \verb!(A)!, asiakas \verb!I! vastaanottaa käyttäjän \verb!1! tiedot. Tämän perusteella asiakas päättelee, että autentikoinnin kohteena oli käyttäjä \verb!1!. Samoin toimii asiakas \verb!II!, joka vastaanottaa pääsyoikeuspolettia \verb!2! vastaan tiedot käyttäjästä \verb!2!.
+
+  Kuvassa asiakas \verb!III! sen sijaan lähettää käyttäjäresurssiin asiakkaalle \verb!I! kuuluvan pääsyoikeuspoletin. OAuth-standardin auktorisointikoodin virtauksessa asiakkaana toimii web-palvelu, mutta implisiittisessä virtauksessa asiakas on käyttäjäagentti. Näiden kahden asiakastyypin erona on, että käyttäjäagenttiin ei voida luottaa. Web-palvelulla ei ole motivaatiota lähettää pääsyoikeuspolettia toisen käyttäjän nimissä, koska web-palvelu luo käyttäjäsession itseään varten eli palvelu huijaisi vain itseään. Sen sijaan käyttäjäagentti on loppukäyttäjän hallinnassa. Jos asiakas \verb!III! tuntee asiakkaalle \verb!I! kuuluvan pääsyoikeuspoletin \verb!1! ja lähettää sen käyttäjäresurssiin vaiheessa \verb!(E)!, käyttäjäagentti pystyy autentikoitumaan toisen loppukäyttäjän nimissä~\cite{bradley_oauth_implicit_flow_vulnerability_2012}. Tämä ongelma koskee implisiittisen virtauksen soveltamista käyttäjän autentikointiin.
 
   Pääsyoikeuspoletti on vain ja ainoastaan epäsuora väittämä siitä, että sen kantaja on resurssin omistaja~\cite{bradley_oauth_authentication_problem_2012}. OAuth 2.0 -resurssin asiakas ei milloinkaan vastaanota suoraa väittämää käyttäjän identiteetistä, vaan sillä on hallussaan ainoastaan resurssin palvelimelle tarkoitettu pääsyoikeuspoletti. Pääsyoikeuspoletti ei sisällä mitään tietoa käyttäjän identiteetistä, vaan asiakas hyväksyy minkä tahansa identiteettitiedon, jonka se saa polettia vastaan noudettua identiteetin resurssista. Tämän vuoksi OAuth 2.0 ei ole autentikointistandardi, vaan OAuth ainoastaan simuloi autentikointiprosessia. OpenID Connect on puolestaan standardi nimenomaan autentikoinnin tarpeisiin.
 

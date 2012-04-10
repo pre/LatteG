@@ -1,0 +1,290 @@
+% Webin ytimessä on HTTP-protokolla. Vain merkittyksettömän pieni osa webin liikenteestä tapahtuu jollain muulla tiedonsiirtomenetelmällä (todo poista tai täsmennä, esim eri asia torrentit ja web). Toistaiseksi web-selaimet ovat yleisin käyttäjäagentti. Mobiilin internetin yleistyminen saattaa muuttaa tilannetta, jos tulevaisuudessa suurin osa mobiilista internetkäytöstä tapahtuu natiiveilla mobiilisovelluksilla eikä mobiiliselaimella. Morgan \& Stanley ennustaa, että vuoteen 2014 mennessä internetiä käytetään enemmän mobiilipäätelaitteilla kuin perinteisillä työasemilla (viite \verb!http://www.morganstanley.com/institutional/techresearch/pdfs/Internet_Trends_041210.pdf!). Tämä korostaa tarvetta \emph{rajapinnoille} (\emph{Application Programming Interface, API}), joiden kautta palveluntuottajan tietoihin päästään käsiksi.
+
+
+
+
+
+% \subsection{Internet-resurssien tunnisteet} % (fold)
+% \label{sub:käsitteet_uri_url_ja_urn}
+%
+% \verb!URI! (Universal Resource Identifier) on tapa yksilöidä sisältöä internetissä. Sisältö voi olla mitä tahansa: yleisinä esimerkkeinä ovat HTML-sivu, kuvatiedosto tai videostream. Käsitteet \verb!URL! (\emph{Universal Resource Locator}) ja \verb!URN! (\emph{Universal Resource Name}) ovat \verb!URI!:n osajoukkoja (kuva~\ref{fig:uri_url_urn}). Käsitteitä URI ja URL käytetään usein hämmentävästi ristiin~\cite{w3c_uri_clarifications} ja URN ei ole monestikaan webissä relevantti. HTTP-kontekstissa URI tarkoittaa ainoastaan muotoiltua merkkijonoa, joka yksilöi resurssin sen nimen, sijainnin tai muun ominaispiirteen perusteella~\cite{ietf_rfc_http1.1}. Lisäksi on olemassa myös muita URI-tyyppejä kuten \verb!XRI!, joten jokainen webissä esiintyvä URI ei ole URL.
+%
+% \verb!URL! on sisällön tietyssä sijainnissa yksilöivä tunniste. Sisältö sijaitsee resurssissa, ja URL on abstrakti tapa resurssin sijainnin määrittämisen~\cite{ietf_rfc_urls}.
+%
+% % TODO
+% %
+% %Tämän tutkielman URL voisi olla esimerkiksi \url{http://www.cs.helsinki.fi/u/repo/gradu/g.pdf}, jossa \verb!http! on skeema, \url{www.cs.helsinki.fi} verkkotunnus ja \url{u/repo/gradu/g.pdf} on url-polku. URL:n yleinen koostumus on~\cite{ietf_rfc_urls}:
+% %\\ \verb!skeema://käyttäjätunnus:salasana@verkkotunnus:portti/url-polku!
+% %
+% % Tämän tutkielman kannalta oleelliset skeemat ovat \verb!http! ja \verb!https!, joiden puitteissa URL:n käyttäjätunnus, salasana ja portti voidaan jättää URL:sta pois. Portti on http-skeemassa oletusarvoisesti 80~\cite{ietf_rfc_urls} ja https-skeemassa 443~\cite{ietf_rfc_http_tls}. URL:n loppuosa -- url-polku -- koostuu http(s)-skeeman yhteydessä kauttaviivoin (''/'') erotelluista merkkijonoista, jotka yksilöivät URL:n kuvaaman resurssin verkkotunnuksen asiayhteydessä. Ensimmäinen kauttaviiva verkkotunnuksen (tai portin) jälkeen ei kuulu url-polkuun~\cite{ietf_rfc_urls}. URL-käyttäjätunnuksesta lisää luvussa \emph{HTTP Basic Auth} (todo viite).
+%
+%
+% \verb!URN! on sisällön yksilöivä nimitunniste. URN on tarkoitettu pysyväksi ja sijainninsta riippumattomaksi resurssin tunnisteeksi, jonka tulee olla ''globaalisti ja pysyvästi uniikki riippumatta sitä kuvaavan resurssin olemassaolosta''~\cite{ietf_rfc_uri_syntax}. URN koostuu nimiavaruudesta sekä nimiavaruudessa yksikäsitteisestä merkkijonosta eli nimitunnisteesta: \verb!urn:nimiavaruus:nimitunniste!~\cite{ietf_rfc_urn_syntax}. Esimerkiksi kirjoja yksilöivä ISBN-tunniste voidaan määritellä URN:n avulla. Tällöin ISBN-numero 0-123-45678-9 olisi URN-muodossa \verb!urn:isbn:0-123-45678-9!~\cite{w3c_uri_clarifications}. Web-kontekstissa kuitenkin käsitteet URL ja URI ovat vakiintuneet käytössä eikä käsitettä URN kohtaa web-kehittäjälle relevanteissa asiayhteyksissä (todo miksi siitä sitten pitäisi kertoa gradussa).
+%
+% % todo
+% Koska URN on sijannista riippumaton uniikki tunniste, URN voisi olla yksilöllinen identiteetin tunnus. Esitellään XRI, joka on myös yhden tyyppinen URI. XRI: OpenID:n yksilölllinen identiteetin tunnus. Vieläkö XRI on hengissä? Ei koskaan yleistynyt, koska liian vapaa. Sen jyräsivät yli kirjautuminen Facebook-tunnuksilla ja Googlen logolla. XRI-tunnuksia hallinnoi keskitetty organisaatio: ei voi toimia pitkällä aikavälillä, vaan pitäisi olla hajautettu kuten dns. XRI on URN-skeema (http://nat.sakimura.org/2006/10/23/identity-20-and-mydentity/) jota hallinnoi xdi.org
+% XRI epäonnistui, kukaan ei käytä sitä. epäselkeä, mikä ihmeen =repo??
+% -----> acct-skeema, jonka avulla sähköpostiosoite on tunnus: acct:petrus.repo@iki.fi
+%
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.6\textwidth]{images/uri_url_urn.jpg}
+%   \caption{Käsitteet URI, URL ja URN (todo tähän xri ja parempi kuvasteksti)}
+%   \label{fig:uri_url_urn}
+% \end{figure}
+%
+% % subsection käsitteet_uri_url_ja_urn (end)
+
+
+% TODO / POIS:
+%
+% \subsection{Arkkitehtuurityyli: WS-* ja SOAP} % (fold)
+% \label{sub:arkkitehtuurityyli_ws_}
+%   Web Services (WS-*) on Microsoftin (alkujaan määrittelemä?) kokoelma arkkitehtuurityylejä (todo viite), joiden perusteella voidaan suunnitella web-palvelun arkkitehtuurin eri näkökulmat.
+%
+%   SOAP ja XML.
+% % subsection arkkitehtuurityyli_ws_ (end)
+
+
+% TODO / POIS:
+%
+% \subsection{Arkkitehtuurityyli: REST} % (fold)
+% \label{sub:arkkitehtuurityyli_rest}
+%
+% Määrittele resurssi (http rfc, fielding-väitöskirja)
+%
+% URL määrittää resurssin käyttötavan eli skeeman (\emph{scheme}), ja HTTP-protokollan verbi (GET, POST, UPDATE, DELETE) määrittää operaation tyypin.
+%
+% Sessiopohjainen autentikointi ja restful api. Clientin täytyy pitää yllä tilaa (vs. http basic auth).
+% Auktorisointi ja käyttäjän luvan kysyminen: tilan ylläpito välttämätöntä. Kehittäjäresistenssi ''http basic auth helpompi toteuttaa''.
+
+
+
+% subsection arkkitehtuurityyli_rest (end)
+
+
+
+% \subsection{Rajapinnan pääsyoikeuksien varmistaminen} % (fold)
+% \label{sub:rajapintakutsun_pääsyoikeudet}
+%
+% Auktorisointi ei ole tutkielman fokuksessa. Kerrotaan siitä minimiminimi.
+%
+% Erilaisia API-autentikointitapoja on lähes yhtä paljon kuin erilaisia API-toteutuksia. Jokainen oma autentikointitapa vaatii oman autentikointitoteutuksen. Sitä vastoin http basicille, oauthille, samlille ym on jo runsas valmis kirjastotuki.  Älä kehitä omaa autentikointitapaa.
+%
+% api-keyt non-sensitive datalle. vrt älä laita session identifier urliin (security). Google maps esimerkki api-keystä: käyttäjien klikkauksia voidaan seurata ja palvelulla voi olla oma käyttömääräkiintiö karttoihin, mutta api-keyllä haettu karttadata ei ole salaista. Eri asia palvelin-palvelin yhteyksissä, joissa api-key ei näy käyttäjälle.
+%
+% restapi security vs soap-api ja WS-Security
+%
+% % subsection rajapintakutsun_pääsyoikeudet (end)
+
+% \subsection{Kommunikaatiotavat: front-channel ja back-channel} % (fold)
+% \label{sub:kommunikaatiotavat_front_channel_ja_back_channel}
+%
+% Front Channel yksinkertainen toteutus kun HTTP-binding. Tällöin ainoastaan user-agent on viestinvälittäjä, mikä mahdollistaa yksinkertaisen protocol flown.
+%
+% Korkeampaa turvallisuustasoa tai tiukempaa yksityisyyttä tavoiteltaessa kokonaisen viestin sijasta user-agent voi välittää pelkän \emph{viitteen} tietoon. Tällöin user-agentin viitteeseen liitetty varsinainen tieto (esim. SAML-assertio, artifakti) välitetään palvelin-palvelin-yhteydellä back-channelin kautta kyseisen user-agentin antaman viitteen perustella.
+%
+% SAML ja back-channel määritellään SOAP-viestinvälityksenä (SAML over SOAP over HTTP).
+% (viite %http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+%
+% % subsection kommunikaatiotavat_front_channel_ja_back_channel (end)
+
+
+% \subsection{HTTP-yhteyden suojaaminen ja sertifikaatit webissä (todo)} % (fold)
+% \label{sub:sertifikaatit_webissä}
+% todo tähän intro mihin näita käytetään.
+% HTTP-yhteyden suojaus SSL/TLS-tekniikalla, HTTPS: epäsymmetriset avaimet
+% % Client-sertifikaatit. Ei vielä yleistynyt. Silti sama cert monessa eri palvelussa. Revoke hankalaa. OpenID+cert olis hyvä.
+% Kun epäsymmetriset avaimet + sertifikaatit + CA: julkisen avaimen infrastruktuuri.
+% Julkisen avaimen infrastruktuurin mukaiset sertifikaatit ovat yleinen tapa autentikoida palveluntarjoaja webissä~\cite{id_in_federation_systems_2005}.
+%
+%
+%
+% todo
+% Julkisen avaimen infrastruktuuri on laajasti käytössä palvelinpuolella, mutta salasanaan verrattuna se on monimutkainen loppukäyttäjille. Monimutkaisuutensa vuoksi sertifikaatteja käytetään monin virheellisin tavoin myös palveluntarjoajan päässä~\cite{eff_ssliverse}. Koko PKI perustuu luotettuun kolmanteen osapuoleen eli CA:han. Jos luottamusta CA:han väärinkäytetään (ks diginotar-tietomurto), koko sertifikaatteihin perustuva luottamusketju rikkoutuu. PKI on siten haavoittuvainen luottamusaseman väärinkäytölle, joka voi tapahtua esimerkiksi valtion painostuksesta tai rikollisista syistä.
+%
+%  PKI:lla voidaan autentikoida myös loppukäyttäjä. Tällöin 2-suuntainen tls. Sertifikaatit eivät ole yleistyneet loppukäyttäjän autentikointitapana, vaikka kaksisuuntainen TLS-suojaus mahdollistaisi sertifikaatin käyttämisen varmenteena HTTPS-yhteyden molemmissa päätepisteissä~\cite{henry_story_foaf_ssl, webid_home}. Salasanat vallitseva käytäntö.
+%
+% todo
+%
+% % DigiNotar CA:n tietomurto: luotiin Googlelle feikkisertifikaatti jota käytettiin mitm-hyökkäyksiin Iranissa. http://en.wikipedia.org/wiki/DigiNotar#cite_note-googleonlinesecurity-10
+% % http://googleonlinesecurity.blogspot.com/2011/08/update-on-attempted-man-in-middle.html
+% % http://news.cnet.com/8301-27080_3-20098894-245/fraudulent-google-certificate-points-to-internet-attack/
+% % "The list of certificate issuers has ballooned over the years to approximately 650 organizations, which may not always follow the strictest security procedures. And each one has a copy of the Web's master keys"
+%   % Certificate Authorities are nothing but a money-making scam. They provide us with no protection whatsoever.
+%   %  http://www.links.org/?p=1196
+%
+%   % selainvalmistajilla valtava vastuu sertifikaattien varmistamisessa
+%   % http://news.cnet.com/8301-31921_3-20047729-281.html?tag=mncol;txt
+%
+% % subsection sertifikaatit_webissä (end)
+
+
+% Sisältökontekstissa voi kuitenkin olla käyttäjän kannalta hyödyllistä ilmoittaa, jos sisäänkirjautumisyhteys \emph{ei ole} turvallinen (kuva~\ref{fig:trust_context_html_unsecure}): tällöin käyttäjä voi halutessaan olla syöttämättä salasanaansa esimerkiksi kahvilan avoimessa WLAN-verkossa.
+
+% todo lopullinen tuomio: poistetaanko kuva
+%
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{images/trust_context_html_unsecure.png}
+%   \caption{Turvattomuusilmoitus sisältökontekstissa}
+%   \label{fig:trust_context_html_unsecure}
+% \end{figure}
+
+
+% Applikaatiokonteksti on relevantti erityisesti mobiilikäyttöjärjestelmissä, joissa yleistyneet sosiaalisen median toiminnot luovat tarpeen luotettavalle tavalle autentikoitua. Mobiilikäyttöjärjestelmistä esimerkiksi Android ei rajoita sovellusten asentamista, eikä myöskään Android Marketista asennettujen ohjelmistojen turvallisuudesta ole takeita (todo etsi viite tietomurtojuttuun). Siksi käyttäjän salasanan kirjoittaminen on syytä tehdä varmasti luotettavassa applikaatiossa kuten mobiilijärjestelmän omassa web-selaimessa tai kohteena olevan palvelun virallisessa applikaatiossa.
+
+
+
+% todo lopullinen tuomio: poistetaanko kuva
+%
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_fb.png}
+%   \caption{Käyttöoikeuspyyntö mobiilikontekstissa. Käyttäjä on autentikoitunut Facebook-applikaation kontekstissa jo aiemmin, joten sisäänkirjautuminen on käytettävissä kolmannen osapuolen sovellukselle ilman salasanan syöttämistä.}
+%   \label{fig:trust_context_mobile_fb}
+% \end{figure}
+
+
+% todo lopullinen tuomio: poistetaanko kuva
+%
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{images/trust_context_mobile_unknown_secure.png}
+%   \caption{Autentikointi mobiilissa selainkontekstissa. Selaimen yläpalkissa ei ole turvallista yhteyttä esittävää lukon kuvaa, joten käyttäjä ei voi varmistua näytetyn sivuston autenttisuudesta.}
+%   \label{fig:trust_context_mobile_unknown_secure}
+% \end{figure}
+
+% "Salasanaa ei saa kysyä mobiiliapplikaation sisällä:" http://fireeagle.yahoo.net/developer/documentation/oauth_best_practice
+
+% Jos käyttäjä valmiiksi sisäänkirjautunut OAuth-palveluun (esim. Facebook), sisältöcontextissa voidaan näyttää authorization overlay (todo selitä termi, vrt popup ja piirrä kuva), jossa käyttäjä joko sallii tai kieltää tietojensa jakamisen. Overlay-sivu tarjoillaan suoraan Facebookista, jolloin facebookin cookie on valmiiksi käytettävissä jolloin facebookin ei tarvitse kysyä salasanaa. Pahantahtoinen applikaatio ei saavuta mitään tämän sivun spooffaamamisella.
+%
+% Tilanne on eri, jos OAuth-sisäänkirjautumista ei ole vielä tapahtunut, jolloin käyttäjän täytyy syöttää salasanansa. Tällöin salasanaa ei voida kysyä app trust -kontekstissa, koska mikä tahansa palvelu pystyy tekemään facebook-loginsivun näköisen sivun. Myöskään mikään selaimen anti-phishing toiminto ei laukea, koska kaikki tapahtuu luvallisesti applikaation omassa trust kontekstissa. Delegoidun autentikoinnin perusperiaatteena on päästä eroon salasanan syöttämisestä kolmannen osapuolen sivustolle, mutta OAuth-salasanan kysyminen app trust kontekstissa antaa käyttäjälle mielikuvan, että salasana syötetään kolmannen osapuolen palveluun. Ideologian mukainen tapa on avata sisäänkirjautuminen selainkontekstissa, jolloin selaimen phishing-turvallisuusominaisuudet estävät käyttäjän syöttämien tietojen kaappaamisen kolmannen osapuolen palveluun ja (tärkeintä) käyttäjä näkee siirtymän toiseen palveluun (osoiterivillä facebook.com). (todo: selitä ylempänä mikä on DOM ja että miksi OAuth autentikointi pitää tehdä eri DOMissa kuin missä 3-osapuolen palvelu on.)
+
+
+
+
+% Havainto: SAML-papereissa ei puhuta mitään OAuthista tai RESTistä. Ainoastaan WS-*, Shibboleth, XACML, ID-FF (jne) mainitaan.
+
+% SAML käyttää XML Encryption ja XML Signature -standardeja eheyden ja luotettavuuden saavuttamiseksi.
+% Niiden osalta viestinvälityskerroksen (transport layer) suojaaminen ei välttämätöntä, jos WS-Security.
+% HTTPS:n käyttäminen on kuitenkin yksinkertaista ja vähentää kryptografiaan aiheuttamaa kuormitus-overheadia.
+% Erikseen määritellyissä tapauksissa SAML edellyttää (\emph{mandate}) viestinvälityskerroksen suojaamista SSL/TLS:llä ja viestikerroksen (message-level, todo vai onko applikaatiolevel?) suojaamista XML Encryption ja XML Signature -standardilla.
+
+%SAML-assertiot ja SAML-protokollat määritellään pohjautuen XML Schema -standardiin.
+%SAML exchanges ilmaistaan muodoltaan standardoidulla XML-murteella, josta myös SAMLin nimi on peräisin (Security Assertion Markup Language). (viite
+%http://en.wikipedia.org/wiki/Security_Assertion_Markup_Language)
+
+%web services have the soap message header layer and its security headers (soap message security, saml token profile) and can especially care about proof-of-possession.
+% web applications do not have that and use the html layer as a replacement. ???
+% they can not care about proof-of-possession because browsers are unaware of the identity assertion abstraction
+% http://www.slideshare.net/oliverpfaff/stateoftheart-in-web-services-federation
+
+% For real, mitä eroa on OAuth ja SAML
+% https://www.pingidentity.com/resource-center/oauth-essentials.cfm
+% https://www.pingidentity.com/resource-center/SAML-Tutorials-and-Resources.cfm
+
+% subsection saml_v2_0 (end)
+
+%SAML v2.0: Rakentuu Shibbolething ja Liberty ID-FF:n toiminnallisuuden päälle.
+
+% Määrittele SAML-assertio. 7laws of id: internetissä claim kuvaavampi termi kuin assertion.
+
+% SAML ja REST % http://saml.xml.org/news/how-to-use-saml-with-rest-web-services
+% ''Best practice is to conform to the SAML v2 Web Profile. But the problem there is that the Web Profile relies on sessions, typically managed by cookies. Sessions are a stateful artifact that are contrary to REST.'' -- puristien mielestä joo, mutta Fielding eri mieltä: sessio on sama käyttäjälle itselleen, jolloin saman käyttäjän peräkkäiset requestit on aina restin mukaisia (sama uri+parametrit antaa aina saman vastineen).
+% OAuth 2.0 sen sijaan (by design) hyödyntää HTTP-otsakkeita eikä vaadi sessiota.
+
+
+%
+% \subsubsection{SAMLin johdannaiset ja SAMLiin liittyvät tekniikat} % (fold)
+% \label{ssub:samlin_johdannaiset}
+%
+%
+% \paragraph{ID-FF} % (fold)
+% \label{par:id_ff}
+% Liberty Alliancen Identity Federation Frameworkin (ID-FF) pohjalla oli SAML v1.1, jonka päälle Liberty toteutti lisää toiminnallisuutta.
+% Liberty Alliance tunnusti tarpeen yhdelle federated SSO:n standardille, joten Alliance tarjosi ID-FF v1.2:n takaisin OASIS-yhteisen tekniselle komitealle inputtina SAML v2.0:n rakentamiseksi.
+% Libertyn nykyinen web-tunnistautumisen framework on ID-WSF, joka käyttää SAML v2.0:aa autentikointi- ja auktorisointitietojen välittämiseksi web-palvelujen välillä.
+%
+% ID-FF v1.2 ei yhteisistä juurista huolimatta ole kuitenkaan yhteensopiva SAML v2.0:n kanssa (viite https://wiki.shibboleth.net/confluence/display/SHIB/SAMLLibertyDiffs).
+%
+% % paragraph id_ff (end)
+%
+% \paragraph{Shibboleth} % (fold)
+% \label{par:saml_vs_shibboleth}
+% Tässä kappaleessa kerrotaan, miksi gradussa käytetään SAMLia eikä Shibbolethia. Tai sitten perustellaan miksi käytetään Shibbolethia eikä SAMLia.
+%
+% % paragraph saml_vs_shibboleth (end)
+
+% \paragraph{XACML} % (fold)
+% \label{par:xacml}
+% Tässä kappaleessa kerrotaan, miksei XACML ole relevantti gradun kannalta. Liittyy auktorisointiin, jota gradu ei käsittele. SAMLissa mahdollista decouplata toisistaan autentikointi ja auktorisointi. OAuthissa ei, koska se on auktorisointiprotokolla. Siksi OpenID Connect + OAuth 2.0 on ikään kuin sama kuin SAML + XACML.
+%
+% % paragraph xacml (end)
+
+% \paragraph{WS-Security} % (fold)
+% \label{par:ws_security}
+% WS-Security on OASIS-komitean standardi, joka määrittelee tavan varmistaa SOAP-viestien eheys (integrity) ja luottamuksellisuus (confidentiality) (viite saml exec overview).
+%
+% WS-Security määrittelee turvallisuuspolettien (\emph{security tokens}) käsitteen, johon WS-*-arkkitehtuurityylin tietoturvanäkökulma perustuu.
+% Turvallisuuspoletti sisältää SOAP-viestiin liittyvän identiteetti- ja pääsyoikeustiedon.
+% WS-Securityssä on \emph{profiileja}, jotka määrittelevät yksityiskohdat turvallisuuspoletin käyttämiselle ja turvallisuuspoletin formaatin (todo käsite).
+% Tuettuja formaatteja ovat esimerkiksi X.509-sertifikaatit (todo käsite) ja Kerberos-lipukkeet (Kerberos tickets, todo käsite).
+%
+% SAML Token Profile määrittelee SAML-assertioiden käytön WS-Securityn turvallisuuspolettina (viite saml exec overview).
+% SAML-standardi esittää WS-Securityn hyväksyttynä menetelmänä suojata SOAP-viestit, jotka kuljettavat SAML-protokollatietoja tai -assertioita.
+
+% Jos transport layer security niin WSS:ä ei tarvita yhteyden suojaamiseen. Vähentää silloin myös overheadia jos ei WSS-kryptoa.
+% Saatetaan tarvita jos SAML vaikka HTTPS?
+
+% paragraph ws_security (end)
+% subsection samlin_johdannaiset (end)
+%
+% \subsubsection{SAML-autentikoinnin vaiheet} % (fold)
+% \label{ssub:saml_autentikoinnin_vaiheet}
+%
+%   \begin{figure}
+%     \centering
+%     \includegraphics[width=0.9\textwidth]{images/google_saml_workflow_vertical.png}
+%     \caption{SAML-autentikoinnin vaiheet: Identiteetinkuluttaja (\emph{service provider}) laatii SAML-pyynnön, jonka käyttäjäagentti välittää identiteetintarjoajalle. todo piirrä auki mooc-kontekstiin.}
+%     \label{fig:saml_auth_vaiheet}
+%   \end{figure}
+%
+% %   Yliopiston palvelut julkiseen pilveen, ks kuva~\ref{fig:hy_julkiseen_pilveen}
+% %   todo viite \url{http://code.google.com/googleapps/domain/sso/saml_reference_implementation.html}
+%
+% % subsubsection saml_autentikoinnin_vaiheet (end)
+%
+
+
+% \subsection{Uuden käyttäjän rekisteröityminen} % (fold)
+% \label{sub:uuden_käyttäjän_rekisteröityminen}
+%
+% Edellä käsiteltiin ainoastaan sisäänkirjautumista. Samoin kuin induktiossa tarvitaan alkuaskel, identiteetti täytyy rekisteröidä ennen kuin sitä vastaavaa käyttäjätunnusta voidaan käyttää sisäänkirjautumiseen.
+%
+% Kuka määrittelee facebookille idc:n ``registration url:n'':n ? Voitaisiin myös ottaa vain facebook uid ja tehdä auktorisointipyyntö käyttäjän facebook-tietoihin. Koska monta idp-vaihtoehtoa, suoritetaan idp-rekisteröinnin jälkeen oma rekisteröinti.
+%
+% Miten Google? Google tarjoaa sekä OpenID että OAuth -sisäänkirjautumisen. Kumpaa käytetään?
+%
+% todo MOOC-konteksti:
+% Identiteetinkuluttajalla voi olla käyttäjilleen paikallinen yksilöivä tunniste, joka yhdistetään identiteetintarjoajan federoidun identiteetin tunnisteeseen~\cite{id_delegation_2005}. Tällöin ulkopuolisen identiteetintarjoajan tunnisteet eivät koskaan törmää paikallisen käyttäjätunnuksen kanssa (kuva~\ref{fig:uid_mapping}). Käyttäjän voidaan myös antaa valita oma paikallinen käyttäjätunnuksensa, vaikka autentikointi tapahtuu identiteetintarjoajan palvelussa.
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\textwidth]{images/uid_mapping.jpg}
+%   \caption{Identiteetinkuluttajalla (idc) on itsenäiset käyttäjätunnisteet, joihin identiteetintarjoajien (idp) käyttäjätunnisteet kytketään.}
+%   \label{fig:uid_mapping}
+% \end{figure}
+%
+%
+% Selitä tähän kuva~\ref{fig:registration_with_facebook} Facebookin site registration flow \url{https://developers.facebook.com/docs/user_registration/flows/}
+%
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.9\textwidth]{images/facebook_user_registretion.png}
+%   \caption{Uuden käyttäjän rekisteröityminen MOOC-palveluun. TODO: piirrä tän pohjalta uusi kuva, jossa facebookin tilalla idp (hy/google/fb) ja jossa site-specific credentials poistettu. viite }
+%   \label{fig:registration_with_facebook}
+% \end{figure}
+%
+% % https://developers.facebook.com/docs/user_registration/flows/
+%
+% % subsection uuden_käyttäjän_rekisteröityminen (end)

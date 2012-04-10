@@ -624,23 +624,27 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OpenID 2.0 -autentikointi (kuva~\ref{fig:basic_openid_flow}) sisältää seuraavat vaiheet.
 
-  \begin{enumerate}
+  \begin{description}
 
-    \item Loppukäyttäjä aloittaa autentikointiprosessin esittämällä identiteetinkuluttajalle OpenID-päätepisteen. OpenID-päätepisteenä toimii joko käyttäjän yksilöivä OpenID-tunniste\footnote{Esimerkiksi \url!https://petrus.repo.fi! tai \url!https://myopenid.com/repo!} (väitetty identiteetti) tai identiteetintarjoajan kaikille käyttäjille yhteinen URI\footnote{Esimerkiksi \url!https://yahoo.com! tai \url!https://www.google.com/accounts/o8/id!} (suunnattu identiteetti).
+    \item[(A)]
+    Loppukäyttäjä aloittaa autentikointiprosessin esittämällä identiteetinkuluttajalle OpenID-päätepisteen. OpenID-päätepisteenä toimii joko käyttäjän yksilöivä OpenID-tunniste\footnote{Esimerkiksi \url!https://petrus.repo.fi! tai \url!https://myopenid.com/repo!} (väitetty identiteetti) tai identiteetintarjoajan kaikille käyttäjille yhteinen URI\footnote{Esimerkiksi \url!https://yahoo.com! tai \url!https://www.google.com/accounts/o8/id!} (suunnattu identiteetti).
 
-    \item Identiteetinkuluttaja suorittaa etsintävaiheen. Etsinnän lopputuloksena on OpenID-päätepisteeseen kytketty OpenID-identiteetintarjoaja. Etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Vaikka kuluttaja hyväksyisi ainoastaan esivalitun identiteetintarjoajan, siirtymä identiteetintarjoajan autentikoitumispalveluun alustetaan edelleen etsintävaiheella.
+    \item[(B)]
+    Identiteetinkuluttaja suorittaa etsintävaiheen. Etsinnän lopputuloksena on OpenID-päätepisteeseen kytketty OpenID-identiteetintarjoaja. Etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Vaikka kuluttaja hyväksyisi ainoastaan esivalitun identiteetintarjoajan, siirtymä identiteetintarjoajan autentikoitumispalveluun alustetaan edelleen etsintävaiheella.
 
-    \item Identiteetinkuluttaja luo käyttäjän autentikointipyyntöä varten salaisuuden, jonka se jakaa identiteetin tarjoajan kanssa.
+    \item[(C)]
+    Identiteetinkuluttaja luo käyttäjän autentikointipyyntöä varten salaisuuden, jonka se jakaa identiteetintarjoajan kanssa. Autentikointipyyntö on voimassa identiteetintarjoajan palvelussa vain lyhyen ajan.
 
-    \item Identiteetinkuluttaja uudelleenohjaa loppukäyttäjän identiteetintarjoajalle. Loppukäyttäjä esittää edellisessä vaiheessa luodun jaetun salaisuuden, jonka avulla identiteetintarjoaja yhdistää saapuneen käyttäjän identiteetinkuluttajan alustamaan autentikointipyyntöön.
+    \item[(D)]
+    Identiteetinkuluttaja uudelleenohjaa käyttäjäagentin identiteetintarjoajan palvelun sisäänkirjautumissivulle. Käyttäjäagentti esittää identiteetintarjoajalle edellisessä vaiheessa luodun jaetun salaisuuden, jonka avulla identiteetintarjoaja yhdistää saapuneen käyttäjän identiteetinkuluttajan alustamaan autentikointipyyntöön.
 
-    \item OpenID-identiteetintarjoaja autentikoi käyttäjän. OpenID-standardi ei määrittele, kuinka autentikointi tapahtuu.
+    \item[(E)]
+    Identiteetintarjoaja autentikoi käyttäjän ja uudelleenohjaa käyttäjäagentin identiteetinkuluttajan palveluun. Käyttäjäagentti saa kannettavakseen jaetun salaisuuden perusteella laaditun kryptografisen poletin sekä mahdollisia käyttäjäprofiiliin liittyviä attribuutteja. OpenID-standardi ei määrittele, kuinka autentikointi tulee suorittaa.
 
-    \item Identiteetintarjoaja uudelleenohjaa loppukäyttäjän identiteetinkuluttajan palveluun. Käyttäjä saa kannettavakseen jaetun salaisuuden perusteella laaditun poletin sekä mahdollisia käyttäjäprofiiliin liittyviä attribuutteja kuten sähköpostiosoitteen.
+    \item[(F)]
+    Identiteetinkuluttaja vastaanottaa käyttäjäagentin, validoi poletin ja luo poletin sisältämien tietojen perusteella käyttäjäsession.
 
-    \item Identiteetinkuluttaja vastaanottaa loppukäyttäjän, validoi poletin ja hyväksyy identiteetintarjoajan sanoman käyttäjän onnistuneesta sisäänkirjautumisesta.
-
-  \end{enumerate}
+  \end{description}
 
 
     \subsubsection{OpenID käytännössä} % (fold)
@@ -756,8 +760,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \label{ssub:oauth_virtaukset}
 
   OAuth 2.0 -standardin ytimessä olevat neljä virtausta soveltuvat sekä palvelinpäässä olevan luotetun ympäristön että asiakaspäässä olevan epäluotetun ympäristön käyttötarkoituksiin. Käytettävän virtauksen valintaan vaikuttaa käytännössä se, millainen on resurssin asiakas. Vaatimukset ovat hyvin erilaisia palvelinohjelmistolle, selaimessa toimivalle JavaScript-sovellukselle, työpöytäohjelmistolle sekä mobiililaitteessa toimivalle sovellukselle. Eri käyttötapauksille on standardin ytimessä määritelty seuraavat neljä virtausta~\cite{ietf_oauth2}.
-
-  % TODO: Oma kuva kaikista virtauksista.
 
 
   \begin{description}

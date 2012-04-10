@@ -9,11 +9,25 @@
   \tableofcontents
   \newpage
   \listoffigures
+
+  \newpage
+  \section*{Kiitos!}
+
+  Tämän työn valmistumista ovat tukeneet Eteläsuomalainen osakunta, joustavan opintovapaan myöntänyt Enemy \& Sons Oy sekä Tekes-rahoitteinen TiViT-hanke.
+
+  Kiitän myös äitiä hedelmällisestä palautteesta, ohjaajia Matti Luukkaista ja Lea Kutvosta merkittävästä ajankäytöstä ja Fratello Torrefazionea kaupungin parhaasta kahvista. Kiitos myös kaikille teille, jotka jaksoitte kahlata tekstin läpi ja tarjota oikolukuapua!
+
+  \begin{figure}[hl!]
+    \includegraphics{images/nimmari.jpg}
+  \end{figure} \hfill
+
+
   \newpage
   \pagenumbering{arabic}
   \if@emptyfirstpagenumber
     \thispagestyle{empty}
   \fi
+
 }
 
 % MEMO:
@@ -21,25 +35,11 @@
 %   Käsitteet määritellään.
 %   Kun käsite ekaa kertaa: italics.
 %
-%   Kiitokset!
-%    - ESO
-%    - TKTL, CSP-TiViT
-%    - Fratello hyvä kahvi
-%
 % Termistö, yhdenmukaista:
 %  - identiteetinkuluttaja, yhdyssanana
 %  - pääsyoikeus vs. käyttöoikeus, voiko käyttää sekaisin vai valitaanko vain toinen
 %    pääsyoikeuspoletti vs käyttöoikeuspoletti
-%  - credentials, miten käännät
-%  - OAuthissa,
-%      identiteetinkuluttaja vs. resurssin asiakas
-%      identiteetintarjoaja  vs. auktorisointipalvelin
-%      VAI: identiteettiresurssin asiakas
-%  - OpenID:ssä,
-%      identiteetinkuluttaja vs. luottava osapuoli
 %  - "Tutkielma ei ota kantaa": tutkielma ei ole tekijä, ei kantaa --> jättää määrittelemättä
-%  - SOA = Palveluperusteinen vai palvelusuuntautunut arkkitehtuuri?
-%  - tarkista ettei tutkielmassa 'suositella'
 %  - käyttäjän suostumusvaihe, käyttäjäsuostumuksen vaihe
 %  - resurssin isäntä, resurssin palvelin
 
@@ -51,6 +51,9 @@
 Release Candidate 4:
 
 Muutokset 10.4.2012:
+- selitetty implisiittisen OAuth-virtauksen ongelma paremmin
+- TÄRKEÄ: Parempi kuva OpenID-vaiheista.
+- parempilaatuinen skannaus jatkokehitysidean kuvasta
 
 Muutokset 9.4.2012:
 - Luku 6 Yhteenveto
@@ -69,8 +72,6 @@ Muutokset 13.3.2012:
 
 
 TODO:
-- TÄRKEÄ: Parempi kuva OpenID-vaiheista.
-- parempilaatuinen skannaus jatkokehitysidean kuvasta
 
 Viimeiseen versioon:
 - tarkista footnote-rivitykset
@@ -81,7 +82,6 @@ Viimeiseen versioon:
 - tarkista viitteet: etsi ?? previewissä ja katso sanooko latex undefined references
 - tarkista että urlit rivittyvät oikein
 - tavutusvirheet oikeasta marginaalista
-- palvelukeskeinen vs. -orientoitunut tai -suuntautunut
 
 
 JÄÄ:
@@ -165,6 +165,8 @@ K.6.5  [Security and Protection: Authentication]
 \setcounter{tocdepth}{3}
 \gradutableofcontents
 
+
+
 \section{Johdanto} % (fold)
 \label{sec:johdanto}
 
@@ -215,7 +217,7 @@ Tutkielman hypoteesina on, että MOOC-palvelu tulee hyödyntämään Helsingin y
 \subsection{Tutkielman rakenne} % (fold)
 \label{sub:tutkielman_rakenne}
 
-  Ongelmakentän taustoittaminen alkaa lukija tutustuttamisesta webin, identiteetin ja rajapintojen peruskäsitteisiin luvussa~\ref{sec:kakkosluku}. Sisäänkirjautumisen menetelmiin tutustutaan luvussa~\ref{sec:autentikoituminen_ja_web}, jossa käsitellään erityisesti internetin \emph{de facto} -tun\-nistau\-tumisme\-ne\-tel\-mänä sovellettua salasana-autentikointia sekä siihen liittyviä ongelmia. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään.
+  Ongelmakentän taustoittaminen alkaa lukijan tutustuttamisesta webin, identiteetin ja rajapintojen peruskäsitteisiin luvussa~\ref{sec:kakkosluku}. Sisäänkirjautumisen menetelmiin tutustutaan luvussa~\ref{sec:autentikoituminen_ja_web}, jossa käsitellään erityisesti internetin \emph{de facto} -tun\-nistau\-tumisme\-ne\-tel\-mänä sovellettua salasana-autentikointia sekä siihen liittyviä ongelmia. Vaikka autentikointi on tutkielman keskeisin käsite, tutkielmassa ovat läpileikkaavana teemana \emph{rajapinnat}, joiden avulla toisistaan riippumattomat järjestelmät voivat kommunikoida keskenään.
 
   Hajautetussa verkkoympäristössä tarvitaan hyvin määriteltyjä rajapintoja. Jotta käyttäjän identiteetti voidaan jakaa eri järjestelmien kesken, tarvitaan rajapinta, jonka kautta identiteettiin liittyvä autentikointitieto voidaan välittää. Yhteentoimivuuden standardin tärkein tehtävä on määritellä tällainen rajapinta. Identiteettitietojen jakamiseen hajautetussa verkkoympäristössä soveltuvia yhteentoimivuuden standardeja esitellään luvussa~\ref{sec:Kertakirjautumisstandardit}.
 
@@ -392,7 +394,7 @@ Googlen ja Facebookin identiteettipalvelujen soveltamisesta kolmannen osapuolen 
 
   Yleinen salasana-autentikoinnin toteutustapa on tallettaa käyttäjätunnukseen liitetystä salasanasta \emph{tiiviste} (\emph{digest}). Tällöin käyttäjärekisteriin ei koskaan talleteta varsinaista salasanaa vaan ainoastaan siitä hajautusfunktion avulla laskettu tiiviste. Kun käyttäjä autentikoidaan, käyttäjän syöttämästä salasanasta lasketaan tiiviste uudelleen samalla tavalla kuin sen tallettamishetkellä. Jos käyttäjärekisteriin aiemmin talletettu sekä myöhemmin uudelleenlaskettu tiiviste ovat samat, käyttäjän antama salasana on oikea. Tiiviste toimii siten autentikointitapahtuman polettina, ja käyttäjä voi todentaa hallitsevansa polettia esittämällä jaettuna salaisuutena toimivan salasanan.
 
-  Symmetristä avainta käytetään usein tilanteissa, joissa tarvitaan vahvaa salausta eikä käyttäjän tarvitse muistaa avainta ulkoa. Salaisen merkkijonon käyttötarkoitus riippuu vastaavasti merkkijonon pituudesta, voimassaoloajasta ja satunnaisuudesta. Salasana on palveluntarjoajan kannalta kustannustehokas tunnistamisväline, ja siksi salasana-autentikointi on pysynyt vallitsevana tunnistamistapana vuosikymmenten ajan~\cite{pw_auth_system_perspective_08}.
+  Symmetristä avainta käytetään usein tilanteissa, joissa tarvitaan vahvaa salausta eikä käyttäjän tarvitse muistaa avainta ulkoa. Salaisen merkkijonon pituus, voimassaoloaika ja satunnaisuus riippuvat  avaimen käyttötarkoituksesta. Salasana on palveluntarjoajan kannalta kustannustehokas tunnistamisväline, ja siksi salasana-autentikointi on pysynyt vallitsevana tunnistamistapana vuosikymmenten ajan~\cite{pw_auth_system_perspective_08}.
 
   % subsection jaetut_salaisuudet (end)
 
@@ -531,7 +533,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   Esimerkiksi Chrome, Firefox ja Opera -selaimet määrittelevät kielletyt päätason verkkotunnukset Public Suffix List -projektin kieltolistan perusteella: \url!http://publicsuffix.org/learn/!
  }, koska esimerkiksi alueelle \url!*.com! määritelty eväste olisi muutoin jaettu kaikille \verb!com!-päätteessä oleville web-palveluille. Osoitteen täsmällinen määrittäminen ja evästeen asetukset ovat web-palvelun vastuulla. Web-palvelun on syytä liittää käyttämiinsä evästeisiin \verb!secure!-asetus, jonka perusteella käyttäjäagentti kieltäytyy lähettämästä evästettä suojaamattoman HTTP-yhteyden yli.
 
-  Selaimen tietoturvamalli estää evästeen jakamisen eri verkkotunnusten kesken. Vaikka eväste on mahdollista jakaa samaa verkkotunnusta käyttävien palvelujen kesken, evästeen käyttäminen toisistaan rippumattomien palvelujen integraatiopisteenä ei ole suositeltavaa. Palvelut eivät ole enää löyhästi kytköksissä toisiinsa, jos ne kommunikoivat evästeen välityksellä. Palveluperusteisen arkkitehtuurin perusteella palvelujen välille on ennemmin syytä määritellä rajapinta, jolloin jokainen palvelu voi käyttää itsenäistä evästettä. Tällöin yhdessä palvelussa tehdyt muutokset evästeiden käsittelytapaan eivät vaikuta muihin palveluihin.
+  Selaimen tietoturvamalli estää evästeen jakamisen eri verkkotunnusten kesken. Vaikka eväste on mahdollista jakaa samaa verkkotunnusta käyttävien palvelujen kesken, evästeen käyttäminen toisistaan riippumattomien palvelujen integraatiopisteenä ei ole suositeltavaa. Palvelut eivät ole enää löyhästi kytköksissä toisiinsa, jos ne kommunikoivat evästeen välityksellä. Palveluperusteisen arkkitehtuurin perusteella palvelujen välille on ennemmin syytä määritellä rajapinta, jolloin jokainen palvelu voi käyttää itsenäistä evästettä. Tällöin yhdessä palvelussa tehdyt muutokset evästeiden käsittelytapaan eivät vaikuta muihin palveluihin.
 
   Palvelusta uloskirjautuminen tapahtuu tyypillisesti siten, että web-palvelu joko muuttaa evästeeseen tallettamaansa sisäänkirjautumistietoa tai käskee selainta poistamaan evästeen kokonaan. Web-palvelu voi myös liittää evästeeseen vanhenemisajan, jonka umpeuduttua sisäänkirjautuminen täytyy suorittaa uudelleen. Jos evästeeseen ei aseteta vanhenemisaikaa lainkaan, eväste on voimassa niin kauan, kunnes käyttäjä sulkee web-selaimen.
 
@@ -656,7 +658,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
     Googlen ja Yahoon käyttäjätutkimusten mukaan käyttäjät eivät tunne OpenID:n brändiä, mutta he tuntevat identiteetintarjoajansa brändin. Näiden tutkimustulosten mukaan autentikoituminen on käyttäjäystävällisempää identiteetintarjoajan logon ja nimen sisältävän kuvalinkin kuin vapaavalintaisen syöttökentän kautta~\cite{google_usability_federated_login_2008, yahoo_usability_openid_2008, google_thoughts_combining_ux_2008}. Tällöin OpenID-etsintävaihe käynnistyy klikkaamalla identiteetintarjoajan logoa (kuva~\ref{fig:yahoo_login}). Logon käyttämistä sisäänkirjautumissivulla suosittelevat identiteetintarjoajat tarjoavat usein suunnatun identiteetin toteutuksen, jolloin identiteetintarjoajan OpenID-päätepiste on sama kaikille sen asiakkaille. Googlen suositus logon käyttämisestä on toteutettu käytännössä siten, että OpenID-päätepistettä tai -tunnistetta ei ole tarkoituskaan muistaa ulkoa, jolloin identiteetinkuluttajan on käytännössä välttämätöntä esittää sisäänkirjautumissivullaan Googlen logo.
 
-    OAuth-standardin eri versioiden valmistelutyöhön aktiivisesti osallistunut Eran Hammer esittää kritiikkiä suunnattua identiteettiä vastaan~\cite{hueniverse_openid_crisis}: mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan, jos käyttäjän ei tarvitse tuntea omaa OpenID-tunnistettaan vaan ainoastaan tunnistetta hallinnoivan yrityksen logo? Toistaiseksi suurten yritysten intresseissä on ollut tukea avoimia standardeja kuten OAuth ja OpenID. Identiteetintarjoaja voisi Hammerin mukaan yhtä hyvin antaa käytettäväksi oman logonsa ja soveltaa OpenID:n sijasta omaa autentikointistandardiaan. Esimerkiksi Microsoftin Windows Live -palvelu aloitti vuonna 2008  kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsfot Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008: \\ \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}},
+    OAuth-standardin eri versioiden valmistelutyöhön aktiivisesti osallistunut Eran Hammer esittää kritiikkiä suunnattua identiteettiä vastaan~\cite{hueniverse_openid_crisis}: mihin OpenID:n käyttäjäkeskeisyyttä, yhteisöä ja yhteistä standardia lopulta tarvitaan, jos käyttäjän ei tarvitse tuntea omaa OpenID-tunnistettaan vaan ainoastaan tunnistetta hallinnoivan yrityksen logo? Toistaiseksi suurten yritysten intresseissä on ollut tukea avoimia standardeja kuten OAuth ja OpenID. Identiteetintarjoaja voisi Hammerin mukaan yhtä hyvin antaa käytettäväksi oman logonsa ja soveltaa OpenID:n sijasta omaa autentikointistandardiaan. Esimerkiksi Microsoftin Windows Live -palvelu aloitti vuonna 2008  kokeilun toimiakseen OpenID-identiteetintarjoajana\footnote{Microsoft Windows Live julisti aloittavansa OpenID-identiteetintarjoajana vuonna 2008: \\ \url{http://www.readwriteweb.com/archives/microsoft_windows_live_openid.php}},
   mutta myöhemmin tämä tuki lopetettiin. Nykyään Windows Live käyttää Microsoftin omaa autentikointitoteutusta\footnote{Windows Liven kehittäjäverkostosta ei löydy yhtään artikkelia hakusanalla ``openid'' tammikuussa 2012: \url{http://windowsteamblog.com/search/searchresults.aspx?q=openid}}.
 
   Ihanteellisesti käyttäjäkeskeinen identiteetti toteutuisi siten, että käyttäjän OpenID-tunniste säilyisi hänen omassa hallinnassaan palveluntarjoajasta riippumatta. Tällöin tunnisteena olisi käyttäjän oman verkkotunnuksen URL kuten \url{https://petrus.repo.fi} tai sähköpostiosoite kuten \url{petrus@repo.fi}. Oman verkkotunnuksen voi säilyttää sukupolvelta toiselle, kun taas yrityksen nimeen kytketty verkkotunnus tai sähköpostiosoite todennäköisesti poistuu käytöstä, jos yritys päättää lopettaa toimintansa.
@@ -788,7 +790,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
    \item[Resurssin omistajan salasana \emph{(resource owner password)}:] \hfill \\
    Pääsyoikeuspoletti myönnetään resurssin omistajan tunnistautumistietoja vastaan.
 
-   Resurssin omistajan käyttäjätunnus ja salasana toimivat auktorisointisuostumuksena, jonka perusteella auktorisointipalvelin myöntää pääsyoikeuspoletin. OAuth 2.0 -standardi suosittelee, että virtausta käytetään ainoastaan, kun mikään muu virtauksista ei ole käytettävissä ja resurssin omistajan ja asiakkaan välillä on riittävän korkea luottamussuhde~\cite{ietf_oauth2}. Tyypillisesti tällainen luottamussuhde on voimassa, jos resurssin asiakas ja resurssin palvelin ovat saman organisaation tuottamia. Tällainen tapaus on esimerkiksi Facebook-yhtiön itsensä toteuttama mobiiliapplikaatio, joka kysyy käyttäjän Facebook-salasanaa.
+   Resurssin omistajan käyttäjätunnus ja salasana toimivat auktorisointisuostumuksena, jonka perusteella auktorisointipalvelin myöntää pääsyoikeuspoletin. OAuth 2.0 -standardissa suosittellaan, että virtausta käytetään ainoastaan, kun mikään muu virtauksista ei ole käytettävissä ja resurssin omistajan ja asiakkaan välillä on riittävän korkea luottamussuhde~\cite{ietf_oauth2}. Tyypillisesti tällainen luottamussuhde on voimassa, jos resurssin asiakas ja resurssin palvelin ovat saman organisaation tuottamia. Tällainen tapaus on esimerkiksi Facebook-yhtiön itsensä toteuttama mobiiliapplikaatio, joka kysyy käyttäjän Facebook-salasanaa.
 
    Resurssin asiakas vaihtaa salasanan pääsyoikeuspolettiin. Resurssin asiakkaan tulee käyttää kaikissa seuraavissa yhteydenotoissa polettia, eikä asiakkaan pitäisi OAuth-standardin mukaan tallettaa itselleen resurssin omistajan salasanaa. Tätä virtausta voidaan myös hyödyntää siirtymävaiheen ratkaisuna, jos esimerkiksi aiemmasta HTTP Basic -autentikoinnista halutaan vaiheittain siirtyä OAuth 2.0:aan.
 
@@ -816,14 +818,14 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   OAuth ei lähtökohtaisesti ole autentikointiprotokolla, vaan mahdollisuus loppukäyttäjän autentikointiin syntyy auktorisointiprosessin sivutuotteena. Auktorisointipalvelin jakaa käyttöoikeuksia ensisijaisesti resursseihin, ja käyttäjän identiteetti on yksi tällainen resurssi. Poletti voi siten toimia valtakirjana myös muihin käyttäjän hallinnoimiin resursseihin. Käyttäjä voi huolimattomuuttaan myöntää resurssin asiakkaalle ylimääräisiä oikeuksia, vaikka tarkoituksena olisi pelkästään käyttäjän autentikointuminen.
 
    Resurssin asiakas on rekisteröitävä auktorisointipalvelimelle etukäteen. Rekisteröintiprosessin lopputuloksena on joukko erilaisia arvoja, jotka ovat sekä asiakkaan että auktorisointipalvelimen tiedossa. Näitä ovat tyypillisesti asiakkaan tunniste (\verb!client_id!), jaettu salaisuus (\verb!client_secret!) ja asiakkaan pa\-lau\-tus\-osoite
-   \\ (\verb!redirect_uri!). Asetusten luonne vaihtelee kuluttajapalvelusta riippuen: esimerkiksi epäsuoraa virtausta käyttävä JavsScript-sovellus ei tarvitse jaettua salaisuutta, mutta auktorisointikoodin virtausta käyttävä web-palvelu tarvitsee.
+   \\ (\verb!redirect_uri!). Asetusten luonne vaihtelee kuluttajapalvelusta riippuen: esimerkiksi epäsuoraa virtausta käyttävä JavaScript-sovellus ei tarvitse jaettua salaisuutta, mutta auktorisointikoodin virtausta käyttävä web-palvelu tarvitsee.
 
   OAuth 2.0 ei sulje pois ennakkoon rekisteröitymättömiä asiakkaita, joten dynaaminen rekisteröityminen voi standardin vakiinnuttua olla myöhemmin mahdollista laajennoksena~\cite{ietf_oauth2_unregistered_clients} tai OpenID Connect -standardin avulla. Jokaisessa OAuth 2.0 -protokollan mukaisessa auktorisointitapahtumassa on pääsääntöisesti seuraavat vaiheet:
 
   \begin{description}
 
   \item[Pääsyoikeuspoletin hankinta:] \hfill \\
-  Pääsyoikeuspoletti (\verb!access_token!) toimii asiakkaan valtakirjana resurssin omistajan tietoihin. Resurssin asiakas määrittelee käyttöoikeuksien laajuuden poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Vaihetta, jossa käyttäjä joko vahvistaa tai hylkää oikeuksien, kutsutaan käyttäjän suostumusvaiheeksi (kuva~\ref{fig:google_id_and_user_consent}).
+  Pääsyoikeuspoletti (\verb!access_token!) toimii asiakkaan valtakirjana resurssin omistajan tietoihin. Resurssin asiakas määrittelee käyttöoikeuksien laajuuden poletin hankkimispyynnön yhteydessä \verb!scope!-parametrilla. Vaihetta, jossa käyttäjä joko vahvistaa tai hylkää oikeuksien myöntämisen, kutsutaan käyttäjän suostumusvaiheeksi (kuva~\ref{fig:google_id_and_user_consent}).
 
   \item[Pääsyoikeuspoletin esittäminen:] \hfill \\
   Pääsyoikeuspoletin hankkimisen jälkeen resurssin asiakas esittää pääsyoikeuspoletin valtakirjana resurssin tarjoajalle. Resurssin tarjoaja validoi poletin auktorisointipalvelimen avustuksella. Pääsyoikeuspoletti on voimassa ainoastaan niihin resursseihin, joihin asiakas pyysi valtuuksia poletin hankkimisvaiheessa.
@@ -921,7 +923,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \subsubsection{Uuden autentikointitekniikan lupaus} % (fold)
   \label{ssub:uuden_autentikointitekniikan_lupaus}
 
-  OpenID 2.0 on vuonna 2007 julkaistu standardi, joka ei lupauksistaan huolimatta onnistunut ratkaisemaan internet-identiteetin ongelmaa~\cite{openid_failure_gilbertson_2011, openid_failure_obasanjo_2011, openid_failure_edge_2011, openid_failure_conery_2010, openid_failure_quora_2010, openid_failure_37signals_2011}. Monet palveluntarjoajat ovat lopettaneet tuen vapaavalintaisen \mbox{OpenID 2.0} -identi\-teetin\-tarjoajan käytölle eikä edes OpenID:n omalla ``Get an OpenID''-si\-vul\-la\footnote{http://openid.net/get-an-openid/} ole listattu kuin muutama kaikille avoin identieetintarjoaja. \mbox{OpenID}:n menestymistarinana mainitaan usein \url{StackOverflow.com}-palvelu~\cite{openid_success_stackoverflow_2010, openid_failure_conery_2010}, mutta kyseisen palvelun ensisijaisena kohderyhmänä ovat teknisesti suuntautuneet henkilöt.
+  OpenID 2.0 on vuonna 2007 julkaistu standardi, joka ei lupauksistaan huolimatta onnistunut ratkaisemaan internet-identiteetin ongelmaa~\cite{openid_failure_gilbertson_2011, openid_failure_obasanjo_2011, openid_failure_edge_2011, openid_failure_conery_2010, openid_failure_quora_2010, openid_failure_37signals_2011}. Monet palveluntarjoajat ovat lopettaneet tuen vapaavalintaisen \mbox{OpenID 2.0} -identi\-teetin\-tarjoajan käytölle eikä edes OpenID:n omalla ``Get an OpenID''-si\-vul\-la\footnote{http://openid.net/get-an-openid/} ole listattu kuin muutama kaikille avoin identiteetintarjoaja. \mbox{OpenID}:n menestymistarinana mainitaan usein \url{StackOverflow.com}-palvelu~\cite{openid_success_stackoverflow_2010, openid_failure_conery_2010}, mutta kyseisen palvelun ensisijaisena kohderyhmänä ovat teknisesti suuntautuneet henkilöt.
 
   IETF:n hyväksymä OAuth 1.0 -standardi valmistui vuonna 2010. OAuth 1.0 -stan\-dar\-din yhteisöversio sai alkunsa vuonna 2007 käynnistyneen prosessin seurauksena, ja ensimmäinen OAuth 1.0 -yhteisöversio perustui pitkälti eri yritysten omiin auktorisointitoteutuksiin kuten Flickr API Auth ja Google AuthSub. Standardeina \mbox{OpenID 2.0} ja \mbox{OAuth 1.0} eivät jaa mitään yhteistä keskenään, vaan auktorisointikerroksen saaminen OpenID 2.0 -autenti\-kointi\-kerroksen yhteyteen edellyttää erillisen OAuth 1.0 -laajennoksen käyttämistä. Yksi OpenID 2.0:n heikkouksista ja syistä huonolle levinneisyydelle on ollut kitkainen tuki rajapintakutsujen auktorisoinnille.
 
@@ -956,7 +958,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % EI mainita näitä:
   % OpenID ja OAuth vastaavasti toimivat ensisijaisesti vain HTTP:n avulla, ja WS-*-arkkitehtuurityylin sijasta ne ovat saavuttaneet suosiota erityisesti REST-arkkitehtuurityyliä soveltavissa palveluissa.
 
-  Merkittävä syy SAMLin suosioon on sen stabiloituneisuus standardina. Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Shibboleth on Internet2-hankkeen\footnote{
+  Merkittävä syy SAMLin suosioon on sen vakiintuneisuus standardina. Federoidun identiteetin standardien kehitys on esitetty kuvassa~\ref{fig:federoidun_id_standardien_kehitys}. Shibboleth on Internet2-hankkeen\footnote{
   Internet2 on tutkimusprojekti, jonka tavoitteena on määritellä uusi vallankumouksellinen internet-standardisto: \url!http://www.internet2.edu/!}
   autentikointi- ja auktorisointikerroksen ytimessä, ja SAML 2.0 puolestaan on saanut runsaasti vaikutteita Shibboleth-standardista. OpenID ja OAuth ovat SAMLiin verrattuna nuoria standardeja, ja ne vastaavat erityisesti julkisen internetin tarpeisiin. Jälkimmäisten kehittämisessä ovat olleet vahvasti mukana internetin suuret yritykset kuten Facebook, Google, Yahoo ja Microsoft. Google, Yahoo ja Facebook ovat lisäksi päättäneet tarjota julkisen autentikointirajapinnan OAuth ja OpenID -standardeilla.
 
@@ -1140,7 +1142,9 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
   \item[(D)]
-    MOOC-palvelu pyytää pääsyoikeuspolettia (\verb!access_token!) suoraan Facebook Platformilta eli käyttäjäagentti ei toimi pyynnön välittäjänä. MOOC liittää pyynnön parametreiksi paluuosoitteen (\verb!redirect_uri!) sekä edellisessä vaiheessa käyttäjäagentilta saamansa auktorisointikoodin (\verb!code!). Lisäksi MOOC välittää pyynnössään yksilöivän tunnisteensa (\verb!client_id!) ja jaetun salaisuuden (\verb!client_secret!), joiden perusteella Facebook Platform autentikoi MOOC-palvelun eli varmistuu siitä, että pyyntö tulee oikealta toimijalta. Ainoastaan MOOC ja Facebook Platform tuntevat jaetun salaisuuden, ja vastaavasti auktorisointikoodi on ainoastaan käyttäjäagentin, MOOC-palvelun ja Facebook Platformin tiedossa.
+    MOOC-palvelu pyytää pääsyoikeuspolettia (\verb!access_token!) suoraan Facebook Platformilta eli käyttäjäagentti ei toimi pyynnön välittäjänä. MOOC liittää pyynnön parametreiksi auktorisointipalvelimelle ennakkoon määritetyn paluuosoitteen (\verb!redirect_uri!) sekä edellisessä vaiheessa käyttäjäagentilta saamansa auktorisointikoodin (\verb!code!).
+
+    Lisäksi MOOC välittää pyynnössään yksilöivän tunnisteensa (\verb!client_id!) ja jaetun salaisuuden (\verb!client_secret!), joiden perusteella Facebook Platform autentikoi MOOC-palvelun. Autentikoimalla MOOC-palvelun Facebook Platform varmistuu siitä, että pyyntö tulee oikealta toimijalta. Ainoastaan MOOC ja Facebook Platform tuntevat jaetun salaisuuden, ja vastaavasti auktorisointikoodi on ainoastaan käyttäjäagentin, MOOC-palvelun ja Facebook Platformin tiedossa.
 
   % https://graph.facebook.com/oauth/access_token?
   %      client_id=YOUR_APP_ID&redirect_uri=YOUR_URL&
@@ -1148,9 +1152,10 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
   \item[(E)]
-  Facebook Platform luo pääsyoikeuspoletin ja lähettää sen MOOC-pal\-velun kohdassa \verb!(D)! määritettyyn paluuosoitteeseen. MOOC esittää pääsyoikeuspoletin aina, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa.
+  Facebook Platform luo pääsyoikeuspoletin ja lähettää sen MOOC-pal\-veluun vastauksena kohdan \verb!(D)! auktorisointipyyntöön. Paluuosoitetta käytetään Facebook Platformiin rekisteröidyn asiakkaan tunnistamiseen siten, että kolmikon \verb!client_id!, \verb!client_secret! ja \verb!redirect_uri! on aina oltava yksikäsitteinen.
 
-  Tämän vaiheen jälkeen MOOC hakee käyttäjän identiteetin tiedot Facebook Platformin käyttäjäresurssilta.
+  Tämän vaiheen jälkeen MOOC hakee käyttäjän identiteetin tiedot Facebook Platformin käyttäjäresurssilta. MOOC esittää pääsyoikeuspoletin aina, kun se kommunikoi loppukäyttäjän valtuuksin Facebook Platformin kanssa.
+
 
   \end{description}
 
@@ -1309,7 +1314,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \label{par:autentikoinnin_ulkoistaminen}
 
   % Autentikoinnin ulkoistaminen
-  Autentikointi suositellaan ulkoistettavaksi käyttäen Facebookin ja Googlen julkista autentikointirajapintaa. Niille opiskelijoille, jotka eivät halua yhdistää Facebook- tai Google-identiteettiään, rekisteröidään MOOC-palvelun oma käyttäjätunnus. Helsingin yliopiston käyttäjätunnusta yhdistetään MOOC-palveluun tulevaisuudessa, jos yliopisto perustaa oman identieetintarjoajapalvelun, joka abstraktoi yliopiston käyttäjärekisterin sisäisen toteutuksen julkisesti tarjottavan ulkoisen rajapinnan taakse.
+  Autentikointi suositellaan ulkoistettavaksi käyttäen Facebookin ja Googlen julkista autentikointirajapintaa. Niille opiskelijoille, jotka eivät halua yhdistää Facebook- tai Google-identiteettiään, rekisteröidään MOOC-palvelun oma käyttäjätunnus. Helsingin yliopiston käyttäjätunnusta yhdistetään MOOC-palveluun tulevaisuudessa, jos yliopisto perustaa oman identiteetintarjoajapalvelun, joka abstraktoi yliopiston käyttäjärekisterin sisäisen toteutuksen julkisesti tarjottavan ulkoisen rajapinnan taakse.
 
   \underline{Suositellaan}: Autentikoinnin osittainenkin ulkoistaminen säästää käyttäjähallinnan ylläpitoon käytettävää työaikaa.
   % paragraph autentikoinnin_ulkoistaminen (end)
@@ -1329,7 +1334,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Vaihtoehtona MOOC-palvelun omille käyttäjätunnuksille on vapaavalintainen OpenID-palveluntarjoaja. Tähän liittyy kuitenkin ongelmia tunnisteiden luotettavuuden suhteen, koska OpenID-etsintävaiheen ansiosta kuka tahansa voi ryhtyä identiteetintarjoajaksi. Etsintävaiheen kääntöpuolena on, että kaikki OpenID-palveluntarjoajat eivät ole riittävän luotettavia.
 
-  Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle. Facebook ja Google sen sijaan varmistavat, että kerran myönnettyä autentikoinnissa käytettävää tunnistetta ei enää myöhemmin myönnetä kenellekään muulle. Julkiseen palveluun luotu identiteetti on silti henkliön itsensä laatima: Facebook tai Google eivät tarkista väitettyjen tietojen paikkaansapitävyyttä.
+  Kun identiteetintarjoajan saa valita vapaasti, identiteetinkuluttaja ei saa takeita siitä, että identiteetintarjoaja varmistaa tietyn yksilöivän OpenID-tunnisteen kuuluvan vain yhdelle henkilölle. Facebook ja Google sen sijaan varmistavat, että kerran myönnettyä autentikoinnissa käytettävää tunnistetta ei enää myöhemmin myönnetä kenellekään muulle. Julkiseen palveluun luotu identiteetti on silti henkilön itsensä laatima: Facebook tai Google eivät tarkista väitettyjen tietojen paikkaansapitävyyttä.
 
   \underline{Ei suositella}: OpenID 2.0 -identiteetintarjoajia ei juurikaan ole, ja OpenID Connect ei ole vielä valmis tuotantokäyttöön.
 
@@ -1343,7 +1348,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Sisäänkirjautuminen} \hfill % (fold)
   \label{par:sisäänkirjautuminen}
 
-  Selainkontekstin osoiterivin tulee olla aina käyttäjän näkyvissä, kun käyttäjäagentti ohjataan identiteetintarjoajan palveluun. Selainkontekstin osoiterivi on ainoa käyttäjälle näkyvä tunniste, jolla käyttäjä voi luotettavasti varmistua identiteetintarjoajan autenttisuudesta. MOOC-palvelu ei saa koskaan kysyä käyttäjän salasanaa siten, että selainkontekstin osoiterivillä näkyisi jokin muu kuin identieetintarjoajan osoite.
+  Selainkontekstin osoiterivin tulee olla aina käyttäjän näkyvissä, kun käyttäjäagentti ohjataan identiteetintarjoajan palveluun. Selainkontekstin osoiterivi on ainoa käyttäjälle näkyvä tunniste, jolla käyttäjä voi luotettavasti varmistua identiteetintarjoajan autenttisuudesta. MOOC-palvelu ei saa koskaan kysyä käyttäjän salasanaa siten, että selainkontekstin osoiterivillä näkyisi jokin muu kuin identiteetintarjoajan osoite.
 
   % paragraph sisäänkirjautuminen (end)
 
@@ -1367,7 +1372,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \paragraph{Tunnisteiden tallettaminen} \hfill % (fold)
   \label{par:tietoturva}
 
-  Omien käyttäjätunnustensa osalta MOOC-palvelun tulee varastoida käyttäjien salasanat tiivisteinä (ks. luku~\ref{sub:pki}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia salasanoja.
+  Omien käyttäjätunnustensa osalta MOOC-palvelun tulee varastoida käyttäjien salasanat tiivisteinä (ks. luku~\ref{sub:jaetut_salaisuudet}). Ulkoisten identiteetintarjoajien osalta MOOC varastoi ainoastaan käyttäjän yksilöivän tunnisteen ja korkeintaan \verb!offline!-käyttöoikeuteen oikeuttavat pääsyoikeus- ja virkistyspoletin. Mitä useampi käyttäjä valitsee ulkoisen identiteetintarjoajan, sitä vähemmän MOOC-palvelulla on talletettavia salasanoja.
 
   % paragraph tunnisteet (end)
 

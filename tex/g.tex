@@ -240,7 +240,7 @@ Tutkielman hypoteesina on, että MOOC-palvelun kannattaa hyödyntää Helsingin 
 \begin{figure}[h!]
   \centering
   \includegraphics[width=0.8\textwidth]{images/auth_yleiskuva.jpg}
-  \caption[Tutkielman keskeisten termien väliset suhteet.]{Tutkielman keskeisen termistön väliset suhteet: yhteentoimivuuden standardi määrittelee puitteet kuluttaja- ja tarjoajapalvelujen väliselle kommunikoinnille.}
+  \caption[Tutkielman keskeisten termien väliset suhteet.]{Tutkielman keskeisten termien väliset suhteet: yhteentoimivuuden standardi määrittelee puitteet kuluttaja- ja tarjoajapalvelujen väliselle kommunikoinnille.}
   \label{fig:yleiskuva_termien_suhteista}
 \end{figure}
 
@@ -440,7 +440,8 @@ Googlen ja Facebookin identiteettipalvelujen soveltamisesta kolmannen osapuolen 
   % http://news.cnet.com/8301-1009_3-20025424-83.html?tag=mncol;txt
   % http://news.cnet.com/8301-27080_3-20025688-245.html
   % http://news.yahoo.com/blogs/cutline/leaked-gawker-passwords-cause-problems-twitter-gmail-20101213-130428-283.html
-   Gawkerin vuodetuista noin 188.000 salasanasta lähes 2.000 kappaletta oli ``password'' ja yli 3.000 oli  ``123456''~\cite{forbes_gawker_12_2010}. Paljastuneista Gawker-salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}. Yksinkertaiset salasanat yllättivät myös helmikuussa 2012, kun Syyrian sisällissodan alla valtiohallinnon sähköpostijärjestelmän salasanat vuodettiin tietomurron jälkeen julkisiksi\footnote{Syyrian valtionhallinnon vuodetut salasanat ovat julkisesti saatavilla mm. osoitteesta \url{http://pastebin.com/uaYDfCz0}. Salasanojen julkistaminen johti noloihin paljastuksiin, koska niiden myötä myös Syyrian presidentin sisällissodan alla käymä sähköpostikirjeenvaihto julkistettiin.}. Esimerkiksi Syyrian presidentin ja 33 muun valtionhallinnon henkilön salasanana oli ``12345'' tai ``123456''.
+   Gawkerin vuodetuista noin 188.000 salasanasta lähes 2.000 kappaletta oli ``password'' ja yli 3.000 oli  ``123456''~\cite{forbes_gawker_12_2010}. Paljastuneista Gawker-salasanoista yleisimmät 20 on esitetty kuvassa~\ref{fig:gawker_top20_passwords}. Yksinkertaiset salasanat yllättivät myös helmikuussa 2012, kun Syyrian sisällissodan alla valtiohallinnon sähköpostijärjestelmän salasanat vuodettiin tietomurron jälkeen julkisiksi\footnote{Syyrian valtionhallinnon vuodetut salasanat ovat julkisesti saatavilla mm. osoitteesta
+   \\\url{http://pastebin.com/uaYDfCz0}. Salasanojen julkistaminen johti noloihin paljastuksiin, koska niiden myötä myös Syyrian presidentin sisällissodan alla käymä sähköpostikirjeenvaihto julkistettiin.}. Esimerkiksi Syyrian presidentin ja 33 muun valtionhallinnon henkilön salasanana oli ``12345'' tai ``123456''.
   % 1234 ja syntymäpäivät yleisin pin-koodi:
   % http://www.schneier.com/blog/archives/2012/02/1234_and_birthd.html
   % http://www.cl.cam.ac.uk/~jcb82/doc/BPA12-FC-banking_pin_security.pdf
@@ -462,6 +463,13 @@ Googlen ja Facebookin identiteettipalvelujen soveltamisesta kolmannen osapuolen 
 
   % subsection salasanat (end)
 
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/google_authenticator.jpg}
+    \caption[Googlen kaksivaiheinen sisäänkirjautuminen.]{Googlen kaksivaiheinen sisäänkirjautuminen kysyy onnistuneen salasana-autentikoitumisen jälkeen koodia, jonka käyttäjä lukee mobiililaitteen Google Authenticator -sovelluksesta. Yksi koodi on voimassa 60 sekuntia.}
+    \label{fig:google_authenticator}
+  \end{figure}
+
   \subsection{Kaksi- ja monivaiheinen autentikointi} % (fold)
   \label{sub:kaksivaiheinen_autentikointi}
 
@@ -469,12 +477,6 @@ Googlen ja Facebookin identiteettipalvelujen soveltamisesta kolmannen osapuolen 
 
   Internet-palveluissa yleisin kaksivaiheisuuden toteutustapa on käyttäjän matkapuhelimen hyödyntäminen. Tekstiviestillä käyttäjä pystyy osoittamaan pitävänsä hallussaan ennalta tunnettua puhelinnumeroa. Toinen yleinen keino on \emph{Google Authenticator} -älypuhelinsovelluksen hyödyntäminen. Google Authenticator -mobiilisovellus tarjoaa rajoitetun ajan voimassa olevan numerosarjan, jota autentikoiva palvelin kysyy onnistuneen salasana-autentikoinnin jälkeen. Älypuhelinsovelluksen hyvänä puolena on riippumattomuus puhelinverkkoyhteydestä, mutta toimiakseen sovellus vaatii tietynlaisen puhelinmallin. Google Authenticator -projektin taustajärjestelmä sekä iOS, Android ja Blackberry -mobiilisovellukset on julkistettu avoimena lähdekoodina\footnote{Google Authenticator -projekti: \url!http://code.google.com/p/google-authenticator/!}, minkä ansiosta sillä on mahdollista toteuttaa autentikoinnin kaksivaiheisuus myös Googlesta riippumattomiin palveluihin.
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/google_authenticator.jpg}
-    \caption[Googlen kaksivaiheinen sisäänkirjautuminen.]{Googlen kaksivaiheinen sisäänkirjautuminen kysyy onnistuneen salasana-autentikoitumisen jälkeen koodia, jonka käyttäjä lukee mobiililaitteen Google Authenticator -sovelluksesta. Yksi koodi on voimassa 60 sekuntia.}
-    \label{fig:google_authenticator}
-  \end{figure}
 
   Monivaiheinen autentikointi tarkoittaa vähintään kahden edellä mainitun vaiheen käyttöä väittäjän tunnistamiseksi~\cite{NIST_SP800-63-1}. Kaksivaiheinen autentikointi on siis monivaiheisen autentikoinnin (\emph{multifactor authentication}) erikoistus. Vaiheiden \emph{jotain minkä tiedät} ja \emph{jotain minkä omistat} lisäksi voidaan vaatia \emph{jotain mitä olet}. Tällöin autentikoinnissa on kolme vaihetta, joten menetelmää kutsutaan kolmivaiheiseksi autentikoinniksi. Vaiheeksi \emph{jotain mitä olet} sopii esimerkiksi sormenjälki, iiriksen skannaaminen tai muu biometrinen tunniste.
 
@@ -493,6 +495,13 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
 
 
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/Facebook_reauth_ab.jpg}
+    \caption[Selainkontekstin esittely.]{Käyttäjän on nähtävä selainkontekstissa, että yhteys on turvallinen (A) ja oikeaan palveluun (B).}
+    \label{fig:facebook_reauth_ab}
+  \end{figure}
+
   \subsection{Selain- ja sisältökonteksti} % (fold)
   \label{sub:selainkonteksti_vs_applikaatiokonteksti}
 
@@ -502,21 +511,15 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Selainkontekstin tärkeimpiä käyttäjälle näkyviä ilmaisimia ovat osoiterivi ja yhteyden turvallisuutta kuvaava lukko. Kuvassa~\ref{fig:facebook_reauth_ab} selaimen osoiterivillä oleva, turvallista HTTPS-yhteyttä kuvaava lukko \verb!(A)! ilmaisee, että yhteys selaimen ja palvelun osoitteen \verb!(B)! välillä on suojattu. Selainkontekstin perusteella käyttäjän on mahdollista varmistua siitä, että oikea sivusto kysyy salasanaa. Pelkkä lukko ei vielä takaa turvallisuutta, koska se ilmaisee ainoastaan selaimen ja palvelun välisen yhteyden olevan turvallinen. Käyttäjän itsensä täytyy voida varmistua siitä, että yhteys on \emph{oikeaan palveluun}. Tämä edellyttää, että osoiterivi on näkyvissä selainkontekstissa.
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/Facebook_reauth_ab.jpg}
-    \caption[Selainkontekstin esittely.]{Käyttäjän on nähtävä selainkontekstissa, että yhteys on turvallinen (A) ja oikeaan palveluun (B).}
-    \label{fig:facebook_reauth_ab}
-  \end{figure}
 
-  Sisältökontekstia ovat kaikki ne selaimen elementit, joihin web-sivun on mahdollista tuottaa sisältöä itse. Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selainkontekstin turvallisuusilmoituksiin tai niiden puutteeseen, koska ilmoitukset on yksinkertaista väärentää sisältökontekstissa~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} web-palvelu ilmoittaa sisältökontekstissa olevansa turvallinen \verb!(D)!. Ilmoitus on hyväntahtoinen, mutta turvallisuuden kannalta väite on perusteeton. Käyttäjä voi luottaa ainoastaan selainkontekstin turvallisuusilmoituksiin \verb!(C)!.
-
-  \begin{figure}
+  \begin{figure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{images/trust_context_html.jpg}
     \caption[Sisältökontekstin esittely.]{Selainkontekstin mukaan yhteys osoitteeseen subscription.timeinc.com on turvallinen (C). Sisältökontekstissa voidaan väittää turvallisuudesta mitä tahansa (D), mutta käyttäjä voi luottaa ainoastaan selainkontekstin turvallisuusilmoituksiin. Kuvakaappaus on otettu Fortune-lehden tilaussivulta tammikuussa 2012.}
     \label{fig:trust_context_html}
   \end{figure}
+
+  Sisältökontekstia ovat kaikki ne selaimen elementit, joihin web-sivun on mahdollista tuottaa sisältöä itse. Käyttäjä ei voi luottaa selaimen sisältökontekstin turvallisuusilmoituksiin. Käyttäjä saattaa tulla huijatuksi, jos hän ei kiinnitä huomiota selainkontekstin turvallisuusilmoituksiin tai niiden puutteeseen, koska ilmoitukset on yksinkertaista väärentää sisältökontekstissa~\cite{why_phishing_works_06}. Modernit selaimet näyttävät useita erilaisia ilmaisimia turvalliselle HTTPS-yhteydelle, mutta suojaamattomalle yhteydelle ei ole vakiintunutta ilmaisinta. Monet käyttäjät eivät kiinnitä lainkaan huomiota ilmaisimiin, ja monesti käyttäjä on tyytyväinen sivun sisältökontekstissa olevaan turvallisuusilmoitukseen. Kuvassa~\ref{fig:trust_context_html} web-palvelu ilmoittaa sisältökontekstissa olevansa turvallinen \verb!(D)!. Ilmoitus on hyväntahtoinen, mutta turvallisuuden kannalta väite on perusteeton. Käyttäjä voi luottaa ainoastaan selainkontekstin turvallisuusilmoituksiin \verb!(C)!.
 
 
 
@@ -568,7 +571,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % paragraph yleisnäkymä_ilmakuva_overview (end)
 
-
+  \newpage
   \subsection{OpenID 2.0} % (fold)
   \label{sub:openid}
 
@@ -615,12 +618,12 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   \subsubsection{OpenID-autentikoinnin vaiheet} % (fold)
   \label{ssub:openid_autentikoinnin_vaiheet}
 
-  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa identiteetinkuluttaja etsii identiteetintarjoajan käyttäjän syöttämän OpenID-päätepisteen perusteella.
+  Identiteetin todentaminen käynnistyy etsintävaiheella (\emph{discovery phase}), jossa identiteetinkuluttaja etsii identiteetintarjoajan käyttäjän syöttämän OpenID-pääte\-pisteen perusteella.
 
   \begin{figure}
     \centering
     \includegraphics[width=1.0\textwidth]{images/openid2_flow.jpg}
-    \caption[OpenID-autentikoinnin vaiheet]{OpenID-autentikoinnin vaiheet~\cite{openid_recordon_2009}}
+    \caption[OpenID-autentikoinnin vaiheet]{OpenID-autentikointitapahtuman vaiheet~\cite{openid_recordon_2009}.}
     \label{fig:basic_openid_flow}
   \end{figure}
 
@@ -632,7 +635,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     Loppukäyttäjä aloittaa autentikointiprosessin esittämällä identiteetinkuluttajalle OpenID-päätepisteen. OpenID-päätepisteenä toimii joko käyttäjän yksilöivä OpenID-tunniste\footnote{Esimerkiksi \url!https://petrus.repo.fi! tai \url!https://myopenid.com/repo!} (väitetty identiteetti) tai identiteetintarjoajan kaikille käyttäjille yhteinen URI\footnote{Esimerkiksi \url!https://yahoo.com! tai \url!https://www.google.com/accounts/o8/id!} (suunnattu identiteetti).
 
     \item[(B)]
-    Identiteetinkuluttaja suorittaa etsintävaiheen. Etsinnän lopputuloksena on OpenID-päätepisteeseen kytketty OpenID-identiteetintarjoaja. Etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Vaikka kuluttaja hyväksyisi ainoastaan esivalitun identiteetintarjoajan, siirtymä identiteetintarjoajan autentikoitumispalveluun alustetaan edelleen etsintävaiheella.
+    Identiteetinkuluttaja suorittaa etsintävaiheen. Etsinnän lopputuloksena on OpenID-pää\-te\-pisteeseen kytketty OpenID-identiteetintarjoaja. Etsintävaiheen ansiosta identiteetinkuluttajan ei tarvitse tuntea identiteetintarjoajaa etukäteen. Vaikka kuluttaja hyväksyisi ainoastaan esivalitun identiteetintarjoajan, siirtymä identiteetintarjoajan autentikoitumispalveluun alustetaan edelleen etsintävaiheella.
 
     \item[(C)]
     Identiteetinkuluttaja luo käyttäjän autentikointipyyntöä varten salaisuuden, jonka se jakaa identiteetintarjoajan kanssa. Autentikointipyyntö on voimassa identiteetintarjoajan palvelussa vain lyhyen ajan.
@@ -652,7 +655,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
     \subsubsection{OpenID käytännössä} % (fold)
     \label{ssub:openid_käytännössä}
 
-    Etsintävaiheessa löydetty OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identi\-teetin\-tarjoajaksi. OpenID-identi\-teetin todentaminen osoittaa ainoastaan, että tietty OpenID-identiteetti on käyttäjän hallinnassa~\cite{openid_2.0_specification_07}. OpenID-standardissa identiteetinkuluttajaa kutsutaan \emph{luottavaksi osapuoleksi}, koska identiteetinkuluttaja luottaa identiteetintarjoajan sanomaan siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan. Identiteetinkuluttajana toimiva luottava osapuoli ei siten tunne käyttäjän salasanaa eikä identiteetintarjoajaa vaan ainoastaan käyttäjän yksilöivän OpenID-käyttäjätunnuksen.
+    Etsintävaiheessa löydetty OpenID-identiteetintarjoaja ei ole lähtökohtaisesti luotettu, koska kuka tahansa voi ryhtyä OpenID-identi\-teetin\-tarjoajaksi. OpenID-identi\-teetin todentaminen osoittaa ainoastaan, että tietty OpenID-identiteetti on käyttäjän hallinnassa~\cite{openid_2.0_specification_07}. OpenID-standardissa identiteetinkuluttajaa kutsutaan \emph{luottavaksi osapuoleksi}, koska identiteetinkuluttaja luottaa identiteetintarjoajan sanomaan siitä, että käyttäjän esittämä OpenID-identiteetti on hänen hallinnassaan. Identiteetinkuluttajana toimiva luottava osapuoli ei siten tunne käyttäjän salasanaa eikä identiteetintarjoajaa vaan ainoastaan käyttäjän yksilöivän OpenID-käyttäjä\-tunnuksen.
 
     OpenID-standardi jättää määrittelemättä identiteetintarjoajalta vaadittavan autentikoinnin luotettavuuden~\cite{openid_2.0_specification_07}. On täysin mahdollista toteuttaa identiteetintarjoaja, joka vastaa kaikkiin identiteettikyselyihin hyväksyvästi eikä siten takaa minkäänlaista käyttäjän tunnistetietojen varmentamista. Sen vuoksi identiteetinkuluttajan kannalta voi olla järkevää hyväksyä vain yksi tai useampi ennalta valittu identiteetintarjoaja, jolla on vakaa ja luotettava maine. OpenID:lle on myös autentikoinnin turvallisuustason määrittelevä PAPE-laajennos, jolla identiteetintarjoaja kertoo identiteetinkuluttajalle, kuinka turvallinen sen soveltama autentikointi on~\cite{openid_2.0_pape_07}. PAPE-laajennoksesta huolimatta kuluttaja joutuu kuitenkin vain uskomaan tarjoajan identiteettiväittämän, joten laajennoksesta ei ole hyötyä ellei kuluttaja luota tarjoajaan.
 
@@ -805,13 +808,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   % subsubsection virtaukset (end)
 
 
-  \begin{figure}
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/google_id_and_user_consent.jpg}
-    \caption[OAuth-käyttäjäsuostumusvaihe Googlessa.]{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla. Käyttäjäagentilla on sessio voimassa kummallekin identiteetille, joten Google ei kysy lainkaan salasanaa vaan antaa loppukäyttäjän valita, kummalta identiteetiltä pääsyoikeuslupa kysytään.}
-    \label{fig:google_id_and_user_consent}
-  \end{figure}
-
   \subsubsection{OAuth käytännössä} % (fold)
   \label{ssub:oauth_käytännössä}
 
@@ -822,6 +818,14 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   OAuth 2.0 ei sulje pois ennakkoon rekisteröitymättömiä asiakkaita, joten dynaaminen rekisteröityminen voi standardin vakiinnuttua olla myöhemmin mahdollista laajennoksena~\cite{ietf_oauth2_unregistered_clients} tai OpenID Connect -standardin avulla. Jokaisessa OAuth 2.0 -standardin mukaisessa auktorisointitapahtumassa on pääsääntöisesti seuraavat vaiheet:
 
+  \begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/google_id_and_user_consent.jpg}
+    \caption[OAuth-käyttäjäsuostumusvaihe Googlessa.]{Käyttäjän suostusmusvaihe Googlen toteuttamana. Käyttäjällä on kaksi rinnakkaista identiteettiä samalla identiteetintarjoajalla. Käyttäjäagentilla on sessio voimassa kummallekin identiteetille, joten Google ei kysy lainkaan salasanaa vaan antaa loppukäyttäjän valita, kummalta identiteetiltä pääsyoikeuslupa kysytään.}
+    \label{fig:google_id_and_user_consent}
+  \end{figure}
+
+  \newpage
   \begin{description}
 
   \item[Pääsyoikeuspoletin hankinta:] \hfill \\
@@ -1087,18 +1091,17 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Ensimmäinen vaihe on rekisteröidä identiteetinkuluttajana ja resurssin asiakkaana toimiva MOOC-palvelu Facebook Platform -identiteetin\-tarjoajan asiakkaaksi~\cite{facebook_oauth2_doc}. Rekisteröintiprosessissa resurssin asiakkaalle määritetään yksilöivänä tunnisteena \verb!client_id!, jaettuna salaisuutena \verb!client_secret! sekä palautusosoite \verb!redirect_uri!, johon identiteetintarjoaja uudelleenohjaa loppukäyttäjän auktorisointitapahtuman jälkeen. Rekisteröinnin jälkeen MOOC-palvelun sisäänkirjautumissivulle lisätään Fa\-ce\-book-si\-sään\-kirjautumisen linkki.
 
-
-  \subsubsection{Prosessin kuvaus} % (fold)
-  \label{ssub:autentikoinnin_vaiheet_facebook_platform_palveluun}
-
-  Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisään\-kirjau\-tumi\-sen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myöntämisestä, ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
-
   \begin{figure}[h!]
     \centering
     \includegraphics[width=0.85\textwidth]{images/fb_auth_sekvenssi.jpg}
     \caption[Pääsyoikeuspoletin noutaminen Facebookista MOOC-palveluun.]{Pääsyoikeuspoletin noutaminen Facebookista MOOC-palveluun. Kuva perustuu OAuth 2.0 -standardin auktorisointikoodivirtauksen kaaviokuvaan~\cite{ietf_oauth2}.}
     \label{fig:oauth_auth_code_flow}
   \end{figure}
+
+  \subsubsection{Prosessin kuvaus} % (fold)
+  \label{ssub:autentikoinnin_vaiheet_facebook_platform_palveluun}
+
+  Autentikointiprosessi alkaa, kun loppukäyttäjä klikkaa Facebook-sisään\-kirjau\-tumi\-sen linkkiä MOOC-palvelun sisäänkirjautumissivulla. MOOC ohjaa käyttäjään Facebook Platformin autentikointirajapintaan, joka kysyy käyttäjältä suostumuksen tietojen luovuttamiseksi MOOC-palveluun. MOOC ja Facebook Platform neuvottelevat keskenään pääsyoikeuden myöntämisestä, ja lopulta MOOC saa pääsyoikeuspoletin. Kuvassa~\ref{fig:oauth_auth_code_flow} on esitetty Facebook Platform -autentikoinnin vaiheet, kun MOOC-palvelu soveltaa auktorisointikoodin virtausta.
 
   \begin{description}
   \item[(A)]
@@ -1249,6 +1252,14 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   Tietojenkäsittelytieteen laitoksen palvelujen käyttäjätiedot pidetään synkronissa kopioimalla tiedot säännöllisin väliajoin eräajona Helsingin yliopiston ensisijaisesta käyttäjärekisteristä. Esimerkiksi Tietojenkäsittelytieteen laitoksen kurssi-il\-moit\-tau\-tumisjärjestelmä autentikoi laitoksen omaan LDAP-palveluun, johon käyttäjätiedot on kopioitu yliopiston ensisijaisesta käyttäjälähteestä. Rinnakkaisia perinnejärjestelmiä on syntynyt ajan kanssa ja niiden integroiminen yhdeksi yhteiseksi järjestelmäksi vaatisi paljon työtä. Käytännössä Tietojenkäsittelytieteen laitoksen myöntämät käyttäjätunnukset ovat itsenäisiä ja erillään Helsingin yliopiston ensisijaisen käyttäjärekisterin toteutuksesta.
 
 
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
+    \caption[Mahdolliset MOOC-palvelun autentikointirajapinnat.]{Mahdolliset MOOC-palvelun autentikointirajapinnat. Kuvassa Helsingin yliopistolla on MOOC-palvelun kaltaisia kolmannen osapuolen toteuttamia palveluja varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.}
+    \label{fig:mooc_hy_idp}
+  \end{figure}
+
+
   \subsection{Autentikoituminen Helsingin yliopiston identiteetillä} % (fold)
   \label{sub:autentikointi_helsingin_yliopiston_id}
 
@@ -1259,13 +1270,6 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
   Ulkoisen rajapinnan ansiosta kolmannen osapuolen palveluihin ei tarvitse tehdä muutoksia, vaikka yliopiston käyttäjärekisterin sisäinen rajapinta myöhemmin muuttuisi. Käyttäjärekisteriä on mahdollista vaihtaa myös tilannekohtaisesti: identiteetintarjoajapalvelun ansiosta loppukäyttäjä voisi autentikoitua Helsingin yliopiston käyttäjätunnuksen lisäksi myös Tietojenkäsittelytieteen laitoksen, Tietotekniikan tutkimuslaitoksen (HIIT) tai vaikka Itä-Suomen yliopiston käyttäjätunnuksella. Käyttäjälähteen valinta voidaan toteuttaa samaan tapaan kuin Google antaa valita identiteetin kuvassa~\ref{fig:google_id_and_user_consent}.
 
   Kuva~\ref{fig:mooc_hy_idp} esittelee Helsingin yliopiston identiteetintarjoajan, johon kolmannen osapuolen toteuttama identiteetinkuluttaja saa käyttöönsä ulkoisen OAuth-rajapinnan. Autentikoinnin sisäisenä rajapintana toimii SAML\footnote{Microsoft Active Directorystä seuraava vaatimus.}, jolla identiteetintarjoaja yhdistää Helsingin yliopiston käyttäjärekisteriin. Kuvassa identiteetinkuluttajana toimii MOOC-palvelu, mutta sen lisäksi mikä tahansa muu soveltuva palvelu on mahdollista rekisteröidä identiteetinkuluttajaksi. Web-palvelun ylläpidon kannalta on edullista ylläpitää vain yhtä autentikointirajapintaa. MOOC on hyvä esimerkki web-palvelusta, johon olisi käytännöllistä voida autentikoitua joko Googlen, Facebookin tai Helsingin yliopiston käyttäjätunnuksella. Tämä on mahdollista yhteisen standardin avulla, jos Helsingin yliopiston identiteetintarjoaja soveltaa OAuth 2.0 ja OpenID Connect -standardeja.
-
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/mooc_hy_idp.jpg}
-    \caption[Mahdolliset MOOC-palvelun autentikointirajapinnat.]{Mahdolliset MOOC-palvelun autentikointirajapinnat. Kuvassa Helsingin yliopistolla on MOOC-palvelun kaltaisia kolmannen osapuolen toteuttamia palveluja varten identiteetintarjoajapalvelu, joka abstraktoi käyttäjärekisterin on OAuth-rajapinnan taakse.}
-    \label{fig:mooc_hy_idp}
-  \end{figure}
 
   Tutkielman pohdintojen perusteella suositellaan sellaisen identiteetintarjoajapalvelun perustamista, joka mahdollistaa yliopiston käyttäjätunnusten autentikoimisen kolmannen osapuolen web-palveluun. Identiteetintarjoajapalvelun perustamisessa on yliopiston kokoisessa organisaatiossa väistämättä monta hallinnollista haastetta ja runsaasti byrokratiaa. Yliopiston nykyisessä verkkoympäristössä tällaista identiteetin abstraktiokerrosta ei kuitenkaan ole, vaan lukuisat laitosten omat web-palvelut käsittelevät ja tallentavat käyttäjätunnuksia ja salasanoja itse. Koska käyttäjillä on usein sama salasana kaikissa yliopiston palveluissa, ei nykyinen tilanne ole salasanojen turvallisuuden kannalta hyvä.
 
@@ -1306,6 +1310,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   Tutkielmassa lähdettiin ratkaisemaan kysymystä siitä, mitkä identiteetintarjoajat ovat MOOC-palvelun kannalta relevantteja ja että kannattaako MOOC-palvelussa säilyttää omat käyttäjätunnukset. MOOC-palvelulle suositeltavat ulkoiset autentikointirajapinnat on esitetty kuvassa~\ref{fig:mooc_hy_idp}. Valinnat on taustoitettu edeltävissä alaluvuissa ja ohessa esitellään yhteenveto ratkaisusta.
 
+  \newpage
 
   \subsubsection{Ratkaisun suuret linjat} % (fold)
   \label{ssub:ratkaisun_suuret_linjat}
@@ -1385,10 +1390,10 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % paragraph tietomurrosta_toipuminen (end)
 
-  \paragraph{Implisiittisen OAuth-virtauksen ei sovellu autentikointiin} % (fold)
+  \paragraph{Implisiittinen OAuth-virtaus ei sovellu autentikointiin} \hfill % (fold)
   \label{par:implisiittisen_oauth_virtauksen_ei_sovellu_autentikointiin}
 
-  Pääsyoikeuspoletti toimii avoimena valtakirjana implisiittistä virtausta autentikoinnissaan käyttäviin muihin palveluihin (ks. luku~\ref{sub:laajennosvarana_openid_connect}). MOOC-palvelulle ne eivät muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta autentikointiin. Tässä tutkielmassa suositellaan ainoastaan auktorisointikoodin virtaukseen perustuvaa autentikointia.
+  Pääsyoikeuspoletti toimii avoimena valtakirjana implisiittistä virtausta autentikoinnissaan käyttäviin muihin palveluihin (ks. luku~\ref{ssub:miksei_oauth_riita}). MOOC-palvelulle ne eivät muodosta tietoturvariskiä, ellei MOOC itse sovella implisiittistä virtausta autentikointiin. Tässä tutkielmassa suositellaan ainoastaan auktorisointikoodin virtaukseen perustuvaa autentikointia.
 
   % paragraph implisiittisen_oauth_virtauksen_ei_sovellu_autentikointiin (end)
 
@@ -1424,6 +1429,7 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % subsection suunnitelman_arviointi (end)
 
+  \newpage
   \subsection{Jatkokehitysideoita} % (fold)
   \label{sub:jatkokehitysideoita}
 
@@ -1456,6 +1462,8 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
   % paragraph pääsyoikeuksien_myöntäminen_ulkopuoliselle_palvelulle (end)
 
+
+  \newpage
   \paragraph{Helsingin yliopiston identiteettipalvelu} \hfill % (fold)
   \label{par:helsingin_yliopiston_identiteettipalvelu}
 
@@ -1463,12 +1471,12 @@ tai suojaa vakoiluohjelmilta\footnote{Vakoiluohjelma on luvatta käyttäjän tie
 
    Ratkaisu mahdollistaa Helsingin yliopiston käyttäjätunnuksen käyttämisen kaikissa niissä palveluissa, joihin voi kirjautua Google-käyttäjätunnuksella~\cite{google_shibboleth_doc}. Kolmannen osapuolen palvelu näkee ainoastaan Googlen autentikoitumisrajapinnan. Googlen identiteettipalvelu antaa käyttäjän valita, millä käyttäjätunnuksella hän haluaa kirjautua sisään palveluun.
 
-  \begin{figure}[h!]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/jatkokehitys-idp.jpg}
-    \caption[Google välittäjäpalveluna Helsingin yliopiston käyttäjätunnuksille]{Googlen identiteetintarjoajapalvelu voi tarjota ulkoisen autentikoitumisrajapinnan Helsingin yliopiston käyttäjärekisteriin.}
-    \label{fig:google-hy-idp}
-  \end{figure}
+   \begin{figure}[h!]
+     \centering
+     \includegraphics[width=1.0\textwidth]{images/jatkokehitys-idp.jpg}
+     \caption[Google välittäjäpalveluna Helsingin yliopiston käyttäjätunnuksille]{Googlen identiteetintarjoajapalvelu voi tarjota ulkoisen autentikoitumisrajapinnan Helsingin yliopiston käyttäjärekisteriin.}
+     \label{fig:google-hy-idp}
+   \end{figure}
 
 
   % paragraph helsingin_yliopiston_identiteettipalvelu (end)

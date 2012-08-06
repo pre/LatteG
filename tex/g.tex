@@ -15,7 +15,7 @@
 
   Tämän työn valmistumista ovat tukeneet Eteläsuomalainen osakunta, joustavan opintovapaan myöntänyt Enemy \& Sons Oy sekä Tekes-rahoitteinen TiViT-hanke.
 
-  Kiitän myös äitiä hedelmällisestä palautteesta, ohjaajia Matti Luukkaista ja Lea Kutvosta merkittävästä ajankäytöstä ja Fratello Torrefazionea kaupungin parhaasta kahvista. Kiitos myös kaikille teille, jotka jaksoitte kahlata tekstin läpi ja tarjota oikolukuapua!
+  Kiitän äitiä hedelmällisestä palautteesta, ohjaaja Matti Luukkaista merkittävästä ajankäytöstä ja ohjaaja Lea Kutvosta työn lähteiden akateemisesta validoinnista. Lisäksi kunniamaininnan ansaitsee Fratello Torrefazione kaupungin parhaasta kahvista. Kiitos myös kaikille teille, jotka jaksoitte kahlata tekstin läpi ja tarjota oikolukuapua!
 
   \begin{figure}[hl!]
     \includegraphics{images/nimmari.jpg}
@@ -98,7 +98,8 @@
     \\ -- Kertakirjautuminen virtuaalikurssille}
 
 \author{Petrus Repo}
-\date{\today}
+%\date{\today}
+\date{10.4.2012}
 \level{Pro Gradu -tutkielma}
 \maketitle
 
@@ -113,11 +114,11 @@
 \keywords{OpenID, OAuth, internet, autentikointi, auktorisointi, identiteetti, kertakirjautuminen}
 
 \begin{abstract}
-    Tutkielmassa selvitetään, kuinka web-palvelun sisäänkirjautumisessa voidaan hyödyntää ulkoista identiteetintarjoajaa. Esimerkkinä käytetään Tietojenkäsitettytieteen laitoksen MOOC-kurssia, jonka web-palvelun tämänhetkisessä toteutuksessa ovat käytössä ainoastaan palvelun omat käyttäjätunnukset. Tutkielmassa esitellään yhteentoimivuuden standardeja, jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien määrittelemää arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
+    Tutkielmassa selvitetään, kuinka web-palvelun sisäänkirjautumisessa voidaan hyödyntää ulkoista identiteetintarjoajaa. Esimerkkinä käytetään Tietojenkäsittelytieteen laitoksen kaikille avointa MOOC-kurssia, jonka web-palvelun nykyisessä toteutuksessa ovat käytössä ainoastaan palvelun omat käyttäjätunnukset. Tutkielmassa esitellään yhteentoimivuuden standardeja, jotka mahdollistavat käyttäjän autentikoimisen hajautetussa verkkoympäristössä. Tutkielmassa kuvaillaan standardien määrittelemää arkkitehtuuria relevantein osin, mutta standardia hyödyntävien järjestelmien sisäinen toteutus rajataan tutkielman ulkopuolelle.
 
-    Tutkielmassa selvitetään identiteetinhallinnan ulkoistamista kahdelle suurelle palveluntarjoajalle Facebookille ja Googlelle. Näiden kahden palveluntarjoajan avulla voidaan tarjota autentikointi merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Toiseksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla \mbox{Facebookin} tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisissa palveluissa, jotka eivät ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
+    Identiteetinhallinnan palveluntarjoajiksi valitaan tutkielmassa Facebook ja Google. Näiden kahden suuren palveluntarjoajan avulla voidaan tarjota sisäänkirjautuminen MOOC-palveluun merkittävälle joukolle potentiaalisia opiskelijoita, joilla ei ole Helsingin yliopiston käyttäjätunnusta. Toiseksi tutkielmassa selvitetään, kuinka huomioidaan opiskelijat, jotka eivät halua olla \mbox{Facebookin} tai Googlen asiakkaita. Kolmanneksi selvitetään, kuinka Helsingin yliopiston identiteettiä voi turvallisesti käyttää MOOC-järjestelmän kaltaisessa palvelussa, joka ei ole Helsingin yliopiston tietotekniikkaosaston ylläpitämiä.
 
-    Facebookin ja Googlen teknologiavalinnoista johtuen tutkielman painopisteenä ovat OAuth ja \mbox{OpenID} -standardit. OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yksi yleisimmistä keinoista ulkoistaa käyttäjäautentikointi internetissä. Tutkielmassa havaitaan, että yleistyneisyydestään huolimatta autentikoiminen yksin OAuthin avulla sisältää riskejä. Tutkielman lopuksi esitetään suositus MOOC-palvelun autentikointiratkaisun suurista linjoista, joihin lukeutuu myös tarve OpenID Connect -standardille OAuth-standardin lisäksi.
+    Facebookin ja Googlen teknologiavalinnoista johtuen tutkielman painopisteessä ovat OAuth- ja \mbox{OpenID}-standardit. OAuth-standardi määrittelee vain ja ainoastaan auktorisointikerroksen eikä ota lainkaan kantaa autentikointiin. Siitä huolimatta OAuth on Facebookin vuoksi yksi yleisimmistä keinoista ulkoistaa käyttäjäautentikointi internetissä. Tutkielmassa havaitaan, että yleistyneisyydestään huolimatta autentikoiminen yksin OAuthin avulla sisältää riskejä. Tutkielman lopuksi esitetään suositus MOOC-palvelun autentikointiratkaisun suurista linjoista, joihin lukeutuu myös tarve OpenID Connect -standardille OAuth-standardin lisäksi.
 
 
   %   \begin{singlespacing}
